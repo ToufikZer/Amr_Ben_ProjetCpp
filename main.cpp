@@ -116,8 +116,8 @@ int main()
         window.clear();
         window.draw(map);
         player.update(deltaTime, map, view1, level, NPCs, is_talking);
-        window.setView(view1);
-        sf::FloatRect ViewRect = view1.getViewport();
+        // window.setView(view1);
+        sf::FloatRect ViewRect(0,0,512,512) ; //view1.getViewport();
         window.draw(player);
         for (NPC &npc : NPCs)
         {
