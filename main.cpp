@@ -123,7 +123,7 @@ int main()
         {
             window.draw(npc);
             npc.update(player, deltaTime, map, level);
-            if (is_talking && &npc == npc_that_was_talking) {
+            if (is_talking && &npc == npc_that_was_talking) { 
             npc.sendMessage(window, ViewRect, font, npc.getDialogue()[current_message]); 
             //std::cout << npc_that_was_talking->getDialogue()[current_message] << std::endl;
             }
