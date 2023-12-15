@@ -9,7 +9,7 @@ public:
     void handleEvent() ; 
     void handleInput() ;
     void update() ;
-    void draw(sf::RenderWindow& window, sf::Font& font) ;
+    void draw(sf::RenderWindow& window) ;
     GameState* getNextState() ;
     bool isRunning();
 

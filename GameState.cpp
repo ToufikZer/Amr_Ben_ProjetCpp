@@ -16,7 +16,7 @@ void GameState::update(sf::Time deltaTime, sf::RenderWindow& window)
     // Logique de mise à jour spécifique au MainMenu
 }
 
-void GameState::draw(sf::RenderWindow& window, sf::Font& font)
+void GameState::draw(sf::RenderWindow& window)
 {
     // Dessinez les éléments spécifiques au MainMenu
 }

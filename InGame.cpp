@@ -9,14 +9,8 @@ InGame::InGame(sf::RenderWindow& window)
       view(sf::Vector2f(player.getPosition().x + 16.f, player.getPosition().y + 16.f), sf::Vector2f(300, 300)),
       isTalking(false),
       npcThatWasTalking(nullptr),
-      currentMessage(0) {
-        std::cout << "je suis dans game" << std::endl;
-    if (!font.loadFromFile("arial.ttf")) {
-        std::cerr << "Erreur lors du chargement de la police" << std::endl;
-        std::exit(-1);
-    }
-
-    const int level[] = {
+      currentMessage(0),
+      level{
         0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,
         0,1,1,1,1,1,1,0,0,0,0,2,0,0,0,0,
         1,1,0,0,0,0,0,0,3,3,3,3,3,3,3,3,
@@ -33,8 +27,14 @@ InGame::InGame(sf::RenderWindow& window)
         0,0,1,0,3,0,2,2,0,0,1,1,1,1,2,0,
         2,0,1,0,3,0,2,2,2,0,1,1,1,1,1,1,
         0,0,1,0,3,2,2,2,0,0,0,0,1,1,1,1,
-    };
+    } {
+        // std::cout << "je suis dans game" << std::endl;
+    if (!font.loadFromFile("arial.ttf")) {
+        std::cerr << "Erreur lors du chargement de la police" << std::endl;
+        std::exit(-1);
+    }
 
+    
     if (!map.load("texture/texture_decor/tileset.png", sf::Vector2u(32.f, 32.f), level, map.getWidth(), map.getHeight())) {
         std::cerr << "Erreur lors du chargement de la carte" << std::endl;
         std::exit(-1);
@@ -51,12 +51,8 @@ void InGame::initialize() {
     npcThatWasTalking = nullptr;
 }
 
-void InGame::handleInput() {
-    sf::Event event;
-    while (window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed) {
-            window.close();
-        } else if (event.type == sf::Event::KeyPressed) {
+void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
+        if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::A) {
                 for (NPC& npc : NPCs) {
                     if (!isTalking && player.is_looking_at(npc)) {
@@ -84,25 +80,26 @@ void InGame::handleInput() {
             }
         }
     }
-}
 
-void InGame::update(sf::Time deltaTime) {
-    player.update(deltaTime, map, view, nullptr, NPCs, isTalking);
-    sf::FloatRect viewRect(0, 0, window.getSize().x, window.getSize().y);
+void InGame::update(sf::Time deltaTime,sf::RenderWindow& window) {
+    //std::cout << level[10] << std::endl; 
+    player.update(deltaTime, map, view, level, NPCs, isTalking);
     for (NPC& npc : NPCs) {
-        npc.update(player, deltaTime, map, nullptr);
-        if (isTalking && (&npc == npcThatWasTalking)) {
-            npc.sendMessage(window, viewRect, font, npc.getDialogue()[currentMessage]);
-        }
+        npc.update(player, deltaTime, map, level);
+        //std::cout << isTalking << std::endl; 
     }
 }
 
-void InGame::draw() {
+void InGame::draw(sf::RenderWindow& window) {
+    sf::FloatRect viewRect(0, 0, window.getSize().x, window.getSize().y);
     window.clear();
     window.draw(map);
     window.draw(player);
-    for (const NPC& npc : NPCs) {
+    for (NPC& npc : NPCs) {
         window.draw(npc);
+        if (isTalking && (&npc == npcThatWasTalking)) {
+            npc.sendMessage(window, viewRect, font, npc.getDialogue()[currentMessage]);
+        }
     }
     window.display();
 }

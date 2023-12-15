@@ -16,7 +16,7 @@ public:
 
     void update_texture(unsigned int u, sf::Vector2u tileSize);
 
-    bool in_map(const TileMap& map, unsigned int i, unsigned int j);
+    bool in_map(const TileMap& map, sf::Vector2u position);
 
     bool is_looking_at(NPC npc);
 

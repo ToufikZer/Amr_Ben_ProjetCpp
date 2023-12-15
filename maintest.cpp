@@ -6,7 +6,7 @@
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Game State Example");
-
+    window.setPosition(sf::Vector2i(sf::VideoMode::getDesktopMode().width * 0.25,sf::VideoMode::getDesktopMode().height * 0.2 ));
     // Initialisation du premier état (MainMenu)
     GameState* currentState = new MainMenu(window);
 
@@ -29,14 +29,12 @@ int main() {
         }
 
         // Mise à jour de l'état actuel
+        elapsedTime = clock.restart();
         currentState->update(elapsedTime, window);
 
         // Dessin de l'état actuel
-        window.clear();
-        currentState->draw(window, font); // Vous pouvez passer la police ici
-        window.display();
+        currentState->draw(window);
 
-        // Vérifie si le temps écoulé est supérieur à 5 secondes pour passer à l'état suivant
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::O)) {
             // Libère la mémoire de l'état actuel
             delete currentState;

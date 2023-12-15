@@ -53,6 +53,7 @@ bool Player::is_looking_at(NPC npc) {
 
 bool Player::collision(const TileMap &map,sf::Vector2u position, const int *plan, std::vector<NPC> NPCs){
     for (NPC& npc : NPCs){
+        //std::cout << plan[0] << ";" << plan[10] <<std::endl;
     if ((plan[(position.x) + (position.y) * map.getWidth()] != 0 )
         || 
        (position.x == npc.getCurrentPos().x && position.y == npc.getCurrentPos().y )){
@@ -62,17 +63,22 @@ bool Player::collision(const TileMap &map,sf::Vector2u position, const int *plan
     return false;
 }
 void Player::update(const sf::Time &deltaTime, const TileMap &map, sf::View& view, const int *plan, std::vector<NPC> NPCs, bool is_talking) {
+    // std::cout << deltaTime.asMilliseconds() << std::endl;
     int moveDelay = 250;
     //can_talk = false;
     sf::Vector2u new_position;
     if (elapsed.asMilliseconds() >= moveDelay) {
+        
         float speed = 32.0f;
     if(!is_talking){
-        
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+            // std::cout << "ok" << std::endl;
             new_position.x = (current_pos.x + 1); 
             new_position.y = current_pos.y;
-            if (in_map(map, current_pos.x + 1, current_pos.y) && !collision(map,new_position, plan,NPCs)) {
+            
+            //std::cout << in_map(map, new_position) << collision(map,new_position, plan,NPCs) << std::endl;
+            if (in_map(map, new_position) && !collision(map,new_position, plan,NPCs)) {
+                
                 move(speed, 0.f);
                 current_pos.x += 1;
                 view.setCenter(getPosition().x + 16.f,getPosition().y+ 16.f);
@@ -84,7 +90,7 @@ void Player::update(const sf::Time &deltaTime, const TileMap &map, sf::View& vie
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
             new_position.x = (current_pos.x); 
             new_position.y = current_pos.y - 1;
-            if (in_map(map, current_pos.x, current_pos.y - 1) && !collision(map,new_position, plan,NPCs)) {
+            if (in_map(map, new_position) && !collision(map,new_position, plan,NPCs)) {
                 move(0.f, -speed);
                 current_pos.y -= 1;
                 view.setCenter(getPosition().x+ 16.f,getPosition().y+ 16.f);
@@ -96,7 +102,7 @@ void Player::update(const sf::Time &deltaTime, const TileMap &map, sf::View& vie
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
             new_position.x = (current_pos.x - 1); 
             new_position.y = current_pos.y;
-            if (in_map(map, current_pos.x - 1, current_pos.y) && !collision(map,new_position, plan,NPCs)) {
+            if (in_map(map, new_position) && !collision(map,new_position, plan,NPCs)) {
                 move(-speed, 0.f);
                 current_pos.x -= 1;
                 view.setCenter(getPosition().x+ 16.f, getPosition().y+ 16.f);
@@ -108,7 +114,7 @@ void Player::update(const sf::Time &deltaTime, const TileMap &map, sf::View& vie
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
             new_position.x = (current_pos.x); 
             new_position.y = current_pos.y +1;
-            if (in_map(map, current_pos.x, current_pos.y + 1) && !collision(map,new_position, plan,NPCs)) {
+            if (in_map(map, new_position) && !collision(map,new_position, plan,NPCs)) {
                 move(0.f, speed);
                 current_pos.y += 1;
                 view.setCenter(getPosition().x + 16.f,getPosition().y+ 16.f);
@@ -132,8 +138,8 @@ void Player::update_texture(unsigned int u, sf::Vector2u tileSize) {
     m_vertices[3].texCoords = sf::Vector2f(u * tileSize.x, tileSize.y);
 }
 
-bool Player::in_map(const TileMap &map, unsigned int i, unsigned int j) {
-    if (i < map.getWidth() && j < map.getHeight() && i >= 0 && j >= 0)
+bool Player::in_map(const TileMap &map, sf::Vector2u position) {
+    if (position.x < map.getWidth() && position.y < map.getHeight() && position.x >= 0 && position.y >= 0)
         return true;
     else
         return false;

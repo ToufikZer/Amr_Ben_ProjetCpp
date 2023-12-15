@@ -125,7 +125,7 @@
         sf::RectangleShape blueRectangleLeft(sf::Vector2f(0.0093*ViewRect.height, rectangleHeight));
         sf::RectangleShape blueRectangleRight(sf::Vector2f(0.0093*ViewRect.height, rectangleHeight));
         sf::RectangleShape blueRectangleBot(sf::Vector2f(rectangleWidth, 0.0093*ViewRect.height));
-        std::cout << rectangleX << ";" << rectangleY << ";" << rectangleWidth << ";" << rectangleHeight << ";" << std::endl;
+        //std::cout << rectangleX << ";" << rectangleY << ";" << rectangleWidth << ";" << rectangleHeight << ";" << std::endl;
         blueRectangle.setPosition(rectangleX, rectangleY);
         blueRectangle.setFillColor(sf::Color(200, 200, 200, 100));
         blueRectangleTop.setPosition(rectangleX, rectangleY);
@@ -143,5 +143,4 @@
         window.draw(blueRectangleRight);
         window.draw(blueRectangleBot);
         window.draw(message);
-        // std::cout << "ok" << std::endl;
     }
