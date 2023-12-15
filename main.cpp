@@ -44,7 +44,7 @@ int main()
         return -1;
 
     Player player("texture/texture_char/char_tileset.png", 2, 3);
-    sf::View view1(sf::Vector2f(player.getPosition().x + 16.f, player.getPosition().y + 16.f), sf::Vector2f(200, 200));
+    sf::View view1(sf::Vector2f(player.getPosition().x + 16.f, player.getPosition().y + 16.f), sf::Vector2f(300, 300));
     NPC npc1("texture/texture_npc/npcpkmn.png", 5, 3, {"Salut","test","caca"});
     NPC npc2("texture/texture_npc/npcpkmn.png", 0, 8, {"Salut2","pioupiou","hello!"});
 
