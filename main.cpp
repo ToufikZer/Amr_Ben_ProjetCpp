@@ -63,11 +63,6 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
-
-            if (event.type == sf::Event::Resized)
-            {
-                view1.setSize(event.size.width,event.size.height);
-            }
             
             // Gestion de l'événement clavier Pressed
             if (event.type == sf::Event::KeyPressed)
@@ -123,7 +118,7 @@ int main()
         {
             window.draw(npc);
             npc.update(player, deltaTime, map, level);
-            if (is_talking && &npc == npc_that_was_talking) { 
+            if (is_talking && &npc == npc_that_was_talking) {
             npc.sendMessage(window, ViewRect, font, npc.getDialogue()[current_message]); 
             //std::cout << npc_that_was_talking->getDialogue()[current_message] << std::endl;
             }
