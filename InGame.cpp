@@ -28,8 +28,7 @@ InGame::InGame(sf::RenderWindow& window)
         2,0,1,0,3,0,2,2,2,0,1,1,1,1,1,1,
         0,0,1,0,3,2,2,2,0,0,0,0,1,1,1,1,
     } {
-        // std::cout << "je suis dans game" << std::endl;
-    if (!font.loadFromFile("arial.ttf")) {
+    if (!font.loadFromFile("font/arial.ttf")) {
         std::cerr << "Erreur lors du chargement de la police" << std::endl;
         std::exit(-1);
     }
@@ -82,7 +81,6 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
     }
 
 void InGame::update(sf::Time deltaTime,sf::RenderWindow& window) {
-    //std::cout << level[10] << std::endl; 
     player.update(deltaTime, map, view, level, NPCs, isTalking);
     for (NPC& npc : NPCs) {
         npc.update(player, deltaTime, map, level);
