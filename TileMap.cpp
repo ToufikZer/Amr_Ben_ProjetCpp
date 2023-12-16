@@ -1,6 +1,5 @@
 // TileMap.cpp
 #include "TileMap.hpp"
-
 TileMap::TileMap(sf::Vector2u dimension) : width(dimension.x), height(dimension.y) {}
 
 unsigned int TileMap::getWidth() const {
@@ -11,7 +10,7 @@ unsigned int TileMap::getHeight() const {
     return height;
 }
 
-bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int* tiles, unsigned int width, unsigned int height) {
+bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, std::vector<std::vector<int>> tiles) {
     if (!m_tileset.loadFromFile(tileset))
         return false;
 
@@ -19,10 +18,10 @@ bool TileMap::load(const std::string& tileset, sf::Vector2u tileSize, const int*
     m_vertices.resize(width * height * 4);
 
     // populate the vertex array, with one quad per tile
-    for (unsigned int i = 0; i < width; ++i)
-        for (unsigned int j = 0; j < height; ++j) {
+    for (unsigned int j = 0; j < height; ++j)
+        for (unsigned int i = 0; i < width; ++i) {
                 // get the current tile number
-                int tileNumber = tiles[i + j * width];
+                int tileNumber = tiles[j][i];
 
                 // find its position in the tileset texture
                 int tu = tileNumber % (m_tileset.getSize().x / tileSize.x);

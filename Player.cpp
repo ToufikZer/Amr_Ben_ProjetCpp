@@ -51,10 +51,10 @@ bool Player::is_looking_at(NPC npc) {
     return false;
 }
 
-bool Player::collision(const TileMap &map,sf::Vector2u position, const int *plan, std::vector<NPC> NPCs){
+bool Player::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs){
     for (NPC& npc : NPCs){
         //std::cout << plan[0] << ";" << plan[10] <<std::endl;
-    if ((plan[(position.x) + (position.y) * map.getWidth()] != 0 )
+    if ((plan[(position.y)][(position.x)] != 0 )
         || 
        (position.x == npc.getCurrentPos().x && position.y == npc.getCurrentPos().y )){
     return true;
@@ -62,7 +62,7 @@ bool Player::collision(const TileMap &map,sf::Vector2u position, const int *plan
     }
     return false;
 }
-void Player::update(const sf::Time &deltaTime, const TileMap &map, sf::View& view, const int *plan, std::vector<NPC> NPCs, bool is_talking) {
+void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned int map_height, sf::View& view, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, bool is_talking) {
     // std::cout << deltaTime.asMilliseconds() << std::endl;
     int moveDelay = 250;
     //can_talk = false;
@@ -77,7 +77,7 @@ void Player::update(const sf::Time &deltaTime, const TileMap &map, sf::View& vie
             new_position.y = current_pos.y;
             
             //std::cout << in_map(map, new_position) << collision(map,new_position, plan,NPCs) << std::endl;
-            if (in_map(map, new_position) && !collision(map,new_position, plan,NPCs)) {
+            if (in_map(map_width, map_height, new_position) && !collision(new_position, plan ,NPCs)) {
                 
                 move(speed, 0.f);
                 current_pos.x += 1;
@@ -90,7 +90,7 @@ void Player::update(const sf::Time &deltaTime, const TileMap &map, sf::View& vie
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
             new_position.x = (current_pos.x); 
             new_position.y = current_pos.y - 1;
-            if (in_map(map, new_position) && !collision(map,new_position, plan,NPCs)) {
+            if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs)) {
                 move(0.f, -speed);
                 current_pos.y -= 1;
                 view.setCenter(getPosition().x+ 16.f,getPosition().y+ 16.f);
@@ -102,7 +102,7 @@ void Player::update(const sf::Time &deltaTime, const TileMap &map, sf::View& vie
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
             new_position.x = (current_pos.x - 1); 
             new_position.y = current_pos.y;
-            if (in_map(map, new_position) && !collision(map,new_position, plan,NPCs)) {
+            if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs)) {
                 move(-speed, 0.f);
                 current_pos.x -= 1;
                 view.setCenter(getPosition().x+ 16.f, getPosition().y+ 16.f);
@@ -114,7 +114,7 @@ void Player::update(const sf::Time &deltaTime, const TileMap &map, sf::View& vie
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
             new_position.x = (current_pos.x); 
             new_position.y = current_pos.y +1;
-            if (in_map(map, new_position) && !collision(map,new_position, plan,NPCs)) {
+            if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs)) {
                 move(0.f, speed);
                 current_pos.y += 1;
                 view.setCenter(getPosition().x + 16.f,getPosition().y+ 16.f);
@@ -138,8 +138,8 @@ void Player::update_texture(unsigned int u, sf::Vector2u tileSize) {
     m_vertices[3].texCoords = sf::Vector2f(u * tileSize.x, tileSize.y);
 }
 
-bool Player::in_map(const TileMap &map, sf::Vector2u position) {
-    if (position.x < map.getWidth() && position.y < map.getHeight() && position.x >= 0 && position.y >= 0)
+bool Player::in_map(unsigned int map_width, unsigned int map_height, sf::Vector2u position) {
+    if (position.x < map_width && position.y < map_height && position.x >= 0 && position.y >= 0)
         return true;
     else
         return false;

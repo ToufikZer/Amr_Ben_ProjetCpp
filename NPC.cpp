@@ -50,7 +50,7 @@
     }
 
     // Mettez à jour la position du joueur en fonction des entrées utilisateur
-    void NPC::update(Player& player,const sf::Time& deltaTime, const TileMap& map, const int* plan) {
+    void NPC::update(Player& player,const sf::Time& deltaTime, unsigned int map_width, unsigned int map_height, std::vector<std::vector<int>> plan) {
         std::srand(static_cast<unsigned int>(std::time(nullptr)));
         //std::cout << is_talking << std::endl;        
         if (is_talking){

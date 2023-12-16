@@ -11,7 +11,7 @@ public:
 
     sf::Vector2u getCurrentPos();
 
-    void update(Player& player, const sf::Time &deltaTime, const TileMap &map, const int *plan);
+    void update(Player& player, const sf::Time &deltaTime, unsigned int map_width, unsigned int map_height, std::vector<std::vector<int>> plan);
 
     void update_texture(unsigned int u,unsigned int v, sf::Vector2f tileSize);
 

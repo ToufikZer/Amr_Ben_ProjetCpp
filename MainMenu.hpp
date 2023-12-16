@@ -9,6 +9,7 @@ public:
     void handleEvent(sf::Event& event, sf::RenderWindow& window) ; 
     void Detect_Start(sf::RenderWindow& window);
     void Detect_Exit(sf::RenderWindow& window);
+    void Detect_Ctrl(sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window) ;
     void draw(sf::RenderWindow& window) ;
     GameState* getNextState() ;
@@ -23,11 +24,20 @@ private:
     sf::Text titleText;
     sf::Text startText;
     sf::Text exitText;
+    sf::Text ctrlText;
+
     int selectedOption;
     bool start_game;
+    bool keybinds;
     bool keyboard_pressed;
 
     void moveUp();
     void moveDown();
     void executeOption();
+    void HighlightStart();
+    void ResetStart();
+    void HighlightCtrl();
+    void ResetCtrl();
+    void HighlightExit();
+    void ResetExit();
 };

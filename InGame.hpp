@@ -6,6 +6,7 @@
 #include "Player.hpp"
 #include "NPC.hpp"
 #include "GameState.hpp"
+#include "MapManager.hpp"
 
 class InGame : public GameState {
 public:
@@ -20,9 +21,10 @@ private:
     sf::View view;
     sf::Font font;
     TileMap map;
-    int level[256];     
+    std::vector<std::vector<int>> level;     
     Player player;
     std::vector<NPC> NPCs;
+    MapManager maps;
 
     bool isTalking;
     NPC* npcThatWasTalking;

@@ -1,12 +1,14 @@
 // MainMenu.cpp
 #include "MainMenu.hpp"
 #include "InGame.hpp"
+#include "Keybinds.hpp"
 #include "iostream"
 
 MainMenu::MainMenu(sf::RenderWindow& window)
     : window(window),
       selectedOption(0),
       start_game(false),
+      keybinds(false),
       keyboard_pressed(false) {
         // std::cout << "je suis dans mainmenu" << std::endl;
     if (!font.loadFromFile("font/Aller_Rg.ttf")) {
@@ -21,6 +23,7 @@ MainMenu::MainMenu(sf::RenderWindow& window)
 }
     backgroundSprite.setTexture(backgroundTexture);
     backgroundSprite.setPosition(0,0);
+    
     titleText.setFont(font);
     titleText.setString("J.O Tourismo");
     titleText.setCharacterSize(64);
@@ -30,14 +33,20 @@ MainMenu::MainMenu(sf::RenderWindow& window)
     startText.setFont(font);
     startText.setString("Start Game");
     startText.setCharacterSize(44);
-    startText.setPosition(window.getSize().x*0.45, 0.44*window.getSize().y);
+    startText.setPosition(window.getSize().x*0.46, 0.44*window.getSize().y);
     startText.setFillColor(sf::Color(50,200,50,250));
 
     exitText.setFont(font);
     exitText.setString("Exit");
     exitText.setCharacterSize(44);
-    exitText.setPosition(window.getSize().x*0.45, 0.55*window.getSize().y);
+    exitText.setPosition(window.getSize().x*0.46, 0.66*window.getSize().y);
     exitText.setFillColor(sf::Color(200,50,50,250));
+
+    ctrlText.setFont(font);
+    ctrlText.setString("Keybinds");
+    ctrlText.setCharacterSize(44);
+    ctrlText.setPosition(window.getSize().x*0.46, 0.55*window.getSize().y);
+    ctrlText.setFillColor(sf::Color(200,150,150,250));
 
     window.setKeyRepeatEnabled(false);
 }
@@ -54,6 +63,10 @@ void MainMenu::handleEvent(sf::Event& event, sf::RenderWindow& window) {
             if (exitText.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))
             {
                 window.close();
+            }
+            if (ctrlText.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))
+            {
+                keybinds = true;
             }
         }
     }
@@ -86,19 +99,33 @@ void MainMenu::Detect_Start(sf::RenderWindow& window){
     if (startText.getGlobalBounds().contains(mousePosition.x,mousePosition.y))
     {
         keyboard_pressed = false;
-        selectedOption = 1;
-        startText.setCharacterSize(50);
-        startText.setFillColor(sf::Color(200,200,50,250));
-        startText.setPosition(window.getSize().x*0.4, 0.43*window.getSize().y);
+        selectedOption = 3;
+        HighlightStart();
         //std::cout << startText.getGlobalBounds().width << std::endl;
     }
     else{
         if (!keyboard_pressed)
         {
         selectedOption = 0;
-        startText.setCharacterSize(44);
-        startText.setPosition(window.getSize().x*0.4, 0.44*window.getSize().y);
-        startText.setFillColor(sf::Color(50,200,50,250));
+        ResetStart();
+        }
+    }
+}
+
+void MainMenu::Detect_Ctrl(sf::RenderWindow& window){
+    sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+    if (ctrlText.getGlobalBounds().contains(mousePosition.x,mousePosition.y))
+    {
+        keyboard_pressed = false;
+        selectedOption = 2;
+        HighlightCtrl();
+        //std::cout << startText.getGlobalBounds().width << std::endl;
+    }
+    else{
+        if (!keyboard_pressed)
+        {
+        selectedOption = 0;
+        ResetCtrl();
         }
     }
 }
@@ -107,26 +134,24 @@ void MainMenu::Detect_Exit(sf::RenderWindow& window){
     sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
     if (exitText.getGlobalBounds().contains(mousePosition.x,mousePosition.y))
     {   
-        selectedOption = 2;
+        selectedOption = 1;
         keyboard_pressed = false;
-        exitText.setCharacterSize(50);
-        exitText.setFillColor(sf::Color(200,200,50,250));
-        exitText.setPosition(window.getSize().x*0.4, 0.54*window.getSize().y);
+        HighlightExit();
     }
     else{
         if (!keyboard_pressed)
         {
         selectedOption = 0;
-        exitText.setCharacterSize(44);
-        exitText.setPosition(window.getSize().x*0.4, 0.55*window.getSize().y);
-        exitText.setFillColor(sf::Color(200,50,50,250));
+        ResetExit();
         }
     }
 }
 
+
 void MainMenu::update(sf::Time deltaTime, sf::RenderWindow& window) {
         Detect_Start(window);
-        if (selectedOption != 1) Detect_Exit(window);
+        if (selectedOption != 1 && selectedOption != 3) Detect_Ctrl(window);
+        if (selectedOption != 2 && selectedOption != 3) Detect_Exit(window);
 }
 
 void MainMenu::draw(sf::RenderWindow& window) {
@@ -135,7 +160,7 @@ void MainMenu::draw(sf::RenderWindow& window) {
     window.draw(titleText);
     window.draw(startText);
     window.draw(exitText);
-
+    window.draw(ctrlText);
     window.display();
 }
 
@@ -144,6 +169,10 @@ GameState* MainMenu::getNextState() {
     if(start_game){
         start_game = false;
         return new InGame(window);
+    }
+    else if (keybinds) {
+        keybinds = false;
+        return new Keybinds(window);
     }
     return nullptr;
 }
@@ -156,24 +185,81 @@ bool MainMenu::isRunning() {
 // ... autres fonctions membres de la classe MainMenu
 
 void MainMenu::moveUp(){
-    selectedOption = 1;
-    startText.setCharacterSize(50);
-    startText.setFillColor(sf::Color(200,200,50,250));
-    startText.setPosition(window.getSize().x*0.4, 0.43*window.getSize().y);
-    exitText.setCharacterSize(44);
-    exitText.setPosition(window.getSize().x*0.4, 0.55*window.getSize().y);
-    exitText.setFillColor(sf::Color(200,50,50,250));
+    switch(selectedOption)
+    {
+    case 0:
+    HighlightStart();
+    selectedOption = 3;
+    break;
+    case 1:
+    HighlightCtrl();
+    ResetExit();
+    selectedOption = 2;
+    break;
+    case 2:
+    HighlightStart();
+    ResetCtrl();
+    selectedOption = 3;
+    break;
+    }
 }
 void MainMenu::moveDown(){
+    switch(selectedOption)
+    {
+    case 0:
+    HighlightStart();
+    selectedOption = 3;
+    break;
+    case 3:
+    HighlightCtrl();
+    ResetStart();
     selectedOption = 2;
-    startText.setCharacterSize(44);
-    startText.setPosition(window.getSize().x*0.4, 0.44*window.getSize().y);
-    startText.setFillColor(sf::Color(50,200,50,250));
-    exitText.setCharacterSize(50);
-    exitText.setFillColor(sf::Color(200,200,50,250));
-    exitText.setPosition(window.getSize().x*0.4, 0.54*window.getSize().y);
+    break;
+    case 2:
+    HighlightExit();
+    ResetCtrl();
+    selectedOption = 1;
+    break;
+    }
 }
 void MainMenu::executeOption(){
-    if (selectedOption == 1) start_game = true;
-    if (selectedOption == 2) window.close();
+    if (selectedOption == 3) start_game = true;
+    if (selectedOption == 2) keybinds = true;
+    if (selectedOption == 1) window.close();
+}
+
+void MainMenu::HighlightStart(){
+    startText.setCharacterSize(50);
+    startText.setFillColor(sf::Color(200,200,50,250));
+    startText.setPosition(window.getSize().x*0.46, 0.43*window.getSize().y);
+}
+
+void MainMenu::ResetStart(){
+    startText.setCharacterSize(44);
+    startText.setPosition(window.getSize().x*0.46, 0.44*window.getSize().y);
+    startText.setFillColor(sf::Color(50,200,50,250));
+}
+
+void MainMenu::HighlightCtrl(){
+    ctrlText.setCharacterSize(50);
+    ctrlText.setFillColor(sf::Color(200,200,50,250));
+    ctrlText.setPosition(window.getSize().x*0.46, 0.54*window.getSize().y);
+}
+
+void MainMenu::ResetCtrl(){
+    ctrlText.setCharacterSize(44);
+    ctrlText.setPosition(window.getSize().x*0.46, 0.55*window.getSize().y);
+    ctrlText.setFillColor(sf::Color(200,150,150,250));
+}
+
+void MainMenu::HighlightExit(){
+    exitText.setCharacterSize(50);
+    exitText.setFillColor(sf::Color(200,200,50,250));
+    exitText.setPosition(window.getSize().x*0.46, 0.65*window.getSize().y);
+}
+
+void MainMenu::ResetExit(){
+    exitText.setCharacterSize(44);
+    exitText.setPosition(window.getSize().x*0.46, 0.66*window.getSize().y);
+    exitText.setFillColor(sf::Color(200,50,50,250));
 }
