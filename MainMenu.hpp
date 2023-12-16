@@ -25,6 +25,7 @@ private:
     sf::Text exitText;
     int selectedOption;
     bool start_game;
+    bool keyboard_pressed;
 
     void moveUp();
     void moveDown();
