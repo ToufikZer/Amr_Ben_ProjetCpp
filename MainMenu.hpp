@@ -27,9 +27,9 @@ private:
     sf::Text ctrlText;
 
     int selectedOption;
-    bool start_game;
-    bool keybinds;
-    bool keyboard_pressed;
+    bool start_game;                // dit si on doit entrer dans InGame
+    bool keybinds;                  // dit si on doit entrer dans les controles de keybind
+    bool keyboard_pressed;          // permet de verifier si le clavier a été pressé pour figer la sélection dans le menu sinon ca highlight que pendant une frame
 
     void moveUp();
     void moveDown();

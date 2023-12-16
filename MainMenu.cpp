@@ -87,11 +87,6 @@ void MainMenu::handleEvent(sf::Event& event, sf::RenderWindow& window) {
             moveDown();
         }
     }
-    // if (event.type == sf::Event::Resized)
-    // {
-    //     window.getSize().x = event.size.width;
-    //     window.getSize().y = event.size.height;
-    // }
 }
 
 void MainMenu::Detect_Start(sf::RenderWindow& window){
@@ -149,9 +144,10 @@ void MainMenu::Detect_Exit(sf::RenderWindow& window){
 
 
 void MainMenu::update(sf::Time deltaTime, sf::RenderWindow& window) {
-        Detect_Start(window);
-        if (selectedOption != 1 && selectedOption != 3) Detect_Ctrl(window);
-        if (selectedOption != 2 && selectedOption != 3) Detect_Exit(window);
+    // On permet a l'utilisateur de detecter au clavier et a la souris en meme temps prcq sinon ca reset keyboard_pressed
+        if (selectedOption != 3) Detect_Start(window);
+        if (selectedOption != 2) Detect_Ctrl(window);
+        if (selectedOption != 1) Detect_Exit(window);
 }
 
 void MainMenu::draw(sf::RenderWindow& window) {
@@ -182,8 +178,7 @@ bool MainMenu::isRunning() {
     return true;
 }
 
-// ... autres fonctions membres de la classe MainMenu
-
+// consequence du clavier si on presse Up
 void MainMenu::moveUp(){
     switch(selectedOption)
     {
@@ -202,6 +197,7 @@ void MainMenu::moveUp(){
     selectedOption = 3;
     break;
     }
+    // consequence du clavier si on presse Down
 }
 void MainMenu::moveDown(){
     switch(selectedOption)
@@ -222,6 +218,9 @@ void MainMenu::moveDown(){
     break;
     }
 }
+
+// consequence du clavier si on presse Enter
+
 void MainMenu::executeOption(){
     if (selectedOption == 3) start_game = true;
     if (selectedOption == 2) keybinds = true;
