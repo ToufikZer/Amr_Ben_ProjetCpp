@@ -26,6 +26,8 @@ public:
         return direction;
     }
 
+    sf::Vector2u getCurrentPos();
+
 private:
     sf::Time elapsed;  // Temps écoulé depuis la dernière mise à jour
     sf::Texture m_texture;

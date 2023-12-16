@@ -31,4 +31,5 @@ private:
     int currentMessage;
 
     void initialize();
+    void CheckChangeMap(sf::Vector2u position);
 };

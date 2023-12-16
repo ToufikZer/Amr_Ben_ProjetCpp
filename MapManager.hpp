@@ -14,6 +14,12 @@ public:
     {
         return NPCs;
     }
+
+    std::vector<sf::Vector2u> const& getChangeTile() const
+    {
+        return ChangeTile;
+    }
+
     void setMap_map1();
 
     void setMap_map2();
@@ -21,4 +27,5 @@ public:
 private:
     std::vector<std::vector<int>> level;
     std::vector<NPC> NPCs;
+    std::vector<sf::Vector2u> ChangeTile;
 };

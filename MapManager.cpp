@@ -23,6 +23,9 @@ void MapManager::setMap_map1(){
     NPCs.clear();
     NPCs.push_back(NPC("texture/texture_npc/npcpkmn.png", 5, 3, {"Salut", "test", "caca"}));
     NPCs.push_back(NPC("texture/texture_npc/npcpkmn.png", 0, 8, {"Salut2", "pioupiou", "hello!"}));
+
+    ChangeTile.clear();
+    ChangeTile.push_back({sf::Vector2u(0,7)});
     }
 
     void MapManager::setMap_map2(){
@@ -46,4 +49,7 @@ void MapManager::setMap_map1(){
     NPCs.clear();
     NPCs.push_back(NPC("texture/texture_npc/npcpkmn.png", 9, 10, {"Salut", "test", "caca"}));
     NPCs.push_back(NPC("texture/texture_npc/npcpkmn.png", 0, 3, {"Salut2", "pioupiou", "hello!"}));
+    
+    ChangeTile.clear();
+    ChangeTile.push_back(sf::Vector2u(7,4));
     }

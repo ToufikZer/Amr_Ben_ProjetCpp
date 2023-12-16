@@ -144,3 +144,7 @@ bool Player::in_map(unsigned int map_width, unsigned int map_height, sf::Vector2
     else
         return false;
 }
+
+sf::Vector2u Player::getCurrentPos(){
+    return current_pos;
+}

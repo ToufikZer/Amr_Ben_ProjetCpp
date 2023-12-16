@@ -63,7 +63,7 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                 window.setPosition(sf::Vector2i(sf::VideoMode::getDesktopMode().width * 0.25,sf::VideoMode::getDesktopMode().height * 0.20 ));
             }
             if (event.key.code == sf::Keyboard::R) {
-                window.clear();
+                //window.clear();
                 maps.setMap_map2();
                 level = maps.getLevel();
                 NPCs = maps.getNPCs();
@@ -79,6 +79,7 @@ void InGame::update(sf::Time deltaTime,sf::RenderWindow& window) {
     player.update(deltaTime, map.getWidth(), map.getHeight(), view, level, NPCs, isTalking);
     for (NPC& npc : NPCs) {
         npc.update(player, deltaTime, map.getWidth(), map.getHeight(), level);
+        CheckChangeMap(player.getCurrentPos());
         //std::cout << isTalking << std::endl; 
     }
 }
@@ -95,4 +96,18 @@ void InGame::draw(sf::RenderWindow& window) {
         }
     }
     window.display();
+}
+
+void InGame::CheckChangeMap(sf::Vector2u position){
+    for (sf::Vector2u tile : maps.getChangeTile()){
+        if (position.x == tile.x && position.y == tile.y){
+            maps.setMap_map2();
+            level = maps.getLevel();
+            NPCs = maps.getNPCs();
+            if (!map.load("texture/texture_decor/tileset.png", sf::Vector2u(32.f, 32.f), level)) {
+                std::cerr << "Erreur lors du chargement de la carte" << std::endl;
+                std::exit(-1);
+        }
+    }
+}
 }
