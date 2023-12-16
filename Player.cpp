@@ -71,7 +71,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
         
         float speed = 32.0f;
     if(!is_talking){
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
             // std::cout << "ok" << std::endl;
             new_position.x = (current_pos.x + 1); 
             new_position.y = current_pos.y;
@@ -87,7 +87,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
             direction = "R";
             elapsed = sf::Time::Zero;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
             new_position.x = (current_pos.x); 
             new_position.y = current_pos.y - 1;
             if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs)) {
@@ -99,7 +99,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
             direction = "U";
             elapsed = sf::Time::Zero;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
             new_position.x = (current_pos.x - 1); 
             new_position.y = current_pos.y;
             if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs)) {
@@ -111,7 +111,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
             direction = "L";
             elapsed = sf::Time::Zero;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
             new_position.x = (current_pos.x); 
             new_position.y = current_pos.y +1;
             if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs)) {

@@ -36,17 +36,17 @@ MainMenu::MainMenu(sf::RenderWindow& window)
     startText.setPosition(window.getSize().x*0.46, 0.44*window.getSize().y);
     startText.setFillColor(sf::Color(50,200,50,250));
 
+    ctrlText.setFont(font);
+    ctrlText.setString("How to Play");
+    ctrlText.setCharacterSize(44);
+    ctrlText.setPosition(window.getSize().x*0.46, 0.55*window.getSize().y);
+    ctrlText.setFillColor(sf::Color(200,150,150,250));
+
     exitText.setFont(font);
     exitText.setString("Exit");
     exitText.setCharacterSize(44);
     exitText.setPosition(window.getSize().x*0.46, 0.66*window.getSize().y);
     exitText.setFillColor(sf::Color(200,50,50,250));
-
-    ctrlText.setFont(font);
-    ctrlText.setString("Keybinds");
-    ctrlText.setCharacterSize(44);
-    ctrlText.setPosition(window.getSize().x*0.46, 0.55*window.getSize().y);
-    ctrlText.setFillColor(sf::Color(200,150,150,250));
 
     window.setKeyRepeatEnabled(false);
 }
