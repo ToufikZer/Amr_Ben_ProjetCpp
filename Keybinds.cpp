@@ -20,7 +20,7 @@ Keybinds::Keybinds(sf::RenderWindow& window):
         backgroundSprite.setPosition(0,0);
 
         text.setFont(font);
-        text.setString("Press A to interact \nLeft : Q or Left button\nRight : D or Right button\nUp : Z or Up button\nDown : S or Down button\n\n\nEscape to return to the Title Screen");
+        text.setString("Press A to interact \nLeft : Q or Left button\nRight : D or Right button\nUp : Z or Up button\nDown : S or Down button\nLShift : Run\n\n\nEscape to return to the Title Screen");
         text.setCharacterSize(44);
         text.setPosition(window.getSize().x*0.5 - text.getGlobalBounds().width * 0.5, 0.08*window.getSize().y);
         text.setFillColor(sf::Color::Red);
