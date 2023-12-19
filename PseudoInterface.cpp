@@ -4,7 +4,8 @@
 PseudoInterface::PseudoInterface(sf::RenderWindow& window):
     window(window),
     launch_game(false),
-    can_launch(false)
+    can_launch(false),
+    come_back(false)
     {
         if (!font.loadFromFile("font/Aller_Rg.ttf")) {
         // Gestion de l'erreur lors du chargement de la police
@@ -29,6 +30,10 @@ PseudoInterface::PseudoInterface(sf::RenderWindow& window):
         ok.setFont(font);
         ok.setString("OK");
         ResetOK();
+
+        back.setFont(font);
+        back.setString("Back");
+        ResetBack();
 
         float rectangleWidth = window.getSize().x;
         float rectangleHeight = 0.153 * window.getSize().y;
@@ -67,6 +72,10 @@ void PseudoInterface::handleEvent(sf::Event& event, sf::RenderWindow& window){
             {
                 if (can_launch) launch_game = true;
             }
+            if (back.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))
+            {
+                come_back = true;
+            }
         }
     }
     else if (event.type == sf::Event::KeyPressed)
@@ -74,6 +83,10 @@ void PseudoInterface::handleEvent(sf::Event& event, sf::RenderWindow& window){
         if (event.key.code == sf::Keyboard::Return)
         {
             if (can_launch) launch_game = true;
+        }
+        if (event.key.code == sf::Keyboard::Escape)
+        {
+            come_back = true;
         }
     }
     else if (event.type == sf::Event::TextEntered) {
@@ -100,6 +113,18 @@ void PseudoInterface::Detect_OK(sf::RenderWindow& window){
     }
 }
 
+void PseudoInterface::Detect_Back(sf::RenderWindow& window){
+    sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+    if (back.getGlobalBounds().contains(mousePosition.x,mousePosition.y))
+    {
+        HighlightBack();
+        //std::cout << startText.getGlobalBounds().width << std::endl;
+    }
+    else{
+        ResetBack();
+    }
+}
+
 void PseudoInterface::update(sf::Time deltaTime, sf::RenderWindow& window){
     // essayer darranger ca
     float rectangleWidth = window.getSize().x;
@@ -111,15 +136,19 @@ void PseudoInterface::update(sf::Time deltaTime, sf::RenderWindow& window){
     else can_launch = false;
 
     Detect_OK(window);
+    Detect_Back(window);
+
     pseudo_text.setString("Pseudo : " + pseudo);
     pseudo_text.setPosition(rectangleWidth/2 - pseudo_text.getGlobalBounds().width/2,
                             rectangleY + rectangleHeight /2 - pseudo_text.getGlobalBounds().height/2 - 0.0093*window.getSize().y);
 }
+
 void PseudoInterface::draw(sf::RenderWindow& window){
     window.clear();
     window.draw(backgroundSprite);
     window.draw(text);
     window.draw(pseudo_text);
+    window.draw(back);
     window.draw(ok);
     window.draw(blueRectangle);
     window.draw(blueRectangleTop);
@@ -136,6 +165,10 @@ GameState* PseudoInterface::getNextState() {
         launch_game = false;
         return new InGame(window);
     }
+    if(come_back){
+        come_back = false;
+        return new MainMenu(window);
+    }
     return nullptr;
 }
 
@@ -148,5 +181,17 @@ void PseudoInterface::HighlightOK(){
 void PseudoInterface::ResetOK(){
     ok.setCharacterSize(36);
     ok.setPosition(window.getSize().x*0.9 - ok.getGlobalBounds().width * 0.5, 0.5*window.getSize().y);
-    ok.setFillColor(sf::Color::Red);
+    ok.setFillColor(sf::Color::Green);
+}
+
+void PseudoInterface::HighlightBack(){
+    back.setCharacterSize(44);
+    back.setPosition(window.getSize().x*0.9 - back.getGlobalBounds().width * 0.5, 0.89*window.getSize().y);
+    back.setFillColor(sf::Color::Yellow);
+}
+
+void PseudoInterface::ResetBack(){
+    back.setCharacterSize(36);
+    back.setPosition(window.getSize().x*0.9 - back.getGlobalBounds().width * 0.5, 0.9*window.getSize().y);
+    back.setFillColor(sf::Color::Red);
 }

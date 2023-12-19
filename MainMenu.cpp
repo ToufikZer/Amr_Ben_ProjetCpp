@@ -171,10 +171,6 @@ GameState* MainMenu::getNextState() {
         keybinds = false;
         return new Keybinds(window);
     }
-
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::J)){
-        return new PseudoInterface(window);
-    }
     return nullptr;
 }
 

@@ -31,13 +31,13 @@ int main() {
         // Dessin de l'état actuel
         currentState->draw(window);
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-            // Libère la mémoire de l'état actuel
-            delete currentState;
+        // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+        //     // Libère la mémoire de l'état actuel
+        //     delete currentState;
 
-            // Passe à l'état suivant (InGame)
-            currentState = new MainMenu(window);
-        }
+        //     // Passe à l'état suivant (InGame)
+        //     currentState = new MainMenu(window);
+        // }
         
         GameState* nextState = currentState->getNextState();
         if (nextState != nullptr) {
