@@ -154,12 +154,18 @@
     }
 
 void NPC::play_voice(){
-    if (!buffer.loadFromFile("sound/sound/npc_voice.wav")){
+    if (!buffer.loadFromFile("sound/sound/test.wav")){
             std::cerr << "Erreur lors du chargement du son" << std::endl;
             std::exit(-1);
         }
         npc_sound.setBuffer(buffer);
         npc_sound.setPlayingOffset(sf::seconds(delay));
-        npc_sound.play();
-        delay += 0.5;
+        std::cout << playsound << std::endl;
+        // if (playsound) npc_sound.play();
+        // else{
+            npc_sound.play();
+            sf::sleep(sf::seconds(1));
+            npc_sound.stop();
+        // }
+        delay += 2;
 }

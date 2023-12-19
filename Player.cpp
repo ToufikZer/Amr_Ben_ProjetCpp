@@ -88,7 +88,6 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                 current_pos.x += 1;
                 view.setCenter(getPosition().x + 16.f,getPosition().y+ 16.f);
                 pas_sound.play();
-                std::cout << "État du son : " << pas_sound.getStatus() << std::endl;
             }
             update_texture(0, sf::Vector2u(32, 32));
             direction = "R";

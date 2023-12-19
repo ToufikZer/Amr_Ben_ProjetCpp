@@ -38,12 +38,12 @@ void InGame::initialize() {
 }
 
 void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
+    // sf::Thread thread(&NPC::play_voice);
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::A) {
                 for (NPC& npc : NPCs) {
                         float pitch = 100;
                     if (!isTalking && player.is_looking_at(npc)) {
-                        npc.getSound().setPitch(pitch);
                         npc.play_voice();
                         isTalking = true;
                         npc.setIsTalking(true);
@@ -52,14 +52,17 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                         break;
                     } else if ((&npc == npcThatWasTalking) && isTalking && (currentMessage < npc.getDialogue().size() - 1))
                     {
-                        pitch += 10;
-                        npc.getSound().setPitch(pitch);
                         npc.play_voice();
                         currentMessage += 1;
+                        if (currentMessage == npc.getDialogue().size()){
+                                npc.setPlayBool(false);
+                                npc.play_voice();
+                        }
                         break;
                     } else {
                         if (npcThatWasTalking != nullptr) {
                             if (&npc == npcThatWasTalking) {
+                                npc.setPlayBool(true);
                                 npc.getDelay() = 0;
                                 isTalking = false;
                                 currentMessage = 0;

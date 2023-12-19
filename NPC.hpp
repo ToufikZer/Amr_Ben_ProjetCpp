@@ -31,6 +31,11 @@ public:
     float& getDelay(){
         return delay;
     }
+
+    void setPlayBool(bool value){
+        playsound = value;
+    }
+
     void play_voice();
 private:
     sf::SoundBuffer buffer;
@@ -43,4 +48,5 @@ private:
     std::vector<std::string> dialogue;
     float delay = 0;
     bool is_talking = false;
+    bool playsound = true;
 };
