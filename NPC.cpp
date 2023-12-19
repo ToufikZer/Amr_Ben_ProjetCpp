@@ -1,6 +1,7 @@
 #include "NPC.hpp"
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -35,6 +36,7 @@
         m_vertices[3].color = sf::Color::White;
 
         setPosition(pos_x*32.f,pos_y*32.f);
+
     }
 
     sf::Vector2u NPC::getCurrentPos(){
@@ -109,6 +111,11 @@
 
     void NPC::sendMessage(sf::RenderWindow& window, sf::FloatRect ViewRect, sf::Font& font, std::string dialogue){
         //std::cout << window.getSize().x << ";" << window.getSize().y << std::endl;
+        // if (!buffer.loadFromFile("sound/sound/npc_voice.wav")){
+        //     std::cerr << "Erreur lors du chargement du son" << std::endl;
+        //     std::exit(-1);
+        // }
+        // npc_sound.setBuffer(buffer);
         sf::Text message;
         message.setFont(font);
         message.setString(dialogue);
@@ -143,4 +150,16 @@
         window.draw(blueRectangleRight);
         window.draw(blueRectangleBot);
         window.draw(message);
+
     }
+
+void NPC::play_voice(){
+    if (!buffer.loadFromFile("sound/sound/npc_voice.wav")){
+            std::cerr << "Erreur lors du chargement du son" << std::endl;
+            std::exit(-1);
+        }
+        npc_sound.setBuffer(buffer);
+        npc_sound.setPlayingOffset(sf::seconds(delay));
+        npc_sound.play();
+        delay += 0.5;
+}

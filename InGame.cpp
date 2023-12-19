@@ -10,7 +10,10 @@ InGame::InGame(sf::RenderWindow& window)
       view(sf::Vector2f(player.getPosition().x + 16.f, player.getPosition().y + 16.f), sf::Vector2f(300, 300)),
       isTalking(false),
       npcThatWasTalking(nullptr),
-      currentMessage(0){
+      currentMessage(0)
+      
+      {
+      
       maps.setMap_map1();
       level = maps.getLevel();
       NPCs = maps.getNPCs();
@@ -38,18 +41,26 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::A) {
                 for (NPC& npc : NPCs) {
+                        float pitch = 100;
                     if (!isTalking && player.is_looking_at(npc)) {
+                        npc.getSound().setPitch(pitch);
+                        npc.play_voice();
                         isTalking = true;
                         npc.setIsTalking(true);
                         npc.update(player, sf::Time::Zero, map.getWidth(), map.getHeight(), level);
                         npcThatWasTalking = &npc;
                         break;
-                    } else if ((&npc == npcThatWasTalking) && isTalking && (currentMessage < npc.getDialogue().size() - 1)) {
+                    } else if ((&npc == npcThatWasTalking) && isTalking && (currentMessage < npc.getDialogue().size() - 1))
+                    {
+                        pitch += 10;
+                        npc.getSound().setPitch(pitch);
+                        npc.play_voice();
                         currentMessage += 1;
                         break;
                     } else {
                         if (npcThatWasTalking != nullptr) {
                             if (&npc == npcThatWasTalking) {
+                                npc.getDelay() = 0;
                                 isTalking = false;
                                 currentMessage = 0;
                                 npcThatWasTalking->setIsTalking(false);

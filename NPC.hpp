@@ -2,6 +2,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "Player.hpp"
 
 class NPC : public Player{
@@ -23,12 +24,23 @@ public:
     std::vector<std::string> const& getDialogue() const {
         return dialogue;
     }
+    sf::Sound getSound(){
+        return npc_sound;
+    }
+
+    float& getDelay(){
+        return delay;
+    }
+    void play_voice();
 private:
+    sf::SoundBuffer buffer;
+    sf::Sound npc_sound;
     sf::Time elapsed;  // Temps écoulé depuis la dernière mise à jour
     sf::Texture m_texture;
     sf::VertexArray m_vertices;
     sf::Vector2u current_pos;
     std::string direction;
     std::vector<std::string> dialogue;
+    float delay = 0;
     bool is_talking = false;
 };

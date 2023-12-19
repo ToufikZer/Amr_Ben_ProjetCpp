@@ -11,7 +11,12 @@ Player::Player(const std::string &texturePath, unsigned int pos_x, unsigned int 
         // Gestion de l'erreur si le chargement échoue
         // ...
     }
-
+    if (!buffer.loadFromFile("sound/sound/pas.wav")){
+            std::cerr << "Erreur lors du chargement du son" << std::endl;
+            std::exit(-1);
+        }
+        pas_sound.setBuffer(buffer);
+    
     m_vertices.setPrimitiveType(sf::Quads);
     m_vertices.resize(4);
 
@@ -82,6 +87,8 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                 move(speed, 0.f);
                 current_pos.x += 1;
                 view.setCenter(getPosition().x + 16.f,getPosition().y+ 16.f);
+                pas_sound.play();
+                std::cout << "État du son : " << pas_sound.getStatus() << std::endl;
             }
             update_texture(0, sf::Vector2u(32, 32));
             direction = "R";
@@ -94,6 +101,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                 move(0.f, -speed);
                 current_pos.y -= 1;
                 view.setCenter(getPosition().x+ 16.f,getPosition().y+ 16.f);
+                pas_sound.play();
             }
             update_texture(2, sf::Vector2u(32, 32));
             direction = "U";
@@ -106,6 +114,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                 move(-speed, 0.f);
                 current_pos.x -= 1;
                 view.setCenter(getPosition().x+ 16.f, getPosition().y+ 16.f);
+                pas_sound.play();
             }
             update_texture(1, sf::Vector2u(32, 32));
             direction = "L";
@@ -118,6 +127,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                 move(0.f, speed);
                 current_pos.y += 1;
                 view.setCenter(getPosition().x + 16.f,getPosition().y+ 16.f);
+                pas_sound.play();
             }
             update_texture(3, sf::Vector2u(32, 32));
             direction = "D";

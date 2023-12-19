@@ -2,6 +2,7 @@
 #include "MainMenu.hpp"
 #include "InGame.hpp"
 #include "Keybinds.hpp"
+#include "PseudoInterface.hpp"
 #include "iostream"
 
 MainMenu::MainMenu(sf::RenderWindow& window)
@@ -164,11 +165,15 @@ GameState* MainMenu::getNextState() {
     // Logique pour déterminer le prochain état (peut être nullptr)
     if(start_game){
         start_game = false;
-        return new InGame(window);
+        return new PseudoInterface(window);
     }
     else if (keybinds) {
         keybinds = false;
         return new Keybinds(window);
+    }
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::J)){
+        return new PseudoInterface(window);
     }
     return nullptr;
 }

@@ -2,6 +2,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "TileMap.hpp"
 
 class NPC;
@@ -28,6 +29,8 @@ public:
 
     sf::Vector2u getCurrentPos();
 
+    sf::SoundBuffer buffer;
+    sf::Sound pas_sound;
 private:
     sf::Time elapsed;  // Temps écoulé depuis la dernière mise à jour
     sf::Texture m_texture;
@@ -35,4 +38,5 @@ private:
     sf::Vector2u current_pos;
     std::string direction;
     bool can_talk = false;
+    
 };

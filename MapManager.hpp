@@ -2,6 +2,7 @@
 #include "iostream"
 #include "TileMap.hpp"
 #include "NPC.hpp"
+#include "SFML/Audio.hpp"
 
 class MapManager {
 public:

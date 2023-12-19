@@ -1,5 +1,8 @@
 #include "iostream"
 #include "MapManager.hpp"
+#include <SFML/Audio.hpp>
+
+
 
 void MapManager::setMap_map1(){
     //std::cout << "ok" << std::endl;
@@ -20,6 +23,7 @@ void MapManager::setMap_map1(){
         {0,0,1,0,3,0,2,2,0,0,1,1,1,1,2,0},
         {2,0,1,0,3,0,2,2,2,0,1,1,1,1,1,1},
         {0,0,1,0,3,2,2,2,0,0,0,0,1,1,1,1}};
+
     NPCs.clear();
     NPCs.push_back(NPC("texture/texture_npc/npcpkmn.png", 5, 3, {"Salut", "test", "caca"}));
     NPCs.push_back(NPC("texture/texture_npc/npcpkmn.png", 0, 8, {"Salut2", "pioupiou", "hello!"}));

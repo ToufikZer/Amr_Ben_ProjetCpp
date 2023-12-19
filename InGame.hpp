@@ -2,6 +2,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "TileMap.hpp"
 #include "Player.hpp"
 #include "NPC.hpp"

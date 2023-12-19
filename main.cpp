@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "GameState.hpp"
 #include "MainMenu.hpp"
 #include "InGame.hpp"
@@ -9,7 +10,7 @@ int main() {
     window.setPosition(sf::Vector2i(sf::VideoMode::getDesktopMode().width * 0.25,sf::VideoMode::getDesktopMode().height * 0.20 ));
     // Initialisation du premier état (MainMenu)
     GameState* currentState = new MainMenu(window);
-
+    
     sf::Clock clock;
     sf::Time elapsedTime;
 
@@ -43,6 +44,18 @@ int main() {
             // Libérez l'ancien état (dans un projet réel, utilisez std::unique_ptr)
             delete currentState;
             currentState = nextState;
+            sf::RectangleShape blackoutScreen(sf::Vector2f(window.getSize().x, window.getSize().y));
+            blackoutScreen.setFillColor(sf::Color::Black);
+
+            // on affiche l'écran noir progressivement pour transition
+            for (int alpha = 0; alpha <= 25; alpha += 1) {
+                blackoutScreen.setFillColor(sf::Color(150, 150, 150, alpha));
+                //window.clear();
+                window.draw(blackoutScreen);
+                window.display();
+                
+                sf::sleep(sf::milliseconds(10));
+            }
         }
     }
 
