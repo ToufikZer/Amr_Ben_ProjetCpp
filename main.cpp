@@ -6,6 +6,7 @@
 #include "iostream"
 
 int main() {
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
     sf::RenderWindow window(sf::VideoMode(800, 600), "JO Tourismo");
     window.setPosition(sf::Vector2i(sf::VideoMode::getDesktopMode().width * 0.25,sf::VideoMode::getDesktopMode().height * 0.20 ));
     // Initialisation du premier état (MainMenu)

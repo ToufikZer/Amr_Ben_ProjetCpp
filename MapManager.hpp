@@ -29,4 +29,5 @@ private:
     std::vector<std::vector<int>> level;
     std::vector<NPC> NPCs;
     std::vector<sf::Vector2u> ChangeTile;
+    sf::Music music;
 };

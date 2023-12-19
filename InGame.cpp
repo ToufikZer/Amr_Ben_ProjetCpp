@@ -47,7 +47,7 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                         npc.play_voice();
                         isTalking = true;
                         npc.setIsTalking(true);
-                        npc.update(player, sf::Time::Zero, map.getWidth(), map.getHeight(), level);
+                        npc.update(player, sf::Time::Zero, map.getWidth(), map.getHeight(), level, NPCs);
                         npcThatWasTalking = &npc;
                         break;
                     } else if ((&npc == npcThatWasTalking) && isTalking && (currentMessage < npc.getDialogue().size() - 1))
@@ -92,7 +92,7 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
 void InGame::update(sf::Time deltaTime,sf::RenderWindow& window) {
     player.update(deltaTime, map.getWidth(), map.getHeight(), view, level, NPCs, isTalking);
     for (NPC& npc : NPCs) {
-        npc.update(player, deltaTime, map.getWidth(), map.getHeight(), level);
+        npc.update(player, deltaTime, map.getWidth(), map.getHeight(), level, NPCs);
         CheckChangeMap(player.getCurrentPos());
         //std::cout << isTalking << std::endl; 
     }

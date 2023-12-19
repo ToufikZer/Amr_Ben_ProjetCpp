@@ -69,7 +69,7 @@ bool Player::collision(sf::Vector2u position, std::vector<std::vector<int>> plan
 }
 void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned int map_height, sf::View& view, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, bool is_talking) {
     // std::cout << deltaTime.asMilliseconds() << std::endl;
-    int moveDelay = 350;
+    int moveDelay = 500;
     //can_talk = false;
     sf::Vector2u new_position;
     if (elapsed.asMilliseconds() >= moveDelay) {
