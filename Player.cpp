@@ -6,7 +6,9 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
 
-Player::Player(const std::string &texturePath, unsigned int pos_x, unsigned int pos_y) : current_pos(pos_x, pos_y) {
+Player::Player(const std::string &texturePath, unsigned int pos_x, unsigned int pos_y) : 
+    current_pos(pos_x, pos_y),
+    change_map(0) {
     if (!m_texture.loadFromFile(texturePath)) {
         std::cerr << "Erreur lors du chargement de la texture" << std::endl;
         std::exit(-1);
@@ -85,14 +87,15 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
             // std::cout << "ok" << std::endl;
             new_position.x = (current_pos.x + 1); 
             new_position.y = current_pos.y;
-            if (in_map(map_width, map_height, new_position) && collision(new_position, plan,NPCs)) bump_sound.play();
-            //std::cout << in_map(map, new_position) << collision(map,new_position, plan,NPCs) << std::endl;
-            if (in_map(map_width, map_height, new_position) && !collision(new_position, plan ,NPCs)) {
-                
-                move(speed, 0.f);
-                current_pos.x += 1;
-                view.setCenter(getPosition().x + 16.f,getPosition().y+ 16.f);
-                pas_sound.play();
+            if(!in_map(map_width, map_height, new_position)) setChangeMap(3);
+            else{
+                if (collision(new_position, plan,NPCs)) bump_sound.play();
+                else {
+                    move(speed, 0.f);
+                    current_pos.x += 1;
+                    view.setCenter(getPosition().x + 16.f,getPosition().y+ 16.f);
+                    pas_sound.play();
+                }
             }
             update_texture(0, sf::Vector2u(32, 32));
             direction = "R";
@@ -101,12 +104,15 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
             new_position.x = (current_pos.x); 
             new_position.y = current_pos.y - 1;
-            if (in_map(map_width, map_height, new_position) && collision(new_position, plan,NPCs)) bump_sound.play();
-            if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs)) {
-                move(0.f, -speed);
-                current_pos.y -= 1;
-                view.setCenter(getPosition().x+ 16.f,getPosition().y+ 16.f);
-                pas_sound.play();
+            if(!in_map(map_width, map_height, new_position)) setChangeMap(2);
+            else{
+                if (collision(new_position, plan,NPCs)) bump_sound.play();
+                else {
+                    move(0.f, -speed);
+                    current_pos.y -= 1;
+                    view.setCenter(getPosition().x+ 16.f,getPosition().y+ 16.f);
+                    pas_sound.play();
+                }
             }
             update_texture(2, sf::Vector2u(32, 32));
             direction = "U";
@@ -115,12 +121,15 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
             new_position.x = (current_pos.x - 1); 
             new_position.y = current_pos.y;
-            if (in_map(map_width, map_height, new_position) && collision(new_position, plan,NPCs)) bump_sound.play();
-            if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs)) {
-                move(-speed, 0.f);
-                current_pos.x -= 1;
-                view.setCenter(getPosition().x+ 16.f, getPosition().y+ 16.f);
-                pas_sound.play();
+            if(!in_map(map_width, map_height, new_position)) setChangeMap(1);
+            else{
+                if (collision(new_position, plan,NPCs)) bump_sound.play();
+                else {
+                    move(-speed, 0.f);
+                    current_pos.x -= 1;
+                    view.setCenter(getPosition().x+ 16.f, getPosition().y+ 16.f);
+                    pas_sound.play();
+                }
             }
             update_texture(1, sf::Vector2u(32, 32));
             direction = "L";
@@ -129,12 +138,15 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
             new_position.x = (current_pos.x); 
             new_position.y = current_pos.y +1;
-            if (in_map(map_width, map_height, new_position) && collision(new_position, plan,NPCs)) bump_sound.play();
-            if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs)) {
-                move(0.f, speed);
-                current_pos.y += 1;
-                view.setCenter(getPosition().x + 16.f,getPosition().y+ 16.f);
-                pas_sound.play();
+            if(!in_map(map_width, map_height, new_position)) setChangeMap(4);
+            else{
+                if (collision(new_position, plan,NPCs)) bump_sound.play();
+                else {
+                    move(0.f, speed);
+                    current_pos.y += 1;
+                    view.setCenter(getPosition().x + 16.f,getPosition().y+ 16.f);
+                    pas_sound.play();
+                }
             }
             update_texture(3, sf::Vector2u(32, 32));
             direction = "D";
@@ -160,8 +172,4 @@ bool Player::in_map(unsigned int map_width, unsigned int map_height, sf::Vector2
         return true;
     else
         return false;
-}
-
-sf::Vector2u Player::getCurrentPos(){
-    return current_pos;
 }

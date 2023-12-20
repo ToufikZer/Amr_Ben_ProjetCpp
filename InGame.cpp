@@ -124,7 +124,6 @@ void InGame::draw(sf::RenderWindow& window) {
     for (NPC& npc : NPCs) {
         window.draw(npc);
         if (isTalking && (&npc == npcThatWasTalking)) {
-            std::cout << "56bis"<<std::endl;
             npc.sendMessage(window, viewRect, font, npc.getDialogue()[currentMessage]);
         }
     }
@@ -145,6 +144,10 @@ GameState* InGame::getNextState(){
     if(backmenu){
         backmenu = false;
         escape_menu = false;
+        for(int i = 1; i < 100000; i++)
+        {
+            maps.getMusic().setVolume(1 - i/100000);
+        }
         maps.getMusic().stop();
         return new MainMenu(window);
     }
@@ -154,17 +157,35 @@ GameState* InGame::getNextState(){
 
 
 void InGame::CheckChangeMap(sf::Vector2u position){
-    for (sf::Vector2u tile : maps.getChangeTile()){
-        if (position.x == tile.x && position.y == tile.y){
+    // for (sf::Vector2u tile : maps.getChangeTile()){
+        // std::cout << player.getChangeMap() << std::endl;
+        if (player.getChangeMap()== 1){
+            player.setChangeMap(0);
+            player.setCurrentPos(sf::Vector2u (map.getWidth() - position.x - 1, position.y));
+            player.setPosition(32.f*player.getCurrentPos().x , 32.f*player.getCurrentPos().y);
+            // std::cout << player.getCurrentPos().x << ";" << player.getCurrentPos().y << std::endl;
+        
             maps.setMap_map2();
             level = maps.getLevel();
             NPCs = maps.getNPCs();
             if (!map.load("texture/texture_decor/tileset.png", sf::Vector2u(32.f, 32.f), level)) {
                 std::cerr << "Erreur lors du chargement de la carte" << std::endl;
                 std::exit(-1);
+            }
         }
-    }
-}
+        if (player.getChangeMap()== 3){
+            player.setChangeMap(0);
+            player.setCurrentPos(sf::Vector2u (map.getWidth() - position.x - 1, position.y));
+            player.setPosition(32.f*player.getCurrentPos().x , 32.f*player.getCurrentPos().y);
+            maps.setMap_map1();
+            level = maps.getLevel();
+            NPCs = maps.getNPCs();
+            if (!map.load("texture/texture_decor/tileset.png", sf::Vector2u(32.f, 32.f), level)) {
+                std::cerr << "Erreur lors du chargement de la carte" << std::endl;
+                std::exit(-1);
+            }
+        }
+    // }
 }
 
 void InGame::drawConfirmationWindow(sf::RenderWindow& window) {

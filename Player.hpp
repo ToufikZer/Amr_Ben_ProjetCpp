@@ -27,7 +27,22 @@ public:
         return direction;
     }
 
-    sf::Vector2u getCurrentPos();
+    sf::Vector2u getCurrentPos(){
+        return current_pos;
+    }
+
+    void setCurrentPos(sf::Vector2u pos){
+        current_pos.x =  pos.x;
+        current_pos.y =  pos.y;
+    }
+    void setChangeMap(int value){
+        change_map = value;
+    }
+
+    int getChangeMap(){
+        return change_map;
+    }
+
 
 private:
     sf::SoundBuffer buffer;
@@ -40,5 +55,5 @@ private:
     sf::Vector2u current_pos;
     std::string direction;
     bool can_talk = false;
-    
+    int change_map;
 };
