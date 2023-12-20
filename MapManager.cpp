@@ -11,6 +11,7 @@ void MapManager::setMap_map1(){
         std::exit(-1);
     }
     music.setVolume(1);
+    music.setLoop(true);
     music.play();   
     for(int i = 1; i < 10000; i++)
         {
@@ -36,7 +37,7 @@ void MapManager::setMap_map1(){
 
     NPCs.clear();
     NPCs.push_back(NPC("texture/texture_npc/npcpkmn.png", 8, 13, {"Salut", "test", "caca"},"RULD"));
-    NPCs.push_back(NPC("texture/texture_npc/npcpkmn.png", 0, 8, {"Salut2", "pioupiou", "hello!"},"RRRUUUDDDLLL"));
+    NPCs.push_back(NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut2", "pioupiou", "hello!"},"RRUUUDDDLL"));
 
     ChangeTile.clear();
     ChangeTile.push_back({sf::Vector2u(0,7)});
@@ -48,6 +49,7 @@ void MapManager::setMap_map1(){
             std::exit(-1);
         }
         music.setVolume(1);
+        music.setLoop(true);
         music.play();
         for(int i = 1; i < 10000; i++)
         {
