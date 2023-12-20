@@ -11,7 +11,7 @@ void MapManager::setMap_map1(){
         std::exit(-1);
     }
     music.setVolume(1);
-    music.play();
+    music.play();   
         level  = 
         {{0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1},
         {0,1,1,1,1,1,1,0,0,0,0,2,0,0,0,0},

@@ -25,6 +25,10 @@ public:
 
     void setMap_map2();
 
+    sf::Music& getMusic(){
+        return music;
+    }
+
 private:
     std::vector<std::vector<int>> level;
     std::vector<NPC> NPCs;

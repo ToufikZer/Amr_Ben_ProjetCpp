@@ -75,16 +75,10 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
             if (event.key.code == sf::Keyboard::Escape) {
                 escape_menu = true;
             }
-            if (event.key.code == sf::Keyboard::R) {
-                //window.clear();
-                maps.setMap_map2();
-                level = maps.getLevel();
-                NPCs = maps.getNPCs();
-                if (!map.load("texture/texture_decor/tileset.png", sf::Vector2u(32.f, 32.f), level)) {
-                std::cerr << "Erreur lors du chargement de la carte" << std::endl;
-                std::exit(-1);
-                }           
-            }
+            // if (event.key.code == sf::Keyboard::R) {
+            //     //window.clear();
+            //     backmenu = true;
+            //     }           
         }
         if (event.type == sf::Event::MouseButtonPressed)
         {
@@ -151,6 +145,7 @@ GameState* InGame::getNextState(){
     if(backmenu){
         backmenu = false;
         escape_menu = false;
+        maps.getMusic().stop();
         return new MainMenu(window);
     }
     return nullptr;
