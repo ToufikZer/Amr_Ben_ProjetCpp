@@ -16,8 +16,8 @@
     is_talking(false) {
         // Charger la texture du joueur
         if (!m_texture.loadFromFile(texturePath)) {
-            // Gestion de l'erreur si le chargement échoue
-            // ...
+            std::cerr << "Erreur lors du chargement de la texture" << std::endl;
+            std::exit(-1);
         }
 
         // Initialisation du tableau de sommets (quad pour le joueur)
@@ -220,7 +220,7 @@ void NPC::play_voice(){
         }
         npc_sound.setBuffer(buffer);
         npc_sound.setPlayingOffset(sf::seconds(delay));
-        npc_sound.setVolume(50);
+        npc_sound.setVolume(25);
         //std::cout << playsound << std::endl;
         if (playsound) npc_sound.play();
         else{

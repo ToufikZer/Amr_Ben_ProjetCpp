@@ -10,7 +10,7 @@ void MapManager::setMap_map1(){
         std::cerr << "Erreur lors du chargement du son" << std::endl;
         std::exit(-1);
     }
-    music.setVolume(0.5);
+    music.setVolume(1);
     music.play();
         level  = 
         {{0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1},
@@ -43,7 +43,7 @@ void MapManager::setMap_map1(){
             std::cerr << "Erreur lors du chargement du son" << std::endl;
             std::exit(-1);
         }
-        music.setVolume(0.5);
+        music.setVolume(1);
         music.play();
         level  = 
         {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},

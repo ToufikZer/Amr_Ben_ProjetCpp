@@ -29,9 +29,11 @@ public:
 
     sf::Vector2u getCurrentPos();
 
-    sf::SoundBuffer buffer;
-    sf::Sound pas_sound;
 private:
+    sf::SoundBuffer buffer;
+    sf::SoundBuffer buffer_bump;
+    sf::Sound pas_sound;
+    sf::Sound bump_sound;
     sf::Time elapsed;  // Temps écoulé depuis la dernière mise à jour
     sf::Texture m_texture;
     sf::VertexArray m_vertices;

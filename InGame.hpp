@@ -7,7 +7,9 @@
 #include "Player.hpp"
 #include "NPC.hpp"
 #include "GameState.hpp"
+#include "MainMenu.hpp"
 #include "MapManager.hpp"
+#include "Keybinds.hpp"
 
 class InGame : public GameState {
 public:
@@ -16,6 +18,7 @@ public:
     void handleEvent(sf::Event& event, sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window);
     void draw(sf::RenderWindow& window);
+    GameState* getNextState() ;
 
 private:
     sf::RenderWindow& window;
@@ -27,10 +30,28 @@ private:
     std::vector<NPC> NPCs;
     MapManager maps;
 
+    bool backmenu;
+    bool escape_menu = false;
     bool isTalking;
     NPC* npcThatWasTalking;
     int currentMessage;
 
+
+    sf::RectangleShape back_menu;
+    sf::Text question;
+    sf::Text yesText;
+    sf::Text cancelText;
+    sf::RectangleShape line;
+
     void initialize();
     void CheckChangeMap(sf::Vector2u position);
+    void drawConfirmationWindow(sf::RenderWindow& window);
+
+    void HighlightCancel();
+    void ResetCancel();
+    void HighlightYes();
+    void ResetYes();
+
+    void Detect_Yes(sf::RenderWindow& window);
+    void Detect_Cancel(sf::RenderWindow& window);
 };

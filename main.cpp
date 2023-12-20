@@ -20,7 +20,7 @@ int main() {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
-
+                
             // Passe l'événement à l'état actuel pour traitement
             currentState->handleEvent(event, window);
         }

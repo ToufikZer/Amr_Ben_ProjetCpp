@@ -11,14 +11,12 @@ MainMenu::MainMenu(sf::RenderWindow& window)
       start_game(false),
       keybinds(false),
       keyboard_pressed(false) {
-        // std::cout << "je suis dans mainmenu" << std::endl;
+        //std::cout << "je suis dans mainmenu" << std::endl;
     if (!font.loadFromFile("font/Aller_Rg.ttf")) {
-        // Gestion de l'erreur lors du chargement de la police
         std::cerr << "Erreur lors du chargement de la police" << std::endl;
         std::exit(-1);
     }
     if (!backgroundTexture.loadFromFile("texture/texture_decor/Titlescreen.jpg")) {
-        // Gestion de l'erreur si le chargement échoue
         std::cerr << "Erreur lors du chargement de l'image de fond" << std::endl;
         std::exit(-1);
 }
@@ -33,21 +31,15 @@ MainMenu::MainMenu(sf::RenderWindow& window)
 
     startText.setFont(font);
     startText.setString("Start Game");
-    startText.setCharacterSize(44);
-    startText.setPosition(window.getSize().x*0.46, 0.44*window.getSize().y);
-    startText.setFillColor(sf::Color(50,200,50,250));
+    ResetStart();
 
     ctrlText.setFont(font);
     ctrlText.setString("How to Play");
-    ctrlText.setCharacterSize(44);
-    ctrlText.setPosition(window.getSize().x*0.46, 0.55*window.getSize().y);
-    ctrlText.setFillColor(sf::Color(200,150,150,250));
+    ResetCtrl();
 
     exitText.setFont(font);
     exitText.setString("Exit");
-    exitText.setCharacterSize(44);
-    exitText.setPosition(window.getSize().x*0.46, 0.66*window.getSize().y);
-    exitText.setFillColor(sf::Color(200,50,50,250));
+    ResetExit();
 
     window.setKeyRepeatEnabled(false);
 }
@@ -231,35 +223,35 @@ void MainMenu::executeOption(){
 void MainMenu::HighlightStart(){
     startText.setCharacterSize(50);
     startText.setFillColor(sf::Color(200,200,50,250));
-    startText.setPosition(window.getSize().x*0.46, 0.43*window.getSize().y);
+    startText.setPosition(window.getSize().x*0.43, 0.43*window.getSize().y);
 }
 
 void MainMenu::ResetStart(){
     startText.setCharacterSize(44);
-    startText.setPosition(window.getSize().x*0.46, 0.44*window.getSize().y);
+    startText.setPosition(window.getSize().x*0.43, 0.44*window.getSize().y);
     startText.setFillColor(sf::Color(50,200,50,250));
 }
 
 void MainMenu::HighlightCtrl(){
     ctrlText.setCharacterSize(50);
     ctrlText.setFillColor(sf::Color(200,200,50,250));
-    ctrlText.setPosition(window.getSize().x*0.46, 0.54*window.getSize().y);
+    ctrlText.setPosition(window.getSize().x*0.43, 0.54*window.getSize().y);
 }
 
 void MainMenu::ResetCtrl(){
     ctrlText.setCharacterSize(44);
-    ctrlText.setPosition(window.getSize().x*0.46, 0.55*window.getSize().y);
+    ctrlText.setPosition(window.getSize().x*0.43, 0.55*window.getSize().y);
     ctrlText.setFillColor(sf::Color(200,150,150,250));
 }
 
 void MainMenu::HighlightExit(){
     exitText.setCharacterSize(50);
     exitText.setFillColor(sf::Color(200,200,50,250));
-    exitText.setPosition(window.getSize().x*0.46, 0.65*window.getSize().y);
+    exitText.setPosition(window.getSize().x*0.43, 0.65*window.getSize().y);
 }
 
 void MainMenu::ResetExit(){
     exitText.setCharacterSize(44);
-    exitText.setPosition(window.getSize().x*0.46, 0.66*window.getSize().y);
+    exitText.setPosition(window.getSize().x*0.43, 0.66*window.getSize().y);
     exitText.setFillColor(sf::Color(200,50,50,250));
 }
