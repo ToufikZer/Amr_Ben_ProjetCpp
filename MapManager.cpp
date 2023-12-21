@@ -1,81 +1,20 @@
 #include "iostream"
 #include "MapManager.hpp"
 #include <SFML/Audio.hpp>
+#include "MapInstances.hpp"
+
+Map map1 = MAP1;
+Map map2 = MAP2;
+Map map3 = MAP3;
+
+MapManager::MapManager(){
+    MapMap = {{map2,map3,map1},
+              {map3,map1,map2}};
+    current_map = sf::Vector2u(1,1); 
+}
 
 
 
-void MapManager::setMap_map1(){
-    //std::cout << "ok" << std::endl;
-    if (!music.openFromFile("sound/music/music1.ogg")){
-        std::cerr << "Erreur lors du chargement du son" << std::endl;
-        std::exit(-1);
-    }
-    music.setVolume(1);
-    music.setLoop(true);
-    music.play();   
-    for(int i = 1; i < 10000; i++)
-        {
-            music.setVolume(1 + i/500000);
-        }
-        level  = 
-        {{0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1},
-        {0,1,1,1,1,1,1,0,0,0,0,2,0,0,0,0},
-        {1,1,0,0,0,0,0,0,3,3,3,3,3,3,3,3},
-        {0,1,0,0,2,3,3,3,3,0,1,1,1,0,0,0}, // modem limeaire idéoriginel
-        {0,1,1,0,3,3,3,0,0,0,1,1,1,2,0,0},
-        {0,0,1,0,3,0,2,2,0,0,1,1,1,1,2,0},
-        {2,0,1,0,3,0,2,2,2,0,1,1,1,1,1,1},
-        {0,0,1,0,3,2,2,2,0,0,0,0,1,1,1,1},
-        {0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1},
-        {2,1,1,1,1,0,1,0,0,0,0,2,0,0,0,0},
-        {1,1,0,0,0,0,0,0,3,0,3,3,3,3,3,3},
-        {0,1,0,0,2,0,3,3,3,0,1,1,1,0,0,0},
-        {0,1,1,0,3,3,3,0,0,0,1,1,1,2,0,0},
-        {0,0,1,0,3,0,2,2,0,0,1,1,1,1,2,0},
-        {2,0,1,0,3,0,2,2,2,0,1,1,1,1,1,1},
-        {0,0,1,0,3,2,2,2,0,0,0,0,1,1,1,1}};
-
-    NPCs.clear();
-    NPCs.push_back(NPC("texture/texture_npc/npcpkmn.png", 8, 13, {"Salut", "test", "caca"},"RULD"));
-    NPCs.push_back(NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut2", "pioupiou", "hello!"},"RRUUUDDDLL"));
-
-    ChangeTile.clear();
-    ChangeTile.push_back({sf::Vector2u(0,7)});
-    }
-
-    void MapManager::setMap_map2(){
-        if (!music.openFromFile("sound/music/music2.ogg")){
-            std::cerr << "Erreur lors du chargement du son" << std::endl;
-            std::exit(-1);
-        }
-        music.setVolume(1);
-        music.setLoop(true);
-        music.play();
-        for(int i = 1; i < 10000; i++)
-        {
-            music.setVolume(1 + i/500000);
-        }
-        level  = 
-        {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0},
-        {0,0,0,0,0,0,0,0,3,3,3,3,3,3,3,3},
-        {0,0,0,0,2,3,3,3,3,0,0,0,0,0,0,0}, // modem limeaire idéoriginel
-        {0,0,0,0,3,3,3,0,0,0,0,0,0,2,0,0},
-        {0,0,0,0,3,0,2,2,0,0,0,0,0,0,2,0},
-        {2,0,0,0,3,0,2,2,2,0,0,0,0,0,0,0},
-        {0,0,0,0,3,2,2,2,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-        {2,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0},
-        {0,0,0,0,0,0,0,0,3,3,3,3,3,3,3,3},
-        {0,0,0,0,2,0,3,3,3,0,0,0,0,0,0,0},
-        {0,0,0,0,3,3,3,0,0,0,0,0,0,2,0,0},
-        {0,0,0,0,3,0,2,2,0,0,0,0,0,0,2,0},
-        {2,0,0,0,3,0,2,2,2,0,0,0,0,0,0,0},
-        {0,0,0,0,3,2,2,2,0,0,0,0,0,0,0,0}};
-    NPCs.clear();
-    NPCs.push_back(NPC("texture/texture_npc/npcpkmn.png", 9, 9, {"Salut", "test", "caca"},"RULD"));
-    NPCs.push_back(NPC("texture/texture_npc/npcpkmn.png", 0, 3, {"Salut2", "pioupiou", "hello!"},"RULD"));
-    
-    ChangeTile.clear();
-    ChangeTile.push_back(sf::Vector2u(7,4));
-    }
+// MapManager::~MapManager() {
+//     delete[] MapMap;
+// }

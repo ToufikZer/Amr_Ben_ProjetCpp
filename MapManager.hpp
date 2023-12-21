@@ -3,35 +3,37 @@
 #include "TileMap.hpp"
 #include "NPC.hpp"
 #include "SFML/Audio.hpp"
+#include "Map.hpp"
 
-class MapManager {
-public:
-    // une methode par map qui set la valeur de level, dimension et npc
-    std::vector<std::vector<int>> const& getLevel() const
-    {
-        return level;
-    }
-    std::vector<NPC> const& getNPCs() const
-    {
-        return NPCs;
+class MapManager{
+    public:
+    MapManager();
+    // ~MapManager();
+
+    std::vector<std::vector<Map>> getMapMap(){
+        return MapMap;
     }
 
-    std::vector<sf::Vector2u> const& getChangeTile() const
-    {
-        return ChangeTile;
+    sf::Vector2u getCurrentMap(){
+        return current_map;
     }
 
-    void setMap_map1();
-
-    void setMap_map2();
-
-    sf::Music& getMusic(){
-        return music;
+    void setNextCurrentMap(){
+        current_map.y += 1;
     }
 
+    void setPreviousCurrentMap(){
+        current_map.y -= 1;
+    }
+
+    void setUpCurrentMap(){
+        current_map.x -= 1;
+    }
+
+    void setDownCurrentMap(){
+        current_map.x += 1;
+    }
 private:
-    std::vector<std::vector<int>> level;
-    std::vector<NPC> NPCs;
-    std::vector<sf::Vector2u> ChangeTile;
-    sf::Music music;
+    std::vector<std::vector<Map>> MapMap;
+    sf::Vector2u current_map;
 };

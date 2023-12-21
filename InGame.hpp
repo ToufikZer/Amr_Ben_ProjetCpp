@@ -9,6 +9,7 @@
 #include "GameState.hpp"
 #include "MainMenu.hpp"
 #include "MapManager.hpp"
+#include "Map.hpp"
 #include "Keybinds.hpp"
 
 class InGame : public GameState {
@@ -24,6 +25,8 @@ private:
     sf::RenderWindow& window;
     sf::View view;
     sf::Font font;
+    sf::Music music;
+    std::string MusicPath;
     TileMap map;
     std::vector<std::vector<int>> level;     
     Player player;
