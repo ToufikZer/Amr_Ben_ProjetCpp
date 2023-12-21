@@ -8,9 +8,8 @@ Map map2 = MAP2;
 Map map3 = MAP3;
 
 MapManager::MapManager(){
-    MapMap = {{map2,map3,map1},
-              {map3,map1,map2}};
-    current_map = sf::Vector2u(1,1); 
+    MapMap = {{map3,map1,map2}};
+    current_map = sf::Vector2u(0,1); 
 }
 
 
