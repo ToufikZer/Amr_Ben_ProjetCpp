@@ -10,15 +10,9 @@ public:
     PseudoInterface(sf::RenderWindow& window);
 
     void handleEvent(sf::Event& event, sf::RenderWindow& window);
-    void Detect_OK(sf::RenderWindow& window);
-    void Detect_Back(sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window);
     void draw(sf::RenderWindow& window);
     GameState* getNextState(); 
-    void HighlightOK();
-    void ResetOK();
-    void HighlightBack();
-    void ResetBack();
 
     std::string& getPseudo(){
         return pseudo;
@@ -42,4 +36,11 @@ private:
     bool can_launch;
     bool launch_game;
     bool come_back;
+
+    void Detect_OK(sf::RenderWindow& window);
+    void Detect_Back(sf::RenderWindow& window);
+    void HighlightOK();
+    void ResetOK();
+    void HighlightBack();
+    void ResetBack();
 };

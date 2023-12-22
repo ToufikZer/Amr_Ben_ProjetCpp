@@ -17,29 +17,24 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
     dialogue(dialogue),
     moves(moves),
     is_talking(false) {
-        // Charger la texture du joueur
         if (!m_texture.loadFromFile(texturePath)) {
             std::cerr << "Erreur lors du chargement de la texture" << std::endl;
             std::exit(-1);
         }
 
-        // Initialisation du tableau de sommets (quad pour le joueur)
         m_vertices.setPrimitiveType(sf::Quads);
         m_vertices.resize(4);
 
-        // Définir la géométrie du joueur
         m_vertices[0].position = sf::Vector2f(0.f, 0.f);
         m_vertices[1].position = sf::Vector2f(m_texture.getSize().x /3, 0.f);
         m_vertices[2].position = sf::Vector2f(m_texture.getSize().x/3, m_texture.getSize().y/4);
         m_vertices[3].position = sf::Vector2f(0.f, m_texture.getSize().y/4);
 
-        // Définir les coordonnées de texture pour chaque sommet
         m_vertices[0].texCoords = sf::Vector2f(0.f, ftile_size_npc);
         m_vertices[1].texCoords = sf::Vector2f(m_texture.getSize().x/3, ftile_size_npc);
         m_vertices[2].texCoords = sf::Vector2f(m_texture.getSize().x/3, ftile_size_npc + m_texture.getSize().y/4);
         m_vertices[3].texCoords = sf::Vector2f(0.f, ftile_size_npc + m_texture.getSize().y/4);
 
-        // Appliquer la texture au tableau de sommets
         m_vertices[0].color = sf::Color::White;
         m_vertices[1].color = sf::Color::White;
         m_vertices[2].color = sf::Color::White;
@@ -52,37 +47,28 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
     sf::Vector2u NPC::getCurrentPos(){
     return current_pos;
 }
-    // Implémentez la fonction draw pour dessiner le joueur
     void NPC::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-        states.transform *= getTransform(); // Appliquer la transformation
-        states.texture = &m_texture; // Appliquer la texture
-
-        // Dessiner le joueur en utilisant le tableau de sommets
+        states.transform *= getTransform(); 
+        states.texture = &m_texture; 
         target.draw(m_vertices, states);
     }
-
-    bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs,Player player){
-        for (NPC& npc : NPCs){
-            //std::cout << plan[0] << ";" << plan[10] <<std::endl;
-        if ((plan[(position.y)][(position.x)] != 0 )
-            || 
-            (position.x == npc.getCurrentPos().x && position.y == npc.getCurrentPos().y )
-            ||
-            (position.x == player.getCurrentPos().x && position.y == player.getCurrentPos().y)){
-        return true;
-        }
-        }
-        return false;
+bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs,Player player, std::vector<Obstacle> obstacles){
+        if (plan[(position.y)][(position.x)] != 0) return true;
+    for (NPC& npc : NPCs){
+        if (collision_npcs(position, NPCs)) return true;
     }
+    for (Obstacle& obstacle : obstacles){
+        if (collision_obstacles(position, obstacles)) return true;
+    }
+        if ((position.x == player.getCurrentPos().x && position.y == player.getCurrentPos().y)) return true;
+    return false;
+}
 
-    // Mettez à jour la position du joueur en fonction des entrées utilisateur
-    void NPC::update(Player& player,const sf::Time& deltaTime, unsigned int map_width, unsigned int map_height, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs) {
+    void NPC::update(Player& player,const sf::Time& deltaTime, unsigned int map_width, unsigned int map_height, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles) {
         int moveDelay = 500;
         sf::Vector2u new_position;
         float speed = ftile_size_npc;
-        // std::srand(static_cast<unsigned int>(std::time(nullptr)));   
         if (is_talking){
-        // std::cout << "is_talking" << std::endl;
             if (player.getDirection() == "R") update_texture(0,2, sf::Vector2f(ftile_size_npc,ftile_size_npc));
             if (player.getDirection() == "L") update_texture(2,3, sf::Vector2f(ftile_size_npc,ftile_size_npc));
             if (player.getDirection() == "D") update_texture(0,0, sf::Vector2f(ftile_size_npc,ftile_size_npc));
@@ -94,13 +80,12 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
                 current_move = 0;
             }
             char movement = moves[current_move];
-            // std::cout << movement << std::endl;
 
             if(elapsed.asMilliseconds() >= moveDelay){
                 if (movement == 'R'){
                     new_position.x = (current_pos.x + 1); 
                     new_position.y = current_pos.y;
-                    if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs, player)){
+                    if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs, player, obstacles)){
                     move(speed, 0.f); 
                     current_pos.x += 1;
                     current_move += 1;
@@ -109,11 +94,10 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
 
                     elapsed = sf::Time::Zero;
                 }   
-            // else {elapsed += deltaTime;}
                 else if (movement == 'U'){
                     new_position.x = (current_pos.x); 
                     new_position.y = current_pos.y - 1;
-                    if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs, player)){
+                    if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs, player, obstacles)){
                     move(0.f, -speed); 
                     current_pos.y -= 1;
                     current_move += 1;
@@ -121,11 +105,10 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
                     update_texture(0,0, sf::Vector2f(ftile_size_npc,ftile_size_npc));
                     elapsed = sf::Time::Zero;
                 }
-            // else {elapsed += deltaTime;}
                 else if (movement == 'L'){
                     new_position.x = (current_pos.x - 1); 
                     new_position.y = current_pos.y;
-                    if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs, player)){
+                    if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs, player, obstacles)){
                     move(-speed, 0.f); 
                     current_pos.x -= 1;
                     current_move += 1;
@@ -133,11 +116,10 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
                     update_texture(0,2, sf::Vector2f(ftile_size_npc,ftile_size_npc));
                     elapsed = sf::Time::Zero;
                 }
-            // else {elapsed += deltaTime;}
                 else if (movement == 'D'){
                     new_position.x = (current_pos.x); 
                     new_position.y = current_pos.y +1;
-                    if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs, player)){
+                    if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs, player, obstacles)){
                     move(0.f, speed); 
                     current_pos.y += 1;
                     current_move += 1;
@@ -152,7 +134,6 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
     }
     }
     void NPC::update_texture(unsigned int u,unsigned int v, sf::Vector2f tileSize){
-        // std::cout << u << "," << tileSize.x << "," << tileSize.y << std::endl;
         m_vertices[0].texCoords = sf::Vector2f(u * tileSize.x, v*tileSize.y);
         m_vertices[1].texCoords = sf::Vector2f((u + 1) * tileSize.x, v*tileSize.y);
         m_vertices[2].texCoords = sf::Vector2f((u + 1) * tileSize.x, (v+1)*tileSize.y);
@@ -160,12 +141,7 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
         }
 
     void NPC::sendMessage(sf::RenderWindow& window, sf::FloatRect ViewRect, sf::Font& font, std::string dialogue){
-        //std::cout << window.getSize().x << ";" << window.getSize().y << std::endl;
-        // if (!buffer.loadFromFile("sound/sound/npc_voice.wav")){
-        //     std::cerr << "Erreur lors du chargement du son" << std::endl;
-        //     std::exit(-1);
-        // }
-        // npc_sound.setBuffer(buffer);
+
         sf::Text message;
         message.setFont(font);
         message.setString(dialogue);
@@ -182,7 +158,6 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
         sf::RectangleShape blueRectangleLeft(sf::Vector2f(0.0093*ViewRect.height, rectangleHeight));
         sf::RectangleShape blueRectangleRight(sf::Vector2f(0.0093*ViewRect.height, rectangleHeight));
         sf::RectangleShape blueRectangleBot(sf::Vector2f(rectangleWidth, 0.0093*ViewRect.height));
-        //std::cout << rectangleX << ";" << rectangleY << ";" << rectangleWidth << ";" << rectangleHeight << ";" << std::endl;
         blueRectangle.setPosition(rectangleX, rectangleY);
         blueRectangle.setFillColor(sf::Color(200, 200, 200, 100));
         blueRectangleTop.setPosition(rectangleX, rectangleY);
@@ -212,11 +187,9 @@ void NPC::play_voice(){
         npc_sound.setBuffer(buffer);
         npc_sound.setPlayingOffset(sf::seconds(delay));
         npc_sound.setVolume(25);
-        //std::cout << playsound << std::endl;
         if (playsound) npc_sound.play();
         else{
             npc_sound.play();
-            //sf::sleep(sf::seconds(2));
             npc_sound.stop();
         }
         delay += 2;

@@ -8,7 +8,6 @@
 class MapManager{
     public:
     MapManager();
-    // ~MapManager();
 
     std::vector<std::vector<Map>> getMapMap(){
         return MapMap;

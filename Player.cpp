@@ -105,7 +105,6 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
         float speed = ftile_size;
     if(!is_talking){
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            // std::cout << "ok" << std::endl;
             new_position.x = (current_pos.x + 1); 
             new_position.y = current_pos.y;
             if(!in_map(map_width, map_height, new_position)) setChangeMap(3);

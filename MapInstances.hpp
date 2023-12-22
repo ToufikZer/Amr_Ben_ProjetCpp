@@ -40,7 +40,7 @@
                     {1,0,0,0,3,0,2,2,0,0,0,0,0,0,2,1}, \
                     {1,0,0,0,3,0,2,2,2,0,0,0,0,0,0,1}, \
                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}}, \
-                    {(NPC("texture/texture_npc/npcpkmn.png", 9, 9, {"Salut", "test", "caca"},"RULD")), \
+                    {(NPC("texture/texture_npc/npcpkmn.png", 9, 9, {"Salut", "test", "caca"},"UUUUDDDD")), \
                      (NPC("texture/texture_npc/npcpkmn.png", 0, 3, {"Salut2", "pioupiou", "hello!"},"RULD"))}, \
                     {Obstacle("texture/texture_obstacle/Crous.png", 9, 1, sf::Vector2u(10,7), sf::Vector2u(12,7),"U")}, \
                     "sound/music/music2.ogg")

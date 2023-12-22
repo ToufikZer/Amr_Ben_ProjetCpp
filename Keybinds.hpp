@@ -8,12 +8,9 @@ public:
     Keybinds(sf::RenderWindow& window);
 
     void handleEvent(sf::Event& event, sf::RenderWindow& window);
-    void Detect_Back(sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window);
     void draw(sf::RenderWindow& window);
     GameState* getNextState(); 
-    void HighlightBack();
-    void ResetBack();
 
 private:
     sf::RenderWindow& window;
@@ -24,4 +21,7 @@ private:
     sf::Text back;
 
     bool come_back;
+    void Detect_Back(sf::RenderWindow& window);
+    void HighlightBack();
+    void ResetBack();
 };

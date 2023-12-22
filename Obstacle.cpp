@@ -5,14 +5,6 @@
 unsigned int tile_size_obstacle = TILESIZE;
 float ftile_size_obstacle = static_cast<float> (TILESIZE);
 
-
-// Obstacle::Obstacle() : 
-//     ChangeTile1(sf::Vector2f(200,200)),
-//     ChangeTile2(sf::Vector2f(200,200))
-//     {
-
-// }
-
 Obstacle::Obstacle(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y, sf::Vector2u changeTile1, sf::Vector2u changeTile2, std::string direction_to_enter) :
     ChangeTile1(changeTile1),
     ChangeTile2(changeTile2),

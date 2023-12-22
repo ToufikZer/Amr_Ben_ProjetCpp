@@ -8,12 +8,10 @@ PseudoInterface::PseudoInterface(sf::RenderWindow& window):
     come_back(false)
     {
         if (!font.loadFromFile("font/Aller_Rg.ttf")) {
-        // Gestion de l'erreur lors du chargement de la police
         std::cerr << "Erreur lors du chargement de la police" << std::endl;
         std::exit(-1);
         }
         if (!backgroundTexture.loadFromFile("texture/texture_decor/Titlescreen.jpg")) {
-        // Gestion de l'erreur si le chargement échoue
         std::cerr << "Erreur lors du chargement de l'image de fond" << std::endl;
         std::exit(-1);
         }
@@ -94,7 +92,7 @@ void PseudoInterface::handleEvent(sf::Event& event, sf::RenderWindow& window){
                     if (!pseudo.empty()) {
                         pseudo.pop_back();
                     }
-                    // On utilise les caractères ASCII et on retire la touche espace et entrer
+                    // On utilise les caractères ASCII et on retire la touche espace et entrée
                 } else if (event.text.unicode < 128 && event.text.unicode != ' ' && event.text.unicode != 13) { 
                     pseudo += static_cast<char>(event.text.unicode);
                 }
@@ -106,7 +104,6 @@ void PseudoInterface::Detect_OK(sf::RenderWindow& window){
     if (ok.getGlobalBounds().contains(mousePosition.x,mousePosition.y))
     {
         HighlightOK();
-        //std::cout << startText.getGlobalBounds().width << std::endl;
     }
     else{
         ResetOK();
@@ -118,7 +115,6 @@ void PseudoInterface::Detect_Back(sf::RenderWindow& window){
     if (back.getGlobalBounds().contains(mousePosition.x,mousePosition.y))
     {
         HighlightBack();
-        //std::cout << startText.getGlobalBounds().width << std::endl;
     }
     else{
         ResetBack();
@@ -126,7 +122,6 @@ void PseudoInterface::Detect_Back(sf::RenderWindow& window){
 }
 
 void PseudoInterface::update(sf::Time deltaTime, sf::RenderWindow& window){
-    // essayer darranger ca
     float rectangleWidth = window.getSize().x;
     float rectangleHeight = 0.153 * window.getSize().y;
     float rectangleX = 0;
@@ -160,7 +155,6 @@ void PseudoInterface::draw(sf::RenderWindow& window){
 }
 
 GameState* PseudoInterface::getNextState() {
-    // Logique pour déterminer le prochain état (peut être nullptr)
     if(launch_game){
         launch_game = false;
         return new InGame(window);

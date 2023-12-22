@@ -6,12 +6,10 @@ Keybinds::Keybinds(sf::RenderWindow& window):
     come_back(false)
     {
         if (!font.loadFromFile("font/Aller_Rg.ttf")) {
-        // Gestion de l'erreur lors du chargement de la police
         std::cerr << "Erreur lors du chargement de la police" << std::endl;
         std::exit(-1);
         }
         if (!backgroundTexture.loadFromFile("texture/texture_decor/keybinds.png")) {
-        // Gestion de l'erreur si le chargement échoue
         std::cerr << "Erreur lors du chargement de l'image de fond" << std::endl;
         std::exit(-1);
         }
@@ -56,7 +54,6 @@ void Keybinds::Detect_Back(sf::RenderWindow& window){
     if (back.getGlobalBounds().contains(mousePosition.x,mousePosition.y))
     {
         HighlightBack();
-        //std::cout << startText.getGlobalBounds().width << std::endl;
     }
     else{
         ResetBack();
@@ -75,7 +72,6 @@ void Keybinds::draw(sf::RenderWindow& window){
 }
 
 GameState* Keybinds::getNextState() {
-    // Logique pour déterminer le prochain état (peut être nullptr)
     if(come_back){
         come_back = false;
         return new MainMenu(window);

@@ -32,14 +32,6 @@ int main() {
         // Dessin de l'état actuel
         currentState->draw(window);
 
-        // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-        //     // Libère la mémoire de l'état actuel
-        //     delete currentState;
-
-        //     // Passe à l'état suivant (InGame)
-        //     currentState = new MainMenu(window);
-        // }
-        
         GameState* nextState = currentState->getNextState();
         if (nextState != nullptr) {
             // Libérez l'ancien état (dans un projet réel, utilisez std::unique_ptr)
@@ -51,7 +43,6 @@ int main() {
             // on affiche l'écran noir progressivement pour transition
             for (int alpha = 0; alpha <= 25; alpha += 1) {
                 blackoutScreen.setFillColor(sf::Color(150, 150, 150, alpha));
-                //window.clear();
                 window.draw(blackoutScreen);
                 window.display();
                 

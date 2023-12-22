@@ -19,11 +19,7 @@ public:
 
     void update_texture(unsigned int u, sf::Vector2u tileSize);
 
-    bool in_map(unsigned int map_width, unsigned int map_height, sf::Vector2u position);
-
     bool is_looking_at(NPC npc);
-
-    bool collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles);
 
     std::string getDirection(){
         return direction;
@@ -45,15 +41,17 @@ public:
         return change_map;
     }
 
-    sf::FloatRect getGlobalBounds() const {
-        return getTransform().transformRect(m_vertices.getBounds());
-    }
+protected:
+    bool collision_obstacles(sf::Vector2u position, std::vector<Obstacle> obstacles);
+    bool collision_npcs(sf::Vector2u position, std::vector<NPC> NPCs);
+    bool in_map(unsigned int map_width, unsigned int map_height, sf::Vector2u position);
+
 private:
     sf::SoundBuffer buffer;
     sf::SoundBuffer buffer_bump;
     sf::Sound pas_sound;
     sf::Sound bump_sound;
-    sf::Time elapsed;  // Temps écoulé depuis la dernière mise à jour
+    sf::Time elapsed; 
     sf::Texture m_texture;
     sf::VertexArray m_vertices;
     sf::Vector2u current_pos;
@@ -61,7 +59,7 @@ private:
     bool can_talk = false;
     int change_map;
 
-    bool collision_obstacles(sf::Vector2u position, std::vector<Obstacle> obstacles);
 
-    bool collision_npcs(sf::Vector2u position, std::vector<NPC> NPCs);
+    bool collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles);
+
 };

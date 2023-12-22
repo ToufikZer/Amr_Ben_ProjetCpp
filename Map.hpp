@@ -12,7 +12,7 @@ public:
     Map(std::vector<std::vector<int>> level, std::vector<Obstacle> obstacles, std::string MusicPath);
     Map(std::vector<std::vector<int>> level, std::vector<NPC> NPCs, std::string MusicPath);
     Map(std::vector<std::vector<int>> level, std::string MusicPath);
-    // une methode par map qui set la valeur de level, dimension et npc
+    
     std::vector<std::vector<int>> getLevel() const
     {
         return level;
@@ -40,4 +40,3 @@ private:
     std::vector<Obstacle> obstacles;
     std::string MusicPath;
 };
-// extern Map map3;

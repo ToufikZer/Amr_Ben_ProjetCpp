@@ -48,7 +48,6 @@ void InGame::initialize() {
 }
 
 void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
-    // sf::Thread thread(&NPC::play_voice);
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::A) {
                 for (NPC& npc : NPCs) {
@@ -57,7 +56,7 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                         npc.play_voice();
                         isTalking = true;
                         npc.setIsTalking(true);
-                        npc.update(player, sf::Time::Zero, map.getWidth(), map.getHeight(), level, NPCs);
+                        npc.update(player, sf::Time::Zero, map.getWidth(), map.getHeight(), level, NPCs, obstacles);
                         npcThatWasTalking = &npc;
                         break;
                     } else if ((&npc == npcThatWasTalking) && isTalking && (currentMessage < npc.getDialogue().size() - 1))
@@ -119,7 +118,7 @@ void InGame::update(sf::Time deltaTime,sf::RenderWindow& window) {
     player.update(deltaTime, map.getWidth(), map.getHeight(), view, level, NPCs, obstacles, isTalking);
 
     for (NPC& npc : NPCs) {
-        npc.update(player, deltaTime, map.getWidth(), map.getHeight(), level, NPCs);
+        npc.update(player, deltaTime, map.getWidth(), map.getHeight(), level, NPCs, obstacles);
         CheckChangeMap(player.getCurrentPos());
     }
 
@@ -168,8 +167,6 @@ void InGame::draw(sf::RenderWindow& window) {
     window.display();
 }
 
-// PROBLEME DE SEG FAULT
-
 GameState* InGame::getNextState(){
     if(backmenu){
         backmenu = false;
@@ -187,13 +184,10 @@ GameState* InGame::getNextState(){
 
 
 void InGame::CheckChangeMap(sf::Vector2u position){
-    // for (sf::Vector2u tile : maps.getChangeTile()){
-        // std::cout << player.getChangeMap() << std::endl;
         if (player.getChangeMap()== 1){
             player.setChangeMap(0);
             player.setCurrentPos(sf::Vector2u (map.getWidth() - position.x - 1, position.y));
             player.setPosition(ftile_size_ingame*player.getCurrentPos().x , ftile_size_ingame*player.getCurrentPos().y);
-            // std::cout << player.getCurrentPos().x << ";" << player.getCurrentPos().y << std::endl;
             maps.setPreviousCurrentMap();
             MusicPath = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getMusicPath();
             level = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getLevel();
@@ -243,7 +237,6 @@ void InGame::CheckChangeMap(sf::Vector2u position){
             player.setChangeMap(0);
             player.setCurrentPos(sf::Vector2u (position.x, map.getHeight() - position.y - 1));
             player.setPosition(ftile_size_ingame*player.getCurrentPos().x , ftile_size_ingame*player.getCurrentPos().y);
-            // std::cout << player.getCurrentPos().x << ";" << player.getCurrentPos().y << std::endl;
             maps.setUpCurrentMap();
             MusicPath = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getMusicPath();
             level = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getLevel();
@@ -315,7 +308,6 @@ void InGame::drawConfirmationWindow(sf::RenderWindow& window) {
     line.setPosition(250.f, 200.f);
     line.setFillColor(sf::Color(0, 0, 0, 250));
 
-    // Dessiner les éléments sur la fenêtre
 }
 
 void InGame::HighlightCancel(){

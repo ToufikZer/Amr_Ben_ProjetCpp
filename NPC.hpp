@@ -4,15 +4,14 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "Player.hpp"
+#include "Obstacle.hpp"
 
 class NPC : public Player{
 public:
     NPC(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y, std::vector<std::string> dialogue, std::string moves);
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-    bool collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs,Player player);
-
-    void update(Player& player, const sf::Time &deltaTime, unsigned int map_width, unsigned int map_height, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs);
+    void update(Player& player, const sf::Time &deltaTime, unsigned int map_width, unsigned int map_height, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles);
 
     void update_texture(unsigned int u,unsigned int v, sf::Vector2f tileSize);
 
@@ -53,4 +52,6 @@ private:
     float delay = 0;
     bool is_talking;
     bool playsound = true;
+
+    bool collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs,Player player, std::vector<Obstacle> obstacles);
 };

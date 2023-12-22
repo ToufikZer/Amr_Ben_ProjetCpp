@@ -7,9 +7,6 @@ class MainMenu : public GameState {
 public:
     MainMenu(sf::RenderWindow& window);
     void handleEvent(sf::Event& event, sf::RenderWindow& window) ; 
-    void Detect_Start(sf::RenderWindow& window);
-    void Detect_Exit(sf::RenderWindow& window);
-    void Detect_Ctrl(sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window) ;
     void draw(sf::RenderWindow& window) ;
     GameState* getNextState() ;
@@ -31,6 +28,9 @@ private:
     bool keybinds;                  // dit si on doit entrer dans les controles de keybind
     bool keyboard_pressed;          // permet de verifier si le clavier a été pressé pour figer la sélection dans le menu sinon ca highlight que pendant une frame
 
+    void Detect_Start(sf::RenderWindow& window);
+    void Detect_Exit(sf::RenderWindow& window);
+    void Detect_Ctrl(sf::RenderWindow& window);
     void moveUp();
     void moveDown();
     void executeOption();

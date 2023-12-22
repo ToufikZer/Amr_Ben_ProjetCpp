@@ -11,7 +11,6 @@ MainMenu::MainMenu(sf::RenderWindow& window)
       start_game(false),
       keybinds(false),
       keyboard_pressed(false) {
-        //std::cout << "je suis dans mainmenu" << std::endl;
     if (!font.loadFromFile("font/Aller_Rg.ttf")) {
         std::cerr << "Erreur lors du chargement de la police" << std::endl;
         std::exit(-1);
@@ -89,7 +88,6 @@ void MainMenu::Detect_Start(sf::RenderWindow& window){
         keyboard_pressed = false;
         selectedOption = 3;
         HighlightStart();
-        //std::cout << startText.getGlobalBounds().width << std::endl;
     }
     else{
         if (!keyboard_pressed)
@@ -107,7 +105,6 @@ void MainMenu::Detect_Ctrl(sf::RenderWindow& window){
         keyboard_pressed = false;
         selectedOption = 2;
         HighlightCtrl();
-        //std::cout << startText.getGlobalBounds().width << std::endl;
     }
     else{
         if (!keyboard_pressed)
@@ -154,7 +151,6 @@ void MainMenu::draw(sf::RenderWindow& window) {
 }
 
 GameState* MainMenu::getNextState() {
-    // Logique pour déterminer le prochain état (peut être nullptr)
     if(start_game){
         start_game = false;
         return new PseudoInterface(window);
@@ -167,7 +163,6 @@ GameState* MainMenu::getNextState() {
 }
 
 bool MainMenu::isRunning() {
-    // Logique pour déterminer si le MainMenu doit continuer à s'exécuter
     return true;
 }
 

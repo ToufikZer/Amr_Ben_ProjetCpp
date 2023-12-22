@@ -36,5 +36,3 @@ private:
     std::string direction_to_enter;
 };
 
-
-// 7 10/12

@@ -11,9 +11,3 @@ MapManager::MapManager(){
     MapMap = {{map3,map1,map2}};
     current_map = sf::Vector2u(0,1); 
 }
-
-
-
-// MapManager::~MapManager() {
-//     delete[] MapMap;
-// }
