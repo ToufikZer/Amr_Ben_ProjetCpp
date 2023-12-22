@@ -85,7 +85,7 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                 for (Obstacle& obstacle : obstacles) {
                     if (obstacle.getCanEnter()){
                         obstacle.setCanEnter(false);
-                        // player.move(0.f, -ftile_size_ingame);
+                        backmenu = true;
                     }
                 }
 
