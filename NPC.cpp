@@ -8,6 +8,9 @@
 #include <ctime>
 #include <cstring>
 
+unsigned int tile_size_npc = TILESIZE;
+float ftile_size_npc = static_cast<float> (TILESIZE);
+
     NPC::NPC(const std::string& texturePath, unsigned int pos_x,unsigned int pos_y, std::vector<std::string> dialogue, std::string moves): 
     Player(texturePath, pos_x, pos_y),
     current_pos(pos_x,pos_y),
@@ -31,10 +34,10 @@
         m_vertices[3].position = sf::Vector2f(0.f, m_texture.getSize().y/4);
 
         // Définir les coordonnées de texture pour chaque sommet
-        m_vertices[0].texCoords = sf::Vector2f(0.f, 32.f);
-        m_vertices[1].texCoords = sf::Vector2f(m_texture.getSize().x/3, 32.f);
-        m_vertices[2].texCoords = sf::Vector2f(m_texture.getSize().x/3, 32.f + m_texture.getSize().y/4);
-        m_vertices[3].texCoords = sf::Vector2f(0.f, 32.F + m_texture.getSize().y/4);
+        m_vertices[0].texCoords = sf::Vector2f(0.f, ftile_size_npc);
+        m_vertices[1].texCoords = sf::Vector2f(m_texture.getSize().x/3, ftile_size_npc);
+        m_vertices[2].texCoords = sf::Vector2f(m_texture.getSize().x/3, ftile_size_npc + m_texture.getSize().y/4);
+        m_vertices[3].texCoords = sf::Vector2f(0.f, ftile_size_npc + m_texture.getSize().y/4);
 
         // Appliquer la texture au tableau de sommets
         m_vertices[0].color = sf::Color::White;
@@ -42,7 +45,7 @@
         m_vertices[2].color = sf::Color::White;
         m_vertices[3].color = sf::Color::White;
 
-        setPosition(pos_x*32.f,pos_y*32.f);
+        setPosition(pos_x*ftile_size_npc,pos_y*ftile_size_npc);
 
     }
 
@@ -74,31 +77,19 @@
 
     // Mettez à jour la position du joueur en fonction des entrées utilisateur
     void NPC::update(Player& player,const sf::Time& deltaTime, unsigned int map_width, unsigned int map_height, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs) {
-        int moveDelay = 1000;
+        int moveDelay = 500;
         sf::Vector2u new_position;
-        float speed = 32.f;
+        float speed = ftile_size_npc;
         // std::srand(static_cast<unsigned int>(std::time(nullptr)));   
         if (is_talking){
         // std::cout << "is_talking" << std::endl;
-            if (player.getDirection() == "R") update_texture(0,2, sf::Vector2f(32,32));
-            if (player.getDirection() == "L") update_texture(2,3, sf::Vector2f(32,32));
-            if (player.getDirection() == "D") update_texture(0,0, sf::Vector2f(32,32));
-            if (player.getDirection() == "U") update_texture(0,1, sf::Vector2f(32,32));
+            if (player.getDirection() == "R") update_texture(0,2, sf::Vector2f(ftile_size_npc,ftile_size_npc));
+            if (player.getDirection() == "L") update_texture(2,3, sf::Vector2f(ftile_size_npc,ftile_size_npc));
+            if (player.getDirection() == "D") update_texture(0,0, sf::Vector2f(ftile_size_npc,ftile_size_npc));
+            if (player.getDirection() == "U") update_texture(0,1, sf::Vector2f(ftile_size_npc,ftile_size_npc));
         }
         if(!is_talking){
-//IMPLEMENTER LES DEPLACEMENT DU NPC
-        // unsigned int dir = std::rand()%4;
-        // if (elapsed.asMilliseconds() >= moveDelay) {
-        // if (dir == 0) {update_texture(0,2, sf::Vector2f(32,32)); elapsed = sf::Time::Zero;}
-        // if (dir == 1) {update_texture(2,3, sf::Vector2f(32,32)); elapsed = sf::Time::Zero;}
-        // if (dir == 2) {update_texture(0,0, sf::Vector2f(32,32)); elapsed = sf::Time::Zero;}
-        // if (dir == 3) {update_texture(0,1, sf::Vector2f(32,32)); elapsed = sf::Time::Zero;}
-        // }
-        // else{
-        //     elapsed += deltaTime;
-        // }
-        // std::cout << "is_not_talking" << std::endl;
-            // std::cout << current_move << std::endl;
+
             if (current_move == moves.size()){
                 current_move = 0;
             }
@@ -114,8 +105,8 @@
                     current_pos.x += 1;
                     current_move += 1;
                 } 
-                    update_texture(2,3, sf::Vector2f(32,32));
-                    // std::cout << "is_not_talking" << std::endl;
+                    update_texture(2,3, sf::Vector2f(ftile_size_npc,ftile_size_npc));
+
                     elapsed = sf::Time::Zero;
                 }   
             // else {elapsed += deltaTime;}
@@ -127,7 +118,7 @@
                     current_pos.y -= 1;
                     current_move += 1;
                     } 
-                    update_texture(0,0, sf::Vector2f(32,32));
+                    update_texture(0,0, sf::Vector2f(ftile_size_npc,ftile_size_npc));
                     elapsed = sf::Time::Zero;
                 }
             // else {elapsed += deltaTime;}
@@ -139,7 +130,7 @@
                     current_pos.x -= 1;
                     current_move += 1;
                     } 
-                    update_texture(0,2, sf::Vector2f(32,32));
+                    update_texture(0,2, sf::Vector2f(ftile_size_npc,ftile_size_npc));
                     elapsed = sf::Time::Zero;
                 }
             // else {elapsed += deltaTime;}
@@ -151,7 +142,7 @@
                     current_pos.y += 1;
                     current_move += 1;
                     }  
-                    update_texture(0,1, sf::Vector2f(32,32));
+                    update_texture(0,1, sf::Vector2f(ftile_size_npc,ftile_size_npc));
                     elapsed = sf::Time::Zero;
                 }
             }

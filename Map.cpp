@@ -2,9 +2,10 @@
 #include "Map.hpp"
 #include <SFML/Audio.hpp>
 
-Map::Map(std::vector<std::vector<int>> level, std::vector<NPC> NPCs, std::vector<sf::Vector2u> ChangeTile, std::string MusicPath) :
+Map::Map(std::vector<std::vector<int>> level, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, std::vector<sf::Vector2u> ChangeTile, std::string MusicPath) :
     level(level),
     NPCs(NPCs),
+    obstacles(obstacles),
     ChangeTile(ChangeTile),
     MusicPath(MusicPath)
     {

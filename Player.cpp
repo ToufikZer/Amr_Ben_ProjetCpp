@@ -2,9 +2,13 @@
 #include "Player.hpp"
 #include "TileMap.hpp"
 #include "NPC.hpp"
+#include "Obstacle.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
+
+unsigned int tile_size = TILESIZE;
+float ftile_size = static_cast<float> (TILESIZE);
 
 Player::Player(const std::string &texturePath, unsigned int pos_x, unsigned int pos_y) : 
     current_pos(pos_x, pos_y),
@@ -43,7 +47,7 @@ Player::Player(const std::string &texturePath, unsigned int pos_x, unsigned int 
     m_vertices[2].color = sf::Color::White;
     m_vertices[3].color = sf::Color::White;
 
-    setPosition(pos_x * 32.f, pos_y * 32.f);
+    setPosition(pos_x * tile_size, pos_y * tile_size);
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
@@ -64,24 +68,27 @@ bool Player::is_looking_at(NPC npc) {
     return false;
 }
 
-bool Player::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs){
+bool Player::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles){
     for (NPC& npc : NPCs){
-        //std::cout << plan[0] << ";" << plan[10] <<std::endl;
-    if ((plan[(position.y)][(position.x)] != 0 )
-        || 
-       (position.x == npc.getCurrentPos().x && position.y == npc.getCurrentPos().y )){
-        return true;
-    }
+        for (Obstacle& obstacle : obstacles){
+            if ((plan[(position.y)][(position.x)] != 0 )
+                || 
+                (position.x == npc.getCurrentPos().x && position.y == npc.getCurrentPos().y)
+                ||
+                (sf::FloatRect(sf::Vector2f(position.x*ftile_size, position.y*ftile_size), sf::Vector2f(ftile_size, ftile_size)).intersects(obstacle.getGlobalBounds()))){
+                return true;
+            }
+        }
     }
     return false;
 }
-void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned int map_height, sf::View& view, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, bool is_talking) {
+void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned int map_height, sf::View& view, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, bool is_talking) {
     int moveDelay;
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) moveDelay = 250;
     else moveDelay = 500;
     sf::Vector2u new_position;
     if (elapsed.asMilliseconds() >= moveDelay) {
-        float speed = 32.0f;
+        float speed = ftile_size;
     if(!is_talking){
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
             // std::cout << "ok" << std::endl;
@@ -89,7 +96,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
             new_position.y = current_pos.y;
             if(!in_map(map_width, map_height, new_position)) setChangeMap(3);
             else{
-                if (collision(new_position, plan,NPCs)) bump_sound.play();
+                if (collision(new_position, plan,NPCs, obstacles)) bump_sound.play();
                 else {
                     move(speed, 0.f);
                     current_pos.x += 1;
@@ -97,7 +104,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                     pas_sound.play();
                 }
             }
-            update_texture(0, sf::Vector2u(32, 32));
+            update_texture(0, sf::Vector2u(tile_size, tile_size));
             direction = "R";
             elapsed = sf::Time::Zero;
         }
@@ -106,7 +113,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
             new_position.y = current_pos.y - 1;
             if(!in_map(map_width, map_height, new_position)) setChangeMap(2);
             else{
-                if (collision(new_position, plan,NPCs)) bump_sound.play();
+                if (collision(new_position, plan,NPCs, obstacles)) bump_sound.play();
                 else {
                     move(0.f, -speed);
                     current_pos.y -= 1;
@@ -114,7 +121,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                     pas_sound.play();
                 }
             }
-            update_texture(2, sf::Vector2u(32, 32));
+            update_texture(2, sf::Vector2u(tile_size, tile_size));
             direction = "U";
             elapsed = sf::Time::Zero;
         }
@@ -123,7 +130,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
             new_position.y = current_pos.y;
             if(!in_map(map_width, map_height, new_position)) setChangeMap(1);
             else{
-                if (collision(new_position, plan,NPCs)) bump_sound.play();
+                if (collision(new_position, plan,NPCs, obstacles)) bump_sound.play();
                 else {
                     move(-speed, 0.f);
                     current_pos.x -= 1;
@@ -131,7 +138,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                     pas_sound.play();
                 }
             }
-            update_texture(1, sf::Vector2u(32, 32));
+            update_texture(1, sf::Vector2u(tile_size, tile_size));
             direction = "L";
             elapsed = sf::Time::Zero;
         }
@@ -140,7 +147,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
             new_position.y = current_pos.y +1;
             if(!in_map(map_width, map_height, new_position)) setChangeMap(4);
             else{
-                if (collision(new_position, plan,NPCs)) bump_sound.play();
+                if (collision(new_position, plan,NPCs, obstacles)) bump_sound.play();
                 else {
                     move(0.f, speed);
                     current_pos.y += 1;
@@ -148,7 +155,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                     pas_sound.play();
                 }
             }
-            update_texture(3, sf::Vector2u(32, 32));
+            update_texture(3, sf::Vector2u(tile_size, tile_size));
             direction = "D";
             elapsed = sf::Time::Zero;
         }

@@ -6,6 +6,7 @@
 #include "TileMap.hpp"
 #include "Player.hpp"
 #include "NPC.hpp"
+#include "Obstacle.hpp"
 #include "GameState.hpp"
 #include "MainMenu.hpp"
 #include "MapManager.hpp"
@@ -31,6 +32,7 @@ private:
     std::vector<std::vector<int>> level;     
     Player player;
     std::vector<NPC> NPCs;
+    std::vector<Obstacle> obstacles;
     MapManager maps;
 
     bool backmenu;
