@@ -8,7 +8,10 @@
 class Map {
 public:
     Map() = default;
-    Map(std::vector<std::vector<int>> level, std::vector<NPC> NPCs,std::vector<Obstacle> obstacles, std::vector<sf::Vector2u> ChangeTile, std::string MusicPath);
+    Map(std::vector<std::vector<int>> level, std::vector<NPC> NPCs,std::vector<Obstacle> obstacles, std::string MusicPath);
+    Map(std::vector<std::vector<int>> level, std::vector<Obstacle> obstacles, std::string MusicPath);
+    Map(std::vector<std::vector<int>> level, std::vector<NPC> NPCs, std::string MusicPath);
+    Map(std::vector<std::vector<int>> level, std::string MusicPath);
     // une methode par map qui set la valeur de level, dimension et npc
     std::vector<std::vector<int>> getLevel() const
     {
@@ -25,11 +28,6 @@ public:
         return obstacles;
     }
 
-    std::vector<sf::Vector2u> const& getChangeTile() const
-    {
-        return ChangeTile;
-    }
-
     std::string getMusicPath(){
         return MusicPath;
     }
@@ -40,7 +38,6 @@ private:
     std::vector<std::vector<int>> level;
     std::vector<NPC> NPCs;
     std::vector<Obstacle> obstacles;
-    std::vector<sf::Vector2u> ChangeTile;
     std::string MusicPath;
 };
 // extern Map map3;

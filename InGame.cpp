@@ -81,14 +81,19 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                         }
                     }
                 }
+
+                for (Obstacle& obstacle : obstacles) {
+                    if (obstacle.getCanEnter()){
+                        obstacle.setCanEnter(false);
+                        // player.move(0.f, -ftile_size_ingame);
+                    }
+                }
+
             }
             if (event.key.code == sf::Keyboard::Escape) {
                 escape_menu = true;
             }
-            // if (event.key.code == sf::Keyboard::R) {
-            //     //window.clear();
-            //     backmenu = true;
-            //     }           
+                      
         }
         if (event.type == sf::Event::MouseButtonPressed)
         {
@@ -112,10 +117,16 @@ void InGame::update(sf::Time deltaTime,sf::RenderWindow& window) {
     if (!escape_menu)
     {
     player.update(deltaTime, map.getWidth(), map.getHeight(), view, level, NPCs, obstacles, isTalking);
+
     for (NPC& npc : NPCs) {
         npc.update(player, deltaTime, map.getWidth(), map.getHeight(), level, NPCs);
         CheckChangeMap(player.getCurrentPos());
     }
+
+    for (Obstacle& obstacle : obstacles) {
+        obstacle.update(player, deltaTime);
+    }
+
     }
     if (escape_menu) 
     {
@@ -131,15 +142,20 @@ void InGame::draw(sf::RenderWindow& window) {
     window.clear();
     window.draw(map);
     window.draw(player);
-    for (NPC& npc : NPCs) {
-        window.draw(npc);
-        if (isTalking && (&npc == npcThatWasTalking)) {
-            npc.sendMessage(window, viewRect, font, npc.getDialogue()[currentMessage]);
+
+    if(NPCs.size()> 0) {
+        for (NPC& npc : NPCs) {
+            window.draw(npc);
+            if (isTalking && (&npc == npcThatWasTalking)) {
+                npc.sendMessage(window, viewRect, font, npc.getDialogue()[currentMessage]);
+            }
         }
     }
 
-    for (Obstacle& obstacle : obstacles) {
-        window.draw(obstacle);
+    if(obstacles.size()> 0) {
+        for (Obstacle& obstacle : obstacles) {
+            window.draw(obstacle);
+        }
     }
 
     if (escape_menu) {

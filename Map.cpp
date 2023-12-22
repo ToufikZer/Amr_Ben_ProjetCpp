@@ -2,18 +2,34 @@
 #include "Map.hpp"
 #include <SFML/Audio.hpp>
 
-Map::Map(std::vector<std::vector<int>> level, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, std::vector<sf::Vector2u> ChangeTile, std::string MusicPath) :
+Map::Map(std::vector<std::vector<int>> level, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, std::string MusicPath) :
     level(level),
     NPCs(NPCs),
     obstacles(obstacles),
-    ChangeTile(ChangeTile),
     MusicPath(MusicPath)
     {
-    // if (!music.openFromFile(MusicPath)){ 
-    //     std::cerr << "Erreur lors du chargement du son" << std::endl;
-    //     std::exit(-1);
-    // }
-    // music.setVolume(1);
-    // music.setLoop(true);
-    // music.play();  
+
+}
+
+Map::Map(std::vector<std::vector<int>> level, std::vector<Obstacle> obstacles, std::string MusicPath) :
+    level(level),
+    obstacles(obstacles),
+    MusicPath(MusicPath)
+    {
+        
+}
+
+Map::Map(std::vector<std::vector<int>> level, std::vector<NPC> NPCs, std::string MusicPath) :
+    level(level),
+    NPCs(NPCs),
+    MusicPath(MusicPath)
+    {
+        
+}
+
+Map::Map(std::vector<std::vector<int>> level, std::string MusicPath) :
+    level(level),
+    MusicPath(MusicPath)
+    {
+        
 }

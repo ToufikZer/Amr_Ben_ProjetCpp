@@ -22,8 +22,6 @@
                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}}, \
                     {(NPC("texture/texture_npc/npcpkmn.png", 8, 13, {"Salut", "test", "caca"},"RULD")), \
                      (NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut2", "pioupiou", "hello!"},"RRUUUDDDLL"))}, \
-                    {Obstacle()}, \
-                    {sf::Vector2u(0,7)}, \
                     "sound/music/music1.ogg")
 
 #define MAP2 Map({{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, \
@@ -44,8 +42,7 @@
                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}}, \
                     {(NPC("texture/texture_npc/npcpkmn.png", 9, 9, {"Salut", "test", "caca"},"RULD")), \
                      (NPC("texture/texture_npc/npcpkmn.png", 0, 3, {"Salut2", "pioupiou", "hello!"},"RULD"))}, \
-                    {Obstacle("texture/texture_obstacle/crous.png", 9, 2)}, \
-                    {sf::Vector2u(7,4)}, \
+                    {Obstacle("texture/texture_obstacle/Crous.png", 9, 1, sf::Vector2u(10,7), sf::Vector2u(12,7),"U")}, \
                     "sound/music/music2.ogg")
 
 
@@ -68,6 +65,4 @@
                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}}, \
                     {(NPC("texture/texture_npc/npcpkmn.png", 8, 13, {"Voulez vous manger avec moi?", "QUOI, COMMENT CA NON", "CETAIT UNE PIZZA AU CACA"},"RUUULRRDULLRDDDL")), \
                      (NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut2", "pioupiou", "hello!"},"RRUUUDDDLL"))}, \
-                    {Obstacle()}, \
-                    {sf::Vector2u(0,7)}, \
                     "sound/music/music1.ogg")

@@ -60,4 +60,8 @@ private:
     std::string direction;
     bool can_talk = false;
     int change_map;
+
+    bool collision_obstacles(sf::Vector2u position, std::vector<Obstacle> obstacles);
+
+    bool collision_npcs(sf::Vector2u position, std::vector<NPC> NPCs);
 };

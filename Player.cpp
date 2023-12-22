@@ -68,17 +68,31 @@ bool Player::is_looking_at(NPC npc) {
     return false;
 }
 
-bool Player::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles){
-    for (NPC& npc : NPCs){
-        for (Obstacle& obstacle : obstacles){
-            if ((plan[(position.y)][(position.x)] != 0 )
-                || 
-                (position.x == npc.getCurrentPos().x && position.y == npc.getCurrentPos().y)
-                ||
-                (sf::FloatRect(sf::Vector2f(position.x*ftile_size, position.y*ftile_size), sf::Vector2f(ftile_size, ftile_size)).intersects(obstacle.getGlobalBounds()))){
-                return true;
-            }
+bool Player::collision_obstacles(sf::Vector2u position, std::vector<Obstacle> obstacles){
+    for (Obstacle& obstacle : obstacles){
+        if (sf::FloatRect(sf::Vector2f(position.x*ftile_size, position.y*ftile_size), sf::Vector2f(ftile_size, ftile_size)).intersects(obstacle.getGlobalBounds())){
+            return true;
         }
+    }
+    return false;
+}
+
+bool Player::collision_npcs(sf::Vector2u position, std::vector<NPC> NPCs){
+    for (NPC& npc : NPCs){
+        if (position.x == npc.getCurrentPos().x && position.y == npc.getCurrentPos().y){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Player::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles){
+    if (plan[(position.y)][(position.x)] != 0) return true;
+    for (NPC& npc : NPCs){
+        if (collision_npcs(position, NPCs)) return true;
+    }
+    for (Obstacle& obstacle : obstacles){
+        if (collision_obstacles(position, obstacles)) return true;
     }
     return false;
 }
