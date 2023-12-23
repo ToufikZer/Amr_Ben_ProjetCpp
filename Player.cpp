@@ -10,7 +10,7 @@
 unsigned int tile_size = TILESIZE;
 float ftile_size = static_cast<float> (TILESIZE);
 
-Player::Player(const std::string &texturePath, unsigned int pos_x, unsigned int pos_y) : 
+Player::Player(const std::string &texturePath, unsigned int pos_x, unsigned int pos_y, unsigned int direction) : 
     current_pos(pos_x, pos_y),
     change_map(0) {
     if (!m_texture.loadFromFile(texturePath)) {
@@ -37,10 +37,10 @@ Player::Player(const std::string &texturePath, unsigned int pos_x, unsigned int 
     m_vertices[2].position = sf::Vector2f(m_texture.getSize().x / 4, m_texture.getSize().y);
     m_vertices[3].position = sf::Vector2f(0.f, m_texture.getSize().y);
 
-    m_vertices[0].texCoords = sf::Vector2f(0.f, 0.f);
-    m_vertices[1].texCoords = sf::Vector2f(m_texture.getSize().x / 4, 0.f);
-    m_vertices[2].texCoords = sf::Vector2f(m_texture.getSize().x / 4, m_texture.getSize().y);
-    m_vertices[3].texCoords = sf::Vector2f(0.f, m_texture.getSize().y);
+    m_vertices[0].texCoords = sf::Vector2f(direction * ftile_size, 0.f);
+    m_vertices[1].texCoords = sf::Vector2f((direction + 1) * ftile_size, 0.f);
+    m_vertices[2].texCoords = sf::Vector2f((direction + 1) * ftile_size, ftile_size);
+    m_vertices[3].texCoords = sf::Vector2f(direction * ftile_size, ftile_size);
 
     m_vertices[0].color = sf::Color::White;
     m_vertices[1].color = sf::Color::White;

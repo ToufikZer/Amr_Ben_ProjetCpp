@@ -17,6 +17,10 @@ class MapManager{
         return current_map;
     }
 
+    void setCurrentMap(sf::Vector2u new_map){
+        current_map = new_map;
+    }
+
     void setNextCurrentMap(){
         current_map.y += 1;
     }

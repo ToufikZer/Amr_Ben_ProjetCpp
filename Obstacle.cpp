@@ -5,12 +5,13 @@
 unsigned int tile_size_obstacle = TILESIZE;
 float ftile_size_obstacle = static_cast<float> (TILESIZE);
 
-Obstacle::Obstacle(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y, sf::Vector2u changeTile1, sf::Vector2u changeTile2, std::string direction_to_enter) :
+Obstacle::Obstacle(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y, sf::Vector2u changeTile1, sf::Vector2u changeTile2, std::string direction_to_enter, unsigned int id) :
     ChangeTile1(changeTile1),
     ChangeTile2(changeTile2),
     is_open(false),
     can_enter(false),
-    direction_to_enter(direction_to_enter)
+    direction_to_enter(direction_to_enter),
+    id_obstacle(id)
     {
     if (!m_texture.loadFromFile(texturePath)) {
         std::cerr << "Erreur lors du chargement de la texture" << std::endl;
@@ -33,11 +34,12 @@ Obstacle::Obstacle(const std::string& texturePath, unsigned int pos_x, unsigned 
     setPosition(pos_x * ftile_size_obstacle, pos_y * ftile_size_obstacle);
 }
 
-Obstacle::Obstacle(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y, sf::Vector2u changeTile1, std::string direction_to_enter) :
+Obstacle::Obstacle(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y, sf::Vector2u changeTile1, std::string direction_to_enter, unsigned int id) :
     ChangeTile1(changeTile1),
     is_open(false),
     can_enter(false),
-    direction_to_enter(direction_to_enter)
+    direction_to_enter(direction_to_enter),
+    id_obstacle(id)
     {
     if (!m_texture.loadFromFile(texturePath)) {
         std::cerr << "Erreur lors du chargement de la texture" << std::endl;

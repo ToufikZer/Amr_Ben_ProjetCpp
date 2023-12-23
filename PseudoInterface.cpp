@@ -157,7 +157,7 @@ void PseudoInterface::draw(sf::RenderWindow& window){
 GameState* PseudoInterface::getNextState() {
     if(launch_game){
         launch_game = false;
-        return new InGame(window);
+        return new InGame(window, sf::Vector2u(0,1), sf::Vector2u(2,3), sf::Vector2u(16,16), 0);
     }
     if(come_back){
         come_back = false;

@@ -15,7 +15,7 @@
 
 class InGame : public GameState {
 public:
-    InGame(sf::RenderWindow& window);
+    InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2u pos_player, sf::Vector2u map_dimension, unsigned int player_direction);
 
     void handleEvent(sf::Event& event, sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window);
@@ -37,8 +37,10 @@ private:
 
     bool backmenu;
     bool escape_menu = false;
+    bool in_house;
     bool isTalking;
     NPC* npcThatWasTalking;
+    Obstacle* obstacleInteracting;
     int currentMessage;
 
 

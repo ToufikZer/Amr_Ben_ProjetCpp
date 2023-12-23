@@ -5,29 +5,39 @@
 unsigned int tile_size_ingame = TILESIZE;
 float ftile_size_ingame = static_cast<float>(TILESIZE);
 
-InGame::InGame(sf::RenderWindow& window)
+// InGame.cpp
+#include "InGame.hpp"
+
+InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2u pos_player, sf::Vector2u map_dimension, unsigned int player_direction)
     : window(window),
-      map(sf::Vector2u(16, 16)),
       maps(),
-      player("texture/texture_char/char_tileset.png", 2, 3),
+      player("texture/texture_char/char_tileset.png", pos_player.x, pos_player.y, player_direction),
+      map(map_dimension),
       view(sf::Vector2f(player.getPosition().x + 16.f, player.getPosition().y + 16.f), sf::Vector2f(300, 300)),
       isTalking(false),
       npcThatWasTalking(nullptr),
       currentMessage(0),
+      in_house(false),
       backmenu(false)
-      {
-      MusicPath = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getMusicPath();
-      level = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getLevel();
-      NPCs = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getNPCs();
-      obstacles = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getObstacles();
+{
+    maps.setCurrentMap(currentmap);
 
-    if (!music.openFromFile(MusicPath)){ 
-                std::cerr << "Erreur lors du chargement du son" << std::endl;
-                std::exit(-1);
-            }
-            music.setVolume(1);
-            music.setLoop(true);
-            music.play();
+    MusicPath = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getMusicPath();
+    level = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getLevel();
+    NPCs = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getNPCs();
+    obstacles = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getObstacles();
+
+    initialize();
+}
+
+void InGame::initialize() {
+    if (!music.openFromFile(MusicPath)) {
+        std::cerr << "Erreur lors du chargement du son" << std::endl;
+        std::exit(-1);
+    }
+    music.setVolume(1);
+    music.setLoop(true);
+    music.play();
 
     if (!font.loadFromFile("font/arial.ttf")) {
         std::cerr << "Erreur lors du chargement de la police" << std::endl;
@@ -38,14 +48,8 @@ InGame::InGame(sf::RenderWindow& window)
         std::cerr << "Erreur lors du chargement de la carte" << std::endl;
         std::exit(-1);
     }
-
-    initialize();
 }
 
-void InGame::initialize() {
-    window.setKeyRepeatEnabled(false);
-    npcThatWasTalking = nullptr;
-}
 
 void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
         if (event.type == sf::Event::KeyPressed) {
@@ -83,8 +87,10 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
 
                 for (Obstacle& obstacle : obstacles) {
                     if (obstacle.getCanEnter()){
+                        obstacleInteracting = &obstacle;
                         obstacle.setCanEnter(false);
-                        backmenu = true;
+                        in_house = true;
+                        break;
                     }
                 }
 
@@ -142,20 +148,16 @@ void InGame::draw(sf::RenderWindow& window) {
     window.draw(map);
     window.draw(player);
 
-    if(NPCs.size()> 0) {
         for (NPC& npc : NPCs) {
             window.draw(npc);
             if (isTalking && (&npc == npcThatWasTalking)) {
                 npc.sendMessage(window, viewRect, font, npc.getDialogue()[currentMessage]);
             }
         }
-    }
 
-    if(obstacles.size()> 0) {
         for (Obstacle& obstacle : obstacles) {
             window.draw(obstacle);
         }
-    }
 
     if (escape_menu) {
     window.draw(back_menu);
@@ -177,6 +179,21 @@ GameState* InGame::getNextState(){
         }
         music.stop();
         return new MainMenu(window);
+    }
+    if(in_house){
+        in_house = false;
+        if (obstacleInteracting != nullptr) {
+            if (obstacleInteracting->getId() != 0){
+                for(int i = 1; i < 100000; i++)
+                {
+                    music.setVolume(1 - i/100000);
+                }
+                music.stop();
+                if (obstacleInteracting->getId() == 1) return new InGame(window, sf::Vector2u(0,3), sf::Vector2u(3,5), sf::Vector2u(7,7), 2);
+                if (obstacleInteracting->getId() == 2) return new InGame(window, sf::Vector2u(0,2), sf::Vector2u(10,7), sf::Vector2u(16,16), 3);
+            }
+        }
+        else std::cout << "error obstacle interacting is NULL" << std::endl;
     }
     return nullptr;
 }
