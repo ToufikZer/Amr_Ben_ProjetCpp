@@ -6,8 +6,8 @@
 class Obstacle : public sf::Drawable, public sf::Transformable {
 public:
     Obstacle() = default;
-    Obstacle(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y, sf::Vector2u ChangeTile1, sf::Vector2u ChangeTile2, std::string direction_to_enter, unsigned int id);
-    Obstacle(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y, sf::Vector2u ChangeTile1, std::string direction_to_enter, unsigned int id);
+    Obstacle(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y, sf::Vector2u ChangeTile1, sf::Vector2u ChangeTile2, unsigned int direction_to_enter, unsigned int id);
+    Obstacle(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y, sf::Vector2u ChangeTile1, unsigned int direction_to_enter, unsigned int id);
     
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -37,7 +37,7 @@ private:
     bool can_enter;
     sf::Vector2u ChangeTile1;
     sf::Vector2u ChangeTile2;
-    std::string direction_to_enter;
+    unsigned int direction_to_enter;
     unsigned int id_obstacle;
 };
 

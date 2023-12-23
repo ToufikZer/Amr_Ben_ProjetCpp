@@ -21,7 +21,7 @@ public:
 
     bool is_looking_at(NPC npc);
 
-    std::string getDirection(){
+    unsigned int getDirection(){
         return direction;
     }
 
@@ -55,7 +55,7 @@ private:
     sf::Texture m_texture;
     sf::VertexArray m_vertices;
     sf::Vector2u current_pos;
-    std::string direction;
+    unsigned int direction;
     bool can_talk = false;
     int change_map;
 

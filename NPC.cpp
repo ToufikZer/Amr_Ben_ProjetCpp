@@ -69,10 +69,10 @@ bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, s
         sf::Vector2u new_position;
         float speed = ftile_size_npc;
         if (is_talking){
-            if (player.getDirection() == "R") update_texture(0,2, sf::Vector2f(ftile_size_npc,ftile_size_npc));
-            if (player.getDirection() == "L") update_texture(2,3, sf::Vector2f(ftile_size_npc,ftile_size_npc));
-            if (player.getDirection() == "D") update_texture(0,0, sf::Vector2f(ftile_size_npc,ftile_size_npc));
-            if (player.getDirection() == "U") update_texture(0,1, sf::Vector2f(ftile_size_npc,ftile_size_npc));
+            if (player.getDirection() == 0) update_texture(0,2, sf::Vector2f(ftile_size_npc,ftile_size_npc));
+            if (player.getDirection() == 1) update_texture(2,3, sf::Vector2f(ftile_size_npc,ftile_size_npc));
+            if (player.getDirection() == 2) update_texture(0,1, sf::Vector2f(ftile_size_npc,ftile_size_npc));
+            if (player.getDirection() == 3) update_texture(0,0, sf::Vector2f(ftile_size_npc,ftile_size_npc));
         }
         if(!is_talking){
 

@@ -57,13 +57,13 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 }
 
 bool Player::is_looking_at(NPC npc) {
-    if (direction == "R" && (current_pos.x + 1) == npc.getCurrentPos().x && current_pos.y == npc.getCurrentPos().y)
+    if (direction == 0 && (current_pos.x + 1) == npc.getCurrentPos().x && current_pos.y == npc.getCurrentPos().y)
         return true;
-    if (direction == "U" && (current_pos.x) == npc.getCurrentPos().x && current_pos.y - 1 == npc.getCurrentPos().y)
+    if (direction == 2 && (current_pos.x) == npc.getCurrentPos().x && current_pos.y - 1 == npc.getCurrentPos().y)
         return true;
-    if (direction == "L" && (current_pos.x - 1) == npc.getCurrentPos().x && current_pos.y == npc.getCurrentPos().y)
+    if (direction == 1 && (current_pos.x - 1) == npc.getCurrentPos().x && current_pos.y == npc.getCurrentPos().y)
         return true;
-    if (direction == "D" && (current_pos.x) == npc.getCurrentPos().x && current_pos.y + 1 == npc.getCurrentPos().y)
+    if (direction == 3 && (current_pos.x) == npc.getCurrentPos().x && current_pos.y + 1 == npc.getCurrentPos().y)
         return true;
     return false;
 }
@@ -118,7 +118,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                 }
             }
             update_texture(0, sf::Vector2u(tile_size, tile_size));
-            direction = "R";
+            direction = 0;
             elapsed = sf::Time::Zero;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
@@ -135,7 +135,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                 }
             }
             update_texture(2, sf::Vector2u(tile_size, tile_size));
-            direction = "U";
+            direction = 2;
             elapsed = sf::Time::Zero;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
@@ -152,7 +152,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                 }
             }
             update_texture(1, sf::Vector2u(tile_size, tile_size));
-            direction = "L";
+            direction = 1;
             elapsed = sf::Time::Zero;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
@@ -169,7 +169,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                 }
             }
             update_texture(3, sf::Vector2u(tile_size, tile_size));
-            direction = "D";
+            direction = 3;
             elapsed = sf::Time::Zero;
         }
     }

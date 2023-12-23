@@ -43,7 +43,6 @@ private:
     Obstacle* obstacleInteracting;
     int currentMessage;
 
-
     sf::RectangleShape back_menu;
     sf::Text question;
     sf::Text yesText;
