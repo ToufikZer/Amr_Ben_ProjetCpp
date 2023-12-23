@@ -35,7 +35,7 @@ void InGame::initialize() {
         std::cerr << "Erreur lors du chargement du son" << std::endl;
         std::exit(-1);
     }
-    music.setVolume(1);
+    music.setVolume(5);
     music.setLoop(true);
     music.play();
 
@@ -173,10 +173,6 @@ GameState* InGame::getNextState(){
     if(backmenu){
         backmenu = false;
         escape_menu = false;
-        for(int i = 1; i < 100000; i++)
-        {
-            music.setVolume(1 - i/100000);
-        }
         music.stop();
         return new MainMenu(window);
     }
@@ -184,10 +180,6 @@ GameState* InGame::getNextState(){
         in_house = false;
         if (obstacleInteracting != nullptr) {
             if (obstacleInteracting->getId() != 0){
-                for(int i = 1; i < 100000; i++)
-                {
-                    music.setVolume(1 - i/100000);
-                }
                 music.stop();
                 if (obstacleInteracting->getId() == 1) return new InGame(window, sf::Vector2u(0,3), sf::Vector2u(3,5), sf::Vector2u(7,7), 2);
                 if (obstacleInteracting->getId() == 2) return new InGame(window, sf::Vector2u(0,2), sf::Vector2u(10,7), sf::Vector2u(16,16), 3);
@@ -215,7 +207,8 @@ void InGame::CheckChangeMap(sf::Vector2u position){
                 std::cerr << "Erreur lors du chargement du son" << std::endl;
                 std::exit(-1);
             }
-            music.setVolume(1);
+            music.stop();
+            music.setVolume(5);
             music.setLoop(true);
             music.play();  
 
@@ -240,7 +233,8 @@ void InGame::CheckChangeMap(sf::Vector2u position){
                 std::cerr << "Erreur lors du chargement du son" << std::endl;
                 std::exit(-1);
             }
-            music.setVolume(1);
+            music.stop();
+            music.setVolume(5);
             music.setLoop(true);
             music.play();
 
@@ -264,7 +258,8 @@ void InGame::CheckChangeMap(sf::Vector2u position){
                 std::cerr << "Erreur lors du chargement du son" << std::endl;
                 std::exit(-1);
             }
-            music.setVolume(1);
+            music.stop();
+            music.setVolume(5);
             music.setLoop(true);
             music.play();  
 
@@ -289,7 +284,8 @@ void InGame::CheckChangeMap(sf::Vector2u position){
                 std::cerr << "Erreur lors du chargement du son" << std::endl;
                 std::exit(-1);
             }
-            music.setVolume(1);
+            music.stop();
+            music.setVolume(5);
             music.setLoop(true);
             music.play();
 
