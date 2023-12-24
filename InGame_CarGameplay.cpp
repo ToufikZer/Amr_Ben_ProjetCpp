@@ -72,6 +72,13 @@ InGame_CarGameplay::InGame_CarGameplay(sf::RenderWindow& window)
     Finish.setFillColor(sf::Color(30,250,30,250));
     Finish.setCharacterSize(30);
 
+    if (!backgroundTexture.loadFromFile("texture/texture_decor/carsBackground.jpg")) {
+        std::cerr << "Erreur lors du chargement de l'image de fond" << std::endl;
+        std::exit(-1);
+    }
+    backgroundSprite.setTexture(backgroundTexture);
+    backgroundSprite.setPosition(-1000,-1000);
+
 }
 
 void InGame_CarGameplay::handleEvent(sf::Event& event, sf::RenderWindow& window) {
@@ -93,10 +100,7 @@ void InGame_CarGameplay::draw(sf::RenderWindow& window) {
     // Effacer la fenêtre
     window.clear();
 
-    sf::RectangleShape background(sf::Vector2f(6000, 6000));
-    background.setFillColor(sf::Color(0, 0, 255)); // Couleur bleue
-    background.setPosition(sf::Vector2f(-1000,-1000));
-    window.draw(background);
+    window.draw(backgroundSprite);
 
     // Définir la vue
     window.setView(view);

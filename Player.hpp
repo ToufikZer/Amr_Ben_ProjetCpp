@@ -59,6 +59,12 @@ private:
     bool can_talk = false;
     int change_map;
 
+    bool going_right = false;
+    bool going_left = false;
+    bool going_up = false;
+    bool going_down = false;
+
+    int current_move;
 
     bool collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles);
 

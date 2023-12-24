@@ -12,7 +12,8 @@ float ftile_size = static_cast<float> (TILESIZE);
 
 Player::Player(const std::string &texturePath, unsigned int pos_x, unsigned int pos_y, unsigned int direction) : 
     current_pos(pos_x, pos_y),
-    change_map(0) {
+    change_map(0),
+    current_move(0) {
     if (!m_texture.loadFromFile(texturePath)) {
         std::cerr << "Erreur lors du chargement de la texture" << std::endl;
         std::exit(-1);
@@ -98,74 +99,142 @@ bool Player::collision(sf::Vector2u position, std::vector<std::vector<int>> plan
 }
 void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned int map_height, sf::View& view, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, bool is_talking) {
     int moveDelay;
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) moveDelay = 250;
-    else moveDelay = 500;
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) moveDelay = 25;
+    else moveDelay = 50;
     sf::Vector2u new_position;
     if (elapsed.asMilliseconds() >= moveDelay) {
         float speed = ftile_size;
     if(!is_talking){
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D) || going_right) {
             new_position.x = (current_pos.x + 1); 
             new_position.y = current_pos.y;
             if(!in_map(map_width, map_height, new_position)) setChangeMap(3);
             else{
                 if (collision(new_position, plan,NPCs, obstacles)) bump_sound.play();
                 else {
-                    move(speed, 0.f);
-                    current_pos.x += 1;
-                    // view.setCenter(getPosition().x + 16.f,getPosition().y+ 16.f);
-                    pas_sound.play();
+                    if (!going_right) 
+                    {
+                        std::cout << "1" << std::endl;
+                        move(speed/4, 0.f);
+                        going_right = true;
+                        pas_sound.play();
+                    }
+                    else{
+                        if(current_move != 3)
+                        {
+                            std::cout << "2" << std::endl;
+                            current_move +=1;
+                            move(speed/4, 0.f);
+                        }
+                        else {
+                            std::cout << "3" << std::endl;
+                            current_move = 0;
+                            going_right = false;
+                            current_pos.x += 1;
+                        }
+                    }
                 }
             }
             update_texture(0, sf::Vector2u(tile_size, tile_size));
             direction = 0;
             elapsed = sf::Time::Zero;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Z) || going_up) {
             new_position.x = (current_pos.x); 
             new_position.y = current_pos.y - 1;
             if(!in_map(map_width, map_height, new_position)) setChangeMap(2);
             else{
                 if (collision(new_position, plan,NPCs, obstacles)) bump_sound.play();
                 else {
-                    move(0.f, -speed);
-                    current_pos.y -= 1;
-                    // view.setCenter(getPosition().x+ 16.f,getPosition().y+ 16.f);
-                    pas_sound.play();
+                    if (!going_up) 
+                    {
+                        std::cout << "1" << std::endl;
+                        move(0.f, -speed/4);
+                        going_up = true;
+                        pas_sound.play();
+                    }
+                    else{
+                        if(current_move != 3)
+                        {
+                            std::cout << "2" << std::endl;
+                            current_move +=1;
+                            move(0.f, -speed/4);
+                        }
+                        else {
+                            std::cout << "3" << std::endl;
+                            current_move = 0;
+                            going_up = false;
+                            current_pos.y -= 1;
+                        }
+                    }
                 }
             }
             update_texture(2, sf::Vector2u(tile_size, tile_size));
             direction = 2;
             elapsed = sf::Time::Zero;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Q) || going_left) {
             new_position.x = (current_pos.x - 1); 
             new_position.y = current_pos.y;
             if(!in_map(map_width, map_height, new_position)) setChangeMap(1);
             else{
                 if (collision(new_position, plan,NPCs, obstacles)) bump_sound.play();
                 else {
-                    move(-speed, 0.f);
-                    current_pos.x -= 1;
-                    // view.setCenter(getPosition().x+ 16.f, getPosition().y+ 16.f);
-                    pas_sound.play();
+                    if (!going_left) 
+                    {
+                        std::cout << "1" << std::endl;
+                        move(-speed/4, 0.f);
+                        going_left = true;
+                        pas_sound.play();
+                    }
+                    else{
+                        if(current_move != 3)
+                        {
+                            std::cout << "2" << std::endl;
+                            current_move +=1;
+                            move(-speed/4, 0.f);
+                        }
+                        else {
+                            std::cout << "3" << std::endl;
+                            current_move = 0;
+                            going_left = false;
+                            current_pos.x -= 1;
+                        }
+                    }
                 }
             }
             update_texture(1, sf::Vector2u(tile_size, tile_size));
             direction = 1;
             elapsed = sf::Time::Zero;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S) || going_down) {
             new_position.x = (current_pos.x); 
             new_position.y = current_pos.y +1;
             if(!in_map(map_width, map_height, new_position)) setChangeMap(4);
             else{
                 if (collision(new_position, plan,NPCs, obstacles)) bump_sound.play();
                 else {
-                    move(0.f, speed);
-                    current_pos.y += 1;
-                    // view.setCenter(getPosition().x + 16.f,getPosition().y+ 16.f);
-                    pas_sound.play();
+                    if (!going_down) 
+                    {
+                        std::cout << "1" << std::endl;
+                        move(0.f, speed/4);
+                        going_down = true;
+                        pas_sound.play();
+                    }
+                    else{
+                        if(current_move != 3)
+                        {
+                            std::cout << "2" << std::endl;
+                            current_move +=1;
+                            move(0.f, speed/4);
+                        }
+                        else {
+                            std::cout << "3" << std::endl;
+                            current_move = 0;
+                            going_down = false;
+                            current_pos.y += 1;
+                        }
+                    }
                 }
             }
             update_texture(3, sf::Vector2u(tile_size, tile_size));

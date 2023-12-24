@@ -15,6 +15,7 @@ public:
 
 private:
     sf::RenderWindow& window;
+    sf::View view;
     sf::Font font;
     sf::Texture backgroundTexture;
     sf::Sprite backgroundSprite;

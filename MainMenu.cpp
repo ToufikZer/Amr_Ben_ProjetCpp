@@ -41,6 +41,7 @@ MainMenu::MainMenu(sf::RenderWindow& window)
     ResetExit();
 
     window.setKeyRepeatEnabled(false);
+    view.reset(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
 }
 
 void MainMenu::handleEvent(sf::Event& event, sf::RenderWindow& window) {
@@ -142,6 +143,7 @@ void MainMenu::update(sf::Time deltaTime, sf::RenderWindow& window) {
 
 void MainMenu::draw(sf::RenderWindow& window) {
     window.clear();
+    window.setView(view);
     window.draw(backgroundSprite);
     window.draw(titleText);
     window.draw(startText);
