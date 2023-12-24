@@ -11,7 +11,7 @@ float ftile_size_ingame = static_cast<float>(TILESIZE);
 InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2u pos_player, sf::Vector2u map_dimension, unsigned int player_direction)
     : window(window),
       maps(),
-      player("texture/texture_char/char_tileset.png", pos_player.x, pos_player.y, player_direction),
+      player("texture/texture_char/player_sheet.png", pos_player.x, pos_player.y, player_direction),
       map(map_dimension),
       view(sf::Vector2f(player.getPosition().x + 16.f, player.getPosition().y + 16.f), sf::Vector2f(300, 300)),
       isTalking(false),

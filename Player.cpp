@@ -35,13 +35,13 @@ Player::Player(const std::string &texturePath, unsigned int pos_x, unsigned int 
 
     m_vertices[0].position = sf::Vector2f(0.f, 0.f);
     m_vertices[1].position = sf::Vector2f(m_texture.getSize().x / 4, 0.f);
-    m_vertices[2].position = sf::Vector2f(m_texture.getSize().x / 4, m_texture.getSize().y);
-    m_vertices[3].position = sf::Vector2f(0.f, m_texture.getSize().y);
+    m_vertices[2].position = sf::Vector2f(m_texture.getSize().x / 4, m_texture.getSize().y / 4);
+    m_vertices[3].position = sf::Vector2f(0.f, m_texture.getSize().y / 4);
 
-    m_vertices[0].texCoords = sf::Vector2f(direction * ftile_size, 0.f);
-    m_vertices[1].texCoords = sf::Vector2f((direction + 1) * ftile_size, 0.f);
-    m_vertices[2].texCoords = sf::Vector2f((direction + 1) * ftile_size, ftile_size);
-    m_vertices[3].texCoords = sf::Vector2f(direction * ftile_size, ftile_size);
+    m_vertices[0].texCoords = sf::Vector2f(0.f, 0.f);
+    m_vertices[1].texCoords = sf::Vector2f(m_texture.getSize().x / 4, 0.f);
+    m_vertices[2].texCoords = sf::Vector2f(m_texture.getSize().x / 4, m_texture.getSize().y / 4);
+    m_vertices[3].texCoords = sf::Vector2f(0.f, m_texture.getSize().y / 4);
 
     m_vertices[0].color = sf::Color::White;
     m_vertices[1].color = sf::Color::White;
@@ -135,7 +135,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                     }
                 }
             }
-            update_texture(0, sf::Vector2u(tile_size, tile_size));
+            update_texture(2, sf::Vector2u(tile_size, tile_size), deltaTime);
             direction = 0;
             elapsed = sf::Time::Zero;
         }
@@ -169,7 +169,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                     }
                 }
             }
-            update_texture(2, sf::Vector2u(tile_size, tile_size));
+            update_texture(3, sf::Vector2u(tile_size, tile_size), deltaTime);
             direction = 2;
             elapsed = sf::Time::Zero;
         }
@@ -203,7 +203,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                     }
                 }
             }
-            update_texture(1, sf::Vector2u(tile_size, tile_size));
+            update_texture(1, sf::Vector2u(tile_size, tile_size), deltaTime);
             direction = 1;
             elapsed = sf::Time::Zero;
         }
@@ -237,7 +237,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                     }
                 }
             }
-            update_texture(3, sf::Vector2u(tile_size, tile_size));
+            update_texture(0, sf::Vector2u(tile_size, tile_size), deltaTime);
             direction = 3;
             elapsed = sf::Time::Zero;
         }
@@ -249,11 +249,26 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
     
 }
 
-void Player::update_texture(unsigned int u, sf::Vector2u tileSize) {
-    m_vertices[0].texCoords = sf::Vector2f(u * tileSize.x, 0.f);
-    m_vertices[1].texCoords = sf::Vector2f((u + 1) * tileSize.x, 0.f);
-    m_vertices[2].texCoords = sf::Vector2f((u + 1) * tileSize.x, tileSize.y);
-    m_vertices[3].texCoords = sf::Vector2f(u * tileSize.x, tileSize.y);
+void Player::update_texture(unsigned int u, sf::Vector2u tileSize,const sf::Time &deltaTime) {
+    
+    for (size_t i = 0; i < 4; i++)
+    {
+        double tmp_elapsed ;
+        if(i == 0)
+            tmp_elapsed = elapsed.asMilliseconds();
+        std::cout << i << ";" << elapsed.asMilliseconds() - tmp_elapsed <<std::endl;
+
+        if(elapsed.asMilliseconds() - tmp_elapsed >= i * 12.5 && elapsed.asMilliseconds() - tmp_elapsed < (i+1) * 12.5){
+            std::cout << "alooo" <<std::endl;
+            m_vertices[0].texCoords = sf::Vector2f(i * tileSize.x, u * tileSize.y);
+            m_vertices[1].texCoords = sf::Vector2f((i+1)*tileSize.x, u * tileSize.y);
+            m_vertices[2].texCoords = sf::Vector2f((i+1)*tileSize.x, (u+1) * tileSize.y);
+            m_vertices[3].texCoords = sf::Vector2f(i * tileSize.x, (u+1) * tileSize.y);
+        }
+        elapsed += deltaTime;
+    }
+    
+
 }
 
 bool Player::in_map(unsigned int map_width, unsigned int map_height, sf::Vector2u position) {

@@ -17,8 +17,7 @@ public:
 
     void update(const sf::Time& deltaTime, unsigned int map_width, unsigned int map_height, sf::View& view, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, bool is_talking);
 
-    void update_texture(unsigned int u, sf::Vector2u tileSize);
-
+    void update_texture(unsigned int u, sf::Vector2u tileSize,const sf::Time &deltaTime);
     bool is_looking_at(NPC npc);
 
     unsigned int getDirection(){
