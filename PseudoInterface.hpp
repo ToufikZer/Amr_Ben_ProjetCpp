@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "GameState.hpp"
 #include "InGame.hpp"
+#include "InGame_CarGameplay.hpp"
 #include "MainMenu.hpp"
 
 class PseudoInterface : public GameState {

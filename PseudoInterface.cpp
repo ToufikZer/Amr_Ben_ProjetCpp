@@ -157,7 +157,8 @@ void PseudoInterface::draw(sf::RenderWindow& window){
 GameState* PseudoInterface::getNextState() {
     if(launch_game){
         launch_game = false;
-        return new InGame(window, sf::Vector2u(0,1), sf::Vector2u(2,3), sf::Vector2u(16,16), 0);
+        // return new InGame(window, sf::Vector2u(0,1), sf::Vector2u(2,3), sf::Vector2u(16,16), 0);
+        return new InGame_CarGameplay(window);
     }
     if(come_back){
         come_back = false;
