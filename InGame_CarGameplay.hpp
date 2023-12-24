@@ -2,9 +2,10 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Window/Keyboard.hpp>
 #include <SFML/Audio.hpp>
 #include "TileMap.hpp"
-#include "Player.hpp"
+#include "PlayerCar.hpp"
 #include "NPC.hpp"
 #include "Obstacle.hpp"
 #include "GameState.hpp"
@@ -30,6 +31,9 @@ private:
     std::string MusicPath;
     TileMap map;
     std::vector<std::vector<int>> level;     
-    Player player;
+    PlayerCar player;
     std::vector<Obstacle> obstacles;
+
+    sf::Text Finish;
+    bool is_arrived;
 };

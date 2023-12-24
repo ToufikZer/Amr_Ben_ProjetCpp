@@ -20,8 +20,8 @@ InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2u p
       in_house(false),
       backmenu(false)
 {
+    view.reset(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
     maps.setCurrentMap(currentmap);
-
     MusicPath = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getMusicPath();
     level = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getLevel();
     NPCs = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getNPCs();
@@ -145,6 +145,7 @@ void InGame::update(sf::Time deltaTime,sf::RenderWindow& window) {
 void InGame::draw(sf::RenderWindow& window) {
     sf::FloatRect viewRect(0, 0, window.getSize().x, window.getSize().y);
     window.clear();
+    window.setView(view);
     window.draw(map);
     window.draw(player);
 
@@ -197,6 +198,8 @@ void InGame::CheckChangeMap(sf::Vector2u position){
             player.setChangeMap(0);
             player.setCurrentPos(sf::Vector2u (map.getWidth() - position.x - 1, position.y));
             player.setPosition(ftile_size_ingame*player.getCurrentPos().x , ftile_size_ingame*player.getCurrentPos().y);
+            // view.setCenter(player.getPosition().x + 16.f, player.getPosition().y+ 16.f);
+
             maps.setPreviousCurrentMap();
             MusicPath = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getMusicPath();
             level = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getLevel();
@@ -222,6 +225,7 @@ void InGame::CheckChangeMap(sf::Vector2u position){
             player.setChangeMap(0);
             player.setCurrentPos(sf::Vector2u (map.getWidth() - position.x - 1, position.y));
             player.setPosition(ftile_size_ingame*player.getCurrentPos().x , ftile_size_ingame*player.getCurrentPos().y);
+            // view.setCenter(player.getPosition().x + 16.f, player.getPosition().y+ 16.f);
 
             maps.setNextCurrentMap();
             MusicPath = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getMusicPath();
@@ -248,6 +252,8 @@ void InGame::CheckChangeMap(sf::Vector2u position){
             player.setChangeMap(0);
             player.setCurrentPos(sf::Vector2u (position.x, map.getHeight() - position.y - 1));
             player.setPosition(ftile_size_ingame*player.getCurrentPos().x , ftile_size_ingame*player.getCurrentPos().y);
+            // view.setCenter(player.getPosition().x + 16.f, player.getPosition().y+ 16.f);
+
             maps.setUpCurrentMap();
             MusicPath = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getMusicPath();
             level = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getLevel();
@@ -273,6 +279,7 @@ void InGame::CheckChangeMap(sf::Vector2u position){
             player.setChangeMap(0);
             player.setCurrentPos(sf::Vector2u (position.x, map.getHeight() - position.y - 1));
             player.setPosition(ftile_size_ingame*player.getCurrentPos().x , ftile_size_ingame*player.getCurrentPos().y);
+            // view.setCenter(player.getPosition().x + 16.f, player.getPosition().y+ 16.f);
 
             maps.setDownCurrentMap();
             MusicPath = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getMusicPath();

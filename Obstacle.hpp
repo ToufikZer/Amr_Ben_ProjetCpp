@@ -8,6 +8,7 @@ public:
     Obstacle() = default;
     Obstacle(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y, sf::Vector2u ChangeTile1, sf::Vector2u ChangeTile2, unsigned int direction_to_enter, unsigned int id);
     Obstacle(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y, sf::Vector2u ChangeTile1, unsigned int direction_to_enter, unsigned int id);
+    Obstacle(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y, unsigned int id);
     
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

@@ -113,7 +113,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                 else {
                     move(speed, 0.f);
                     current_pos.x += 1;
-                    view.setCenter(getPosition().x + 16.f,getPosition().y+ 16.f);
+                    // view.setCenter(getPosition().x + 16.f,getPosition().y+ 16.f);
                     pas_sound.play();
                 }
             }
@@ -130,7 +130,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                 else {
                     move(0.f, -speed);
                     current_pos.y -= 1;
-                    view.setCenter(getPosition().x+ 16.f,getPosition().y+ 16.f);
+                    // view.setCenter(getPosition().x+ 16.f,getPosition().y+ 16.f);
                     pas_sound.play();
                 }
             }
@@ -147,7 +147,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                 else {
                     move(-speed, 0.f);
                     current_pos.x -= 1;
-                    view.setCenter(getPosition().x+ 16.f, getPosition().y+ 16.f);
+                    // view.setCenter(getPosition().x+ 16.f, getPosition().y+ 16.f);
                     pas_sound.play();
                 }
             }
@@ -164,7 +164,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                 else {
                     move(0.f, speed);
                     current_pos.y += 1;
-                    view.setCenter(getPosition().x + 16.f,getPosition().y+ 16.f);
+                    // view.setCenter(getPosition().x + 16.f,getPosition().y+ 16.f);
                     pas_sound.play();
                 }
             }

@@ -1,40 +1,38 @@
 // PlayerCar.hpp
 #pragma once
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
 #include "TileMap.hpp"
-
+#include "Obstacle.hpp"
+#include <SFML/Graphics.hpp>
+#include <SFML/Window/Keyboard.hpp>
+#include <iostream>
 class PlayerCar : public sf::Drawable, public sf::Transformable {
 public:
     PlayerCar(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y);
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-    void update(const sf::Time& deltaTime, unsigned int map_width, unsigned int map_height, sf::View& view, std::vector<std::vector<int>> plan, std::vector<Obstacle> obstacles);
+    void update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, sf::View& view, std::vector<std::vector<int>> plan, std::vector<Obstacle> obstacles);
 
     void update_texture(unsigned int u, sf::Vector2u tileSize);
 
-    // sf::Vector2u getCurrentPos(){
-    //     return current_pos;
-    // }
+    void draw_crash(sf::RenderWindow& window);
 
-    // void setCurrentPos(sf::Vector2u pos){
-    //     current_pos.x =  pos.x;
-    //     current_pos.y =  pos.y;
-    // }
+    void setSpeed(float value){
+        speed = value;
+    }
 
-    // void setChangeMap(int value){
-    //     change_map = value;
-    // }
+    bool getCrash(){
+        return crash;
+    }
 
-    // int getChangeMap(){
-    //     return change_map;
-    // }
+    void setCrash(bool value){
+        crash = value;
+    }
 
 protected:
-    bool collision_obstacles(sf::Vector2u position, std::vector<Obstacle> obstacles);
-    bool in_map(unsigned int map_width, unsigned int map_height, sf::Vector2u position);
+    bool collision_obstacles(sf::Vector2f position, std::vector<Obstacle> obstacles);
+    bool in_map(unsigned int map_width, unsigned int map_height, sf::Vector2f position);
 
 private:
     sf::SoundBuffer buffer;
@@ -44,8 +42,9 @@ private:
     sf::Time elapsed; 
     sf::Texture m_texture;
     sf::VertexArray m_vertices;
-    sf::Vector2u current_pos;
+    float speed;
 
-    bool collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<Obstacle> obstacles);
+    bool crash;
+    sf::Text CrashText;
 
 };
