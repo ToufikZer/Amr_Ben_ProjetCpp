@@ -28,7 +28,7 @@ Player::Player(const std::string &texturePath, unsigned int pos_x, unsigned int 
         }
         bump_sound.setBuffer(buffer_bump);
         pas_sound.setBuffer(buffer);
-        bump_sound.setVolume(2);
+        bump_sound.setVolume(5);
     
     m_vertices.setPrimitiveType(sf::Quads);
     m_vertices.resize(4);
