@@ -89,12 +89,8 @@ bool Player::collision_npcs(sf::Vector2u position, std::vector<NPC> NPCs){
 
 bool Player::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles){
     if (plan[(position.y)][(position.x)] != 0) return true;
-    for (NPC& npc : NPCs){
-        if (collision_npcs(position, NPCs)) return true;
-    }
-    for (Obstacle& obstacle : obstacles){
-        if (collision_obstacles(position, obstacles)) return true;
-    }
+    if (collision_npcs(position, NPCs)) return true;
+    if (collision_obstacles(position, obstacles)) return true;
     return false;
 }
 void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned int map_height, sf::View& view, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, bool is_talking) {

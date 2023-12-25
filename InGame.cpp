@@ -84,19 +84,23 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                         }
                     }
                 }
-
-                for (Obstacle& obstacle : obstacles) {
-                    if (obstacle.getCanEnter()){
-                        obstacleInteracting = &obstacle;
-                        obstacle.setCanEnter(false);
-                        in_house = true;
-                        break;
-                    }
-                }
-
             }
+
             if (event.key.code == sf::Keyboard::Escape) {
                 escape_menu = true;
+            }
+
+            if (event.key.code == sf::Keyboard::Down) {
+                EnterHouseDown();
+            }
+            if (event.key.code == sf::Keyboard::Up) {
+                EnterHouseUp();
+            }
+            if (event.key.code == sf::Keyboard::S) {
+                EnterHouseDown();
+            }
+            if (event.key.code == sf::Keyboard::Z) {
+                EnterHouseUp();
             }
                       
         }
@@ -186,7 +190,7 @@ GameState* InGame::getNextState(){
                 if (obstacleInteracting->getId() == 2) return new InGame(window, sf::Vector2u(0,2), sf::Vector2u(10,7), sf::Vector2u(16,16), 3);
             }
         }
-        else std::cout << "error obstacle interacting is NULL" << std::endl;
+        else std::cerr << "error obstacle interacting is NULL" << std::endl;
     }
     return nullptr;
 }
@@ -374,4 +378,26 @@ void InGame::Detect_Cancel(sf::RenderWindow& window){
     else{
         ResetCancel();
     }
+}
+
+void InGame::EnterHouseUp(){
+    for (Obstacle& obstacle : obstacles) {
+                    if (obstacle.getCanEnter() && obstacle.getDirection() == 2){
+                        obstacleInteracting = &obstacle;
+                        obstacle.setCanEnter(false);
+                        in_house = true;
+                        break;
+                    }
+                }
+}
+
+void InGame::EnterHouseDown(){
+    for (Obstacle& obstacle : obstacles) {
+                    if (obstacle.getCanEnter() && obstacle.getDirection() == 3){
+                        obstacleInteracting = &obstacle;
+                        obstacle.setCanEnter(false);
+                        in_house = true;
+                        break;
+                    }
+                }
 }

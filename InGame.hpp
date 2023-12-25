@@ -49,6 +49,11 @@ private:
     sf::Text cancelText;
     sf::RectangleShape line;
 
+    void EnterHouseUp();
+    void EnterHouseDown();
+
+// FAIRE PAREIL POUR DISCUSSION AVEC A
+
     void initialize();
     void CheckChangeMap(sf::Vector2u position);
     void drawConfirmationWindow(sf::RenderWindow& window);

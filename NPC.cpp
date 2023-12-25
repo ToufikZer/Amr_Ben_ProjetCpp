@@ -54,12 +54,8 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
     }
 bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs,Player player, std::vector<Obstacle> obstacles){
         if (plan[(position.y)][(position.x)] != 0) return true;
-    for (NPC& npc : NPCs){
         if (collision_npcs(position, NPCs)) return true;
-    }
-    for (Obstacle& obstacle : obstacles){
         if (collision_obstacles(position, obstacles)) return true;
-    }
         if ((position.x == player.getCurrentPos().x && position.y == player.getCurrentPos().y)) return true;
     return false;
 }

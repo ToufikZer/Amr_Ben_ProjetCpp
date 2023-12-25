@@ -31,6 +31,11 @@ public:
     unsigned int getId(){
         return id_obstacle;
     }
+
+    unsigned int getDirection(){
+        return direction_to_enter;
+    }
+
 private:
     sf::Texture m_texture;
     sf::VertexArray m_vertices;
