@@ -14,7 +14,7 @@ public:
 
     void update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, sf::View& view, std::vector<std::vector<int>> plan, std::vector<Obstacle> obstacles);
 
-    void update_texture(unsigned int u, sf::Vector2u tileSize);
+    void update_texture(unsigned int u);
 
     void draw_crash(sf::RenderWindow& window);
 

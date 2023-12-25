@@ -6,7 +6,7 @@
 InGame_CarGameplay::InGame_CarGameplay(sf::RenderWindow& window)
     : window(window),
       map(sf::Vector2u(60, 9)),
-      player("texture/texture_char/CARS2.png", 8, 4),
+      player("texture/texture_char/cars_tileset.png", 8, 4),
       is_arrived(false)
 {
     if (!font.loadFromFile("font/arial.ttf")) {

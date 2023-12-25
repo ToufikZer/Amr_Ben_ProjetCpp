@@ -105,7 +105,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
     if (elapsed.asMilliseconds() >= moveDelay) {
         float speed = ftile_size;
     if(!is_talking){
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D) || going_right) {
+        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D) || going_right) && !going_down && !going_left && !going_up) {
             new_position.x = (current_pos.x + 1); 
             new_position.y = current_pos.y;
             if(!in_map(map_width, map_height, new_position)) setChangeMap(3);
@@ -114,7 +114,6 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                 else {
                     if (!going_right) 
                     {
-                        std::cout << "1" << std::endl;
                         move(speed/4, 0.f);
                         going_right = true;
                         pas_sound.play();
@@ -122,12 +121,10 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                     else{
                         if(current_move != 3)
                         {
-                            std::cout << "2" << std::endl;
                             current_move +=1;
                             move(speed/4, 0.f);
                         }
                         else {
-                            std::cout << "3" << std::endl;
                             current_move = 0;
                             going_right = false;
                             current_pos.x += 1;
@@ -135,11 +132,11 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                     }
                 }
             }
-            update_texture(2, sf::Vector2u(tile_size, tile_size), deltaTime);
+            update_texture(2,current_move, sf::Vector2u(tile_size, tile_size), deltaTime);
             direction = 0;
             elapsed = sf::Time::Zero;
         }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Z) || going_up) {
+        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Z) || going_up) && !going_down && !going_left && !going_right) {
             new_position.x = (current_pos.x); 
             new_position.y = current_pos.y - 1;
             if(!in_map(map_width, map_height, new_position)) setChangeMap(2);
@@ -148,7 +145,6 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                 else {
                     if (!going_up) 
                     {
-                        std::cout << "1" << std::endl;
                         move(0.f, -speed/4);
                         going_up = true;
                         pas_sound.play();
@@ -156,12 +152,10 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                     else{
                         if(current_move != 3)
                         {
-                            std::cout << "2" << std::endl;
                             current_move +=1;
                             move(0.f, -speed/4);
                         }
                         else {
-                            std::cout << "3" << std::endl;
                             current_move = 0;
                             going_up = false;
                             current_pos.y -= 1;
@@ -169,11 +163,11 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                     }
                 }
             }
-            update_texture(3, sf::Vector2u(tile_size, tile_size), deltaTime);
+            update_texture(3,current_move, sf::Vector2u(tile_size, tile_size), deltaTime);
             direction = 2;
             elapsed = sf::Time::Zero;
         }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Q) || going_left) {
+        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Q) || going_left) && !going_down && !going_right && !going_up) {
             new_position.x = (current_pos.x - 1); 
             new_position.y = current_pos.y;
             if(!in_map(map_width, map_height, new_position)) setChangeMap(1);
@@ -182,7 +176,6 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                 else {
                     if (!going_left) 
                     {
-                        std::cout << "1" << std::endl;
                         move(-speed/4, 0.f);
                         going_left = true;
                         pas_sound.play();
@@ -190,12 +183,10 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                     else{
                         if(current_move != 3)
                         {
-                            std::cout << "2" << std::endl;
                             current_move +=1;
                             move(-speed/4, 0.f);
                         }
                         else {
-                            std::cout << "3" << std::endl;
                             current_move = 0;
                             going_left = false;
                             current_pos.x -= 1;
@@ -203,11 +194,11 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                     }
                 }
             }
-            update_texture(1, sf::Vector2u(tile_size, tile_size), deltaTime);
+            update_texture(1,current_move, sf::Vector2u(tile_size, tile_size), deltaTime);
             direction = 1;
             elapsed = sf::Time::Zero;
         }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S) || going_down) {
+        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S) || going_down) && !going_right && !going_left && !going_up) {
             new_position.x = (current_pos.x); 
             new_position.y = current_pos.y +1;
             if(!in_map(map_width, map_height, new_position)) setChangeMap(4);
@@ -216,7 +207,6 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                 else {
                     if (!going_down) 
                     {
-                        std::cout << "1" << std::endl;
                         move(0.f, speed/4);
                         going_down = true;
                         pas_sound.play();
@@ -224,12 +214,10 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                     else{
                         if(current_move != 3)
                         {
-                            std::cout << "2" << std::endl;
                             current_move +=1;
                             move(0.f, speed/4);
                         }
                         else {
-                            std::cout << "3" << std::endl;
                             current_move = 0;
                             going_down = false;
                             current_pos.y += 1;
@@ -237,7 +225,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                     }
                 }
             }
-            update_texture(0, sf::Vector2u(tile_size, tile_size), deltaTime);
+            update_texture(0,current_move, sf::Vector2u(tile_size, tile_size), deltaTime);
             direction = 3;
             elapsed = sf::Time::Zero;
         }
@@ -249,26 +237,11 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
     
 }
 
-void Player::update_texture(unsigned int u, sf::Vector2u tileSize,const sf::Time &deltaTime) {
-    
-    for (size_t i = 0; i < 4; i++)
-    {
-        double tmp_elapsed ;
-        if(i == 0)
-            tmp_elapsed = elapsed.asMilliseconds();
-        std::cout << i << ";" << elapsed.asMilliseconds() - tmp_elapsed <<std::endl;
-
-        if(elapsed.asMilliseconds() - tmp_elapsed >= i * 12.5 && elapsed.asMilliseconds() - tmp_elapsed < (i+1) * 12.5){
-            std::cout << "alooo" <<std::endl;
-            m_vertices[0].texCoords = sf::Vector2f(i * tileSize.x, u * tileSize.y);
-            m_vertices[1].texCoords = sf::Vector2f((i+1)*tileSize.x, u * tileSize.y);
-            m_vertices[2].texCoords = sf::Vector2f((i+1)*tileSize.x, (u+1) * tileSize.y);
-            m_vertices[3].texCoords = sf::Vector2f(i * tileSize.x, (u+1) * tileSize.y);
-        }
-        elapsed += deltaTime;
-    }
-    
-
+void Player::update_texture(unsigned int u, unsigned int i, sf::Vector2u tileSize,const sf::Time &deltaTime) {
+        m_vertices[0].texCoords = sf::Vector2f(i * tileSize.x, u * tileSize.y);
+        m_vertices[1].texCoords = sf::Vector2f((i+1)*tileSize.x, u * tileSize.y);
+        m_vertices[2].texCoords = sf::Vector2f((i+1)*tileSize.x, (u+1) * tileSize.y);
+        m_vertices[3].texCoords = sf::Vector2f(i * tileSize.x, (u+1) * tileSize.y);
 }
 
 bool Player::in_map(unsigned int map_width, unsigned int map_height, sf::Vector2u position) {
