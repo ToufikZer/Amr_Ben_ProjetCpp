@@ -1,5 +1,5 @@
 // Player.cpp
-#include "PlayerCar.hpp"
+#include "PlayerIndoors.hpp"
 
 #include "TileMap.hpp"
 #include "Obstacle.hpp"
@@ -8,7 +8,7 @@
 #include <iostream>
 
 PlayerInDoors::PlayerInDoors(const std::string &texturePath, unsigned int pos_x, unsigned int pos_y) :
-    speed(0.05)
+    speed(0.1)
     {
 
     if (!m_texture.loadFromFile(texturePath)) {
@@ -46,12 +46,6 @@ PlayerInDoors::PlayerInDoors(const std::string &texturePath, unsigned int pos_x,
     m_vertices[3].color = sf::Color::White;
 
     setPosition(pos_x * 64.f, pos_y * 64.f);
-
-    CrashText.rotate(15);
-    CrashText.setStyle(sf::Text::Bold);
-    CrashText.setString("You just crashed, press Return to play again");
-    CrashText.setFillColor(sf::Color(250,30,30,250));
-    CrashText.setCharacterSize(30);
 }
 
 void PlayerInDoors::draw(sf::RenderTarget &target, sf::RenderStates states) const {
@@ -62,8 +56,8 @@ void PlayerInDoors::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 
 bool PlayerInDoors::collision_obstacles(sf::Vector2f position, std::vector<Obstacle> obstacles){
     for (Obstacle& obstacle : obstacles){
-        if (sf::FloatRect(sf::Vector2f(position.x + m_texture.getSize().x/9, position.y + m_texture.getSize().y / 9), 
-            sf::Vector2f(m_texture.getSize().x*2/9, m_texture.getSize().y*2/9)).intersects(obstacle.getGlobalBounds()))
+        if (sf::FloatRect(sf::Vector2f(position.x, position.y), 
+            sf::Vector2f(m_texture.getSize().x/3, m_texture.getSize().y)).intersects(obstacle.getGlobalBounds()))
         {
             return true;
         }
@@ -73,26 +67,25 @@ bool PlayerInDoors::collision_obstacles(sf::Vector2f position, std::vector<Obsta
 
 
 void PlayerInDoors::update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, sf::View& view, std::vector<Obstacle> obstacles){
-    if(!collision_obstacles(getPosition(),obstacles )){
-        move(speed,0.f);
-        speed += 0.05;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            if (in_map(map_width, map_height, sf::Vector2f(getPosition().x, getPosition().y + 2))){
-                move(0,2);
-                update_texture(2);
+            if (in_map(map_width, map_height, sf::Vector2f(getPosition().x + speed, getPosition().y))){
+                if(!collision_obstacles(sf::Vector2f(sf::Vector2f(getPosition().x + speed, getPosition().y)),obstacles)){
+                    move(speed, 0.f);
+                    update_texture(1);
+                }
             }
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-            if (in_map(map_width, map_height, sf::Vector2f(getPosition().x, getPosition().y - 2))){
-                move(0,-2);
-                update_texture(1);
+            if (in_map(map_width, map_height, sf::Vector2f(getPosition().x - speed, getPosition().y))){
+                if(!collision_obstacles(sf::Vector2f(sf::Vector2f(getPosition().x - speed, getPosition().y)),obstacles)){
+                    move(-speed, 0.f);
+                    update_texture(2);
+                }
             }
         }
-        else{
+        else {
             update_texture(0);
         }
-    }
-    view.setCenter(getPosition().x +100, map_height *16 + 160);
 }
 
 void PlayerInDoors::update_texture(unsigned int u) {
@@ -103,7 +96,7 @@ void PlayerInDoors::update_texture(unsigned int u) {
 }
 
 bool PlayerInDoors::in_map(unsigned int map_width, unsigned int map_height, sf::Vector2f position) {
-    if (position.x < map_width * 64 && position.y < (map_height- 1.5) * 64 && position.x >= 0 && position.y >= 96)
+    if (position.x < map_width && position.y < map_height && position.x >= 0 && position.y >= 0)
         return true;
     else
         return false;

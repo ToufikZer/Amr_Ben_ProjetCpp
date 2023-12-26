@@ -4,6 +4,7 @@
 #include "GameState.hpp"
 #include "InGame.hpp"
 #include "InGame_CarGameplay.hpp"
+#include "Indoors.hpp"
 #include "MainMenu.hpp"
 
 class PseudoInterface : public GameState {
