@@ -7,8 +7,8 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
 
-PlayerInDoors::PlayerInDoors(const std::string &texturePath, unsigned int pos_x, unsigned int pos_y) :
-    speed(0.1)
+PlayerInDoors::PlayerInDoors(const std::string &texturePath, float pos_x, float pos_y) :
+    speed(0.3)
     {
 
     if (!m_texture.loadFromFile(texturePath)) {
@@ -45,7 +45,7 @@ PlayerInDoors::PlayerInDoors(const std::string &texturePath, unsigned int pos_x,
     m_vertices[2].color = sf::Color::White;
     m_vertices[3].color = sf::Color::White;
 
-    setPosition(pos_x * 64.f, pos_y * 64.f);
+    setPosition(pos_x, pos_y);
 }
 
 void PlayerInDoors::draw(sf::RenderTarget &target, sf::RenderStates states) const {
@@ -56,8 +56,7 @@ void PlayerInDoors::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 
 bool PlayerInDoors::collision_obstacles(sf::Vector2f position, std::vector<Obstacle> obstacles){
     for (Obstacle& obstacle : obstacles){
-        if (sf::FloatRect(sf::Vector2f(position.x, position.y), 
-            sf::Vector2f(m_texture.getSize().x/3, m_texture.getSize().y)).intersects(obstacle.getGlobalBounds()))
+        if (sf::FloatRect(sf::Vector2f(position.x, position.y),sf::Vector2f(m_texture.getSize().x/3, m_texture.getSize().y)).intersects(obstacle.getGlobalBounds()))
         {
             return true;
         }
@@ -66,25 +65,24 @@ bool PlayerInDoors::collision_obstacles(sf::Vector2f position, std::vector<Obsta
 }
 
 
-void PlayerInDoors::update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, sf::View& view, std::vector<Obstacle> obstacles){
+void PlayerInDoors::update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, 
+                           sf::View& view, std::vector<Obstacle> obstacles, unsigned int FloorNumber){
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            if (in_map(map_width, map_height, sf::Vector2f(getPosition().x + speed, getPosition().y))){
-                if(!collision_obstacles(sf::Vector2f(sf::Vector2f(getPosition().x + speed, getPosition().y)),obstacles)){
-                    move(speed, 0.f);
-                    update_texture(1);
-                }
+            out_map(map_width, map_height, sf::Vector2f(getPosition().x + speed, getPosition().y), FloorNumber);
+            if(!collision_obstacles(sf::Vector2f(sf::Vector2f(getPosition().x + speed, getPosition().y)),obstacles)){
+                move(speed, 0.f);
+                update_texture(0);
             }
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-            if (in_map(map_width, map_height, sf::Vector2f(getPosition().x - speed, getPosition().y))){
-                if(!collision_obstacles(sf::Vector2f(sf::Vector2f(getPosition().x - speed, getPosition().y)),obstacles)){
-                    move(-speed, 0.f);
-                    update_texture(2);
-                }
+            out_map(map_width, map_height, sf::Vector2f(getPosition().x - speed, getPosition().y), FloorNumber);
+            if(!collision_obstacles(sf::Vector2f(sf::Vector2f(getPosition().x - speed, getPosition().y)),obstacles)){
+                move(-speed, 0.f);
+                update_texture(2);
             }
         }
         else {
-            update_texture(0);
+            update_texture(1);
         }
 }
 
@@ -95,9 +93,9 @@ void PlayerInDoors::update_texture(unsigned int u) {
     m_vertices[3].texCoords = sf::Vector2f(u * m_texture.getSize().x/3, m_texture.getSize().y);
 }
 
-bool PlayerInDoors::in_map(unsigned int map_width, unsigned int map_height, sf::Vector2f position) {
-    if (position.x < map_width && position.y < map_height && position.x >= 0 && position.y >= 0)
-        return true;
-    else
-        return false;
+void PlayerInDoors::out_map(unsigned int map_width, unsigned int map_height, sf::Vector2f position, unsigned int FloorNumber) {
+    if (position.x >= map_width)
+        setPosition(sf::Vector2f(0.f - m_texture.getSize().x /3, getPosition().y + map_height/FloorNumber));
+    else if(position.x < 0.f - m_texture.getSize().x /3)
+        setPosition(sf::Vector2f(map_width, getPosition().y - map_height/FloorNumber));
 }

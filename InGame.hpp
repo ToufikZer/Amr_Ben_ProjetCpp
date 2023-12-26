@@ -12,6 +12,7 @@
 #include "MapManager.hpp"
 #include "Map.hpp"
 #include "Keybinds.hpp"
+#include "Indoors.hpp"
 
 class InGame : public GameState {
 public:

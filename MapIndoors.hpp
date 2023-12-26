@@ -8,11 +8,42 @@
 class MapIndoors {
 public:
     MapIndoors() = default;
-    MapIndoors(std::string BackgroundPath, std::vector<NPC> NPCs,std::vector<Obstacle> obstacles, std::string MusicPath);
-    MapIndoors(std::string BackgroundPath, std::vector<Obstacle> obstacles, std::string MusicPath);
-    MapIndoors(std::string BackgroundPath, std::vector<NPC> NPCs, std::string MusicPath);
-    MapIndoors(std::string BackgroundPath, std::string MusicPath);
+    MapIndoors(std::string MapName, std::string BackgroundPath, std::vector<NPC> NPCs,std::vector<Obstacle> obstacles, std::string MusicPath, unsigned int FloorNumber);
+    MapIndoors(std::string MapName, std::string BackgroundPath, std::vector<Obstacle> obstacles, std::string MusicPath, unsigned int FloorNumber);
+    MapIndoors(std::string MapName, std::string BackgroundPath, std::vector<NPC> NPCs, std::string MusicPath, unsigned int FloorNumber);
+    MapIndoors(std::string MapName, std::string BackgroundPath, std::string MusicPath, unsigned int FloorNumber);
+
+    std::string getBackgroundPath(){
+        return BackgroundPath;
+    }
+
+    std::vector<NPC> const& getNPCs() const
+    {
+        return NPCs;
+    }
+
+    std::vector<Obstacle> const& getObstacles() const
+    {
+        return obstacles;
+    }
+
+    std::string getMusicPath(){
+        return MusicPath;
+    }
+
+    std::string getName(){
+        return MapName;
+    }
+
+    unsigned int getFloorNb(){
+        return FloorNumber;
+    }
 
 private:
-
+    std::string BackgroundPath;
+    std::vector<NPC> NPCs;
+    std::vector<Obstacle> obstacles;
+    std::string MusicPath;
+    std::string MapName;
+    unsigned int FloorNumber;
 };

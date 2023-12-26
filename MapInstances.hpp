@@ -2,6 +2,7 @@
 
 #include "iostream"
 #include "Map.hpp"
+#include "MapIndoors.hpp"
 #include <SFML/Audio.hpp>
 
 #define MAP1 Map({{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},\
@@ -77,4 +78,16 @@
                     {(NPC("texture/texture_npc/npcpkmn.png", 5, 5, {"Voulez vous manger avec moi?", "QUOI, COMMENT CA NON", "CETAIT UNE PIZZA AU CACA"},"RUUULRRDULLRDDDL"))}, \
                     {Obstacle("texture/texture_obstacle/door.png", 3, 6, sf::Vector2u(3,5),3, 2)}, \
                     "sound/music/music1.ogg")
+
+#define MAP5 MapIndoors("GARE", \
+                        "texture/texture_decor/decorgare.jpg", \
+                        {(NPC("texture/texture_npc/npc.png", 10, 1, {"Voulez vous manger avec moi?", "QUOI, COMMENT CA NON", "CETAIT UNE PIZZA AU CACA"},"RUUULRRDULLRDDDL"))}, \
+                        "sound/music/music2.ogg",4)
+
+#define MAP6 MapIndoors("MARIO", \
+                        "texture/texture_decor/mario.png", \
+                        "sound/music/music2.ogg",1)
+
+                        
+                        
 
