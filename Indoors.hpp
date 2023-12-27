@@ -14,7 +14,7 @@
 
 class Indoors : public GameState {
 public:
-    Indoors(sf::RenderWindow& window, std::string MapName);
+    Indoors(sf::RenderWindow& window, std::string MapName, float pos_player_x, float pos_player_y);
 
     void handleEvent(sf::Event& event, sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window);

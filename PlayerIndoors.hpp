@@ -3,6 +3,7 @@
 
 #include "TileMap.hpp"
 #include "Obstacle.hpp"
+#include "NPC.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
@@ -12,7 +13,7 @@ public:
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-    void update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, sf::View& view, std::vector<Obstacle> obstacles, unsigned int FloorNumber);
+    void update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, sf::View& view, std::vector<Obstacle> obstacles, std::vector<NPC> NPCs, unsigned int FloorNumber);
 
     void update_texture(unsigned int u);
 
@@ -22,6 +23,7 @@ public:
 
 protected:
     bool collision_obstacles(sf::Vector2f position, std::vector<Obstacle> obstacles);
+    bool collision_NPCs(sf::Vector2f position, std::vector<NPC> NPCs);
     void out_map(unsigned int map_width, unsigned int map_height, sf::Vector2f position, unsigned int FloorNumber);
 
 private:

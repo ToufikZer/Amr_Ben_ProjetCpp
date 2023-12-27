@@ -82,12 +82,27 @@
 #define MAP5 MapIndoors("GARE", \
                         "texture/texture_decor/decorgare.jpg", \
                         {(NPC("texture/texture_npc/npc.png", 10, 1, {"Voulez vous manger avec moi?", "QUOI, COMMENT CA NON", "CETAIT UNE PIZZA AU CACA"},"RUUULRRDULLRDDDL"))}, \
+                        {(Obstacle("texture/texture_obstacle/invisible_wall.png", 16, 15, 0))}, \
                         "sound/music/music2.ogg",4)
 
 #define MAP6 MapIndoors("MARIO", \
                         "texture/texture_decor/mario.png", \
                         "sound/music/music2.ogg",1)
 
+#define MAP7 MapIndoors("CROUS", \
+                        "texture/texture_decor/crous.png", \
+                        {(NPC("texture/texture_npc/door_invisible.png", 20, 4, {"Voulez vous manger avec moi?"},"")), \
+                        (NPC("texture/texture_npc/door_invisible.png", 28, 4, {"Voulez vous manger avec moi?"},"")), \
+                        (NPC("texture/texture_npc/door_invisible.png", 39, 4, {"Voulez vous manger avec moi?"},"")), \
+                        (NPC("texture/texture_npc/door_invisible.png", 5, 16, {"Voulez vous manger avec moi?"},"")), \
+                        (NPC("texture/texture_npc/door_invisible.png", 18, 16, {"Voulez vous manger avec moi?"},"")), \
+                        (NPC("texture/texture_npc/door_invisible.png", 23, 16, {"Voulez vous manger avec moi?"},"")), \
+                        (NPC("texture/texture_npc/door_invisible.png", 39, 16, {"Voulez vous manger avec moi?"},"")), \
+                        (NPC("texture/texture_npc/door_invisible.png", 60, 8, {"Voulez vous manger avec moi?"},"")), \
+                        (NPC("texture/texture_npc/door_invisible.png", 60, 8, {"Voulez vous manger avec moi?"},"")), \
+                        (NPC("texture/texture_npc/door_invisible.png", 60, 8, {"Voulez vous manger avec moi?"},""))}, \
+                        {(Obstacle("texture/texture_obstacle/invisible_wall.png", 16, 12, 0))}, \
+                        "sound/music/music2.ogg",3)
                         
                         
 

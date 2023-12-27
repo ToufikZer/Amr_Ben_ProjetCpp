@@ -186,7 +186,7 @@ GameState* InGame::getNextState(){
         if (obstacleInteracting != nullptr) {
             if (obstacleInteracting->getId() != 0){
                 music.stop();
-                if (obstacleInteracting->getId() == 1) return new Indoors(window, "GARE");
+                if (obstacleInteracting->getId() == 1) return new Indoors(window, "CROUS", 64.f, 140.f);
                 if (obstacleInteracting->getId() == 2) return new InGame(window, sf::Vector2u(0,2), sf::Vector2u(10,7), sf::Vector2u(16,16), 3);
             }
         }

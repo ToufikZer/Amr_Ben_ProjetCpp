@@ -8,7 +8,7 @@
 #include <iostream>
 
 PlayerInDoors::PlayerInDoors(const std::string &texturePath, float pos_x, float pos_y) :
-    speed(0.3)
+    speed(4)
     {
 
     if (!m_texture.loadFromFile(texturePath)) {
@@ -64,9 +64,22 @@ bool PlayerInDoors::collision_obstacles(sf::Vector2f position, std::vector<Obsta
     return false;
 }
 
+bool PlayerInDoors::collision_NPCs(sf::Vector2f position, std::vector<NPC> NPCs){
+    for (NPC& npc : NPCs){
+        if (sf::FloatRect(sf::Vector2f(position.x, position.y),sf::Vector2f(m_texture.getSize().x/3, m_texture.getSize().y)).intersects(npc.getGlobalBounds()))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 
 void PlayerInDoors::update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, 
-                           sf::View& view, std::vector<Obstacle> obstacles, unsigned int FloorNumber){
+                           sf::View& view, std::vector<Obstacle> obstacles, std::vector<NPC> NPCs, unsigned int FloorNumber){
+        // std::cout << getPosition().x << ";" << getPosition().y << std::endl;
+        if (collision_NPCs(sf::Vector2f(getPosition().x, getPosition().y), NPCs)) std::cout << "ok" <<std::endl;
+        else std::cout << "pas ok" <<std::endl;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
             out_map(map_width, map_height, sf::Vector2f(getPosition().x + speed, getPosition().y), FloorNumber);
             if(!collision_obstacles(sf::Vector2f(sf::Vector2f(getPosition().x + speed, getPosition().y)),obstacles)){

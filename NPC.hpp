@@ -8,7 +8,7 @@
 
 class NPC : public Player{
 public:
-    NPC(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y, std::vector<std::string> dialogue, std::string moves);
+    NPC(const std::string& texturePath, float pos_x, float pos_y, std::vector<std::string> dialogue, std::string moves);
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
     void update(Player& player, const sf::Time &deltaTime, unsigned int map_width, unsigned int map_height, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles);
@@ -16,6 +16,10 @@ public:
     void update_texture(unsigned int u,unsigned int v, sf::Vector2f tileSize);
 
     void sendMessage(sf::RenderWindow& window,sf::FloatRect ViewRect, sf::Font& font, std::string dialogue);
+
+    sf::FloatRect getGlobalBounds() const {
+        return getTransform().transformRect(m_vertices.getBounds());
+    }
 
     void setIsTalking(bool value){
         is_talking = value;

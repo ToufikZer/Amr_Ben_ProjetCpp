@@ -11,7 +11,7 @@
 unsigned int tile_size_npc = TILESIZE;
 float ftile_size_npc = static_cast<float> (TILESIZE);
 
-    NPC::NPC(const std::string& texturePath, unsigned int pos_x,unsigned int pos_y, std::vector<std::string> dialogue, std::string moves): 
+    NPC::NPC(const std::string& texturePath, float pos_x, float pos_y, std::vector<std::string> dialogue, std::string moves): 
     Player(texturePath, pos_x, pos_y, 0),
     current_pos(pos_x,pos_y),
     dialogue(dialogue),
@@ -39,7 +39,6 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
         m_vertices[1].color = sf::Color::White;
         m_vertices[2].color = sf::Color::White;
         m_vertices[3].color = sf::Color::White;
-
         setPosition(pos_x*ftile_size_npc,pos_y*ftile_size_npc);
 
     }
@@ -86,7 +85,7 @@ bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, s
                     current_pos.x += 1;
                     current_move += 1;
                 } 
-                    update_texture(2,3, sf::Vector2f(ftile_size_npc,ftile_size_npc));
+                    update_texture(2,3, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().x /4));
 
                     elapsed = sf::Time::Zero;
                 }   
@@ -98,7 +97,7 @@ bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, s
                     current_pos.y -= 1;
                     current_move += 1;
                     } 
-                    update_texture(0,0, sf::Vector2f(ftile_size_npc,ftile_size_npc));
+                    update_texture(0,0, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().x /4));
                     elapsed = sf::Time::Zero;
                 }
                 else if (movement == 'L'){
@@ -109,7 +108,7 @@ bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, s
                     current_pos.x -= 1;
                     current_move += 1;
                     } 
-                    update_texture(0,2, sf::Vector2f(ftile_size_npc,ftile_size_npc));
+                    update_texture(0,2, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().x /4));
                     elapsed = sf::Time::Zero;
                 }
                 else if (movement == 'D'){
@@ -120,7 +119,7 @@ bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, s
                     current_pos.y += 1;
                     current_move += 1;
                     }  
-                    update_texture(0,1, sf::Vector2f(ftile_size_npc,ftile_size_npc));
+                    update_texture(0,1, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().x /4));
                     elapsed = sf::Time::Zero;
                 }
             }

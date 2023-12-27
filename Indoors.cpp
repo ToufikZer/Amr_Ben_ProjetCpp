@@ -6,15 +6,17 @@
 
 MapIndoors GARE = MAP5;
 MapIndoors MARIO = MAP6;
+MapIndoors CROUS = MAP7;
 
-Indoors::Indoors(sf::RenderWindow& window, std::string MapName)
+Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player_x, float pos_player_y)
     : window(window),
-      player("texture/texture_char/player.png", 64.f, 105.f),
+      player("texture/texture_char/player.png", pos_player_x, pos_player_y),
       back_to_town(false),
       next_town(false)
 {
     MapList.push_back(GARE);
     MapList.push_back(MARIO);
+    MapList.push_back(CROUS);
 
     for (MapIndoors& map: MapList){
         if (MapName == map.getName()){
@@ -55,7 +57,7 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
 
 void Indoors::update(sf::Time deltaTime, sf::RenderWindow& window) {
     player.update(deltaTime, font, backgroundSprite.getGlobalBounds().width,
-                  backgroundSprite.getGlobalBounds().height, view, obstacles, FloorNumber);
+                  backgroundSprite.getGlobalBounds().height, view, obstacles, NPCs, FloorNumber);
     if (player.getPosition().y <= 0.f){
         back_to_town = true;
     }
