@@ -48,6 +48,11 @@ void InGame::initialize() {
         std::cerr << "Erreur lors du chargement de la carte" << std::endl;
         std::exit(-1);
     }
+
+    // if (!buffer_bump.loadFromFile("sound/sound/bump.wav")) {
+    //     std::cerr << "Failed to load bump sound buffer!" << std::endl;
+    //     // Gestion de l'erreur, peut-être lancer une exception ou gérer autrement.
+    // }
 }
 
 
@@ -55,7 +60,6 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::A) {
                 for (NPC& npc : NPCs) {
-                        float pitch = 100;
                     if (!isTalking && player.is_looking_at(npc)) {
                         npc.play_voice();
                         isTalking = true;
@@ -126,7 +130,13 @@ void InGame::update(sf::Time deltaTime,sf::RenderWindow& window) {
     if (!escape_menu)
     {
     player.update(deltaTime, map.getWidth(), map.getHeight(), view, level, NPCs, obstacles, isTalking);
-
+    // if (player.getWallColl()) 
+    //     {
+    //     player.setWallColl(false);
+    //     bump_sound.setBuffer(buffer_bump);
+    //     bump_sound.setVolume(7);
+    //     bump_sound.play();
+    //     }
     for (NPC& npc : NPCs) {
         npc.update(player, deltaTime, map.getWidth(), map.getHeight(), level, NPCs, obstacles);
         CheckChangeMap(player.getCurrentPos());
@@ -176,16 +186,16 @@ void InGame::draw(sf::RenderWindow& window) {
 
 GameState* InGame::getNextState(){
     if(backmenu){
+        music.stop( );
         backmenu = false;
         escape_menu = false;
-        music.stop();
         return new MainMenu(window);
     }
     if(in_house){
+        music.stop();
         in_house = false;
         if (obstacleInteracting != nullptr) {
             if (obstacleInteracting->getId() != 0){
-                music.stop();
                 if (obstacleInteracting->getId() == 1) return new Indoors(window, "CROUS", 64.f, 140.f);
                 if (obstacleInteracting->getId() == 2) return new InGame(window, sf::Vector2u(0,2), sf::Vector2u(10,7), sf::Vector2u(16,16), 3);
             }

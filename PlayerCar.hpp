@@ -35,10 +35,6 @@ protected:
     bool in_map(unsigned int map_width, unsigned int map_height, sf::Vector2f position);
 
 private:
-    sf::SoundBuffer buffer;
-    sf::SoundBuffer buffer_bump;
-    sf::Sound pas_sound;
-    sf::Sound bump_sound;
     sf::Time elapsed; 
     sf::Texture m_texture;
     sf::VertexArray m_vertices;

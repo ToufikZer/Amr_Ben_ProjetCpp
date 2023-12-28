@@ -11,36 +11,63 @@
 unsigned int tile_size_npc = TILESIZE;
 float ftile_size_npc = static_cast<float> (TILESIZE);
 
-    NPC::NPC(const std::string& texturePath, float pos_x, float pos_y, std::vector<std::string> dialogue, std::string moves): 
+    NPC::NPC(const std::string& texturePath, float pos_x, float pos_y, std::vector<std::string> dialogue, std::string moves, int type_of_pnj): 
     Player(texturePath, pos_x, pos_y, 0),
     current_pos(pos_x,pos_y),
     dialogue(dialogue),
     moves(moves),
     is_talking(false) {
-        if (!m_texture.loadFromFile(texturePath)) {
-            std::cerr << "Erreur lors du chargement de la texture" << std::endl;
-            std::exit(-1);
+        if (type_of_pnj == 0) {
+            if (!m_texture.loadFromFile(texturePath)) {
+                std::cerr << "Erreur lors du chargement de la texture" << std::endl;
+                std::exit(-1);
+            }
+
+            m_vertices.setPrimitiveType(sf::Quads);
+            m_vertices.resize(4);
+
+            m_vertices[0].position = sf::Vector2f(0.f, 0.f);
+            m_vertices[1].position = sf::Vector2f(m_texture.getSize().x /3, 0.f);
+            m_vertices[2].position = sf::Vector2f(m_texture.getSize().x /3, m_texture.getSize().y/4);
+            m_vertices[3].position = sf::Vector2f(0.f, m_texture.getSize().y/4);
+
+            m_vertices[0].texCoords = sf::Vector2f(0.f, m_texture.getSize().y/4);
+            m_vertices[1].texCoords = sf::Vector2f(m_texture.getSize().x /3, m_texture.getSize().y/4);
+            m_vertices[2].texCoords = sf::Vector2f(m_texture.getSize().x /3, 2*m_texture.getSize().y/4);
+            m_vertices[3].texCoords = sf::Vector2f(0.f, 2*m_texture.getSize().y/4);
+
+            m_vertices[0].color = sf::Color::White;
+            m_vertices[1].color = sf::Color::White;
+            m_vertices[2].color = sf::Color::White;
+            m_vertices[3].color = sf::Color::White;
+            setPosition(pos_x*ftile_size_npc,pos_y*ftile_size_npc);
         }
 
-        m_vertices.setPrimitiveType(sf::Quads);
-        m_vertices.resize(4);
+        else if (type_of_pnj == 1) {
+            if (!m_texture.loadFromFile(texturePath)) {
+                std::cerr << "Erreur lors du chargement de la texture" << std::endl;
+                std::exit(-1);
+            }
 
-        m_vertices[0].position = sf::Vector2f(0.f, 0.f);
-        m_vertices[1].position = sf::Vector2f(m_texture.getSize().x /3, 0.f);
-        m_vertices[2].position = sf::Vector2f(m_texture.getSize().x/3, m_texture.getSize().y/4);
-        m_vertices[3].position = sf::Vector2f(0.f, m_texture.getSize().y/4);
+            m_vertices.setPrimitiveType(sf::Quads);
+            m_vertices.resize(4);
 
-        m_vertices[0].texCoords = sf::Vector2f(0.f, ftile_size_npc);
-        m_vertices[1].texCoords = sf::Vector2f(m_texture.getSize().x/3, ftile_size_npc);
-        m_vertices[2].texCoords = sf::Vector2f(m_texture.getSize().x/3, ftile_size_npc + m_texture.getSize().y/4);
-        m_vertices[3].texCoords = sf::Vector2f(0.f, ftile_size_npc + m_texture.getSize().y/4);
+            m_vertices[0].position = sf::Vector2f(0.f, 0.f);
+            m_vertices[1].position = sf::Vector2f(m_texture.getSize().x, 0.f);
+            m_vertices[2].position = sf::Vector2f(m_texture.getSize().x, m_texture.getSize().y);
+            m_vertices[3].position = sf::Vector2f(0.f, m_texture.getSize().y);
 
-        m_vertices[0].color = sf::Color::White;
-        m_vertices[1].color = sf::Color::White;
-        m_vertices[2].color = sf::Color::White;
-        m_vertices[3].color = sf::Color::White;
-        setPosition(pos_x*ftile_size_npc,pos_y*ftile_size_npc);
+            m_vertices[0].texCoords = sf::Vector2f(0.f, 0.f);
+            m_vertices[1].texCoords = sf::Vector2f(m_texture.getSize().x, 0.f);
+            m_vertices[2].texCoords = sf::Vector2f(m_texture.getSize().x, m_texture.getSize().y);
+            m_vertices[3].texCoords = sf::Vector2f(0.f, m_texture.getSize().y);
 
+            m_vertices[0].color = sf::Color::White;
+            m_vertices[1].color = sf::Color::White;
+            m_vertices[2].color = sf::Color::White;
+            m_vertices[3].color = sf::Color::White;
+            setPosition(pos_x,pos_y);
+        }
     }
 
     sf::Vector2u NPC::getCurrentPos(){
@@ -85,7 +112,7 @@ bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, s
                     current_pos.x += 1;
                     current_move += 1;
                 } 
-                    update_texture(2,3, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().x /4));
+                    update_texture(2,3, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
 
                     elapsed = sf::Time::Zero;
                 }   
@@ -97,7 +124,7 @@ bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, s
                     current_pos.y -= 1;
                     current_move += 1;
                     } 
-                    update_texture(0,0, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().x /4));
+                    update_texture(0,0, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
                     elapsed = sf::Time::Zero;
                 }
                 else if (movement == 'L'){
@@ -108,7 +135,7 @@ bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, s
                     current_pos.x -= 1;
                     current_move += 1;
                     } 
-                    update_texture(0,2, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().x /4));
+                    update_texture(0,2, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
                     elapsed = sf::Time::Zero;
                 }
                 else if (movement == 'D'){
@@ -119,7 +146,7 @@ bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, s
                     current_pos.y += 1;
                     current_move += 1;
                     }  
-                    update_texture(0,1, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().x /4));
+                    update_texture(0,1, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
                     elapsed = sf::Time::Zero;
                 }
             }
@@ -174,7 +201,7 @@ bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, s
     }
 
 void NPC::play_voice(){
-    unsigned int num_voice = std::rand()%11 + 1;
+unsigned int num_voice = std::rand()%11 + 1;
     if (!buffer.loadFromFile("sound/sound/npc_voice/npc_voice" + std::to_string(num_voice) + ".wav")){
             std::cerr << "Erreur lors du chargement du son" << std::endl;
             std::exit(-1);
@@ -188,4 +215,18 @@ void NPC::play_voice(){
             npc_sound.stop();
         }
         delay += 2;
+}
+
+void NPC::play_toctoc(){
+    sf::Sound toctoc_sound;
+    sf::SoundBuffer buffer_toctoc;
+    if (!buffer_toctoc.loadFromFile("sound/sound/toctoc.wav")){
+            std::cerr << "Erreur lors du chargement du son" << std::endl;
+            std::exit(-1);
+        }
+        toctoc_sound.setBuffer(buffer_toctoc);
+        toctoc_sound.setVolume(25);
+        toctoc_sound.play();
+        sf::sleep(sf::seconds(2));
+        
 }

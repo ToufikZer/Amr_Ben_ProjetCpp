@@ -16,17 +16,7 @@ PlayerCar::PlayerCar(const std::string &texturePath, unsigned int pos_x, unsigne
         std::cerr << "Erreur lors du chargement de la texture" << std::endl;
         std::exit(-1);
     }
-    if (!buffer.loadFromFile("sound/sound/pas.wav")){
-            std::cerr << "Erreur lors du chargement du son" << std::endl;
-            std::exit(-1);
-        }
-    if (!buffer_bump.loadFromFile("sound/sound/bump.wav")){
-            std::cerr << "Erreur lors du chargement du son" << std::endl;
-            std::exit(-1);
-        }
-        bump_sound.setBuffer(buffer_bump);
-        pas_sound.setBuffer(buffer);
-        bump_sound.setVolume(2);
+
     
     m_vertices.setPrimitiveType(sf::Quads);
     m_vertices.resize(4);

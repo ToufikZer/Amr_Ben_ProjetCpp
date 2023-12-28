@@ -28,6 +28,8 @@ private:
     sf::View view;
     sf::Font font;
     sf::Music music;
+    // sf::SoundBuffer buffer_bump;
+    // sf::Sound bump_sound;
     std::string MusicPath;
     TileMap map;
     std::vector<std::vector<int>> level;     
@@ -66,4 +68,5 @@ private:
 
     void Detect_Yes(sf::RenderWindow& window);
     void Detect_Cancel(sf::RenderWindow& window);
+
 };

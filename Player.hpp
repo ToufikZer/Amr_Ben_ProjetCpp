@@ -41,22 +41,28 @@ public:
         return change_map;
     }
 
+    bool getWallColl(){
+        return wall_collision;
+    }
+
+    void setWallColl(bool value){
+        wall_collision = value;
+    }
+
 protected:
     bool collision_obstacles(sf::Vector2u position, std::vector<Obstacle> obstacles);
     bool collision_npcs(sf::Vector2u position, std::vector<NPC> NPCs);
     bool in_map(unsigned int map_width, unsigned int map_height, sf::Vector2u position);
 
 private:
-    sf::SoundBuffer buffer;
-    sf::SoundBuffer buffer_bump;
-    sf::Sound pas_sound;
-    sf::Sound bump_sound;
+
     sf::Time elapsed; 
     sf::Texture m_texture;
     sf::VertexArray m_vertices;
     sf::Vector2u current_pos;
     unsigned int direction;
     bool can_talk = false;
+    bool wall_collision;
     int change_map;
 
     bool going_right = false;

@@ -13,23 +13,13 @@ float ftile_size = static_cast<float> (TILESIZE);
 Player::Player(const std::string &texturePath, unsigned int pos_x, unsigned int pos_y, unsigned int direction) : 
     current_pos(pos_x, pos_y),
     change_map(0),
-    current_move(0) {
+    current_move(0),
+    wall_collision(false) {
     if (!m_texture.loadFromFile(texturePath)) {
         std::cerr << "Erreur lors du chargement de la texture" << std::endl;
         std::exit(-1);
     }
-    if (!buffer.loadFromFile("sound/sound/pas.wav")){
-            std::cerr << "Erreur lors du chargement du son" << std::endl;
-            std::exit(-1);
-        }
-    if (!buffer_bump.loadFromFile("sound/sound/bump.wav")){
-            std::cerr << "Erreur lors du chargement du son" << std::endl;
-            std::exit(-1);
-        }
-        bump_sound.setBuffer(buffer_bump);
-        pas_sound.setBuffer(buffer);
-        bump_sound.setVolume(5);
-    
+
     m_vertices.setPrimitiveType(sf::Quads);
     m_vertices.resize(4);
 
@@ -95,8 +85,9 @@ bool Player::collision(sf::Vector2u position, std::vector<std::vector<int>> plan
 }
 void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned int map_height, sf::View& view, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, bool is_talking) {
     int moveDelay;
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) moveDelay = 25;
-    else moveDelay = 50;
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) moveDelay = 15;
+    else moveDelay = 30;
     sf::Vector2u new_position;
     if (elapsed.asMilliseconds() >= moveDelay) {
         float speed = ftile_size;
@@ -106,13 +97,12 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
             new_position.y = current_pos.y;
             if(!in_map(map_width, map_height, new_position)) setChangeMap(3);
             else{
-                if (collision(new_position, plan,NPCs, obstacles)) bump_sound.play();
+                if (collision(new_position, plan,NPCs, obstacles)){wall_collision = true;}
                 else {
                     if (!going_right) 
                     {
                         move(speed/4, 0.f);
                         going_right = true;
-                        pas_sound.play();
                     }
                     else{
                         if(current_move != 3)
@@ -137,13 +127,12 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
             new_position.y = current_pos.y - 1;
             if(!in_map(map_width, map_height, new_position)) setChangeMap(2);
             else{
-                if (collision(new_position, plan,NPCs, obstacles)) bump_sound.play();
+                if (collision(new_position, plan,NPCs, obstacles)){wall_collision = true;}
                 else {
                     if (!going_up) 
                     {
                         move(0.f, -speed/4);
                         going_up = true;
-                        pas_sound.play();
                     }
                     else{
                         if(current_move != 3)
@@ -168,13 +157,12 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
             new_position.y = current_pos.y;
             if(!in_map(map_width, map_height, new_position)) setChangeMap(1);
             else{
-                if (collision(new_position, plan,NPCs, obstacles)) bump_sound.play();
+                if (collision(new_position, plan,NPCs, obstacles)){wall_collision = true;}
                 else {
                     if (!going_left) 
                     {
                         move(-speed/4, 0.f);
                         going_left = true;
-                        pas_sound.play();
                     }
                     else{
                         if(current_move != 3)
@@ -199,13 +187,12 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
             new_position.y = current_pos.y +1;
             if(!in_map(map_width, map_height, new_position)) setChangeMap(4);
             else{
-                if (collision(new_position, plan,NPCs, obstacles)) bump_sound.play();
+                if (collision(new_position, plan,NPCs, obstacles)){wall_collision = true;}
                 else {
                     if (!going_down) 
                     {
                         move(0.f, speed/4);
                         going_down = true;
-                        pas_sound.play();
                     }
                     else{
                         if(current_move != 3)
@@ -230,7 +217,6 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
     else {
         elapsed += deltaTime;
     }
-    
 }
 
 void Player::update_texture(unsigned int u, unsigned int i, sf::Vector2u tileSize,const sf::Time &deltaTime) {
@@ -246,3 +232,4 @@ bool Player::in_map(unsigned int map_width, unsigned int map_height, sf::Vector2
     else
         return false;
 }
+

@@ -37,6 +37,10 @@ private:
     PlayerInDoors player;
     std::vector<MapIndoors> MapList;
 
+    bool isTalking;
+    NPC* npcThatWasTalking;
+    int currentMessage;
+
     bool back_to_town;
     bool next_town;
 };

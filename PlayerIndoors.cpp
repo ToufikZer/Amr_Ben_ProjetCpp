@@ -15,17 +15,6 @@ PlayerInDoors::PlayerInDoors(const std::string &texturePath, float pos_x, float 
         std::cerr << "Erreur lors du chargement de la texture" << std::endl;
         std::exit(-1);
     }
-    if (!buffer.loadFromFile("sound/sound/pas.wav")){
-            std::cerr << "Erreur lors du chargement du son" << std::endl;
-            std::exit(-1);
-        }
-    if (!buffer_bump.loadFromFile("sound/sound/bump.wav")){
-            std::cerr << "Erreur lors du chargement du son" << std::endl;
-            std::exit(-1);
-        }
-        bump_sound.setBuffer(buffer_bump);
-        pas_sound.setBuffer(buffer);
-        bump_sound.setVolume(2);
     
     m_vertices.setPrimitiveType(sf::Quads);
     m_vertices.resize(4);
@@ -64,38 +53,35 @@ bool PlayerInDoors::collision_obstacles(sf::Vector2f position, std::vector<Obsta
     return false;
 }
 
-bool PlayerInDoors::collision_NPCs(sf::Vector2f position, std::vector<NPC> NPCs){
-    for (NPC& npc : NPCs){
-        if (sf::FloatRect(sf::Vector2f(position.x, position.y),sf::Vector2f(m_texture.getSize().x/3, m_texture.getSize().y)).intersects(npc.getGlobalBounds()))
-        {
-            return true;
-        }
+bool PlayerInDoors::collision_NPCs(sf::Vector2f position, NPC npc){
+    if (sf::FloatRect(sf::Vector2f(position.x, position.y),sf::Vector2f(m_texture.getSize().x/3, m_texture.getSize().y)).intersects(npc.getGlobalBounds()))
+    {
+        return true;
     }
     return false;
 }
 
 
 void PlayerInDoors::update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, 
-                           sf::View& view, std::vector<Obstacle> obstacles, std::vector<NPC> NPCs, unsigned int FloorNumber){
-        // std::cout << getPosition().x << ";" << getPosition().y << std::endl;
-        if (collision_NPCs(sf::Vector2f(getPosition().x, getPosition().y), NPCs)) std::cout << "ok" <<std::endl;
-        else std::cout << "pas ok" <<std::endl;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            out_map(map_width, map_height, sf::Vector2f(getPosition().x + speed, getPosition().y), FloorNumber);
-            if(!collision_obstacles(sf::Vector2f(sf::Vector2f(getPosition().x + speed, getPosition().y)),obstacles)){
-                move(speed, 0.f);
-                update_texture(0);
+                           sf::View& view, std::vector<Obstacle> obstacles, std::vector<NPC> NPCs, unsigned int FloorNumber, bool is_talking){
+        if (!is_talking){
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+                out_map(map_width, map_height, sf::Vector2f(getPosition().x + speed, getPosition().y), FloorNumber);
+                if(!collision_obstacles(sf::Vector2f(sf::Vector2f(getPosition().x + speed, getPosition().y)),obstacles)){
+                    move(speed, 0.f);
+                    update_texture(0);
+                }
             }
-        }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-            out_map(map_width, map_height, sf::Vector2f(getPosition().x - speed, getPosition().y), FloorNumber);
-            if(!collision_obstacles(sf::Vector2f(sf::Vector2f(getPosition().x - speed, getPosition().y)),obstacles)){
-                move(-speed, 0.f);
-                update_texture(2);
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+                out_map(map_width, map_height, sf::Vector2f(getPosition().x - speed, getPosition().y), FloorNumber);
+                if(!collision_obstacles(sf::Vector2f(sf::Vector2f(getPosition().x - speed, getPosition().y)),obstacles)){
+                    move(-speed, 0.f);
+                    update_texture(2);
+                }
             }
-        }
-        else {
-            update_texture(1);
+            else {
+                update_texture(1);
+            }
         }
 }
 

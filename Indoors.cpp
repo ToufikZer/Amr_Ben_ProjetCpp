@@ -12,7 +12,8 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
     : window(window),
       player("texture/texture_char/player.png", pos_player_x, pos_player_y),
       back_to_town(false),
-      next_town(false)
+      next_town(false),
+      currentMessage(0)
 {
     MapList.push_back(GARE);
     MapList.push_back(MARIO);
@@ -34,14 +35,14 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
         std::exit(-1);
     }
 
-    // if (!music.openFromFile(MusicPath)) {
-    //     std::cerr << "Erreur lors du chargement du son" << std::endl;
-    //     std::exit(-1);
-    // }
+    if (!music.openFromFile(MusicPath)) {
+        std::cerr << "Erreur lors du chargement du son" << std::endl;
+        std::exit(-1);
+    }
 
-    // music.setVolume(5);
-    // music.setLoop(true);
-    // music.play();
+    music.setVolume(5);
+    music.setLoop(true);
+    music.play();
     if (!backgroundTexture.loadFromFile(BackgroundPath)) {
         std::cerr << "Erreur lors du chargement de l'image de fond" << std::endl;
         std::exit(-1);
@@ -52,12 +53,47 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
 }
 
 void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
-    // Gérer les événements ici
+    if (event.type == sf::Event::KeyPressed) {
+        if (event.key.code == sf::Keyboard::A) {
+            for (NPC& npc : NPCs) {
+                if (player.collision_NPCs(sf::Vector2f(player.getPosition().x,player.getPosition().y), npc)) {
+                    if (npc.getDialogue()[currentMessage] == "EXIT") {
+                        back_to_town = true;
+                        music.stop();
+                    }
+                    else if (npc.getDialogue()[currentMessage] == "CUISINE"){
+                        next_town = true;
+                        music.stop();
+                    }
+                    else{
+                        if (!isTalking){
+                            music.pause();
+                            npc.play_toctoc();
+                            music.play();
+                            isTalking = true;
+                            npc.setIsTalking(true);
+                            npcThatWasTalking = &npc;
+                            break;
+                        }
+                        else {
+                            if (npcThatWasTalking != nullptr) {
+                                if (&npc == npcThatWasTalking) {
+                                    isTalking = false;
+                                    currentMessage = 0;
+                                    npcThatWasTalking->setIsTalking(false);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 void Indoors::update(sf::Time deltaTime, sf::RenderWindow& window) {
     player.update(deltaTime, font, backgroundSprite.getGlobalBounds().width,
-                  backgroundSprite.getGlobalBounds().height, view, obstacles, NPCs, FloorNumber);
+                  backgroundSprite.getGlobalBounds().height, view, obstacles, NPCs, FloorNumber, isTalking);
     if (player.getPosition().y <= 0.f){
         back_to_town = true;
     }
@@ -67,6 +103,7 @@ void Indoors::update(sf::Time deltaTime, sf::RenderWindow& window) {
 }
 
 void Indoors::draw(sf::RenderWindow& window) {
+    sf::FloatRect viewRect(0, 0, window.getSize().x, window.getSize().y);
     // Effacer la fenêtre
     window.clear();
 
@@ -81,9 +118,13 @@ void Indoors::draw(sf::RenderWindow& window) {
         window.draw(obstacle);
     }
 
-    for (NPC& npc : NPCs){
-        window.draw(npc);
-    }
+    for (NPC& npc : NPCs) {
+            window.draw(npc);
+            if (isTalking && (&npc == npcThatWasTalking)) {
+                npc.sendMessage(window, viewRect, font, npc.getDialogue()[currentMessage]);
+            }
+        }
+
     // Afficher la fenêtre
     window.display();
 }
