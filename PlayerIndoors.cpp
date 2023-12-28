@@ -7,8 +7,7 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
 
-PlayerInDoors::PlayerInDoors(const std::string &texturePath, float pos_x, float pos_y) :
-    speed(4)
+PlayerInDoors::PlayerInDoors(const std::string &texturePath, float pos_x, float pos_y)
     {
 
     if (!m_texture.loadFromFile(texturePath)) {

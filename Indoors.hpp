@@ -14,7 +14,7 @@
 
 class Indoors : public GameState {
 public:
-    Indoors(sf::RenderWindow& window, std::string MapName, float pos_player_x, float pos_player_y);
+    Indoors(sf::RenderWindow& window, std::string MapName, float pos_player_x, float pos_player_y, bool has_key);
 
     void handleEvent(sf::Event& event, sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window);
@@ -34,6 +34,7 @@ private:
     std::vector<Obstacle> obstacles;
     std::vector<NPC> NPCs;
     unsigned int FloorNumber;
+    float PlayerSpeed;
     PlayerInDoors player;
     std::vector<MapIndoors> MapList;
 
@@ -43,4 +44,6 @@ private:
 
     bool back_to_town;
     bool next_town;
+    bool kitchen;
+    bool has_key;
 };

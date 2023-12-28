@@ -167,7 +167,7 @@ bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, s
         sf::Text message;
         message.setFont(font);
         message.setString(dialogue);
-        message.setCharacterSize(0.05 * ViewRect.width);
+        message.setCharacterSize(0.04 * ViewRect.width);
         message.setFillColor(sf::Color::Black);
 
         float rectangleWidth = ViewRect.width;

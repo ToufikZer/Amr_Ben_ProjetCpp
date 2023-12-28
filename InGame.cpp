@@ -196,7 +196,7 @@ GameState* InGame::getNextState(){
         in_house = false;
         if (obstacleInteracting != nullptr) {
             if (obstacleInteracting->getId() != 0){
-                if (obstacleInteracting->getId() == 1) return new Indoors(window, "CROUS", 64.f, 140.f);
+                if (obstacleInteracting->getId() == 1) return new Indoors(window, "CROUS", 64.f, 140.f, 0);
                 if (obstacleInteracting->getId() == 2) return new InGame(window, sf::Vector2u(0,2), sf::Vector2u(10,7), sf::Vector2u(16,16), 3);
             }
         }

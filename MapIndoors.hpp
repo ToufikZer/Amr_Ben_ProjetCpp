@@ -8,10 +8,10 @@
 class MapIndoors {
 public:
     MapIndoors() = default;
-    MapIndoors(std::string MapName, std::string BackgroundPath, std::vector<NPC> NPCs,std::vector<Obstacle> obstacles, std::string MusicPath, unsigned int FloorNumber);
-    MapIndoors(std::string MapName, std::string BackgroundPath, std::vector<Obstacle> obstacles, std::string MusicPath, unsigned int FloorNumber);
-    MapIndoors(std::string MapName, std::string BackgroundPath, std::vector<NPC> NPCs, std::string MusicPath, unsigned int FloorNumber);
-    MapIndoors(std::string MapName, std::string BackgroundPath, std::string MusicPath, unsigned int FloorNumber);
+    MapIndoors(std::string MapName, std::string BackgroundPath, std::vector<NPC> NPCs,std::vector<Obstacle> obstacles, std::string MusicPath, unsigned int FloorNumber, float PlayerSpeed);
+    MapIndoors(std::string MapName, std::string BackgroundPath, std::vector<Obstacle> obstacles, std::string MusicPath, unsigned int FloorNumber, float PlayerSpeed);
+    MapIndoors(std::string MapName, std::string BackgroundPath, std::vector<NPC> NPCs, std::string MusicPath, unsigned int FloorNumber, float PlayerSpeed);
+    MapIndoors(std::string MapName, std::string BackgroundPath, std::string MusicPath, unsigned int FloorNumber, float PlayerSpeed);
 
     std::string getBackgroundPath(){
         return BackgroundPath;
@@ -39,6 +39,11 @@ public:
         return FloorNumber;
     }
 
+    float getPlayerSpeed(){
+        return PlayerSpeed;
+    }
+
+
 private:
     std::string BackgroundPath;
     std::vector<NPC> NPCs;
@@ -46,4 +51,5 @@ private:
     std::string MusicPath;
     std::string MapName;
     unsigned int FloorNumber;
+    float PlayerSpeed;
 };

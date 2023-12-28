@@ -83,11 +83,11 @@
                         "texture/texture_decor/decorgare.jpg", \
                         {(NPC("texture/texture_npc/npc.png", 10, 1, {"Voulez vous manger avec moi?", "QUOI, COMMENT CA NON", "CETAIT UNE PIZZA AU CACA"},"RUUULRRDULLRDDDL",1))}, \
                         {(Obstacle("texture/texture_obstacle/invisible_wall.png", 16, 15, 0))}, \
-                        "sound/music/music2.ogg",4)
+                        "sound/music/music2.ogg",4,10)
 
 #define MAP6 MapIndoors("MARIO", \
                         "texture/texture_decor/mario.png", \
-                        "sound/music/music2.ogg",1)
+                        "sound/music/music2.ogg",1,10)
 
 #define MAP7 MapIndoors("CROUS", \
                         "texture/texture_decor/crous.png", \
@@ -104,7 +104,12 @@
                         (NPC("texture/texture_npc/door_invisible.png", 565, 700, {"The door seems to be closed"},"",1)), \
                         (NPC("texture/texture_npc/door_invisible.png", 840, 700, {"CUISINE"},"",1))}, \
                         {(Obstacle("texture/texture_obstacle/invisible_wall.png", 16, 12, 0))}, \
-                        "sound/music/music2.ogg",3)
+                        "sound/music/music2.ogg",3,10)
                         
+
+#define MAP8 MapIndoors("KITCHEN", \
+                        "texture/texture_decor/kitchen.jpg", \
+                        {(NPC("texture/texture_obstacle/key.png", 118, 164, {"ROOM KEY ??", "Wow there's keys !!", "Probably one student forgot them there", "Oh, there is something written on it?", "'with great power comes great responsibility'"},"",1))}, \
+                        "sound/music/music1.ogg",1,0.5)
                         
 
