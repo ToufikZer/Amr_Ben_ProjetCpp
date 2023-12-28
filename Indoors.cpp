@@ -79,7 +79,7 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                         player.inventaire.removeItem(keyRoom);
                     }
                     
-                    else if (npc.getDialogue()[currentMessage] == "ROOM KEY ??"){
+                    else if (npc.getDialogue()[currentMessage] == "KEY"){
                         if (!has_key(player.inventaire)){
                         isTalking = true;
                         player.inventaire.addItem(keyRoom);
@@ -142,21 +142,24 @@ void Indoors::draw(sf::RenderWindow& window) {
     // Définir la vue
     window.setView(view);
     // Dessiner le joueur
-    window.draw(player);
 
-    player.drawInventory(window, font, view);
 
     for (Obstacle& obstacle : obstacles){
         window.draw(obstacle);
     }
 
     for (NPC& npc : NPCs) {
-            window.draw(npc);
-            if (isTalking && (&npc == npcThatWasTalking)) {
-                npc.sendMessage(window, viewRect, font, npc.getDialogue()[currentMessage]);
+            if (npc.getDialogue()[currentMessage] == "KEY" && has_key(player.inventaire)){} //On pourrait faire une fonction draw_key avec la meme condition mais pg la
+            else{
+                window.draw(npc);
+                if (isTalking && (&npc == npcThatWasTalking)) {
+                    npc.sendMessage(window, viewRect, font, npc.getDialogue()[currentMessage]);
+                }
             }
         }
 
+    window.draw(player);
+    player.drawInventory(window, font, view);
     // Afficher la fenêtre
     window.display();
 }
