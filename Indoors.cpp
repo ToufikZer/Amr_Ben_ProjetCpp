@@ -15,6 +15,7 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
       back_to_town(false),
       next_town(false),
       kitchen(false),
+      crous(false),
       has_key(has_key),
       currentMessage(0)
 {
@@ -118,7 +119,7 @@ void Indoors::update(sf::Time deltaTime, sf::RenderWindow& window) {
     player.update(deltaTime, font, backgroundSprite.getGlobalBounds().width,
                   backgroundSprite.getGlobalBounds().height, view, obstacles, NPCs, FloorNumber, isTalking);
     if (player.getPosition().y <= 0.f){
-        back_to_town = true;
+        crous = true;
     }
     if (player.getPosition().y >= backgroundSprite.getGlobalBounds().height){
         next_town = true;
@@ -156,12 +157,17 @@ GameState* Indoors::getNextState() {
     if (back_to_town){
         back_to_town = false;
         music.stop();
-        return new Indoors(window, "CROUS", 840, 740, has_key);
+        return new InGame(window, sf::Vector2u(0,2), sf::Vector2u(10,7), sf::Vector2u(16,16), 3);
     }
     if (next_town){
         next_town = false;
         music.stop();
         return new InGame(window, sf::Vector2u(0,0), sf::Vector2u(3,3), sf::Vector2u(16,16), 0);
+    }
+    if (crous){
+        crous = false;
+        music.stop();
+        return new Indoors(window, "CROUS", 840, 740, has_key);
     }
     if (kitchen){
         kitchen = false;

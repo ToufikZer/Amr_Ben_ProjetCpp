@@ -97,13 +97,14 @@
                         (NPC("texture/texture_npc/door_invisible.png", 840, 110, {"The door seems to be closed"},"",1)), \
                         (NPC("texture/texture_npc/door_invisible.png", 80, 400, {"The door seems to be closed"},"",1)), \
                         (NPC("texture/texture_npc/door_invisible.png", 350, 400, {"The door seems to be closed"},"",1)), \
-                        (NPC("texture/texture_npc/door_invisible.png", 565, 400, {"The door seems to be closed"},"",1)), \
+                        (NPC("texture/texture_npc/door_invisible.png", 565, 400, {"Someone is already posing un classique"},"",1)), \
                         (NPC("texture/texture_npc/door_invisible.png", 840, 400, {"The door seems to be closed"},"",1)), \
                         (NPC("texture/texture_npc/door_invisible.png", 80, 700, {"Oh, the doors seems to be half-open"},"",1)), \
                         (NPC("texture/texture_npc/door_invisible.png", 350, 700, {"The door seems to be closed"},"",1)), \
                         (NPC("texture/texture_npc/door_invisible.png", 565, 700, {"The door seems to be closed"},"",1)), \
                         (NPC("texture/texture_npc/door_invisible.png", 840, 700, {"CUISINE"},"",1))}, \
-                        {(Obstacle("texture/texture_obstacle/invisible_wall.png", 16, 12, 0))}, \
+                        {(Obstacle("texture/texture_obstacle/invisible_wall.png", 16, 12, 0)), \
+                        (Obstacle("texture/texture_obstacle/invisible_wall.png", 0, 2, 0))}, \
                         "sound/music/music2.ogg",3,10)
                         
 

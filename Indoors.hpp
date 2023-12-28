@@ -45,5 +45,6 @@ private:
     bool back_to_town;
     bool next_town;
     bool kitchen;
+    bool crous;
     bool has_key;
 };
