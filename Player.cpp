@@ -10,11 +10,12 @@
 unsigned int tile_size = TILESIZE;
 float ftile_size = static_cast<float> (TILESIZE);
 
-Player::Player(const std::string &texturePath, unsigned int pos_x, unsigned int pos_y, unsigned int direction) : 
+Player::Player(const std::string &texturePath, unsigned int pos_x, unsigned int pos_y, unsigned int direction, Inventory inventaire) : 
     current_pos(pos_x, pos_y),
     change_map(0),
     current_move(0),
-    wall_collision(false) {
+    wall_collision(false),
+    inventaire(inventaire) {
     if (!m_texture.loadFromFile(texturePath)) {
         std::cerr << "Erreur lors du chargement de la texture" << std::endl;
         std::exit(-1);
@@ -231,5 +232,9 @@ bool Player::in_map(unsigned int map_width, unsigned int map_height, sf::Vector2
         return true;
     else
         return false;
+}
+
+void Player::drawInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view){
+    inventaire.displayInventory(window, font, view);
 }
 

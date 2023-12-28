@@ -13,6 +13,7 @@
 #include "MapManager.hpp"
 #include "Map.hpp"
 #include "Keybinds.hpp"
+#include "Inventory.hpp"
 
 class InGame_CarGameplay : public GameState {
 public:

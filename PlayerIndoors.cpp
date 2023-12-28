@@ -7,7 +7,7 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
 
-PlayerInDoors::PlayerInDoors(const std::string &texturePath, float pos_x, float pos_y)
+PlayerInDoors::PlayerInDoors(const std::string &texturePath, float pos_x, float pos_y, Inventory inventaire)
     {
 
     if (!m_texture.loadFromFile(texturePath)) {
@@ -96,4 +96,8 @@ void PlayerInDoors::out_map(unsigned int map_width, unsigned int map_height, sf:
         setPosition(sf::Vector2f(0.f - m_texture.getSize().x /3, getPosition().y + map_height/FloorNumber));
     else if(position.x < 0.f - m_texture.getSize().x /3)
         setPosition(sf::Vector2f(map_width, getPosition().y - map_height/FloorNumber));
+}
+
+void PlayerInDoors::drawInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view){
+    inventaire.displayInventory(window, font, view);
 }

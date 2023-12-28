@@ -1,4 +1,4 @@
-// InGame_CarGameplay.cpp
+// InDoors.cpp
 #include "Indoors.hpp"
 #include "PlayerIndoors.hpp"
 #include "MapInstances.hpp"
@@ -8,17 +8,18 @@ MapIndoors GARE = MAP5;
 MapIndoors MARIO = MAP6;
 MapIndoors CROUS = MAP7;
 MapIndoors KITCHEN = MAP8;
+Item keyRoom = Item("Key","Une clé de chambre", 1, "texture/texture_item/key.png");
 
-Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player_x, float pos_player_y, bool has_key)
+Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player_x, float pos_player_y, Inventory inventaire)
     : window(window),
-      player("texture/texture_char/player.png", pos_player_x, pos_player_y),
+      player("texture/texture_char/player.png", pos_player_x, pos_player_y, Inventory()),
       back_to_town(false),
       next_town(false),
       kitchen(false),
       crous(false),
-      has_key(has_key),
       currentMessage(0)
 {
+    player.inventaire = inventaire;
     MapList.push_back(GARE);
     MapList.push_back(MARIO);
     MapList.push_back(CROUS);
@@ -62,6 +63,7 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
 void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
     if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::A) {
+            std::cout << has_key(player.inventaire) << std::endl;
             for (NPC& npc : NPCs) {
                 if (player.collision_NPCs(sf::Vector2f(player.getPosition().x,player.getPosition().y), npc)) {
                     if (npc.getDialogue()[currentMessage] == "EXIT") {
@@ -72,17 +74,21 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                         kitchen = true;
                         music.stop();
                     }
-                    else if (has_key && npc.getDialogue()[currentMessage] == "Oh, the doors seems to be half-open"){
+                    else if (has_key(player.inventaire) && npc.getDialogue()[currentMessage] == "Oh, the doors seems to be half-open"){
                         std::cout << "BAGARRE" << std::endl;
+                        player.inventaire.removeItem(keyRoom);
                     }
                     
                     else if (npc.getDialogue()[currentMessage] == "ROOM KEY ??"){
+                        if (!has_key(player.inventaire)){
                         isTalking = true;
-                        has_key = true;
+                        player.inventaire.addItem(keyRoom);
                         npc.setIsTalking(true);
                         npcThatWasTalking = &npc;
                         currentMessage += 1;
                         break;
+                        }
+                        else {}
                     }
                     else{
                         if (!isTalking){
@@ -138,6 +144,8 @@ void Indoors::draw(sf::RenderWindow& window) {
     // Dessiner le joueur
     window.draw(player);
 
+    player.drawInventory(window, font, view);
+
     for (Obstacle& obstacle : obstacles){
         window.draw(obstacle);
     }
@@ -157,22 +165,30 @@ GameState* Indoors::getNextState() {
     if (back_to_town){
         back_to_town = false;
         music.stop();
-        return new InGame(window, sf::Vector2u(0,2), sf::Vector2u(10,7), sf::Vector2u(16,16), 3);
+        return new InGame(window, sf::Vector2u(0,2), sf::Vector2u(10,7), sf::Vector2u(16,16),player.inventaire, 3);
     }
     if (next_town){
         next_town = false;
         music.stop();
-        return new InGame(window, sf::Vector2u(0,0), sf::Vector2u(3,3), sf::Vector2u(16,16), 0);
+        return new InGame(window, sf::Vector2u(0,0), sf::Vector2u(3,3), sf::Vector2u(16,16),player.inventaire, 0);
     }
     if (crous){
         crous = false;
         music.stop();
-        return new Indoors(window, "CROUS", 840, 740, has_key);
+        return new Indoors(window, "CROUS", 840, 740, player.inventaire);
     }
     if (kitchen){
         kitchen = false;
         music.stop();
-        return new Indoors(window, "KITCHEN", 10, 120, has_key);
+        return new Indoors(window, "KITCHEN", 10, 120, player.inventaire);
     }
     return nullptr;
+}
+
+
+bool Indoors::has_key(Inventory inventaire){
+    for (Item& item : inventaire.getItems()){
+        if (item.getName() == "Key") return true;
+    }
+    return false;
 }

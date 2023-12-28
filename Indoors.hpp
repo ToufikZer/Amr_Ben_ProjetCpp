@@ -11,10 +11,11 @@
 #include "MainMenu.hpp"
 #include "MapIndoors.hpp"
 #include "InGame.hpp"
+#include "Item.hpp"
 
 class Indoors : public GameState {
 public:
-    Indoors(sf::RenderWindow& window, std::string MapName, float pos_player_x, float pos_player_y, bool has_key);
+    Indoors(sf::RenderWindow& window, std::string MapName, float pos_player_x, float pos_player_y, Inventory inventaire);
 
     void handleEvent(sf::Event& event, sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window);
@@ -46,5 +47,5 @@ private:
     bool next_town;
     bool kitchen;
     bool crous;
-    bool has_key;
+    bool has_key(Inventory inventaire);
 };

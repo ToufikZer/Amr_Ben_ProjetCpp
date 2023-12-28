@@ -9,6 +9,7 @@
 class NPC : public Player{
 public:
     NPC(const std::string& texturePath, float pos_x, float pos_y, std::vector<std::string> dialogue, std::string moves, int type_of_pnj);
+
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
     void update(Player& player, const sf::Time &deltaTime, unsigned int map_width, unsigned int map_height, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles);

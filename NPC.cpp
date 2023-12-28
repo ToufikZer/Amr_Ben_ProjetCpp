@@ -12,7 +12,7 @@ unsigned int tile_size_npc = TILESIZE;
 float ftile_size_npc = static_cast<float> (TILESIZE);
 
     NPC::NPC(const std::string& texturePath, float pos_x, float pos_y, std::vector<std::string> dialogue, std::string moves, int type_of_pnj): 
-    Player(texturePath, pos_x, pos_y, 0),
+    Player(texturePath, pos_x, pos_y, 0, Inventory()),
     current_pos(pos_x,pos_y),
     dialogue(dialogue),
     moves(moves),

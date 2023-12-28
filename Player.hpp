@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "TileMap.hpp"
+#include "Inventory.hpp"
+#include "Item.hpp"
 #define TILESIZE 32
 
 class NPC;
@@ -11,7 +13,7 @@ class Obstacle;
 
 class Player : public sf::Drawable, public sf::Transformable {
 public:
-    Player(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y, unsigned int direction);
+    Player(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y, unsigned int direction, Inventory inventaire);
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -48,7 +50,10 @@ public:
     void setWallColl(bool value){
         wall_collision = value;
     }
+    
+    Inventory inventaire;
 
+    void drawInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view);
 protected:
     bool collision_obstacles(sf::Vector2u position, std::vector<Obstacle> obstacles);
     bool collision_npcs(sf::Vector2u position, std::vector<NPC> NPCs);

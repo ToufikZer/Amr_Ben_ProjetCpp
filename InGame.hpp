@@ -13,10 +13,12 @@
 #include "Map.hpp"
 #include "Keybinds.hpp"
 #include "Indoors.hpp"
+#include "Inventory.hpp"
+#include "Item.hpp"
 
 class InGame : public GameState {
 public:
-    InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2u pos_player, sf::Vector2u map_dimension, unsigned int player_direction);
+    InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2u pos_player, sf::Vector2u map_dimension, Inventory inventaire, unsigned int player_direction);
 
     void handleEvent(sf::Event& event, sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window);
