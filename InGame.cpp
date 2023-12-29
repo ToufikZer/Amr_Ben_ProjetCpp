@@ -167,7 +167,7 @@ void InGame::draw(sf::RenderWindow& window) {
         for (NPC& npc : NPCs) {
             window.draw(npc);
             if (isTalking && (&npc == npcThatWasTalking)) {
-                npc.sendMessage(window, viewRect, font, npc.getDialogue()[currentMessage]);
+                npc.sendMessage(window, viewRect, font, currentMessage);
             }
         }
 

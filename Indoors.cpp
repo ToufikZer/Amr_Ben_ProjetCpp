@@ -168,7 +168,7 @@ void Indoors::draw(sf::RenderWindow& window) {
                 window.draw(npc);
             }
             if (isTalking && (&npc == npcThatWasTalking)) {
-                npc.sendMessage(window, viewRect, font, npc.getDialogue()[currentMessage]);
+                npc.sendMessage(window, viewRect, font, currentMessage);
             }
         }
 

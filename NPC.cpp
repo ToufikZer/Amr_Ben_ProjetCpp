@@ -11,13 +11,16 @@
 unsigned int tile_size_npc = TILESIZE;
 float ftile_size_npc = static_cast<float> (TILESIZE);
 
-    NPC::NPC(const std::string& texturePath, float pos_x, float pos_y, std::vector<std::string> dialogue, std::string moves, int type_of_pnj): 
+    NPC::NPC(const std::string& texturePath, float pos_x, float pos_y, std::vector<std::string> dialogue, std::string moves,std::vector<Answer> AnswerVector, int type_of_pnj): 
     Player(texturePath, pos_x, pos_y, 0, Inventory()),
     current_pos(pos_x,pos_y),
     dialogue(dialogue),
+    AnswerVector(AnswerVector),
     moves(moves),
     TexturePath(texturePath),
-    is_talking(false) {
+    is_talking(false),
+    is_asking(false)
+     {
         if (type_of_pnj == 0) {
             if (!m_texture.loadFromFile(texturePath)) {
                 std::cerr << "Erreur lors du chargement de la texture" << std::endl;
@@ -163,11 +166,14 @@ bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, s
         m_vertices[3].texCoords = sf::Vector2f(u * tileSize.x, (v+1)*tileSize.y);
         }
 
-    void NPC::sendMessage(sf::RenderWindow& window, sf::FloatRect ViewRect, sf::Font& font, std::string dialogue){
-
+    void NPC::sendMessage(sf::RenderWindow& window, sf::FloatRect ViewRect, sf::Font& font, int currentMessage){
+        if (dialogue[currentMessage] == "QUESTION") {
+            is_asking = true;
+            currentMessage-- ;
+        }
         sf::Text message;
         message.setFont(font);
-        message.setString(dialogue);
+        message.setString(dialogue[currentMessage]);
         message.setCharacterSize(0.05 * ViewRect.height);
         message.setFillColor(sf::Color::Black);
 
@@ -176,27 +182,17 @@ bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, s
         float rectangleX = ViewRect.left;
         float rectangleY = ViewRect.height - rectangleHeight;
 
-        sf::RectangleShape blueRectangle(sf::Vector2f(rectangleWidth, rectangleHeight));
-        sf::RectangleShape blueRectangleTop(sf::Vector2f(rectangleWidth, 0.0093*ViewRect.height));
-        sf::RectangleShape blueRectangleLeft(sf::Vector2f(0.0093*ViewRect.height, rectangleHeight));
-        sf::RectangleShape blueRectangleRight(sf::Vector2f(0.0093*ViewRect.height, rectangleHeight));
-        sf::RectangleShape blueRectangleBot(sf::Vector2f(rectangleWidth, 0.0093*ViewRect.height));
-        blueRectangle.setPosition(rectangleX, rectangleY);
-        blueRectangle.setFillColor(sf::Color(200, 200, 200, 100));
-        blueRectangleTop.setPosition(rectangleX, rectangleY);
-        blueRectangleTop.setFillColor(sf::Color(50, 50, 50, 200));
-        blueRectangleLeft.setPosition(rectangleX, rectangleY);
-        blueRectangleLeft.setFillColor(sf::Color(50, 50, 50, 200));
-        blueRectangleRight.setPosition(rectangleWidth - 0.0093*ViewRect.height, rectangleY);
-        blueRectangleRight.setFillColor(sf::Color(50, 50, 50, 200));
-        blueRectangleBot.setPosition(rectangleX, ViewRect.height - 0.0093*ViewRect.height);
-        blueRectangleBot.setFillColor(sf::Color(50, 50, 50, 200));
+        sf::RectangleShape TextRectangle(sf::Vector2f(rectangleWidth -2 *0.0093 * ViewRect.height, rectangleHeight - 0.0093 * ViewRect.height));
+        TextRectangle.setPosition(rectangleX + 0.0093 * ViewRect.height, rectangleY);
+        TextRectangle.setFillColor(sf::Color(200, 200, 200, 100));
+
+        // Définir la bordure du rectangle
+        TextRectangle.setOutlineColor(sf::Color(50, 50, 50, 200));  
+        TextRectangle.setOutlineThickness(0.0093 * ViewRect.height);  
+
+        window.draw(TextRectangle);
+
         message.setPosition(rectangleX + 0.0156 * ViewRect.width, rectangleY + 0.0088* ViewRect.width);
-        window.draw(blueRectangle);
-        window.draw(blueRectangleTop);
-        window.draw(blueRectangleLeft);
-        window.draw(blueRectangleRight);
-        window.draw(blueRectangleBot);
         window.draw(message);
 
     }
@@ -230,4 +226,15 @@ void NPC::play_toctoc(){
         toctoc_sound.play();
         sf::sleep(sf::seconds(0.5));
         
+}
+
+void NPC::draw_answer(sf::RenderWindow& window, sf::Font& font, float rectangleX, float rectangleWidth, float rectangleY) {
+    // sf::RectangleShape answerBox(sf::Vector2f(100, 30)); // Ajustez la taille de la case de réponse
+    // answerBox.setPosition(rectangleX + rectangleWidth, rectangleY);
+    // answerBox.setFillColor(sf::Color(255, 255, 255)); // Couleur de la case de réponse
+    // sf::Text text(AnswerVector[0], font, 14); // Ajustez la taille du texte
+    // text.setFillColor(sf::Color(0, 0, 0)); // Couleur du texte
+    // text.setPosition(answerBox.getPosition().x + 10, answerBox.getPosition().y + 5);
+    // window.draw(answerBox);
+    // window.draw(text);
 }
