@@ -228,6 +228,6 @@ void NPC::play_toctoc(){
         toctoc_sound.setBuffer(buffer_toctoc);
         toctoc_sound.setVolume(25);
         toctoc_sound.play();
-        sf::sleep(sf::seconds(2));
+        sf::sleep(sf::seconds(0.5));
         
 }
