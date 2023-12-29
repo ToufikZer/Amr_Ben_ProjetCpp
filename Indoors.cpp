@@ -148,6 +148,7 @@ void Indoors::draw(sf::RenderWindow& window) {
         window.draw(obstacle);
     }
 
+    window.draw(player);
     for (NPC& npc : NPCs) {
             if (npc.getDialogue()[currentMessage] == "KEY" && has_key(player.inventaire)){} //On pourrait faire une fonction draw_key avec la meme condition mais pg la
             else{
@@ -158,7 +159,6 @@ void Indoors::draw(sf::RenderWindow& window) {
             }
         }
 
-    window.draw(player);
     player.drawInventory(window, font, view);
     // Afficher la fenêtre
     window.display();

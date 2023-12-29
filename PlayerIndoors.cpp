@@ -65,16 +65,16 @@ void PlayerInDoors::update(const sf::Time& deltaTime, sf::Font& font, unsigned i
                            sf::View& view, std::vector<Obstacle> obstacles, std::vector<NPC> NPCs, unsigned int FloorNumber, bool is_talking){
         if (!is_talking){
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-                out_map(map_width, map_height, sf::Vector2f(getPosition().x + speed, getPosition().y), FloorNumber);
-                if(!collision_obstacles(sf::Vector2f(sf::Vector2f(getPosition().x + speed, getPosition().y)),obstacles)){
-                    move(speed, 0.f);
+                out_map(map_width, map_height, sf::Vector2f(getPosition().x + speed* deltaTime.asSeconds(), getPosition().y), FloorNumber);
+                if(!collision_obstacles(sf::Vector2f(sf::Vector2f(getPosition().x + speed* deltaTime.asSeconds(), getPosition().y)),obstacles)){
+                    move(speed * deltaTime.asSeconds(), 0.f);
                     update_texture(0);
                 }
             }
             else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-                out_map(map_width, map_height, sf::Vector2f(getPosition().x - speed, getPosition().y), FloorNumber);
-                if(!collision_obstacles(sf::Vector2f(sf::Vector2f(getPosition().x - speed, getPosition().y)),obstacles)){
-                    move(-speed, 0.f);
+                out_map(map_width, map_height, sf::Vector2f(getPosition().x - speed* deltaTime.asSeconds(), getPosition().y), FloorNumber);
+                if(!collision_obstacles(sf::Vector2f(sf::Vector2f(getPosition().x - speed* deltaTime.asSeconds(), getPosition().y)),obstacles)){
+                    move(-speed * deltaTime.asSeconds(), 0.f);
                     update_texture(2);
                 }
             }

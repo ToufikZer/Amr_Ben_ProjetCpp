@@ -9,7 +9,7 @@
 
 PlayerCar::PlayerCar(const std::string &texturePath, unsigned int pos_x, unsigned int pos_y) :
     crash(false),
-    speed(0.05)
+    speed(0.2)
     {
 
     if (!m_texture.loadFromFile(texturePath)) {
@@ -66,17 +66,19 @@ bool PlayerCar::collision_obstacles(sf::Vector2f position, std::vector<Obstacle>
 void PlayerCar::update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, 
                        sf::View& view, std::vector<std::vector<int>> plan, std::vector<Obstacle> obstacles){
     if(!collision_obstacles(getPosition(),obstacles ) && !crash){
-        move(speed,0.f);
-        speed += 0.05;
+        float deltaTimeSeconds = deltaTime.asSeconds();
+        float speedIncrease = 0.3f;
+        move(speed * deltaTimeSeconds,0.f);
+        speed += speedIncrease;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            if (in_map(map_width, map_height, sf::Vector2f(getPosition().x, getPosition().y + 2))){
-                move(0,2);
+            if (in_map(map_width, map_height, sf::Vector2f(getPosition().x, getPosition().y + speed * deltaTimeSeconds*0.75))){
+                move(0,speed * deltaTimeSeconds*0.25);
                 update_texture(2);
             }
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-            if (in_map(map_width, map_height, sf::Vector2f(getPosition().x, getPosition().y - 2))){
-                move(0,-2);
+            if (in_map(map_width, map_height, sf::Vector2f(getPosition().x, getPosition().y - speed * deltaTimeSeconds*0.75))){
+                move(0,-speed * deltaTimeSeconds*0.25);
                 update_texture(1);
             }
         }
@@ -90,8 +92,8 @@ void PlayerCar::update(const sf::Time& deltaTime, sf::Font& font, unsigned int m
         crash = true;
         if (speed > 0)
         {
-            move(speed,0.f);
-            speed -= 0.15;
+            move(speed * deltaTime.asSeconds(),0.f);
+            speed -= 1;
             rotate(5);
         }
     }
