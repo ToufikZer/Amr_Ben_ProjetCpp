@@ -47,5 +47,7 @@ private:
     bool next_town;
     bool kitchen;
     bool crous;
+
     bool has_key(Inventory inventaire);
+    bool has_kitchen_knife(Inventory inventaire);
 };

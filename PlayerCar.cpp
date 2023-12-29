@@ -7,9 +7,10 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
 
-PlayerCar::PlayerCar(const std::string &texturePath, unsigned int pos_x, unsigned int pos_y) :
+PlayerCar::PlayerCar(const std::string &texturePath, unsigned int pos_x, unsigned int pos_y, Inventory inventaire) :
     crash(false),
-    speed(0.2)
+    speed(0.2),
+    inventaire(inventaire)
     {
 
     if (!m_texture.loadFromFile(texturePath)) {
@@ -67,7 +68,7 @@ void PlayerCar::update(const sf::Time& deltaTime, sf::Font& font, unsigned int m
                        sf::View& view, std::vector<std::vector<int>> plan, std::vector<Obstacle> obstacles){
     if(!collision_obstacles(getPosition(),obstacles ) && !crash){
         float deltaTimeSeconds = deltaTime.asSeconds();
-        float speedIncrease = 0.3f;
+        float speedIncrease = 1.f;
         move(speed * deltaTimeSeconds,0.f);
         speed += speedIncrease;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {

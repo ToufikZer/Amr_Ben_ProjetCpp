@@ -16,6 +16,7 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
     current_pos(pos_x,pos_y),
     dialogue(dialogue),
     moves(moves),
+    TexturePath(texturePath),
     is_talking(false) {
         if (type_of_pnj == 0) {
             if (!m_texture.loadFromFile(texturePath)) {
@@ -167,7 +168,7 @@ bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, s
         sf::Text message;
         message.setFont(font);
         message.setString(dialogue);
-        message.setCharacterSize(0.04 * ViewRect.width);
+        message.setCharacterSize(0.05 * ViewRect.height);
         message.setFillColor(sf::Color::Black);
 
         float rectangleWidth = ViewRect.width;

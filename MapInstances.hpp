@@ -22,7 +22,7 @@
                     {1,0,1,0,3,0,2,2,2,0,1,1,1,1,1,1},\
                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}}, \
                     {(NPC("texture/texture_npc/npcpkmn.png", 8, 13, {"Salut", "test", "caca"},"RULD",0)), \
-                     (NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut2", "pioupiou", "hello!"},"RUUUDDDLL",0))}, \
+                     (NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut2", "pioupiou", "hello!"},"RRUUUDDDLL",0))}, \
                     "sound/music/music1.ogg")
 
 #define MAP2 Map({{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, \
@@ -41,7 +41,7 @@
                     {1,0,0,0,3,0,2,2,0,0,0,0,0,0,2,1}, \
                     {1,0,0,0,3,0,2,2,2,0,0,0,0,0,0,1}, \
                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}}, \
-                    {(NPC("texture/texture_npc/npcpkmn.png", 9, 9, {"Salut", "test", "caca"},"UUUUDDDD",0)), \
+                    {(NPC("texture/texture_npc/npcpkmn.png", 9, 9, {"Salut", "test", "caca","retest"},"UUUUDDDD",0)), \
                      (NPC("texture/texture_npc/npcpkmn.png", 0, 3, {"Salut2", "pioupiou", "hello!"},"RULD",0))}, \
                     {Obstacle("texture/texture_obstacle/Crous.png", 9, 1, sf::Vector2u(10,7), sf::Vector2u(12,7),2, 1)}, \
                     "sound/music/music2.ogg")
@@ -51,12 +51,12 @@
 #define MAP3 Map({{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},\
                     {1,2,2,2,2,2,2,0,0,0,0,2,0,0,0,1},\
                     {1,2,0,0,0,0,0,0,3,3,3,3,3,3,3,1},\
-                    {1,2,0,0,1,3,3,3,3,0,1,1,1,0,0,1},\
-                    {1,2,2,0,3,3,3,0,0,0,2,1,1,1,0,1},\
-                    {1,0,1,0,3,0,1,1,0,0,2,2,1,1,1,1},\
-                    {1,0,2,0,3,0,1,1,1,0,1,2,1,1,1,1},\
-                    {1,0,2,0,3,2,1,1,0,0,0,0,1,1,2,0},\
-                    {1,0,0,0,0,0,2,1,1,1,1,1,1,1,0,0},\
+                    {1,2,0,0,1,3,3,3,3,0,0,0,0,0,0,1},\
+                    {1,2,2,0,3,3,3,0,0,0,0,0,0,0,0,1},\
+                    {1,0,1,0,3,0,1,1,0,0,0,0,0,0,1,1},\
+                    {1,0,2,0,3,0,1,1,0,0,0,0,0,0,1,1},\
+                    {1,0,2,0,3,2,1,1,0,0,0,0,0,0,2,2},\
+                    {1,0,0,0,0,0,2,1,0,0,0,0,0,0,0,2},\
                     {1,1,1,1,1,0,2,0,0,0,0,0,0,0,0,1},\
                     {1,2,0,0,0,0,0,0,3,0,3,3,3,3,3,1},\
                     {1,1,0,0,1,0,3,3,3,0,1,1,2,0,0,1},\
@@ -64,8 +64,9 @@
                     {1,0,1,0,3,0,1,2,0,0,2,2,2,1,1,1},\
                     {1,0,0,0,3,0,2,2,2,0,2,1,1,1,1,1},\
                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}}, \
-                    {(NPC("texture/texture_npc/npcpkmn.png", 8, 13, {"Voulez vous manger avec moi?", "QUOI, COMMENT CA NON", "CETAIT UNE PIZZA AU CACA"},"RUUULRRDULLRDDDL",0)), \
-                     (NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut2", "pioupiou", "hello!"},"RRUUUDDDLL",0))}, \
+                    {(NPC("texture/texture_npc/npcpkmn.png", 8, 13, {"Voulez vous manger avec moi?", "QUOI, COMMENT CA NON", "CETAIT UNE PIZZA AU CACA","1","2"},"RUUULRRDULLRDDDL",0)), \
+                     (NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut2", "pioupiou", "hello!", "okok"},"RRUUUDDDLL",0))}, \
+                     {Obstacle("texture/texture_obstacle/Crous.png", 9, 1, sf::Vector2u(10,7), sf::Vector2u(12,7),2, 3)}, \
                     "sound/music/music1.ogg")
 
 #define MAP4 Map({{3,3,3,3,3,3,3},\
@@ -103,7 +104,7 @@
                         (NPC("texture/texture_npc/door_invisible.png", 350, 700, {"The door seems to be closed"},"",1)), \
                         (NPC("texture/texture_npc/door_invisible.png", 565, 700, {"The door seems to be closed"},"",1)), \
                         (NPC("texture/texture_npc/door_invisible.png", 840, 700, {"CUISINE"},"",1))}, \
-                        {(Obstacle("texture/texture_obstacle/invisible_wall.png", 16, 12, 0)), \
+                        {(Obstacle("texture/texture_obstacle/invisible_wall.png", 15, 12, 0)), \
                         (Obstacle("texture/texture_obstacle/invisible_wall.png", 0, 2, 0))}, \
                         "sound/music/music2.ogg",3,250)
                         
@@ -113,5 +114,12 @@
                         {(NPC("texture/texture_obstacle/key.png", 113, 168, {"KEY", "Wow there's keys !!", "Probably one student forgot them there", "Oh, there is something written on it?", "'with great power comes great responsibility'"},"",1))}, \
                         {(Obstacle("texture/texture_obstacle/invisible_wall.png", 5, 3, 0))}, \
                         "sound/music/music1.ogg",1,60)
+
+#define MAP9 MapIndoors("AIRPORT", \
+                        "texture/texture_decor/aeroport.jpg", \
+                        {(NPC("texture/texture_npc/npc_airport.png", 326, 143, {"Salut!", "Tu viens d'arriver?","Je dois te prévenir, les taxis sont en greve", "tu vas devoir prendre les trransports", "Ou bien il y a une agence de location de véhicule qui a ouvert\nTu peux tenter ta chance elle n'est pas loin",  "Il faut que tu prennes à droite, si c'est fermé tu vas\n devoir faire un detour par le haut!"},"",1)), \
+                        (NPC("texture/texture_npc/valise.png", 476, 170, {"KNIFE", "Il y a un couteau dans la valise", "Ca pourrait etre utile, on sait jamais..."},"",1))}, \
+                        {(Obstacle("texture/texture_obstacle/invisible_wall.png", 0, 3, 0))}, \
+                        "sound/music/music1.ogg",1,100)
                         
 

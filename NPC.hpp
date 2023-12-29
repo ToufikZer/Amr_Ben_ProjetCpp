@@ -28,6 +28,11 @@ public:
     std::vector<std::string> const& getDialogue() const {
         return dialogue;
     }
+
+    std::string getTexturePath() {
+        return TexturePath;
+    }
+
     sf::Vector2u getCurrentPos();
 
     float& getDelay(){
@@ -54,6 +59,7 @@ private:
     float delay = 0;
     bool is_talking;
     bool playsound = true;
+    std::string TexturePath;
 
     bool collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs,Player player, std::vector<Obstacle> obstacles);
 };

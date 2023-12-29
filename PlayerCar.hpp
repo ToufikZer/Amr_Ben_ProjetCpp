@@ -8,7 +8,7 @@
 #include <iostream>
 class PlayerCar : public sf::Drawable, public sf::Transformable {
 public:
-    PlayerCar(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y);
+    PlayerCar(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y, Inventory inventaire);
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -29,7 +29,9 @@ public:
     void setCrash(bool value){
         crash = value;
     }
+    Inventory inventaire;
 
+    void drawInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view);
 protected:
     bool collision_obstacles(sf::Vector2f position, std::vector<Obstacle> obstacles);
     bool in_map(unsigned int map_width, unsigned int map_height, sf::Vector2f position);

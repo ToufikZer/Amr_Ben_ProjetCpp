@@ -31,7 +31,7 @@ int main() {
 
         // Dessin de l'état actuel
         currentState->draw(window);
-
+        
         GameState* nextState = currentState->getNextState();
         if (nextState != nullptr) {
             // Libérez l'ancien état (dans un projet réel, utilisez std::unique_ptr)

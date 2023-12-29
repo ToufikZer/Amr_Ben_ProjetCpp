@@ -3,12 +3,13 @@
 #include "InGame.hpp"
 #include <iostream>
 
-InGame_CarGameplay::InGame_CarGameplay(sf::RenderWindow& window)
+InGame_CarGameplay::InGame_CarGameplay(sf::RenderWindow& window, Inventory inventaire)
     : window(window),
       map(sf::Vector2u(60, 9)),
-      player("texture/texture_char/cars_tileset.png", 8, 4),
+      player("texture/texture_char/cars_tileset.png", 8, 4, Inventory()),
       is_arrived(false)
 {
+    player.inventaire = inventaire;
     if (!font.loadFromFile("font/arial.ttf")) {
         std::cerr << "Erreur lors du chargement de la police" << std::endl;
         std::exit(-1);
@@ -127,14 +128,15 @@ GameState* InGame_CarGameplay::getNextState() {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
             player.setCrash(false);
-            return new InGame_CarGameplay(window);
+            return new InGame_CarGameplay(window, player.inventaire);
         }
     }
     if (is_arrived){
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
             is_arrived = false;
-            return new InGame(window, sf::Vector2u(0,1), sf::Vector2u(2,3), sf::Vector2u(16,16), Inventory(), 0);
+            // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
+            return new InGame(window, sf::Vector2u(0,1), sf::Vector2u(2,3), sf::Vector2u(16,16), player.inventaire, 0);
         }
     }
     return nullptr;

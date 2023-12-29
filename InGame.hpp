@@ -13,6 +13,7 @@
 #include "Map.hpp"
 #include "Keybinds.hpp"
 #include "Indoors.hpp"
+#include "InGame_CarGameplay.hpp"
 #include "Inventory.hpp"
 #include "Item.hpp"
 

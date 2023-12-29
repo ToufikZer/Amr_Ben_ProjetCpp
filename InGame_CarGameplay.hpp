@@ -14,10 +14,11 @@
 #include "Map.hpp"
 #include "Keybinds.hpp"
 #include "Inventory.hpp"
+#include "Item.hpp"
 
 class InGame_CarGameplay : public GameState {
 public:
-    InGame_CarGameplay(sf::RenderWindow& window);
+    InGame_CarGameplay(sf::RenderWindow& window, Inventory inventaire);
 
     void handleEvent(sf::Event& event, sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window);
