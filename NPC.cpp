@@ -186,9 +186,6 @@ bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, s
         float rectangleX = ViewRect.left;
         float rectangleY = ViewRect.height - rectangleHeight;
         if (is_asking) {
-            window.setKeyRepeatEnabled(false);
-            ChooseAnswer(event);
-            std::cout << current_answer << std::endl;
             draw_answer(window, event, font, rectangleX, rectangleWidth, rectangleY, rectangleHeight, current_answer);
         }
         sf::RectangleShape TextRectangle(sf::Vector2f(rectangleWidth -2 *0.0093 * ViewRect.height, rectangleHeight - 0.0093 * ViewRect.height));
@@ -257,30 +254,7 @@ void NPC::drawTriangle(sf::RenderWindow& window, float edge, float pos_x, float 
     sf::CircleShape triangle(edge, 3);
     triangle.setPosition(pos_x,pos_y);
     triangle.setFillColor(sf::Color::Black);
-    triangle.rotate(26);
+    triangle.rotate(25.5);
     window.draw(triangle);
 }
 
-void NPC::ChooseAnswer(sf::Event& event){
-    if (event.type == sf::Event::KeyReleased)
-    {
-        if (event.key.code == sf::Keyboard::Return)
-        {
-            // executeOption();
-        }
-        if (event.key.code == sf::Keyboard::Up)
-        {
-            if (current_answer == 0) {}
-            else{
-                current_answer -=1;
-            }
-        }
-        if (event.key.code == sf::Keyboard::Down)
-        {
-            if(current_answer == AnswerVector.size()-1) {}
-            else {
-                current_answer+=1;
-            }
-        }
-    }
-}

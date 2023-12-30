@@ -65,7 +65,7 @@
                     {1,0,1,0,3,0,1,2,0,0,2,2,2,1,1,1},\
                     {1,0,0,0,3,0,2,2,2,0,2,1,1,1,1,1},\
                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}}, \
-                    {(NPC("texture/texture_npc/npcpkmn.png", 8, 13, {"Voulez vous manger avec moi?", "QUOI, COMMENT CA NON", "CETAIT UNE PIZZA AU CACA","1","2"},"RUUULRRDULLRDDDL",{},0)), \
+                    {(NPC("texture/texture_npc/npcpkmn.png", 8, 13, {"Voulez vous manger avec moi?","QUESTION", "QUOI, COMMENT CA NON", "CETAIT UNE PIZZA AU CACA","1","2"},"RUUULRRDULLRDDDL",{Answer("yes",true,0),Answer("no",false,1)},0)), \
                      (NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut2", "pioupiou", "hello!", "okok"},"RRUUUDDDLL",{},0))}, \
                      {Obstacle("texture/texture_obstacle/Crous.png", 9, 1, sf::Vector2u(10,7), sf::Vector2u(12,7),2, 3)}, \
                     "sound/music/music1.ogg")

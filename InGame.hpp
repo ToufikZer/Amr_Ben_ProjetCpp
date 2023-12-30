@@ -71,5 +71,6 @@ private:
 
     void Detect_Yes(sf::RenderWindow& window);
     void Detect_Cancel(sf::RenderWindow& window);
+    void executeOption();
 
 };

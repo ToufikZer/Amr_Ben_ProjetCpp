@@ -20,6 +20,7 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
       kitchen(false),
       crous(false),
       isTalking(false),
+      npcThatWasTalking(nullptr),
       currentMessage(0)
 {
     player.inventaire = inventaire;
@@ -131,6 +132,26 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                     }
                 }
             }
+            if (npcThatWasTalking!=nullptr)
+            executeOption();
+        }
+        if (event.key.code == sf::Keyboard::Up)
+        {
+            if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
+                if(npcThatWasTalking->getCurrentAnswer() == 0){}
+                else{
+                    npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() - 1);
+                }
+            }
+        }
+        if (event.key.code == sf::Keyboard::Down)
+        {
+            if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
+                if(npcThatWasTalking->getCurrentAnswer() == npcThatWasTalking->getAnswerVector().size()-1) {}
+                else {
+                    npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() + 1);
+                }
+            }
         }
     }
 }
@@ -215,4 +236,11 @@ bool Indoors::has_kitchen_knife(Inventory inventaire){
         if (item.getName() == "KitchenKnife") return true;
     }
     return false;
+}
+
+void Indoors::executeOption(){
+    if (npcThatWasTalking->getIsAsking()){
+        if (npcThatWasTalking->getAnswerVector()[npcThatWasTalking->getCurrentAnswer()].getBool()) std::cout << "bonne réponse" << std::endl;
+        else std::cout << "mauvaise réponse" << std::endl;
+    }
 }

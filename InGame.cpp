@@ -89,6 +89,8 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                         }
                     }
                 }
+                if (npcThatWasTalking!=nullptr)
+                executeOption();
             }
 
             if (event.key.code == sf::Keyboard::Escape) {
@@ -97,9 +99,21 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
 
             if (event.key.code == sf::Keyboard::Down) {
                 EnterHouseDown();
+                if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
+                    if(npcThatWasTalking->getCurrentAnswer() == npcThatWasTalking->getAnswerVector().size()-1) {}
+                    else {
+                        npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() + 1);
+                }
+            }
             }
             if (event.key.code == sf::Keyboard::Up) {
                 EnterHouseUp();
+                if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
+                    if(npcThatWasTalking->getCurrentAnswer() == 0){}
+                    else{
+                        npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() - 1);
+                    }
+                }
             }
             if (event.key.code == sf::Keyboard::S) {
                 EnterHouseDown();
@@ -412,4 +426,11 @@ void InGame::EnterHouseDown(){
                         break;
                     }
                 }
+}
+
+void InGame::executeOption(){
+    if (npcThatWasTalking->getIsAsking()){
+        if (npcThatWasTalking->getAnswerVector()[npcThatWasTalking->getCurrentAnswer()].getBool()) std::cout << "bonne réponse" << std::endl;
+        else std::cout << "mauvaise réponse" << std::endl;
+    }
 }

@@ -50,4 +50,5 @@ private:
 
     bool has_key(Inventory inventaire);
     bool has_kitchen_knife(Inventory inventaire);
+    void executeOption();
 };
