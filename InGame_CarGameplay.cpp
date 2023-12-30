@@ -97,7 +97,7 @@ void InGame_CarGameplay::update(sf::Time deltaTime, sf::RenderWindow& window) {
 
 }
 
-void InGame_CarGameplay::draw(sf::RenderWindow& window) {
+void InGame_CarGameplay::draw(sf::RenderWindow& window, sf::Event& event) {
     // Effacer la fenêtre
     window.clear();
 

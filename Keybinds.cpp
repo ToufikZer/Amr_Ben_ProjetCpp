@@ -63,7 +63,7 @@ void Keybinds::Detect_Back(sf::RenderWindow& window){
 void Keybinds::update(sf::Time deltaTime, sf::RenderWindow& window){
     Detect_Back(window);
 }
-void Keybinds::draw(sf::RenderWindow& window){
+void Keybinds::draw(sf::RenderWindow& window, sf::Event& event){
     window.clear();
     window.draw(backgroundSprite);
     window.draw(text);

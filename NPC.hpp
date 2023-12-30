@@ -17,7 +17,7 @@ public:
 
     void update_texture(unsigned int u,unsigned int v, sf::Vector2f tileSize);
 
-    void sendMessage(sf::RenderWindow& window,sf::FloatRect ViewRect, sf::Font& font, int currentMessage);
+    void sendMessage(sf::RenderWindow& window, sf::Event& event,sf::FloatRect ViewRect, sf::Font& font, int currentMessage);
 
     sf::FloatRect getGlobalBounds() const {
         return getTransform().transformRect(m_vertices.getBounds());
@@ -61,9 +61,12 @@ private:
     float delay = 0;
     bool is_talking;
     bool is_asking;
+    unsigned int current_answer;
     bool playsound = true;
     std::string TexturePath;
 
-    void draw_answer(sf::RenderWindow& window, sf::Font& font, float rectangleX, float rectangleWidth, float rectangleY);
+    void draw_answer(sf::RenderWindow& window, sf::Event& event, sf::Font& font, float rectangleX, float rectangleWidth, float rectangleY, float rectangleHeight, unsigned int current_answer);
+    void drawTriangle(sf::RenderWindow& window, float edge, float pos_x, float pos_y);
     bool collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs,Player player, std::vector<Obstacle> obstacles);
+    void ChooseAnswer(sf::Event& event);
 };

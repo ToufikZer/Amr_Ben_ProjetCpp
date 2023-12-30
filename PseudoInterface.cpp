@@ -138,7 +138,7 @@ void PseudoInterface::update(sf::Time deltaTime, sf::RenderWindow& window){
                             rectangleY + rectangleHeight /2 - pseudo_text.getGlobalBounds().height/2 - 0.0093*window.getSize().y);
 }
 
-void PseudoInterface::draw(sf::RenderWindow& window){
+void PseudoInterface::draw(sf::RenderWindow& window, sf::Event& event){
     window.clear();
     window.draw(backgroundSprite);
     window.draw(text);

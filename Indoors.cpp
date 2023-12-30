@@ -19,6 +19,7 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
       next_town(false),
       kitchen(false),
       crous(false),
+      isTalking(false),
       currentMessage(0)
 {
     player.inventaire = inventaire;
@@ -145,7 +146,7 @@ void Indoors::update(sf::Time deltaTime, sf::RenderWindow& window) {
     }
 }
 
-void Indoors::draw(sf::RenderWindow& window) {
+void Indoors::draw(sf::RenderWindow& window, sf::Event& event) {
     sf::FloatRect viewRect(0, 0, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height);
     // Effacer la fenêtre
     window.clear();
@@ -168,7 +169,7 @@ void Indoors::draw(sf::RenderWindow& window) {
                 window.draw(npc);
             }
             if (isTalking && (&npc == npcThatWasTalking)) {
-                npc.sendMessage(window, viewRect, font, currentMessage);
+                npc.sendMessage(window, event, viewRect, font, currentMessage);
             }
         }
 

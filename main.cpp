@@ -11,7 +11,6 @@ int main() {
     window.setPosition(sf::Vector2i(sf::VideoMode::getDesktopMode().width * 0.25,sf::VideoMode::getDesktopMode().height * 0.20 ));
     // Initialisation du premier état (MainMenu)
     GameState* currentState = new MainMenu(window);
-    
     sf::Clock clock;
     sf::Time elapsedTime;
 
@@ -30,7 +29,7 @@ int main() {
         currentState->update(elapsedTime, window);
 
         // Dessin de l'état actuel
-        currentState->draw(window);
+        currentState->draw(window, event);
         
         GameState* nextState = currentState->getNextState();
         if (nextState != nullptr) {

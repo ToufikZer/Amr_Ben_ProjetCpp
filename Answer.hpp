@@ -7,9 +7,10 @@ class Answer
 private:
     std::string AnswerText;
     bool RightAnswer;
+    unsigned int Id;
 public:
     Answer() = default;
-    Answer(std::string AnswerText, bool RightAnswer);
+    Answer(std::string AnswerText, bool RightAnswer, unsigned int Id);
 
     std::string getText(){
         return AnswerText;
@@ -17,6 +18,10 @@ public:
 
     bool getBool(){
         return RightAnswer;
+    }
+
+    unsigned int getId(){
+        return Id;
     }
     ~Answer() = default;
 };

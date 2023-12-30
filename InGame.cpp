@@ -157,7 +157,7 @@ void InGame::update(sf::Time deltaTime,sf::RenderWindow& window) {
 }
 
 
-void InGame::draw(sf::RenderWindow& window) {
+void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
     sf::FloatRect viewRect(0, 0, window.getSize().x, window.getSize().y);
     window.clear();
     window.setView(view);
@@ -167,7 +167,7 @@ void InGame::draw(sf::RenderWindow& window) {
         for (NPC& npc : NPCs) {
             window.draw(npc);
             if (isTalking && (&npc == npcThatWasTalking)) {
-                npc.sendMessage(window, viewRect, font, currentMessage);
+                npc.sendMessage(window, event, viewRect, font, currentMessage);
             }
         }
 

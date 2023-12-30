@@ -1,8 +1,9 @@
 // answer.cpp
 #include "Answer.hpp"
 
-Answer::Answer(std::string AnswerText, bool RightAnswer):
+Answer::Answer(std::string AnswerText, bool RightAnswer, unsigned int Id):
     AnswerText(AnswerText),
-    RightAnswer(RightAnswer)
+    RightAnswer(RightAnswer),
+    Id(Id)
 {
 }

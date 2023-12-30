@@ -14,7 +14,7 @@ void GameState::update(sf::Time deltaTime, sf::RenderWindow& window)
 
 }
 
-void GameState::draw(sf::RenderWindow& window)
+void GameState::draw(sf::RenderWindow& window, sf::Event& event)
 {
 
 }

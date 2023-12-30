@@ -22,7 +22,7 @@ public:
 
     void handleEvent(sf::Event& event, sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window);
-    void draw(sf::RenderWindow& window);
+    void draw(sf::RenderWindow& window, sf::Event& event);
     GameState* getNextState() ;
 
 private:

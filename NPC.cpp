@@ -19,7 +19,8 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
     moves(moves),
     TexturePath(texturePath),
     is_talking(false),
-    is_asking(false)
+    is_asking(false),
+    current_answer(0)
      {
         if (type_of_pnj == 0) {
             if (!m_texture.loadFromFile(texturePath)) {
@@ -166,10 +167,13 @@ bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, s
         m_vertices[3].texCoords = sf::Vector2f(u * tileSize.x, (v+1)*tileSize.y);
         }
 
-    void NPC::sendMessage(sf::RenderWindow& window, sf::FloatRect ViewRect, sf::Font& font, int currentMessage){
+    void NPC::sendMessage(sf::RenderWindow& window, sf::Event& event, sf::FloatRect ViewRect, sf::Font& font, int currentMessage){
         if (dialogue[currentMessage] == "QUESTION") {
             is_asking = true;
-            currentMessage-- ;
+            currentMessage-- ;    
+        }
+        else {
+            is_asking = false;
         }
         sf::Text message;
         message.setFont(font);
@@ -181,7 +185,12 @@ bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, s
         float rectangleHeight = 0.153 * ViewRect.height;
         float rectangleX = ViewRect.left;
         float rectangleY = ViewRect.height - rectangleHeight;
-
+        if (is_asking) {
+            window.setKeyRepeatEnabled(false);
+            ChooseAnswer(event);
+            std::cout << current_answer << std::endl;
+            draw_answer(window, event, font, rectangleX, rectangleWidth, rectangleY, rectangleHeight, current_answer);
+        }
         sf::RectangleShape TextRectangle(sf::Vector2f(rectangleWidth -2 *0.0093 * ViewRect.height, rectangleHeight - 0.0093 * ViewRect.height));
         TextRectangle.setPosition(rectangleX + 0.0093 * ViewRect.height, rectangleY);
         TextRectangle.setFillColor(sf::Color(200, 200, 200, 100));
@@ -228,13 +237,50 @@ void NPC::play_toctoc(){
         
 }
 
-void NPC::draw_answer(sf::RenderWindow& window, sf::Font& font, float rectangleX, float rectangleWidth, float rectangleY) {
-    // sf::RectangleShape answerBox(sf::Vector2f(100, 30)); // Ajustez la taille de la case de réponse
-    // answerBox.setPosition(rectangleX + rectangleWidth, rectangleY);
-    // answerBox.setFillColor(sf::Color(255, 255, 255)); // Couleur de la case de réponse
-    // sf::Text text(AnswerVector[0], font, 14); // Ajustez la taille du texte
-    // text.setFillColor(sf::Color(0, 0, 0)); // Couleur du texte
-    // text.setPosition(answerBox.getPosition().x + 10, answerBox.getPosition().y + 5);
-    // window.draw(answerBox);
-    // window.draw(text);
+void NPC::draw_answer(sf::RenderWindow& window, sf::Event& event, sf::Font& font, float rectangleX, float rectangleWidth, float rectangleY, float rectangleHeight, unsigned int current_answer) {
+    sf::RectangleShape answerBox(sf::Vector2f(0.25*rectangleWidth, 0.5*rectangleHeight * AnswerVector.size()));
+    answerBox.setPosition(rectangleX + 0.75*rectangleWidth, rectangleY - 0.5*rectangleHeight * AnswerVector.size() );
+    answerBox.setFillColor(sf::Color(150,150,150,150)); // Couleur de la case de réponse
+    window.draw(answerBox);
+    float gap = 0;
+    drawTriangle(window,0.15*rectangleHeight,rectangleX + 0.90*rectangleWidth, answerBox.getPosition().y + 2 + current_answer * rectangleHeight / 2);
+    for (Answer& answer : AnswerVector){
+        sf::Text text(answer.getText(), font, rectangleHeight / 3); // Ajustez la taille du texte
+        text.setFillColor(sf::Color(0, 0, 0)); // Couleur du texte
+        text.setPosition(answerBox.getPosition().x + 5, answerBox.getPosition().y + 1 + gap);
+        window.draw(text);
+        gap += rectangleHeight / 2;
+    }
+}
+
+void NPC::drawTriangle(sf::RenderWindow& window, float edge, float pos_x, float pos_y){
+    sf::CircleShape triangle(edge, 3);
+    triangle.setPosition(pos_x,pos_y);
+    triangle.setFillColor(sf::Color::Black);
+    triangle.rotate(26);
+    window.draw(triangle);
+}
+
+void NPC::ChooseAnswer(sf::Event& event){
+    if (event.type == sf::Event::KeyReleased)
+    {
+        if (event.key.code == sf::Keyboard::Return)
+        {
+            // executeOption();
+        }
+        if (event.key.code == sf::Keyboard::Up)
+        {
+            if (current_answer == 0) {}
+            else{
+                current_answer -=1;
+            }
+        }
+        if (event.key.code == sf::Keyboard::Down)
+        {
+            if(current_answer == AnswerVector.size()-1) {}
+            else {
+                current_answer+=1;
+            }
+        }
+    }
 }

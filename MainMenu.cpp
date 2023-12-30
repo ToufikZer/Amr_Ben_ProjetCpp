@@ -141,7 +141,7 @@ void MainMenu::update(sf::Time deltaTime, sf::RenderWindow& window) {
         if (selectedOption != 1) Detect_Exit(window);
 }
 
-void MainMenu::draw(sf::RenderWindow& window) {
+void MainMenu::draw(sf::RenderWindow& window, sf::Event& event) {
     window.clear();
     window.setView(view);
     window.draw(backgroundSprite);
