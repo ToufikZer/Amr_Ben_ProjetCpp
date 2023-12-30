@@ -14,7 +14,7 @@ Item KitchenKnife = Item("KitchenKnife", "Un couteau de cuisine banal", 2, "text
 
 Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player_x, float pos_player_y, Inventory inventaire)
     : window(window),
-      player("texture/texture_char/player.png", pos_player_x, pos_player_y, Inventory()),
+      player("texture/texture_char/player.png", pos_player_x, pos_player_y, inventaire),
       back_to_town(false),
       next_town(false),
       kitchen(false),
@@ -23,7 +23,6 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
       npcThatWasTalking(nullptr),
       currentMessage(0)
 {
-    player.inventaire = inventaire;
     MapList.push_back(GARE);
     MapList.push_back(MARIO);
     MapList.push_back(CROUS);

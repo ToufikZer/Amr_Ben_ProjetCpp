@@ -11,7 +11,7 @@ float ftile_size_ingame = static_cast<float>(TILESIZE);
 InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2u pos_player, sf::Vector2u map_dimension, Inventory inventaire, unsigned int player_direction)
     : window(window),
       maps(),
-      player("texture/texture_char/player_sheet.png", pos_player.x, pos_player.y, player_direction, Inventory()),
+      player("texture/texture_char/player_sheet.png", pos_player.x, pos_player.y, player_direction, inventaire),
       map(map_dimension),
       view(sf::Vector2f(player.getPosition().x + 16.f, player.getPosition().y + 16.f), sf::Vector2f(300, 300)),
       isTalking(false),
@@ -20,7 +20,6 @@ InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2u p
       in_house(false),
       backmenu(false)
 {
-    player.inventaire = inventaire;
     view.reset(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
     maps.setCurrentMap(currentmap);
     MusicPath = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getMusicPath();
@@ -70,6 +69,7 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                         break;
                     } else if ((&npc == npcThatWasTalking) && isTalking && (currentMessage < npc.getDialogue().size() - 1))
                     {
+                        npc.stop_voice();
                         npc.play_voice();
                         currentMessage += 1;
                         if (currentMessage == npc.getDialogue().size()){

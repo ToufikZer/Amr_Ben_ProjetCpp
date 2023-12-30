@@ -61,6 +61,7 @@ public:
     }
 
     void play_voice();
+    void stop_voice();
     void play_toctoc();
 private:
     sf::SoundBuffer buffer;

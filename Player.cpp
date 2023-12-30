@@ -87,8 +87,8 @@ bool Player::collision(sf::Vector2u position, std::vector<std::vector<int>> plan
 void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned int map_height, sf::View& view, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, bool is_talking) {
     int moveDelay;
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) moveDelay = 15;
-    else moveDelay = 30;
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) moveDelay = 15* deltaTime.asMilliseconds();
+    else moveDelay = 30 * deltaTime.asMilliseconds();
     sf::Vector2u new_position;
     if (elapsed.asMilliseconds() >= moveDelay) {
         float speed = ftile_size;

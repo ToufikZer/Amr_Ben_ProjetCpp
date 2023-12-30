@@ -6,10 +6,9 @@
 InGame_CarGameplay::InGame_CarGameplay(sf::RenderWindow& window, Inventory inventaire)
     : window(window),
       map(sf::Vector2u(60, 9)),
-      player("texture/texture_char/cars_tileset.png", 8, 4, Inventory()),
+      player("texture/texture_char/cars_tileset.png", 8, 4, inventaire),
       is_arrived(false)
 {
-    player.inventaire = inventaire;
     if (!font.loadFromFile("font/arial.ttf")) {
         std::cerr << "Erreur lors du chargement de la police" << std::endl;
         std::exit(-1);

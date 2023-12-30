@@ -204,20 +204,24 @@ bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, s
     }
 
 void NPC::play_voice(){
-unsigned int num_voice = std::rand()%11 + 1;
+    unsigned int num_voice = std::rand()%11 + 1;
     if (!buffer.loadFromFile("sound/sound/npc_voice/npc_voice" + std::to_string(num_voice) + ".wav")){
             std::cerr << "Erreur lors du chargement du son" << std::endl;
             std::exit(-1);
         }
         npc_sound.setBuffer(buffer);
-        npc_sound.setPlayingOffset(sf::seconds(delay));
         npc_sound.setVolume(25);
         if (playsound) npc_sound.play();
         else{
             npc_sound.play();
             npc_sound.stop();
         }
-        delay += 2;
+}
+
+void NPC::stop_voice(){
+    npc_sound.stop();
+
+    npc_sound.resetBuffer();
 }
 
 void NPC::play_toctoc(){

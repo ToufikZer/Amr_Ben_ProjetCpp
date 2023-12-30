@@ -69,7 +69,7 @@ void PlayerCar::update(const sf::Time& deltaTime, sf::Font& font, unsigned int m
     if(!collision_obstacles(getPosition(),obstacles ) && !crash){
         float deltaTimeSeconds = deltaTime.asSeconds();
         float speedIncrease = 1.f;
-        move(speed * deltaTimeSeconds,0.f);
+        move(speed * deltaTimeSeconds ,0.f);
         speed += speedIncrease;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
             if (in_map(map_width, map_height, sf::Vector2f(getPosition().x, getPosition().y + speed * deltaTimeSeconds*0.75))){

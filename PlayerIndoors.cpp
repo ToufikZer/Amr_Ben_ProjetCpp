@@ -7,7 +7,8 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
 
-PlayerInDoors::PlayerInDoors(const std::string &texturePath, float pos_x, float pos_y, Inventory inventaire)
+PlayerInDoors::PlayerInDoors(const std::string &texturePath, float pos_x, float pos_y, Inventory inventaire):
+    inventaire(inventaire)
     {
 
     if (!m_texture.loadFromFile(texturePath)) {
