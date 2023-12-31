@@ -87,14 +87,15 @@ bool Player::collision(sf::Vector2u position, std::vector<std::vector<int>> plan
 void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned int map_height, sf::View& view, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, bool is_talking) {
     int moveDelay;
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) moveDelay = 15* deltaTime.asMilliseconds();
-    else moveDelay = 30 * deltaTime.asMilliseconds();
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) moveDelay = 30;
+    else moveDelay = 70;
     sf::Vector2u new_position;
     if (elapsed.asMilliseconds() >= moveDelay) {
         float speed = ftile_size;
     if(!is_talking){
         if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D) || going_right) && !going_down && !going_left && !going_up) {
-            new_position.x = (current_pos.x + 1); 
+            if(going_right) new_position.x = (current_pos.x); 
+            else new_position.x = (current_pos.x + 1);
             new_position.y = current_pos.y;
             if(!in_map(map_width, map_height, new_position)) setChangeMap(3);
             else{
@@ -104,6 +105,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                     {
                         move(speed/4, 0.f);
                         going_right = true;
+                        current_pos.x += 1;
                     }
                     else{
                         if(current_move != 3)
@@ -114,7 +116,6 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                         else {
                             current_move = 0;
                             going_right = false;
-                            current_pos.x += 1;
                         }
                     }
                 }
@@ -124,8 +125,9 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
             elapsed = sf::Time::Zero;
         }
         if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Z) || going_up) && !going_down && !going_left && !going_right) {
-            new_position.x = (current_pos.x); 
-            new_position.y = current_pos.y - 1;
+            if(going_up) new_position.y = (current_pos.y); 
+            else new_position.y = (current_pos.y - 1);
+            new_position.x = current_pos.x;
             if(!in_map(map_width, map_height, new_position)) setChangeMap(2);
             else{
                 if (collision(new_position, plan,NPCs, obstacles)){wall_collision = true;}
@@ -134,6 +136,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                     {
                         move(0.f, -speed/4);
                         going_up = true;
+                        current_pos.y -= 1;
                     }
                     else{
                         if(current_move != 3)
@@ -144,7 +147,6 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                         else {
                             current_move = 0;
                             going_up = false;
-                            current_pos.y -= 1;
                         }
                     }
                 }
@@ -154,7 +156,8 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
             elapsed = sf::Time::Zero;
         }
         if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Q) || going_left) && !going_down && !going_right && !going_up) {
-            new_position.x = (current_pos.x - 1); 
+            if(going_left) new_position.x = (current_pos.x); 
+            else new_position.x = (current_pos.x - 1);
             new_position.y = current_pos.y;
             if(!in_map(map_width, map_height, new_position)) setChangeMap(1);
             else{
@@ -164,6 +167,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                     {
                         move(-speed/4, 0.f);
                         going_left = true;
+                        current_pos.x -= 1;
                     }
                     else{
                         if(current_move != 3)
@@ -174,7 +178,6 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                         else {
                             current_move = 0;
                             going_left = false;
-                            current_pos.x -= 1;
                         }
                     }
                 }
@@ -184,8 +187,9 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
             elapsed = sf::Time::Zero;
         }
         if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S) || going_down) && !going_right && !going_left && !going_up) {
-            new_position.x = (current_pos.x); 
-            new_position.y = current_pos.y +1;
+            if(going_down) new_position.y = (current_pos.y); 
+            else new_position.y = (current_pos.y + 1);
+            new_position.x = current_pos.x;
             if(!in_map(map_width, map_height, new_position)) setChangeMap(4);
             else{
                 if (collision(new_position, plan,NPCs, obstacles)){wall_collision = true;}
@@ -194,6 +198,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                     {
                         move(0.f, speed/4);
                         going_down = true;
+                        current_pos.y += 1;
                     }
                     else{
                         if(current_move != 3)
@@ -204,7 +209,6 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                         else {
                             current_move = 0;
                             going_down = false;
-                            current_pos.y += 1;
                         }
                     }
                 }
