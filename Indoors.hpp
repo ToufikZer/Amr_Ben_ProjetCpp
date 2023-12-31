@@ -39,6 +39,7 @@ private:
     PlayerInDoors player;
     std::vector<MapIndoors> MapList;
 
+    std::vector<std::string> first_dialogue;
     bool isTalking;
     NPC* npcThatWasTalking;
     int currentMessage;

@@ -41,6 +41,7 @@ private:
     std::vector<Obstacle> obstacles;
     MapManager maps;
 
+    std::vector<std::string> first_dialogue;
     bool backmenu;
     bool escape_menu = false;
     bool in_house;

@@ -59,8 +59,10 @@ void InGame::initialize() {
 void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::A) {
+                if (npcThatWasTalking!=nullptr) executeOption();
                 for (NPC& npc : NPCs) {
                     if (!isTalking && player.is_looking_at(npc)) {
+                        first_dialogue = npc.getDialogue();
                         npc.play_voice();
                         isTalking = true;
                         npc.setIsTalking(true);
@@ -80,6 +82,7 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                     } else {
                         if (npcThatWasTalking != nullptr) {
                             if (&npc == npcThatWasTalking) {
+                                npc.getDialogue() = first_dialogue;
                                 npc.setPlayBool(true);
                                 npc.getDelay() = 0;
                                 isTalking = false;
@@ -89,8 +92,6 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                         }
                     }
                 }
-                if (npcThatWasTalking!=nullptr)
-                executeOption();
             }
 
             if (event.key.code == sf::Keyboard::Escape) {
@@ -430,7 +431,8 @@ void InGame::EnterHouseDown(){
 
 void InGame::executeOption(){
     if (npcThatWasTalking->getIsAsking()){
-        if (npcThatWasTalking->getAnswerVector()[npcThatWasTalking->getCurrentAnswer()].getBool()) std::cout << "bonne réponse" << std::endl;
-        else std::cout << "mauvaise réponse" << std::endl;
+        std::vector<std::string>& dialogue = npcThatWasTalking->getDialogue();
+        std::vector<std::string> answers = npcThatWasTalking->getAnswerVector()[npcThatWasTalking->getCurrentAnswer()].getText();
+        dialogue.insert(dialogue.end(), answers.begin(), answers.end());
     }
 }

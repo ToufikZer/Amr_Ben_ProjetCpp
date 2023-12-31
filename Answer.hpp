@@ -5,24 +5,27 @@
 class Answer
 {
 private:
-    std::string AnswerText;
+    std::string AnswerChoice;
     bool RightAnswer;
     unsigned int Id;
+    std::vector<std::string> AnswerText;
+
 public:
     Answer() = default;
-    Answer(std::string AnswerText, bool RightAnswer, unsigned int Id);
+    Answer(std::string AnswerChoice, std::vector<std::string> AnswerText, unsigned int Id);
 
-    std::string getText(){
-        return AnswerText;
-    }
-
-    bool getBool(){
-        return RightAnswer;
+    std::string getChoice(){
+        return AnswerChoice;
     }
 
     unsigned int getId(){
         return Id;
     }
+
+    std::vector<std::string> getText(){
+        return AnswerText;
+    }
+
     ~Answer() = default;
 };
 

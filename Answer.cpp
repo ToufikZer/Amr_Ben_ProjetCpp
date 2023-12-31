@@ -1,9 +1,9 @@
 // answer.cpp
 #include "Answer.hpp"
 
-Answer::Answer(std::string AnswerText, bool RightAnswer, unsigned int Id):
-    AnswerText(AnswerText),
+Answer::Answer(std::string AnswerChoice, std::vector<std::string> AnswerText, unsigned int Id):
+    AnswerChoice(AnswerChoice),
     RightAnswer(RightAnswer),
-    Id(Id)
+    AnswerText(AnswerText)
 {
 }

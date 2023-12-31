@@ -67,6 +67,7 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
 void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
     if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::A) {
+            if (npcThatWasTalking!=nullptr) executeOption();
             for (NPC& npc : NPCs) {
                 if (player.collision_NPCs(sf::Vector2f(player.getPosition().x,player.getPosition().y), npc)) {
                     if (npc.getDialogue()[currentMessage] == "EXIT") {
@@ -83,6 +84,7 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                     }
                     
                     else if (npc.getDialogue()[currentMessage] == "KEY"){
+                        first_dialogue = npc.getDialogue();
                         if (!has_key(player.inventaire)){
                         isTalking = true;
                         player.inventaire.addItem(keyRoom);
@@ -94,18 +96,20 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                         else {}
                     }
                     else if (npc.getDialogue()[currentMessage] == "KNIFE"){
+                        first_dialogue = npc.getDialogue();
                         if (!has_kitchen_knife(player.inventaire)){
-                        isTalking = true;
-                        player.inventaire.addItem(KitchenKnife);
-                        npc.setIsTalking(true);
-                        npcThatWasTalking = &npc;
-                        currentMessage += 1;
-                        break;
+                            isTalking = true;
+                            player.inventaire.addItem(KitchenKnife);
+                            npc.setIsTalking(true);
+                            npcThatWasTalking = &npc;
+                            currentMessage += 1;
+                            break;
                         }
                         else {}
                     }
                     else{
                         if (!isTalking){
+                            first_dialogue = npc.getDialogue();
                             music.pause();
                             if (npc.getTexturePath() == "texture/texture_npc/door_invisible.png") npc.play_toctoc();
                             music.play();
@@ -122,6 +126,7 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                         else {
                             if (npcThatWasTalking != nullptr) {
                                 if (&npc == npcThatWasTalking) {
+                                    npc.getDialogue() = first_dialogue;
                                     isTalking = false;
                                     currentMessage = 0;
                                     npcThatWasTalking->setIsTalking(false);
@@ -131,8 +136,6 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                     }
                 }
             }
-            if (npcThatWasTalking!=nullptr)
-            executeOption();
         }
         if (event.key.code == sf::Keyboard::Up)
         {
@@ -239,7 +242,8 @@ bool Indoors::has_kitchen_knife(Inventory inventaire){
 
 void Indoors::executeOption(){
     if (npcThatWasTalking->getIsAsking()){
-        if (npcThatWasTalking->getAnswerVector()[npcThatWasTalking->getCurrentAnswer()].getBool()) std::cout << "bonne réponse" << std::endl;
-        else std::cout << "mauvaise réponse" << std::endl;
+        std::vector<std::string>& dialogue = npcThatWasTalking->getDialogue();
+        std::vector<std::string> answers = npcThatWasTalking->getAnswerVector()[npcThatWasTalking->getCurrentAnswer()].getText();
+        dialogue.insert(dialogue.end(), answers.begin(), answers.end());
     }
 }

@@ -65,7 +65,7 @@
                     {1,0,1,0,3,0,1,2,0,0,2,2,2,1,1,1},\
                     {1,0,0,0,3,0,2,2,2,0,2,1,1,1,1,1},\
                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}}, \
-                    {(NPC("texture/texture_npc/npcpkmn.png", 8, 13, {"Voulez vous manger avec moi?","QUESTION", "QUOI, COMMENT CA NON", "CETAIT UNE PIZZA AU CACA","1","2"},"RUUULRRDULLRDDDL",{Answer("yes",true,0),Answer("no",false,1)},0)), \
+                    {(NPC("texture/texture_npc/npcpkmn.png", 8, 13, {"Voulez vous manger avec moi?","QUESTION"},"RUUULRRDULLRDDDL",{Answer("yes",{"YOUHOUUU","Enfin qqn qui accepte!"},0),Answer("no",{"QUOI, COMMENT CA NON", "CETAIT UNE PIZZA AU CACA"},1)},0)), \
                      (NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut2", "pioupiou", "hello!", "okok"},"RRUUUDDDLL",{},0))}, \
                      {Obstacle("texture/texture_obstacle/Crous.png", 9, 1, sf::Vector2u(10,7), sf::Vector2u(12,7),2, 3)}, \
                     "sound/music/music1.ogg")
@@ -118,8 +118,9 @@
 
 #define MAP9 MapIndoors("AIRPORT", \
                         "texture/texture_decor/aeroport.jpg", \
-                        {(NPC("texture/texture_npc/npc_airport.png", 326, 143, {"Salut!", "Tu viens d'arriver?", "QUESTION","Je dois te prevenir, les taxis sont en greve", "tu vas devoir prendre les transports", \
-                        "Ou bien il y a une agence de location de vehicule qui a ouvert\nTu peux tenter ta chance elle n'est pas loin",  "Il faut que tu prennes a droite, si c'est ferme tu vas\n devoir faire un detour par le haut!"},"",{Answer("yes",true,0),Answer("no",false,1),Answer("maybe",false,2)},1)), \
+                        {(NPC("texture/texture_npc/npc_airport.png", 326, 143, {"Salut!", "Tu viens d'arriver?", "QUESTION"}, "", \
+                        {Answer("Oui, pk",{"Je dois te prevenir, les taxis sont en greve", "tu vas devoir prendre les transports","Ou bien il y a une agence de location de vehicule qui a ouvert\nTu peux tenter ta chance elle n'est pas loin",  "Il faut que tu prennes a droite, si c'est ferme tu vas\n devoir faire un detour par le haut!"},0), \
+                        Answer("non tkt",{"Ah alors tu dois déja savoir ce qu'il se passe\nBon courage!"},1),Answer("maybe",{"Comment ca maybe, pk tu fais le ricain ici?"},2)},1)), \
                         (NPC("texture/texture_npc/valise.png", 476, 170, {"KNIFE", "Il y a un couteau dans la valise", "Ca pourrait etre utile, on sait jamais..."},"",{},1))}, \
                         {(Obstacle("texture/texture_obstacle/invisible_wall.png", 0, 3, 0))}, \
                         "sound/music/music1.ogg",1,100)

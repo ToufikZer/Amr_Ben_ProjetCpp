@@ -38,7 +38,7 @@ public:
         return current_answer;
     }
 
-    std::vector<std::string> const& getDialogue() const {
+    std::vector<std::string>& getDialogue(){
         return dialogue;
     }
 

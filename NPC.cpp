@@ -246,7 +246,7 @@ void NPC::draw_answer(sf::RenderWindow& window, sf::Event& event, sf::Font& font
     float gap = 0;
     drawTriangle(window,0.15*rectangleHeight,rectangleX + 0.90*rectangleWidth, answerBox.getPosition().y + 2 + current_answer * rectangleHeight / 2);
     for (Answer& answer : AnswerVector){
-        sf::Text text(answer.getText(), font, rectangleHeight / 3); // Ajustez la taille du texte
+        sf::Text text(answer.getChoice(), font, rectangleHeight / 3); // Ajustez la taille du texte
         text.setFillColor(sf::Color(0, 0, 0)); // Couleur du texte
         text.setPosition(answerBox.getPosition().x + 5, answerBox.getPosition().y + 1 + gap);
         window.draw(text);
