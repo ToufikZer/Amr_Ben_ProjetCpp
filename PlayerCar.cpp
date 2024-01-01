@@ -68,18 +68,18 @@ void PlayerCar::update(const sf::Time& deltaTime, sf::Font& font, unsigned int m
                        sf::View& view, std::vector<std::vector<int>> plan, std::vector<Obstacle> obstacles){
     if(!collision_obstacles(getPosition(),obstacles ) && !crash){
         float deltaTimeSeconds = deltaTime.asSeconds();
-        float speedIncrease = 1.f;
-        move(speed * deltaTimeSeconds ,0.f);
+        float speedIncrease = 0.2;
+        move(speed ,0.f);
         speed += speedIncrease;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            if (in_map(map_width, map_height, sf::Vector2f(getPosition().x, getPosition().y + speed * deltaTimeSeconds*0.75))){
-                move(0,speed * deltaTimeSeconds*0.25);
+            if (in_map(map_width, map_height, sf::Vector2f(getPosition().x, getPosition().y + 2))){
+                move(0,2);
                 update_texture(2);
             }
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-            if (in_map(map_width, map_height, sf::Vector2f(getPosition().x, getPosition().y - speed * deltaTimeSeconds*0.75))){
-                move(0,-speed * deltaTimeSeconds*0.25);
+            if (in_map(map_width, map_height, sf::Vector2f(getPosition().x, getPosition().y - 2))){
+                move(0,-2);
                 update_texture(1);
             }
         }

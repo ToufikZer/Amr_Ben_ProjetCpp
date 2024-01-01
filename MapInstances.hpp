@@ -67,7 +67,7 @@
                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}}, \
                     {(NPC("texture/texture_npc/npcpkmn.png", 8, 13, {"Voulez vous manger avec moi?","QUESTION"},"RUUULRRDULLRDDDL",{Answer("yes",{"YOUHOUUU","Enfin qqn qui accepte!"},0),Answer("no",{"QUOI, COMMENT CA NON", "CETAIT UNE PIZZA AU CACA"},1)},0)), \
                      (NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut2", "pioupiou", "hello!", "okok"},"RRUUUDDDLL",{},0))}, \
-                     {Obstacle("texture/texture_obstacle/Crous.png", 9, 1, sf::Vector2u(10,7), sf::Vector2u(12,7),2, 3)}, \
+                     {Obstacle("texture/texture_obstacle/garage_tile.png", 8, 1, sf::Vector2u(10,7),2, 3)}, \
                     "sound/music/music1.ogg")
 
 #define MAP4 Map({{3,3,3,3,3,3,3},\

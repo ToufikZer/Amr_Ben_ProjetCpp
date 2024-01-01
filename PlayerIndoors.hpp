@@ -30,11 +30,13 @@ public:
     Inventory inventaire;
     
     void drawInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view);
+    // void drawInteractText(sf::RenderWindow& window, sf::Font& font);
 protected:
     bool collision_obstacles(sf::Vector2f position, std::vector<Obstacle> obstacles);
     void out_map(unsigned int map_width, unsigned int map_height, sf::Vector2f position, unsigned int FloorNumber);
 
 private:
+    // sf::Text InteractText;
     sf::Time elapsed; 
     sf::Texture m_texture;
     sf::VertexArray m_vertices;

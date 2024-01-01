@@ -54,13 +54,14 @@ public:
     Inventory inventaire;
 
     void drawInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view);
+    // void drawInteractText(sf::RenderWindow& window, sf::Font& font);
 protected:
     bool collision_obstacles(sf::Vector2u position, std::vector<Obstacle> obstacles);
     bool collision_npcs(sf::Vector2u position, std::vector<NPC> NPCs);
     bool in_map(unsigned int map_width, unsigned int map_height, sf::Vector2u position);
 
 private:
-
+    // sf::Text InteractText;
     sf::Time elapsed; 
     sf::Texture m_texture;
     sf::VertexArray m_vertices;

@@ -98,17 +98,20 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                 escape_menu = true;
             }
 
-            if (event.key.code == sf::Keyboard::Down) {
+            if (event.key.code == sf::Keyboard::E) {
+                EnterHouseUp();
                 EnterHouseDown();
+            }
+
+            if (event.key.code == sf::Keyboard::Down) {
                 if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
                     if(npcThatWasTalking->getCurrentAnswer() == npcThatWasTalking->getAnswerVector().size()-1) {}
                     else {
                         npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() + 1);
+                    }
                 }
             }
-            }
             if (event.key.code == sf::Keyboard::Up) {
-                EnterHouseUp();
                 if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
                     if(npcThatWasTalking->getCurrentAnswer() == 0){}
                     else{
@@ -117,10 +120,20 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                 }
             }
             if (event.key.code == sf::Keyboard::S) {
-                EnterHouseDown();
+                if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
+                    if(npcThatWasTalking->getCurrentAnswer() == npcThatWasTalking->getAnswerVector().size()-1) {}
+                    else {
+                        npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() + 1);
+                    }
+                }
             }
             if (event.key.code == sf::Keyboard::Z) {
-                EnterHouseUp();
+                if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
+                    if(npcThatWasTalking->getCurrentAnswer() == 0){}
+                    else{
+                        npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() - 1);
+                    }
+                }
             }
                       
         }
@@ -189,6 +202,7 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
         for (Obstacle& obstacle : obstacles) {
             window.draw(obstacle);
         }
+    // player.drawInteractText(window, font);
 
     if (escape_menu) {
     window.draw(back_menu);

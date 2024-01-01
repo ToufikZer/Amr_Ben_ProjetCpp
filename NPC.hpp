@@ -34,6 +34,11 @@ public:
     bool getIsAsking(){
         return is_asking;
     }
+
+    bool getIsTalking(){
+        return is_talking;
+    }
+
     unsigned int getCurrentAnswer(){
         return current_answer;
     }

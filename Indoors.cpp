@@ -10,7 +10,8 @@ MapIndoors CROUS = MAP7;
 MapIndoors KITCHEN = MAP8;
 MapIndoors AIRPORT = MAP9;
 Item keyRoom = Item("Key","Une clé de chambre", 1, "texture/texture_item/key.png");
-Item KitchenKnife = Item("KitchenKnife", "Un couteau de cuisine banal", 2, "texture/texture_item/knife.png");
+Item KitchenKnife = Item("KitchenKnife", "Un couteau de cuisine banal", 2, "texture/texture_item/zanpakuto.png");
+Item Zanpakuto = Item("Zanpakuto", "Decoupe Mokhtar", 2, "texture/texture_item/knife.png");
 
 Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player_x, float pos_player_y, Inventory inventaire)
     : window(window),
@@ -71,12 +72,8 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
             for (NPC& npc : NPCs) {
                 if (player.collision_NPCs(sf::Vector2f(player.getPosition().x,player.getPosition().y), npc)) {
                     if (npc.getDialogue()[currentMessage] == "EXIT") {
-                        back_to_town = true;
-                        music.stop();
                     }
                     else if (npc.getDialogue()[currentMessage] == "CUISINE"){
-                        kitchen = true;
-                        music.stop();
                     }
                     else if (has_key(player.inventaire) && npc.getDialogue()[currentMessage] == "Oh, the doors seems to be half-open"){
                         std::cout << "BAGARRE" << std::endl;
@@ -155,6 +152,39 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                 }
             }
         }
+        if (event.key.code == sf::Keyboard::S)
+        {
+            if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
+                if(npcThatWasTalking->getCurrentAnswer() == npcThatWasTalking->getAnswerVector().size()-1) {}
+                else {
+                    npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() + 1);
+                }
+            }
+        }
+        if (event.key.code == sf::Keyboard::Z)
+        {
+            if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
+                if(npcThatWasTalking->getCurrentAnswer() == 0) {}
+                else {
+                    npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() - 1);
+                }
+            }
+        }
+        if (event.key.code == sf::Keyboard::E) {
+            // if (npcThatWasTalking!=nullptr) executeOption();
+            for (NPC& npc : NPCs) {
+                if (player.collision_NPCs(sf::Vector2f(player.getPosition().x,player.getPosition().y), npc)) {
+                    if (npc.getDialogue()[currentMessage] == "EXIT") {
+                        back_to_town = true;
+                        music.stop();
+                    }
+                    else if (npc.getDialogue()[currentMessage] == "CUISINE"){
+                        kitchen = true;
+                        music.stop();
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -197,6 +227,7 @@ void Indoors::draw(sf::RenderWindow& window, sf::Event& event) {
         }
 
     player.drawInventory(window, font, view);
+    // player.drawInteractText(window, font);
     // Afficher la fenêtre
     window.display();
 }

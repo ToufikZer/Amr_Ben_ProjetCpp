@@ -72,23 +72,33 @@ bool Player::collision_obstacles(sf::Vector2u position, std::vector<Obstacle> ob
 bool Player::collision_npcs(sf::Vector2u position, std::vector<NPC> NPCs){
     for (NPC& npc : NPCs){
         if (position.x == npc.getCurrentPos().x && position.y == npc.getCurrentPos().y){
+                // InteractText.setPosition(getPosition().x - 40.f ,getPosition().y - 15.f);
+                // InteractText.setString("Press A to interact");
+                // InteractText.setCharacterSize(15);
+                // InteractText.setFillColor(sf::Color::Red);
             return true;
         }
+        // else{
+        //     InteractText.setFillColor(sf::Color(0,0,0,0));
+        // }
     }
     return false;
 }
 
 bool Player::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles){
     if (plan[(position.y)][(position.x)] != 0) return true;
-    if (collision_npcs(position, NPCs)) return true;
+    if (collision_npcs(position, NPCs)) 
+    {
+        return true;
+        }  
     if (collision_obstacles(position, obstacles)) return true;
     return false;
 }
 void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned int map_height, sf::View& view, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, bool is_talking) {
     int moveDelay;
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) moveDelay = 30;
-    else moveDelay = 70;
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) moveDelay = 20;
+    else moveDelay = 50;
     sf::Vector2u new_position;
     if (elapsed.asMilliseconds() >= moveDelay) {
         float speed = ftile_size;
@@ -241,4 +251,9 @@ bool Player::in_map(unsigned int map_width, unsigned int map_height, sf::Vector2
 void Player::drawInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view){
     inventaire.displayInventory(window, font, view);
 }
+
+// void Player::drawInteractText(sf::RenderWindow& window, sf::Font& font){
+//     InteractText.setFont(font);
+//     window.draw(InteractText);
+// }
 
