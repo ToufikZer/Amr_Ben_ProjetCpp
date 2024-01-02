@@ -5,10 +5,11 @@
 unsigned int tile_size_ingame = TILESIZE;
 float ftile_size_ingame = static_cast<float>(TILESIZE);
 
-// InGame.cpp
-#include "InGame.hpp"
+InGame::InGame(sf::RenderWindow& window): window(window){
 
-InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2u pos_player, sf::Vector2u map_dimension, Inventory inventaire, unsigned int player_direction)
+}
+
+InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2f pos_player, sf::Vector2u map_dimension, Inventory inventaire, unsigned int player_direction)
     : window(window),
       maps(),
       player("texture/texture_char/player_sheet.png", pos_player.x, pos_player.y, player_direction, inventaire),
@@ -95,7 +96,7 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
             }
 
             if (event.key.code == sf::Keyboard::Escape) {
-                escape_menu = true;
+                backmenu = true;
             }
 
             if (event.key.code == sf::Keyboard::E) {
@@ -137,27 +138,25 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
             }
                       
         }
-        if (event.type == sf::Event::MouseButtonPressed)
-        {
-            if (event.mouseButton.button == sf::Mouse::Left)
-            {
-                if (yesText.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))
-                {
-                    backmenu = true;
-                }
-                if (cancelText.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))
-                {
-                    escape_menu = false;
-                }
-            }
-        }
+        // if (event.type == sf::Event::MouseButtonPressed)
+        // {
+        //     if (event.mouseButton.button == sf::Mouse::Left)
+        //     {
+        //         if (yesText.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))
+        //         {
+        //             backmenu = true;
+        //         }
+        //         if (cancelText.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))
+        //         {
+        //             escape_menu = false;
+        //         }
+        //     }
+        // }
     }
 
 
 
 void InGame::update(sf::Time deltaTime,sf::RenderWindow& window) {
-    if (!escape_menu)
-    {
     player.update(deltaTime, map.getWidth(), map.getHeight(), view, level, NPCs, obstacles, isTalking);
     // if (player.getWallColl()) 
     //     {
@@ -176,13 +175,6 @@ void InGame::update(sf::Time deltaTime,sf::RenderWindow& window) {
     }
 
     }
-    if (escape_menu) 
-    {
-        drawConfirmationWindow(window);
-        Detect_Yes(window);
-        Detect_Cancel(window);
-    }
-}
 
 
 void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
@@ -204,22 +196,14 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
         }
     // player.drawInteractText(window, font);
 
-    if (escape_menu) {
-    window.draw(back_menu);
-    window.draw(question);
-    window.draw(yesText);
-    window.draw(cancelText);
-    window.draw(line);
-    }
     window.display();
 }
 
  GameState* InGame::getNextState(){
     if(backmenu){
-        music.stop( );
         backmenu = false;
-        escape_menu = false;
-        return new MainMenu(window);
+        music.stop( );
+        return new MainMenu(window, Save("InGame", sf::Vector2f(player.getPosition().x / 32, player.getPosition().y / 32),maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.inventaire, true));
     }
     if(in_house){
         music.stop();
@@ -227,8 +211,8 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
         if (obstacleInteracting != nullptr) {
             if (obstacleInteracting->getId() != 0){
                 if (obstacleInteracting->getId() == 1) return new Indoors(window, "CROUS", 64.f, 140.f, player.inventaire);
-                if (obstacleInteracting->getId() == 2) return new InGame(window, sf::Vector2u(0,2), sf::Vector2u(10,7), sf::Vector2u(16,16), player.inventaire, 3);
-                if (obstacleInteracting->getId() == 3) return new InGame_CarGameplay(window, player.inventaire);
+                if (obstacleInteracting->getId() == 2) return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(10,7), sf::Vector2u(16,16), player.inventaire, 3);
+                if (obstacleInteracting->getId() == 3) return new InGame_CarGameplay(window, Save("InGame", sf::Vector2f(player.getCurrentPos().x, player.getCurrentPos().y), maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.inventaire, true), player.inventaire);
             }
         }
         else std::cerr << "error obstacle interacting is NULL" << std::endl;

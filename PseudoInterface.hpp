@@ -9,7 +9,7 @@
 
 class PseudoInterface : public GameState {
 public:
-    PseudoInterface(sf::RenderWindow& window);
+    PseudoInterface(sf::RenderWindow& window, Save save);
 
     void handleEvent(sf::Event& event, sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window);
@@ -21,6 +21,7 @@ public:
     }
 
 private:
+    Save save;
     sf::RectangleShape blueRectangle;
     sf::RectangleShape blueRectangleTop;
     sf::RectangleShape blueRectangleLeft;

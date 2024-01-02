@@ -13,6 +13,8 @@ class Obstacle;
 
 class Player : public sf::Drawable, public sf::Transformable {
 public:
+    Player() = default;
+
     Player(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y, unsigned int direction, Inventory inventaire);
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

@@ -17,11 +17,13 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
     : window(window),
       player("texture/texture_char/player.png", pos_player_x, pos_player_y, inventaire),
       back_to_town(false),
+      backmenu(false),
       next_town(false),
       kitchen(false),
       crous(false),
       isTalking(false),
       npcThatWasTalking(nullptr),
+      MapName(MapName),
       currentMessage(0)
 {
     MapList.push_back(GARE);
@@ -185,6 +187,9 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                 }
             }
         }
+        if (event.key.code == sf::Keyboard::Escape) {
+                backmenu = true;
+            }
     }
 }
 
@@ -233,15 +238,20 @@ void Indoors::draw(sf::RenderWindow& window, sf::Event& event) {
 }
 
 GameState* Indoors::getNextState() {
+    if(backmenu){
+        backmenu = false;
+        music.stop( );
+        return new MainMenu(window, Save("InDoors", player.getPosition(), MapName, player.inventaire, true));
+    }
     if (back_to_town){
         back_to_town = false;
         music.stop();
-        return new InGame(window, sf::Vector2u(0,2), sf::Vector2u(10,7), sf::Vector2u(16,16),player.inventaire, 3);
+        return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(10,7), sf::Vector2u(16,16),player.inventaire, 3);
     }
     if (next_town){
         next_town = false;
         music.stop();
-        return new InGame(window, sf::Vector2u(0,0), sf::Vector2u(3,3), sf::Vector2u(16,16),player.inventaire, 0);
+        return new InGame(window, sf::Vector2u(0,0), sf::Vector2f(3,3), sf::Vector2u(16,16),player.inventaire, 0);
     }
     if (crous){
         crous = false;

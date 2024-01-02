@@ -1,11 +1,12 @@
 #include "PseudoInterface.hpp"
 #include "iostream"
 
-PseudoInterface::PseudoInterface(sf::RenderWindow& window):
+PseudoInterface::PseudoInterface(sf::RenderWindow& window, Save save):
     window(window),
     launch_game(false),
     can_launch(false),
-    come_back(false)
+    come_back(false),
+    save(save)
     {
         if (!font.loadFromFile("font/Aller_Rg.ttf")) {
         std::cerr << "Erreur lors du chargement de la police" << std::endl;
@@ -159,12 +160,13 @@ GameState* PseudoInterface::getNextState() {
         launch_game = false;
         // return new InGame(window, sf::Vector2u(0,1), sf::Vector2u(2,3), sf::Vector2u(16,16), 0);
         // return new InGame_CarGameplay(window);
+
         return new Indoors(window, "AIRPORT", 40, 120, Inventory());
         // return new Indoors(window, "GARE");
     }
     if(come_back){
         come_back = false;
-        return new MainMenu(window);
+        return new MainMenu(window, save);
     }
     return nullptr;
 }

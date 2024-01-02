@@ -18,7 +18,7 @@
 
 class InGame_CarGameplay : public GameState {
 public:
-    InGame_CarGameplay(sf::RenderWindow& window, Inventory inventaire);
+    InGame_CarGameplay(sf::RenderWindow& window, Save save, Inventory inventaire);
 
     void handleEvent(sf::Event& event, sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window);
@@ -39,5 +39,7 @@ private:
     std::vector<Obstacle> obstacles;
 
     sf::Text Finish;
+    Save save;
     bool is_arrived;
+    bool backmenu;
 };

@@ -3,10 +3,12 @@
 #include "InGame.hpp"
 #include <iostream>
 
-InGame_CarGameplay::InGame_CarGameplay(sf::RenderWindow& window, Inventory inventaire)
+InGame_CarGameplay::InGame_CarGameplay(sf::RenderWindow& window, Save save, Inventory inventaire)
     : window(window),
       map(sf::Vector2u(60, 9)),
       player("texture/texture_char/cars_tileset.png", 8, 4, inventaire),
+      backmenu(false),
+      save(save),
       is_arrived(false)
 {
     if (!font.loadFromFile("font/arial.ttf")) {
@@ -82,7 +84,11 @@ InGame_CarGameplay::InGame_CarGameplay(sf::RenderWindow& window, Inventory inven
 }
 
 void InGame_CarGameplay::handleEvent(sf::Event& event, sf::RenderWindow& window) {
-    // Gérer les événements ici
+    if (event.type == sf::Event::KeyPressed) {
+        if (event.key.code == sf::Keyboard::Escape) {
+            backmenu = true;
+        }
+    }
 }
 
 void InGame_CarGameplay::update(sf::Time deltaTime, sf::RenderWindow& window) {
@@ -123,11 +129,16 @@ void InGame_CarGameplay::draw(sf::RenderWindow& window, sf::Event& event) {
 }
 
 GameState* InGame_CarGameplay::getNextState() {
+    if(backmenu){
+        backmenu = false;
+        music.stop( );
+        return new MainMenu(window, save);
+    }
     if (player.getCrash()){
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
             player.setCrash(false);
-            return new InGame_CarGameplay(window, player.inventaire);
+            return new InGame_CarGameplay(window,save, player.inventaire);
         }
     }
     if (is_arrived){
@@ -135,7 +146,7 @@ GameState* InGame_CarGameplay::getNextState() {
         {
             is_arrived = false;
             // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
-            return new InGame(window, sf::Vector2u(0,1), sf::Vector2u(2,3), sf::Vector2u(16,16), player.inventaire, 0);
+            return new InGame(window, sf::Vector2u(0,1), sf::Vector2f(2,3), sf::Vector2u(16,16), player.inventaire, 0);
         }
     }
     return nullptr;

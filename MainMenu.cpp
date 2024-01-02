@@ -1,16 +1,15 @@
 // MainMenu.cpp
 #include "MainMenu.hpp"
-#include "InGame.hpp"
-#include "Keybinds.hpp"
-#include "PseudoInterface.hpp"
 #include "iostream"
 
-MainMenu::MainMenu(sf::RenderWindow& window)
+MainMenu::MainMenu(sf::RenderWindow& window, Save save)
     : window(window),
       selectedOption(0),
       start_game(false),
       keybinds(false),
-      keyboard_pressed(false) {
+      keyboard_pressed(false),
+      continue_game(false),
+      save(save) {
     if (!font.loadFromFile("font/Aller_Rg.ttf")) {
         std::cerr << "Erreur lors du chargement de la police" << std::endl;
         std::exit(-1);
@@ -28,16 +27,20 @@ MainMenu::MainMenu(sf::RenderWindow& window)
     titleText.setPosition(window.getSize().x / 2 - titleText.getGlobalBounds().width / 2 + 20.f, 50);
     titleText.setFillColor(sf::Color(50,50,200,250));
 
+    continueText.setFont(font);
+    continueText.setString("Continuer");
+    ResetContinue();
+
     startText.setFont(font);
-    startText.setString("Start Game");
+    startText.setString("Nouvelle Partie");
     ResetStart();
 
     ctrlText.setFont(font);
-    ctrlText.setString("How to Play");
+    ctrlText.setString("Controles");
     ResetCtrl();
 
     exitText.setFont(font);
-    exitText.setString("Exit");
+    exitText.setString("Quitter");
     ResetExit();
 
     window.setKeyRepeatEnabled(false);
@@ -49,6 +52,10 @@ void MainMenu::handleEvent(sf::Event& event, sf::RenderWindow& window) {
     {
         if (event.mouseButton.button == sf::Mouse::Left)
         {
+            if (continueText.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y) && save.getGameStarted())
+            {
+                continue_game = true;
+            }
             if (startText.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))
             {
                 start_game = true;
@@ -78,6 +85,23 @@ void MainMenu::handleEvent(sf::Event& event, sf::RenderWindow& window) {
         if (event.key.code == sf::Keyboard::Down)
         {
             moveDown();
+        }
+    }
+}
+
+void MainMenu::Detect_Continue(sf::RenderWindow& window){
+    sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+    if (continueText.getGlobalBounds().contains(mousePosition.x,mousePosition.y))
+    {
+        keyboard_pressed = false;
+        selectedOption = -1;
+        HighlightContinue();
+    }
+    else{
+        if (!keyboard_pressed)
+        {
+        selectedOption = 0;
+        ResetContinue();
         }
     }
 }
@@ -139,13 +163,15 @@ void MainMenu::update(sf::Time deltaTime, sf::RenderWindow& window) {
         if (selectedOption != 3) Detect_Start(window);
         if (selectedOption != 2) Detect_Ctrl(window);
         if (selectedOption != 1) Detect_Exit(window);
-}
+        if (selectedOption != -1 && save.getGameStarted()) Detect_Continue(window);
+        }
 
 void MainMenu::draw(sf::RenderWindow& window, sf::Event& event) {
     window.clear();
     window.setView(view);
     window.draw(backgroundSprite);
     window.draw(titleText);
+    window.draw(continueText);
     window.draw(startText);
     window.draw(exitText);
     window.draw(ctrlText);
@@ -155,11 +181,16 @@ void MainMenu::draw(sf::RenderWindow& window, sf::Event& event) {
 GameState* MainMenu::getNextState() {
     if(start_game){
         start_game = false;
-        return new PseudoInterface(window);
+        return new PseudoInterface(window, save);
+    }
+    else if(continue_game){
+        continue_game = false;
+        if (save.getStateName() == "InGame") return new InGame(window, save.getCurrentMap(), save.getPlayerPosition(), save.getmapDimension(), save.getInventory(), 3);
+        if (save.getStateName() == "InDoors") return new Indoors(window, save.getName(), save.getPlayerPosition().x, save.getPlayerPosition().y, save.getInventory());
     }
     else if (keybinds) {
         keybinds = false;
-        return new Keybinds(window);
+        return new Keybinds(window, save);
     }
     return nullptr;
 }
@@ -215,6 +246,19 @@ void MainMenu::executeOption(){
     if (selectedOption == 3) start_game = true;
     if (selectedOption == 2) keybinds = true;
     if (selectedOption == 1) window.close();
+}
+
+void MainMenu::HighlightContinue(){
+    continueText.setCharacterSize(50);
+    continueText.setFillColor(sf::Color(200,200,50,250));
+    continueText.setPosition(window.getSize().x*0.43, 0.32*window.getSize().y);
+}
+
+void MainMenu::ResetContinue(){
+    continueText.setCharacterSize(44);
+    continueText.setPosition(window.getSize().x*0.43, 0.33*window.getSize().y);
+    if (save.getGameStarted()) continueText.setFillColor(sf::Color(220,220,220,250));
+    else continueText.setFillColor(sf::Color(100,100,100,150));
 }
 
 void MainMenu::HighlightStart(){

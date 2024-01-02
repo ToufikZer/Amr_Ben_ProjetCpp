@@ -5,6 +5,8 @@
 
 class TileMap : public sf::Drawable, public sf::Transformable {
 public:
+    TileMap() = default;
+
     TileMap(sf::Vector2u dimension);
 
     unsigned int getWidth() const;

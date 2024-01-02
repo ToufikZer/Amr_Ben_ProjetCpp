@@ -1,8 +1,9 @@
 #include "Keybinds.hpp"
 #include "iostream"
 
-Keybinds::Keybinds(sf::RenderWindow& window):
+Keybinds::Keybinds(sf::RenderWindow& window, Save save):
     window(window),
+    save(save),
     come_back(false)
     {
         if (!font.loadFromFile("font/Aller_Rg.ttf")) {
@@ -18,7 +19,7 @@ Keybinds::Keybinds(sf::RenderWindow& window):
         backgroundSprite.setPosition(0,0);
 
         text.setFont(font);
-        text.setString("Press A to interact \nLeft : Q or Left button\nRight : D or Right button\nUp : Z or Up button\nDown : S or Down button\nLShift : Run\n\n\nEscape to return to the Title Screen");
+        text.setString("A : Interagir avec les pnj / Toquer\nE : entrer/sortir des batiments\nGauche : Q ou Fleche gauche\nDroite : D ou Fleche droite\nHaut : Z ou Fleche Haut\nBas : S ou Fleche bas\nLShift : Courir\n\nEchap pour revenir au menu principal");
         text.setCharacterSize(44);
         text.setPosition(window.getSize().x*0.5 - text.getGlobalBounds().width * 0.5, 0.08*window.getSize().y);
         text.setFillColor(sf::Color::Red);
@@ -74,7 +75,7 @@ void Keybinds::draw(sf::RenderWindow& window, sf::Event& event){
 GameState* Keybinds::getNextState() {
     if(come_back){
         come_back = false;
-        return new MainMenu(window);
+        return new MainMenu(window, save);
     }
     return nullptr;
 }

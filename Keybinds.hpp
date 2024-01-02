@@ -5,7 +5,7 @@
 #include "MainMenu.hpp"
 class Keybinds : public GameState {
 public:
-    Keybinds(sf::RenderWindow& window);
+    Keybinds(sf::RenderWindow& window, Save save);
 
     void handleEvent(sf::Event& event, sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window);
@@ -20,6 +20,7 @@ private:
     sf::Text text;
     sf::Text back;
 
+    Save save;
     bool come_back;
     void Detect_Back(sf::RenderWindow& window);
     void HighlightBack();

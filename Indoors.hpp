@@ -38,12 +38,14 @@ private:
     float PlayerSpeed;
     PlayerInDoors player;
     std::vector<MapIndoors> MapList;
+    std::string MapName;
 
     std::vector<std::string> first_dialogue;
     bool isTalking;
     NPC* npcThatWasTalking;
     int currentMessage;
 
+    bool backmenu;
     bool back_to_town;
     bool next_town;
     bool kitchen;
