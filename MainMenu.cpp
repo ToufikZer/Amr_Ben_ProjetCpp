@@ -217,6 +217,13 @@ void MainMenu::moveUp(){
     ResetCtrl();
     selectedOption = 3;
     break;
+    case 3:
+    if (save.getGameStarted()) {
+        HighlightContinue();
+        ResetStart();
+        selectedOption = -1;
+        break;
+        }
     }
     // consequence du clavier si on presse Down
 }
@@ -237,12 +244,20 @@ void MainMenu::moveDown(){
     ResetCtrl();
     selectedOption = 1;
     break;
+    case -1:
+    if (save.getGameStarted()) {
+        HighlightStart();
+        ResetContinue();
+        selectedOption = 3;
+        break;
+        }
     }
 }
 
 // consequence du clavier si on presse Enter
 
 void MainMenu::executeOption(){
+    if (selectedOption == -1) continue_game = true;
     if (selectedOption == 3) start_game = true;
     if (selectedOption == 2) keybinds = true;
     if (selectedOption == 1) window.close();
