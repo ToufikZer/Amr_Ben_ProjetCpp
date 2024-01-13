@@ -48,9 +48,9 @@ FraudeGameplay::FraudeGameplay(sf::RenderWindow& window, Save save, Inventory in
     Obstacle obstacle2 = Obstacle("texture/texture_obstacle/train.png", 16, 6, 0);
     Obstacle obstacle3 = Obstacle("texture/texture_obstacle/train.png", 36, 3, 0);
     Obstacle obstacle4 = Obstacle("texture/texture_obstacle/fraude_obstacle.png", 36, 5, 10);
-    Obstacle obstacle5 = Obstacle("texture/texture_obstacle/train.png", 48, 6, 0);
-    Obstacle obstacle6 = Obstacle("texture/texture_obstacle/train.png", 36, 7, 0);
-    Obstacle obstacle7 = Obstacle("texture/texture_obstacle/train.png", 16, 2, 0);
+    Obstacle obstacle5 = Obstacle("texture/texture_obstacle/train2.png", 48, 6, 0);
+    Obstacle obstacle6 = Obstacle("texture/texture_obstacle/train3.png", 36, 7, 0);
+    Obstacle obstacle7 = Obstacle("texture/texture_obstacle/train2.png", 16, 2, 0);
     Obstacle obstacle8 = Obstacle("texture/texture_obstacle/fraude_obstacle.png", 30, 5, 10);
 
     obstacles.push_back(obstacle1);
