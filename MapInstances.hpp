@@ -112,7 +112,7 @@
 
 #define MAP8 MapIndoors("KITCHEN", \
                         "texture/texture_decor/kitchen.jpg", \
-                        {(NPC("texture/texture_obstacle/key.png", 113, 168, {"KEY", "Wow there's keys !!", "Probably one student forgot them there", "Oh, there is something written on it?", "'with great power comes great responsibility'"},"",{},1))}, \
+                        {(NPC("texture/texture_obstacle/key.png", 188, 200, {"KEY", "Wow there's keys !!", "Probably one student forgot them there", "Oh, there is something written on it?", "'with great power comes great responsibility'"},"",{},1))}, \
                         {(Obstacle("texture/texture_obstacle/invisible_wall.png", 5, 3, 0))}, \
                         "sound/music/music1.ogg",1,60)
 

@@ -18,13 +18,14 @@ MainMenu::MainMenu(sf::RenderWindow& window, Save save)
         std::cerr << "Erreur lors du chargement de l'image de fond" << std::endl;
         std::exit(-1);
 }
+    view.reset(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
     backgroundSprite.setTexture(backgroundTexture);
     backgroundSprite.setPosition(0,0);
     
     titleText.setFont(font);
     titleText.setString("J.O Tourismo");
     titleText.setCharacterSize(64);
-    titleText.setPosition(window.getSize().x / 2 - titleText.getGlobalBounds().width / 2 + 20.f, 50);
+    titleText.setPosition(view.getSize().x / 2 - titleText.getGlobalBounds().width / 2 + 20.f, 50);
     titleText.setFillColor(sf::Color(50,50,200,250));
 
     continueText.setFont(font);
@@ -44,7 +45,6 @@ MainMenu::MainMenu(sf::RenderWindow& window, Save save)
     ResetExit();
 
     window.setKeyRepeatEnabled(false);
-    view.reset(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
 }
 
 void MainMenu::handleEvent(sf::Event& event, sf::RenderWindow& window) {
@@ -266,12 +266,12 @@ void MainMenu::executeOption(){
 void MainMenu::HighlightContinue(){
     continueText.setCharacterSize(50);
     continueText.setFillColor(sf::Color(200,200,50,250));
-    continueText.setPosition(window.getSize().x*0.43, 0.32*window.getSize().y);
+    continueText.setPosition(view.getSize().x*0.43, 0.32*view.getSize().y);
 }
 
 void MainMenu::ResetContinue(){
     continueText.setCharacterSize(44);
-    continueText.setPosition(window.getSize().x*0.43, 0.33*window.getSize().y);
+    continueText.setPosition(view.getSize().x*0.43, 0.33*view.getSize().y);
     if (save.getGameStarted()) continueText.setFillColor(sf::Color(220,220,220,250));
     else continueText.setFillColor(sf::Color(100,100,100,150));
 }
@@ -279,35 +279,35 @@ void MainMenu::ResetContinue(){
 void MainMenu::HighlightStart(){
     startText.setCharacterSize(50);
     startText.setFillColor(sf::Color(200,200,50,250));
-    startText.setPosition(window.getSize().x*0.43, 0.43*window.getSize().y);
+    startText.setPosition(view.getSize().x*0.43, 0.43*view.getSize().y);
 }
 
 void MainMenu::ResetStart(){
     startText.setCharacterSize(44);
-    startText.setPosition(window.getSize().x*0.43, 0.44*window.getSize().y);
+    startText.setPosition(view.getSize().x*0.43, 0.44*view.getSize().y);
     startText.setFillColor(sf::Color(50,200,50,250));
 }
 
 void MainMenu::HighlightCtrl(){
     ctrlText.setCharacterSize(50);
     ctrlText.setFillColor(sf::Color(200,200,50,250));
-    ctrlText.setPosition(window.getSize().x*0.43, 0.54*window.getSize().y);
+    ctrlText.setPosition(view.getSize().x*0.43, 0.54*view.getSize().y);
 }
 
 void MainMenu::ResetCtrl(){
     ctrlText.setCharacterSize(44);
-    ctrlText.setPosition(window.getSize().x*0.43, 0.55*window.getSize().y);
+    ctrlText.setPosition(view.getSize().x*0.43, 0.55*view.getSize().y);
     ctrlText.setFillColor(sf::Color(200,150,150,250));
 }
 
 void MainMenu::HighlightExit(){
     exitText.setCharacterSize(50);
     exitText.setFillColor(sf::Color(200,200,50,250));
-    exitText.setPosition(window.getSize().x*0.43, 0.65*window.getSize().y);
+    exitText.setPosition(view.getSize().x*0.43, 0.65*view.getSize().y);
 }
 
 void MainMenu::ResetExit(){
     exitText.setCharacterSize(44);
-    exitText.setPosition(window.getSize().x*0.43, 0.66*window.getSize().y);
+    exitText.setPosition(view.getSize().x*0.43, 0.66*view.getSize().y);
     exitText.setFillColor(sf::Color(200,50,50,250));
 }

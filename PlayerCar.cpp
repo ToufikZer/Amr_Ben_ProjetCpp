@@ -73,13 +73,13 @@ void PlayerCar::update(const sf::Time& deltaTime, sf::Font& font, unsigned int m
         speed += speedIncrease;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
             if (in_map(map_width, map_height, sf::Vector2f(getPosition().x, getPosition().y + 2))){
-                move(0,2);
+                move(0,3);
                 update_texture(2);
             }
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
             if (in_map(map_width, map_height, sf::Vector2f(getPosition().x, getPosition().y - 2))){
-                move(0,-2);
+                move(0,-3);
                 update_texture(1);
             }
         }
@@ -98,7 +98,7 @@ void PlayerCar::update(const sf::Time& deltaTime, sf::Font& font, unsigned int m
             rotate(5);
         }
     }
-    view.setCenter(getPosition().x +100, map_height *16 + 160);
+    view.setCenter(getPosition().x + 0.85*view.getSize().x, map_height *16 + 160);
 }
 
 void PlayerCar::draw_crash(sf::RenderWindow& window){

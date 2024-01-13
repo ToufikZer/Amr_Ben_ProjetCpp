@@ -14,6 +14,7 @@
 #include "Keybinds.hpp"
 #include "Indoors.hpp"
 #include "InGame_CarGameplay.hpp"
+#include "FraudeGameplay.hpp"
 #include "Inventory.hpp"
 #include "Item.hpp"
 #include "Save.hpp"

@@ -212,7 +212,7 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
             if (obstacleInteracting->getId() != 0){
                 if (obstacleInteracting->getId() == 1) return new Indoors(window, "CROUS", 64.f, 140.f, player.inventaire);
                 if (obstacleInteracting->getId() == 2) return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(10,7), sf::Vector2u(16,16), player.inventaire, 3);
-                if (obstacleInteracting->getId() == 3) return new InGame_CarGameplay(window, Save("InGame", sf::Vector2f(player.getCurrentPos().x, player.getCurrentPos().y), maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.inventaire, true), player.inventaire);
+                if (obstacleInteracting->getId() == 3) return new FraudeGameplay(window, Save("InGame", sf::Vector2f(player.getCurrentPos().x, player.getCurrentPos().y), maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.inventaire, true), player.inventaire);
             }
         }
         else std::cerr << "error obstacle interacting is NULL" << std::endl;

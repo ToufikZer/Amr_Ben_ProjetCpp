@@ -261,7 +261,7 @@ GameState* Indoors::getNextState() {
     if (kitchen){
         kitchen = false;
         music.stop();
-        return new Indoors(window, "KITCHEN", 20, 120, player.inventaire);
+        return new Indoors(window, "KITCHEN", 20, 160, player.inventaire);
     }
     return nullptr;
 }
