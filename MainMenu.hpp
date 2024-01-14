@@ -4,6 +4,7 @@
 #include "Save.hpp"
 #include "Indoors.hpp"
 #include "InGame.hpp"
+#include "Labyrinthe.hpp"
 #include "Keybinds.hpp"
 #include "PseudoInterface.hpp"
 #include <SFML/Graphics.hpp>

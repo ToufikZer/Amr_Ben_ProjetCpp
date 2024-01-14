@@ -33,8 +33,8 @@ void Inventory::exchangeItems(unsigned int index1, unsigned int index2) {
 
 void Inventory::displayInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view) {
     // Position des cases
-    float xPos = 10.0f;
-    float yPos = 10.0f;
+    float xPos = view.getCenter().x - view.getSize().x / 2 + 10.0f;
+    float yPos = view.getCenter().y - view.getSize().y / 2 + 10.0f;
 
     // Taille des cases
     float caseSize = 50.0f;
@@ -53,7 +53,7 @@ void Inventory::displayInventory(sf::RenderWindow& window, sf::Font& font, const
     // Dessiner les textures des items
     for (size_t i = 0; i < items.size(); ++i) {
         sf::Sprite itemSprite(items[i].getTexture());
-        itemSprite.setPosition(10.0f + i * (caseSize + 10.0f), 10.0f);
+        itemSprite.setPosition(view.getCenter().x - view.getSize().x / 2 + 10.0f + i * (caseSize + 10.0f), view.getCenter().y - view.getSize().y / 2 + 10.0f);
         window.draw(itemSprite);
     }
 }

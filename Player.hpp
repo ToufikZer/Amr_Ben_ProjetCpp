@@ -53,6 +53,18 @@ public:
         wall_collision = value;
     }
     
+    unsigned int getNbPas(){
+        return nb_pas;
+    }
+
+    void SetNbPas(unsigned int value){
+        nb_pas = value;
+    }
+
+    void ResetNbPas(){
+        nb_pas = 0;
+    }
+
     Inventory inventaire;
 
     void drawInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view);
@@ -79,6 +91,7 @@ private:
     bool going_down = false;
 
     int current_move;
+    unsigned int nb_pas;
 
     bool collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles);
 

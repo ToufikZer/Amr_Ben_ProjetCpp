@@ -47,6 +47,7 @@ private:
     std::vector<std::string> first_dialogue;
     bool backmenu;
     bool in_house;
+    bool labyrinthe;
     bool isTalking;
     NPC* npcThatWasTalking;
     Obstacle* obstacleInteracting;
@@ -65,15 +66,7 @@ private:
 
     void initialize();
     void CheckChangeMap(sf::Vector2u position);
-    void drawConfirmationWindow(sf::RenderWindow& window);
 
-    void HighlightCancel();
-    void ResetCancel();
-    void HighlightYes();
-    void ResetYes();
-
-    void Detect_Yes(sf::RenderWindow& window);
-    void Detect_Cancel(sf::RenderWindow& window);
     void executeOption();
 
 };

@@ -104,6 +104,10 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                 EnterHouseDown();
             }
 
+            if (event.key.code == sf::Keyboard::J) {
+                labyrinthe = true;
+            }
+
             if (event.key.code == sf::Keyboard::Down) {
                 if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
                     if(npcThatWasTalking->getCurrentAnswer() == npcThatWasTalking->getAnswerVector().size()-1) {}
@@ -204,6 +208,13 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
         backmenu = false;
         music.stop( );
         return new MainMenu(window, Save("InGame", sf::Vector2f(player.getPosition().x / 32, player.getPosition().y / 32),maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.inventaire, true));
+    }
+    if(labyrinthe){
+        labyrinthe = false;
+        music.stop( );
+        player.ResetNbPas();
+        std::cout << player.getNbPas() << std::endl;
+        return new Labyrinthe(window, 0, sf::Vector2f(10,15), sf::Vector2u(31,21), player.inventaire, 3);
     }
     if(in_house){
         music.stop();
@@ -331,78 +342,6 @@ void InGame::CheckChangeMap(sf::Vector2u position){
             }
         }
     // }
-}
-
-void InGame::drawConfirmationWindow(sf::RenderWindow& window) {
-    back_menu.setSize(sf::Vector2f(300.f, 125.f));
-    back_menu.setPosition(100.f, 148.f);
-    back_menu.setFillColor(sf::Color(0, 0, 0, 150)); 
-
-    question.setString("Do you want to leave?");
-    question.setFont(font);
-    question.setCharacterSize(20);
-    question.setFillColor(sf::Color::White);
-    sf::FloatRect textBounds = question.getLocalBounds();
-    question.setPosition(250.f - textBounds.width / 2.f, 178.f - textBounds.height / 2.f);
-
-    yesText.setString("Yes");
-    yesText.setFont(font);
-    ResetYes();
-
-    cancelText.setString("Cancel");
-    cancelText.setFont(font);
-    ResetCancel();
-
-    line.setSize(sf::Vector2f(2.f, 78.f));
-    line.setPosition(250.f, 200.f);
-    line.setFillColor(sf::Color(0, 0, 0, 250));
-
-}
-
-void InGame::HighlightCancel(){
-    cancelText.setCharacterSize(25);
-    cancelText.setFillColor(sf::Color::Red);
-    cancelText.setPosition(280.f , 215.f);
-}
-
-void InGame::ResetCancel(){
-    cancelText.setCharacterSize(20);
-    cancelText.setPosition(280.f , 220.f);
-    cancelText.setFillColor(sf::Color::White);
-}
-
-void InGame::HighlightYes(){
-    yesText.setCharacterSize(25);
-    yesText.setFillColor(sf::Color::Green);
-    yesText.setPosition(170.f, 215.f);
-}
-
-void InGame::ResetYes(){
-    yesText.setCharacterSize(20);
-    yesText.setPosition(170.f, 220.f);
-    yesText.setFillColor(sf::Color::White);
-}
-
-void InGame::Detect_Yes(sf::RenderWindow& window){
-    sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
-    if (yesText.getGlobalBounds().contains(mousePosition.x,mousePosition.y))
-    {
-        HighlightYes();
-    }
-    else{
-        ResetYes();
-    }
-}
-
-void InGame::Detect_Cancel(sf::RenderWindow& window){
-    sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
-    if (cancelText.getGlobalBounds().contains(mousePosition.x,mousePosition.y))
-    {   
-        HighlightCancel();
-    }
-    else{
-        ResetCancel();
-    }
 }
 
 void InGame::EnterHouseUp(){

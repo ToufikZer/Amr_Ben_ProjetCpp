@@ -76,7 +76,7 @@ bool Player::collision_npcs(sf::Vector2u position, std::vector<NPC> NPCs){
                 // InteractText.setString("Press A to interact");
                 // InteractText.setCharacterSize(15);
                 // InteractText.setFillColor(sf::Color::Red);
-            return true;
+                return true;
         }
         // else{
         //     InteractText.setFillColor(sf::Color(0,0,0,0));
@@ -116,6 +116,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                         move(speed/4, 0.f);
                         going_right = true;
                         current_pos.x += 1;
+                        nb_pas++;
                     }
                     else{
                         if(current_move != 3)
@@ -147,6 +148,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                         move(0.f, -speed/4);
                         going_up = true;
                         current_pos.y -= 1;
+                        nb_pas++;
                     }
                     else{
                         if(current_move != 3)
@@ -178,6 +180,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                         move(-speed/4, 0.f);
                         going_left = true;
                         current_pos.x -= 1;
+                        nb_pas++;
                     }
                     else{
                         if(current_move != 3)
@@ -209,6 +212,7 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
                         move(0.f, speed/4);
                         going_down = true;
                         current_pos.y += 1;
+                        nb_pas++;
                     }
                     else{
                         if(current_move != 3)
