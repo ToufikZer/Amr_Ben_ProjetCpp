@@ -6,7 +6,6 @@ class Answer
 {
 private:
     std::string AnswerChoice;
-    bool RightAnswer;
     unsigned int Id;
     std::vector<std::string> AnswerText;
 

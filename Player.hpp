@@ -65,7 +65,18 @@ public:
         nb_pas = 0;
     }
 
-    Inventory inventaire;
+    void ResetMove(){
+        if (going_down  || going_left || going_right || going_up){
+            going_down = false;
+            going_left = false;
+            going_right = false;
+            going_up = false;
+        }
+    }
+
+    Inventory& getInventory(){
+        return inventaire;
+    }
 
     void drawInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view);
     // void drawInteractText(sf::RenderWindow& window, sf::Font& font);
@@ -80,18 +91,19 @@ private:
     sf::Texture m_texture;
     sf::VertexArray m_vertices;
     sf::Vector2u current_pos;
+    unsigned int current_move;
+    int change_map;
     unsigned int direction;
     bool can_talk = false;
     bool wall_collision;
-    int change_map;
 
     bool going_right = false;
     bool going_left = false;
     bool going_up = false;
     bool going_down = false;
-
-    int current_move;
     unsigned int nb_pas;
+
+    Inventory inventaire;
 
     bool collision(sf::Vector2u position, TileMap map, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles);
 

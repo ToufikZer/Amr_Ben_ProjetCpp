@@ -40,7 +40,7 @@ void Inventory::displayInventory(sf::RenderWindow& window, sf::Font& font, const
     float caseSize = 50.0f;
 
     // Dessiner les cases vides
-    for (int i = 0; i < maxItems; ++i) {
+    for (unsigned int i = 0; i < maxItems; ++i) {
         sf::RectangleShape itemBox(sf::Vector2f(caseSize, caseSize));
         itemBox.setPosition(xPos, yPos);
         itemBox.setFillColor(sf::Color(150, 150, 150, 150));

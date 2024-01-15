@@ -39,11 +39,11 @@ public:
 private:
     sf::Texture m_texture;
     sf::VertexArray m_vertices;
-    bool is_open;
-    bool can_enter;
+    unsigned int id_obstacle;
     sf::Vector2u ChangeTile1;
     sf::Vector2u ChangeTile2;
+    bool is_open;
+    bool can_enter;
     unsigned int direction_to_enter;
-    unsigned int id_obstacle;
 };
 

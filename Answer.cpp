@@ -3,7 +3,7 @@
 
 Answer::Answer(std::string AnswerChoice, std::vector<std::string> AnswerText, unsigned int Id):
     AnswerChoice(AnswerChoice),
-    RightAnswer(RightAnswer),
+    Id(Id),
     AnswerText(AnswerText)
 {
 }

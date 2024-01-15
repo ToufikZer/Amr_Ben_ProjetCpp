@@ -11,14 +11,16 @@ InGame::InGame(sf::RenderWindow& window): window(window){
 
 InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2f pos_player, sf::Vector2u map_dimension, Inventory inventaire, unsigned int player_direction)
     : window(window),
-      maps(),
-      player("texture/texture_char/player_sheet.png", pos_player.x, pos_player.y, player_direction, inventaire),
-      map(map_dimension),
       view(sf::Vector2f(player.getPosition().x + 16.f, player.getPosition().y + 16.f), sf::Vector2f(300, 300)),
+      maps(),
+      map(map_dimension),
+      player("texture/texture_char/player_sheet.png", pos_player.x, pos_player.y, player_direction, inventaire),
       isTalking(false),
       npcThatWasTalking(nullptr),
       currentMessage(0),
+      obstacleInteracting(nullptr),
       in_house(false),
+      labyrinthe(false),
       backmenu(false)
 {
     view.reset(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
@@ -85,7 +87,6 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                             if (&npc == npcThatWasTalking) {
                                 npc.getDialogue() = first_dialogue;
                                 npc.setPlayBool(true);
-                                npc.getDelay() = 0;
                                 isTalking = false;
                                 currentMessage = 0;
                                 npcThatWasTalking->setIsTalking(false);
@@ -207,23 +208,23 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
     if(backmenu){
         backmenu = false;
         music.stop( );
-        return new MainMenu(window, Save("InGame", sf::Vector2f(player.getPosition().x / 32, player.getPosition().y / 32),maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.inventaire, true));
+        return new MainMenu(window, Save("InGame", sf::Vector2f(player.getPosition().x / 32, player.getPosition().y / 32),maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true));
     }
     if(labyrinthe){
         labyrinthe = false;
         music.stop( );
         player.ResetNbPas();
         std::cout << player.getNbPas() << std::endl;
-        return new Labyrinthe(window, 0, sf::Vector2f(15,10), sf::Vector2u(31,21), player.inventaire, 3);
+        return new Labyrinthe(window, 0, sf::Vector2f(15,10), sf::Vector2u(31,21), player.getInventory(), 3);
     }
     if(in_house){
         music.stop();
         in_house = false;
         if (obstacleInteracting != nullptr) {
             if (obstacleInteracting->getId() != 0){
-                if (obstacleInteracting->getId() == 1) return new Indoors(window, "CROUS", 64.f, 140.f, player.inventaire);
-                if (obstacleInteracting->getId() == 2) return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(10,7), sf::Vector2u(16,16), player.inventaire, 3);
-                if (obstacleInteracting->getId() == 3) return new FraudeGameplay(window, Save("InGame", sf::Vector2f(player.getCurrentPos().x, player.getCurrentPos().y), maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.inventaire, true), player.inventaire);
+                if (obstacleInteracting->getId() == 1) return new Indoors(window, "CROUS", 64.f, 140.f, player.getInventory());
+                if (obstacleInteracting->getId() == 2) return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(10,7), sf::Vector2u(16,16), player.getInventory(), 3);
+                if (obstacleInteracting->getId() == 3) return new FraudeGameplay(window, Save("InGame", sf::Vector2f(player.getCurrentPos().x, player.getCurrentPos().y), maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true), player.getInventory());
             }
         }
         else std::cerr << "error obstacle interacting is NULL" << std::endl;

@@ -67,7 +67,6 @@ bool PlayerCar::collision_obstacles(sf::Vector2f position, std::vector<Obstacle>
 void PlayerCar::update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, 
                        sf::View& view, std::vector<std::vector<int>> plan, std::vector<Obstacle> obstacles){
     if(!collision_obstacles(getPosition(),obstacles ) && !crash){
-        float deltaTimeSeconds = deltaTime.asSeconds();
         float speedIncrease = 0.2;
         move(speed ,0.f);
         speed += speedIncrease;

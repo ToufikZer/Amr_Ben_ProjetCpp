@@ -27,7 +27,9 @@ public:
 
     bool collision_NPCs(sf ::Vector2f position, NPC npc);
 
-    Inventory inventaire;
+    Inventory& getInventory(){
+        return inventaire;
+    }
     
     void drawInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view);
     // void drawInteractText(sf::RenderWindow& window, sf::Font& font);
@@ -40,5 +42,6 @@ private:
     sf::Time elapsed; 
     sf::Texture m_texture;
     sf::VertexArray m_vertices;
+    Inventory inventaire;
     float speed;
 };

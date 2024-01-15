@@ -53,10 +53,6 @@ public:
 
     sf::Vector2u getCurrentPos();
 
-    float& getDelay(){
-        return delay;
-    }
-
     void setPlayBool(bool value){
         playsound = value;
     }
@@ -71,21 +67,24 @@ public:
 private:
     sf::SoundBuffer buffer;
     sf::Sound npc_sound;
+    bool playsound = true;
+
     sf::Time elapsed;  // Temps écoulé depuis la dernière mise à jour
     sf::Texture m_texture;
     sf::VertexArray m_vertices;
+    std::string TexturePath;
+
     sf::Vector2u current_pos;
-    std::string direction;
     std::vector<std::string> dialogue;
     std::vector<Answer> AnswerVector;
+    unsigned int current_answer;
+
+    std::string direction;
     std::string moves;
-    int current_move = 0;
-    float delay = 0;
+    unsigned int current_move = 0;
+
     bool is_talking;
     bool is_asking;
-    unsigned int current_answer;
-    bool playsound = true;
-    std::string TexturePath;
 
     void draw_answer(sf::RenderWindow& window, sf::Event& event, sf::Font& font, float rectangleX, float rectangleWidth, float rectangleY, float rectangleHeight, unsigned int current_answer);
     void drawTriangle(sf::RenderWindow& window, float edge, float pos_x, float pos_y);

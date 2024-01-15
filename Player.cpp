@@ -12,8 +12,8 @@ float ftile_size = static_cast<float> (TILESIZE);
 
 Player::Player(const std::string &texturePath, unsigned int pos_x, unsigned int pos_y, unsigned int direction, Inventory inventaire) : 
     current_pos(pos_x, pos_y),
-    change_map(0),
     current_move(0),
+    change_map(0),
     wall_collision(false),
     inventaire(inventaire) {
     if (!m_texture.loadFromFile(texturePath)) {

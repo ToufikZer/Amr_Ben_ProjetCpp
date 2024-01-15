@@ -43,21 +43,13 @@ private:
     std::vector<Obstacle> obstacles;
 
     std::vector<std::string> first_dialogue;
-    bool backmenu;
-    bool in_house;
-    bool isTalking;
-    bool light_off;
-    NPC* npcThatWasTalking;
-    Obstacle* obstacleInteracting;
-    int currentMessage;
     unsigned int nb_pas;
-
-    
-    sf::RectangleShape back_menu;
-    sf::Text question;
-    sf::Text yesText;
-    sf::Text cancelText;
-    sf::RectangleShape line;
+    bool light_off;
+    bool isTalking;
+    NPC* npcThatWasTalking;
+    unsigned int currentMessage;
+    bool end_lab;
+    bool backmenu;
 
     void initialize();
     sf::Vector2u tp(sf::Vector2u tp_tile);

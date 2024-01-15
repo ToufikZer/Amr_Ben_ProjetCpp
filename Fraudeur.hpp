@@ -29,7 +29,10 @@ public:
     void setCrash(bool value){
         crash = value;
     }
-    Inventory inventaire;
+
+    Inventory getInventory() const {
+        return inventaire;
+    }
 
     void drawInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view);
 protected:
@@ -40,10 +43,11 @@ private:
     sf::Time elapsed; 
     sf::Texture m_texture;
     sf::VertexArray m_vertices;
-    float speed;
 
     bool crash;
+    float speed;
     bool invincible;
+    Inventory inventaire;
     sf::Text CrashText;
 
 };

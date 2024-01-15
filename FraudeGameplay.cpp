@@ -136,7 +136,7 @@ GameState* FraudeGameplay::getNextState() {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
             player.setCrash(false);
-            return new FraudeGameplay(window,save, player.inventaire);
+            return new FraudeGameplay(window,save, player.getInventory());
         }
     }
     if (is_arrived){
@@ -144,7 +144,7 @@ GameState* FraudeGameplay::getNextState() {
         {
             is_arrived = false;
             // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
-            return new InGame(window, sf::Vector2u(0,1), sf::Vector2f(9,10), sf::Vector2u(16,16), player.inventaire, 0);
+            return new InGame(window, sf::Vector2u(0,1), sf::Vector2f(9,10), sf::Vector2u(16,16), player.getInventory(), 0);
         }
     }
     return nullptr;

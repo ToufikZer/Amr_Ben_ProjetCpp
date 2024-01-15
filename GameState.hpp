@@ -9,5 +9,6 @@ public:
     virtual void update(sf::Time deltaTime, sf::RenderWindow& window) ;
     virtual void draw(sf::RenderWindow& window, sf::Event& event) ;
     virtual GameState* getNextState() ;
-    virtual bool isRunning() ;
+    virtual bool isRunning();
+    virtual ~GameState() {}
 };

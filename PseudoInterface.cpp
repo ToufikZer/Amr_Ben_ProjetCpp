@@ -125,7 +125,6 @@ void PseudoInterface::Detect_Back(sf::RenderWindow& window){
 void PseudoInterface::update(sf::Time deltaTime, sf::RenderWindow& window){
     float rectangleWidth = window.getSize().x;
     float rectangleHeight = 0.153 * window.getSize().y;
-    float rectangleX = 0;
     float rectangleY = 0.3*window.getSize().y;
 
     if (pseudo.size() > 0) can_launch = true;

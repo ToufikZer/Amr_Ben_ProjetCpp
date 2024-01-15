@@ -13,14 +13,14 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
 
     NPC::NPC(const std::string& texturePath, float pos_x, float pos_y, std::vector<std::string> dialogue, std::string moves,std::vector<Answer> AnswerVector, int type_of_pnj): 
     Player(texturePath, pos_x, pos_y, 0, Inventory()),
+    TexturePath(texturePath),
     current_pos(pos_x,pos_y),
     dialogue(dialogue),
     AnswerVector(AnswerVector),
+    current_answer(0),
     moves(moves),
-    TexturePath(texturePath),
     is_talking(false),
-    is_asking(false),
-    current_answer(0)
+    is_asking(false)
      {
         if (type_of_pnj == 0) {
             if (!m_texture.loadFromFile(texturePath)) {
@@ -184,8 +184,7 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
         float rectangleWidth = ViewRect.width;
         float rectangleHeight = 0.153 * ViewRect.height;
         float rectangleX = ViewRect.left;
-        float rectangleY = ViewRect.height - rectangleHeight;
-        std::cout << rectangleX << ";" << rectangleY <<std::endl;
+        float rectangleY = ViewRect.top + ViewRect.height - rectangleHeight;
         if (is_asking) {
             draw_answer(window, event, font, rectangleX, rectangleWidth, rectangleY, rectangleHeight, current_answer);
         }

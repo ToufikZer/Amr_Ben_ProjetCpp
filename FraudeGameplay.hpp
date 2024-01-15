@@ -39,7 +39,7 @@ private:
     std::vector<Obstacle> obstacles;
 
     sf::Text Finish;
+    bool backmenu;
     Save save;
     bool is_arrived;
-    bool backmenu;
 };

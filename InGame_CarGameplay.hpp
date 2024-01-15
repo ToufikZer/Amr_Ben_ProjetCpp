@@ -31,15 +31,15 @@ private:
     sf::Font font;
     sf::Texture backgroundTexture;
     sf::Sprite backgroundSprite;
+    TileMap map;
+    PlayerCar player;
     sf::Music music;
     std::string MusicPath;
-    TileMap map;
     std::vector<std::vector<int>> level;     
-    PlayerCar player;
     std::vector<Obstacle> obstacles;
 
     sf::Text Finish;
+    bool backmenu;
     Save save;
     bool is_arrived;
-    bool backmenu;
 };

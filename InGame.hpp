@@ -32,32 +32,26 @@ public:
 private:
     sf::RenderWindow& window;
     sf::View view;
+    MapManager maps;
+    TileMap map;
+    Player player;
     sf::Font font;
     sf::Music music;
     // sf::SoundBuffer buffer_bump;
     // sf::Sound bump_sound;
     std::string MusicPath;
-    TileMap map;
     std::vector<std::vector<int>> level;     
-    Player player;
     std::vector<NPC> NPCs;
     std::vector<Obstacle> obstacles;
-    MapManager maps;
 
     std::vector<std::string> first_dialogue;
-    bool backmenu;
-    bool in_house;
-    bool labyrinthe;
     bool isTalking;
     NPC* npcThatWasTalking;
+    unsigned int currentMessage;
     Obstacle* obstacleInteracting;
-    int currentMessage;
-
-    sf::RectangleShape back_menu;
-    sf::Text question;
-    sf::Text yesText;
-    sf::Text cancelText;
-    sf::RectangleShape line;
+    bool in_house;
+    bool labyrinthe;
+    bool backmenu;
 
     void EnterHouseUp();
     void EnterHouseDown();

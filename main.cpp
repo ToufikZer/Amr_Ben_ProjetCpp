@@ -10,7 +10,6 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(800, 600), "JO Tourismo");
     window.setFramerateLimit(60);
     window.setPosition(sf::Vector2i(sf::VideoMode::getDesktopMode().width * 0.25,sf::VideoMode::getDesktopMode().height * 0.20 ));
-    // Initialisation du premier état (MainMenu)
     GameState* currentState = new MainMenu(window, Save());
     sf::Clock clock;
     sf::Time elapsedTime;

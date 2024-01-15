@@ -16,15 +16,15 @@ Item Zanpakuto = Item("Zanpakuto", "Decoupe Mokhtar", 2, "texture/texture_item/k
 Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player_x, float pos_player_y, Inventory inventaire)
     : window(window),
       player("texture/texture_char/player.png", pos_player_x, pos_player_y, inventaire),
+      MapName(MapName),
+      isTalking(false),
+      npcThatWasTalking(nullptr),
+      currentMessage(0),
       back_to_town(false),
       backmenu(false),
       next_town(false),
       kitchen(false),
-      crous(false),
-      isTalking(false),
-      npcThatWasTalking(nullptr),
-      MapName(MapName),
-      currentMessage(0)
+      crous(false)
 {
     MapList.push_back(GARE);
     MapList.push_back(MARIO);
@@ -77,16 +77,16 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                     }
                     else if (npc.getDialogue()[currentMessage] == "CUISINE"){
                     }
-                    else if (has_key(player.inventaire) && npc.getDialogue()[currentMessage] == "Oh, the doors seems to be half-open"){
+                    else if (has_key(player.getInventory()) && npc.getDialogue()[currentMessage] == "Oh, the doors seems to be half-open"){
                         std::cout << "BAGARRE" << std::endl;
-                        player.inventaire.removeItem(keyRoom);
+                        player.getInventory().removeItem(keyRoom);
                     }
                     
                     else if (npc.getDialogue()[currentMessage] == "KEY"){
                         first_dialogue = npc.getDialogue();
-                        if (!has_key(player.inventaire)){
+                        if (!has_key(player.getInventory())){
                         isTalking = true;
-                        player.inventaire.addItem(keyRoom);
+                        player.getInventory().addItem(keyRoom);
                         npc.setIsTalking(true);
                         npcThatWasTalking = &npc;
                         currentMessage += 1;
@@ -96,9 +96,10 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                     }
                     else if (npc.getDialogue()[currentMessage] == "KNIFE"){
                         first_dialogue = npc.getDialogue();
-                        if (!has_kitchen_knife(player.inventaire)){
+                        if (!has_kitchen_knife(player.getInventory())){
                             isTalking = true;
-                            player.inventaire.addItem(KitchenKnife);
+                            player.getInventory().addItem(KitchenKnife);
+                            std::cout << player.getInventory().getItems().size() << std::endl;
                             npc.setIsTalking(true);
                             npcThatWasTalking = &npc;
                             currentMessage += 1;
@@ -222,7 +223,7 @@ void Indoors::draw(sf::RenderWindow& window, sf::Event& event) {
 
     window.draw(player);
     for (NPC& npc : NPCs) {
-            if (npc.getDialogue()[0] == "KEY" && has_key(player.inventaire)){} //On pourrait faire une fonction draw_key avec la meme condition mais pg la
+            if (npc.getDialogue()[0] == "KEY" && has_key(player.getInventory())){} //On pourrait faire une fonction draw_key avec la meme condition mais pg la
             else{
                 window.draw(npc);
             }
@@ -241,27 +242,27 @@ GameState* Indoors::getNextState() {
     if(backmenu){
         backmenu = false;
         music.stop( );
-        return new MainMenu(window, Save("InDoors", player.getPosition(), MapName, player.inventaire, true));
+        return new MainMenu(window, Save("InDoors", player.getPosition(), MapName, player.getInventory(), true));
     }
     if (back_to_town){
         back_to_town = false;
         music.stop();
-        return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(10,7), sf::Vector2u(16,16),player.inventaire, 3);
+        return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(10,7), sf::Vector2u(16,16),player.getInventory(), 3);
     }
     if (next_town){
         next_town = false;
         music.stop();
-        return new InGame(window, sf::Vector2u(0,0), sf::Vector2f(3,3), sf::Vector2u(16,16),player.inventaire, 0);
+        return new InGame(window, sf::Vector2u(0,0), sf::Vector2f(3,3), sf::Vector2u(16,16),player.getInventory(), 0);
     }
     if (crous){
         crous = false;
         music.stop();
-        return new Indoors(window, "CROUS", 840, 740, player.inventaire);
+        return new Indoors(window, "CROUS", 840, 740, player.getInventory());
     }
     if (kitchen){
         kitchen = false;
         music.stop();
-        return new Indoors(window, "KITCHEN", 20, 160, player.inventaire);
+        return new Indoors(window, "KITCHEN", 20, 160, player.getInventory());
     }
     return nullptr;
 }

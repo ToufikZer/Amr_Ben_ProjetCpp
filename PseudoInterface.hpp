@@ -21,13 +21,12 @@ public:
     }
 
 private:
-    Save save;
+    sf::RenderWindow& window;
     sf::RectangleShape blueRectangle;
     sf::RectangleShape blueRectangleTop;
     sf::RectangleShape blueRectangleLeft;
     sf::RectangleShape blueRectangleRight;
     sf::RectangleShape blueRectangleBot;
-    sf::RenderWindow& window;
     sf::Texture backgroundTexture;
     sf::Sprite backgroundSprite;
     sf::Font font;
@@ -36,9 +35,10 @@ private:
     sf::Text ok;
     sf::Text pseudo_text;
     std::string pseudo;
-    bool can_launch;
     bool launch_game;
+    bool can_launch;
     bool come_back;
+    Save save;
 
     void Detect_OK(sf::RenderWindow& window);
     void Detect_Back(sf::RenderWindow& window);

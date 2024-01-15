@@ -6,15 +6,6 @@
 #include "Inventory.hpp"
 
 class Save {
-private:
-    std::string StateName;
-    sf::Vector2f playerPosition;
-    sf::Vector2u map_coords;
-    sf::Vector2u mapDimension;
-    std::string MapName;
-    Inventory inventaire;
-    unsigned int nb_pas;
-    bool game_started = false;
 public:
     // Save(GameState state, Inventory inventaire)
     //     : gameState(state) {}
@@ -65,4 +56,13 @@ public:
     void setGameStarted(bool value){
         game_started = value;
     }
+private:
+    std::string StateName;
+    sf::Vector2f playerPosition;
+    sf::Vector2u map_coords;
+    unsigned int nb_pas;
+    sf::Vector2u mapDimension;
+    std::string MapName;
+    Inventory inventaire;
+    bool game_started = false;
 };

@@ -20,7 +20,6 @@ public:
 
 
 private:
-    Save save;
     sf::RenderWindow& window;
     sf::View view;
     sf::Font font;
@@ -35,7 +34,11 @@ private:
     int selectedOption;
     bool start_game;                // dit si on doit entrer dans InGame
     bool keybinds;                  // dit si on doit entrer dans les controles de keybind
+    bool continue_game;              //dit si on continue la partie 
     bool keyboard_pressed;          // permet de verifier si le clavier a été pressé pour figer la sélection dans le menu sinon ca highlight que pendant une frame
+
+
+    Save save;
 
     void Detect_Continue(sf::RenderWindow& window);
     void Detect_Start(sf::RenderWindow& window);
@@ -52,6 +55,4 @@ private:
     void ResetCtrl();
     void HighlightExit();
     void ResetExit();
-
-    bool continue_game;
 };

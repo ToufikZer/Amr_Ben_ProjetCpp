@@ -7,8 +7,8 @@ MainMenu::MainMenu(sf::RenderWindow& window, Save save)
       selectedOption(0),
       start_game(false),
       keybinds(false),
-      keyboard_pressed(false),
       continue_game(false),
+      keyboard_pressed(false),
       save(save) {
     if (!font.loadFromFile("font/Aller_Rg.ttf")) {
         std::cerr << "Erreur lors du chargement de la police" << std::endl;
