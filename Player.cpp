@@ -85,8 +85,8 @@ bool Player::collision_npcs(sf::Vector2u position, std::vector<NPC> NPCs){
     return false;
 }
 
-bool Player::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles){
-    if (plan[(position.y)][(position.x)] != 0) return true;
+bool Player::collision(sf::Vector2u position, TileMap map, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles){
+    if (plan[(position.y)][(position.x)] % (map.getTileset().getSize().x / tile_size) != 0) return true;
     if (collision_npcs(position, NPCs)) 
     {
         return true;
@@ -94,7 +94,7 @@ bool Player::collision(sf::Vector2u position, std::vector<std::vector<int>> plan
     if (collision_obstacles(position, obstacles)) return true;
     return false;
 }
-void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned int map_height, sf::View& view, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, bool is_talking) {
+void Player::update(const sf::Time &deltaTime, TileMap map, sf::View& view, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, bool is_talking) {
     int moveDelay;
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) moveDelay = 20;
@@ -107,9 +107,9 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
             if(going_right) new_position.x = (current_pos.x); 
             else new_position.x = (current_pos.x + 1);
             new_position.y = current_pos.y;
-            if(!in_map(map_width, map_height, new_position)) setChangeMap(3);
+            if(!in_map(map.getWidth(), map.getHeight(), new_position)) setChangeMap(3);
             else{
-                if (collision(new_position, plan,NPCs, obstacles)){wall_collision = true;}
+                if (collision(new_position, map, plan,NPCs, obstacles)){wall_collision = true;}
                 else {
                     if (!going_right) 
                     {
@@ -139,9 +139,9 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
             if(going_up) new_position.y = (current_pos.y); 
             else new_position.y = (current_pos.y - 1);
             new_position.x = current_pos.x;
-            if(!in_map(map_width, map_height, new_position)) setChangeMap(2);
+            if(!in_map(map.getWidth(), map.getHeight(), new_position)) setChangeMap(2);
             else{
-                if (collision(new_position, plan,NPCs, obstacles)){wall_collision = true;}
+                if (collision(new_position, map, plan,NPCs, obstacles)){wall_collision = true;}
                 else {
                     if (!going_up) 
                     {
@@ -171,9 +171,9 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
             if(going_left) new_position.x = (current_pos.x); 
             else new_position.x = (current_pos.x - 1);
             new_position.y = current_pos.y;
-            if(!in_map(map_width, map_height, new_position)) setChangeMap(1);
+            if(!in_map(map.getWidth(), map.getHeight(), new_position)) setChangeMap(1);
             else{
-                if (collision(new_position, plan,NPCs, obstacles)){wall_collision = true;}
+                if (collision(new_position, map, plan,NPCs, obstacles)){wall_collision = true;}
                 else {
                     if (!going_left) 
                     {
@@ -203,9 +203,9 @@ void Player::update(const sf::Time &deltaTime, unsigned int map_width, unsigned 
             if(going_down) new_position.y = (current_pos.y); 
             else new_position.y = (current_pos.y + 1);
             new_position.x = current_pos.x;
-            if(!in_map(map_width, map_height, new_position)) setChangeMap(4);
+            if(!in_map(map.getWidth(), map.getHeight(), new_position)) setChangeMap(4);
             else{
-                if (collision(new_position, plan,NPCs, obstacles)){wall_collision = true;}
+                if (collision(new_position, map, plan,NPCs, obstacles)){wall_collision = true;}
                 else {
                     if (!going_down) 
                     {

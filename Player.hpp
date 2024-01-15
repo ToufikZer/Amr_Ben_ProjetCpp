@@ -19,7 +19,7 @@ public:
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-    void update(const sf::Time& deltaTime, unsigned int map_width, unsigned int map_height, sf::View& view, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, bool is_talking);
+    void update(const sf::Time& deltaTime, TileMap map, sf::View& view, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, bool is_talking);
 
     void update_texture(unsigned int u, unsigned int i, sf::Vector2u tileSize,const sf::Time &deltaTime);
     
@@ -93,6 +93,6 @@ private:
     int current_move;
     unsigned int nb_pas;
 
-    bool collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles);
+    bool collision(sf::Vector2u position, TileMap map, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles);
 
 };

@@ -161,7 +161,7 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
 
 
 void InGame::update(sf::Time deltaTime,sf::RenderWindow& window) {
-    player.update(deltaTime, map.getWidth(), map.getHeight(), view, level, NPCs, obstacles, isTalking);
+    player.update(deltaTime, map, view, level, NPCs, obstacles, isTalking);
     // if (player.getWallColl()) 
     //     {
     //     player.setWallColl(false);
@@ -214,7 +214,7 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
         music.stop( );
         player.ResetNbPas();
         std::cout << player.getNbPas() << std::endl;
-        return new Labyrinthe(window, 0, sf::Vector2f(10,15), sf::Vector2u(31,21), player.inventaire, 3);
+        return new Labyrinthe(window, 0, sf::Vector2f(15,10), sf::Vector2u(31,21), player.inventaire, 3);
     }
     if(in_house){
         music.stop();

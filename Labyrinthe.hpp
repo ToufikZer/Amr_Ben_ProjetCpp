@@ -52,6 +52,7 @@ private:
     int currentMessage;
     unsigned int nb_pas;
 
+    
     sf::RectangleShape back_menu;
     sf::Text question;
     sf::Text yesText;
@@ -59,5 +60,6 @@ private:
     sf::RectangleShape line;
 
     void initialize();
+    sf::Vector2u tp(sf::Vector2u tp_tile);
 
 };

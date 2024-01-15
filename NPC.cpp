@@ -185,6 +185,7 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
         float rectangleHeight = 0.153 * ViewRect.height;
         float rectangleX = ViewRect.left;
         float rectangleY = ViewRect.height - rectangleHeight;
+        std::cout << rectangleX << ";" << rectangleY <<std::endl;
         if (is_asking) {
             draw_answer(window, event, font, rectangleX, rectangleWidth, rectangleY, rectangleHeight, current_answer);
         }
