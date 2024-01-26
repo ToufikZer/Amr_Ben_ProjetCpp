@@ -49,14 +49,14 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
         std::exit(-1);
     }
 
-    if (!music.openFromFile(MusicPath)) {
-        std::cerr << "Erreur lors du chargement du son" << std::endl;
-        std::exit(-1);
-    }
+    // if (!music.openFromFile(MusicPath)) {
+    //     std::cerr << "Erreur lors du chargement du son" << std::endl;
+    //     std::exit(-1);
+    // }
 
-    music.setVolume(5);
-    music.setLoop(true);
-    music.play();
+    // music.setVolume(5);
+    // music.setLoop(true);
+    // music.play();
     if (!backgroundTexture.loadFromFile(BackgroundPath)) {
         std::cerr << "Erreur lors du chargement de l'image de fond" << std::endl;
         std::exit(-1);
@@ -74,8 +74,12 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
             for (NPC& npc : NPCs) {
                 if (player.collision_NPCs(sf::Vector2f(player.getPosition().x,player.getPosition().y), npc)) {
                     if (npc.getDialogue()[currentMessage] == "EXIT") {
+                        back_to_town = true;
+                        // music.stop();
                     }
                     else if (npc.getDialogue()[currentMessage] == "CUISINE"){
+                        kitchen = true;
+                        // music.stop();
                     }
                     else if (has_key(player.getInventory()) && npc.getDialogue()[currentMessage] == "Oh, the doors seems to be half-open"){
                         std::cout << "BAGARRE" << std::endl;
@@ -99,7 +103,6 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                         if (!has_kitchen_knife(player.getInventory())){
                             isTalking = true;
                             player.getInventory().addItem(KitchenKnife);
-                            std::cout << player.getInventory().getItems().size() << std::endl;
                             npc.setIsTalking(true);
                             npcThatWasTalking = &npc;
                             currentMessage += 1;
@@ -110,9 +113,7 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                     else{
                         if (!isTalking){
                             first_dialogue = npc.getDialogue();
-                            music.pause();
                             if (npc.getTexturePath() == "texture/texture_npc/door_invisible.png") npc.play_toctoc();
-                            music.play();
                             isTalking = true;
                             npc.setIsTalking(true);
                             npcThatWasTalking = &npc;

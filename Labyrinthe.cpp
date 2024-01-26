@@ -95,7 +95,6 @@
 
     void Labyrinthe::update(sf::Time deltaTime,sf::RenderWindow& window) {
         player.update(deltaTime, map, view, level, NPCs, obstacles, isTalking);
-        std::cout << player.getCurrentPos().x << ";" << player.getCurrentPos().y << std::endl;
         if ((player.getCurrentPos().x == 5 && player.getCurrentPos().y == 6) || (player.getCurrentPos().x == 4 && player.getCurrentPos().y == 7) || (player.getCurrentPos().x == 5 && player.getCurrentPos().y == 7)){
             level[7][5] = 16;
             map.load("texture/texture_decor/tileset_lab.png", sf::Vector2u(ftile_size_ingame_lab, ftile_size_ingame_lab), level);
@@ -125,12 +124,11 @@
             // player.ResetNbPas();
             // light_off = false;
         }
-
-        if (player.getNbPas() > 15) light_off = true;
-        
-        for (NPC& npc : NPCs) {
-            npc.update(player, deltaTime, map.getWidth(), map.getHeight(), level, NPCs, obstacles);
+        if (level[player.getCurrentPos().y][player.getCurrentPos().x] == 18){
+            player.ResetNbPas();
+            light_off = false;
         }
+        if (player.getNbPas() > 15) light_off = true;
     }
 
 
@@ -140,19 +138,13 @@
         window.clear();
         window.setView(view);
         window.draw(map);
+        if (light_off){
+            sf::RectangleShape LightOffRect(view.getSize());
+            LightOffRect.setPosition(sf::Vector2f(view.getCenter().x - view.getSize().x / 2, view.getCenter().y - view.getSize().y / 2));
+            LightOffRect.setFillColor(sf::Color::Black);
+            window.draw(LightOffRect);
+        }
         window.draw(player);
-            for (NPC& npc : NPCs) {
-                window.draw(npc);
-                if (light_off){
-                    sf::RectangleShape LightOffRect(view.getSize());
-                    LightOffRect.setPosition(sf::Vector2f(view.getCenter().x - view.getSize().x / 2, view.getCenter().y - view.getSize().y / 2));
-                    LightOffRect.setFillColor(sf::Color::Black);
-                    window.draw(LightOffRect);
-                }
-                if (isTalking && (&npc == npcThatWasTalking)) {
-                    npc.sendMessage(window, event, viewRect, font, currentMessage);
-                }
-            }
         player.drawInventory(window, font, view);
 
         // player.drawInteractText(window, font);

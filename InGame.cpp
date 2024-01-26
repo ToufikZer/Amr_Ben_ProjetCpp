@@ -34,13 +34,13 @@ InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2f p
 }
 
 void InGame::initialize() {
-    if (!music.openFromFile(MusicPath)) {
-        std::cerr << "Erreur lors du chargement du son" << std::endl;
-        std::exit(-1);
-    }
-    music.setVolume(5);
-    music.setLoop(true);
-    music.play();
+    // if (!music.openFromFile(MusicPath)) {
+    //     std::cerr << "Erreur lors du chargement du son" << std::endl;
+    //     std::exit(-1);
+    // }
+    // music.setVolume(5);
+    // music.setLoop(true);
+    // music.play();
 
     if (!font.loadFromFile("font/arial.ttf")) {
         std::cerr << "Erreur lors du chargement de la police" << std::endl;
@@ -62,6 +62,8 @@ void InGame::initialize() {
 void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::A) {
+                EnterHouseUp();
+                EnterHouseDown();
                 if (npcThatWasTalking!=nullptr) executeOption();
                 for (NPC& npc : NPCs) {
                     if (!isTalking && player.is_looking_at(npc)) {
@@ -100,10 +102,9 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                 backmenu = true;
             }
 
-            if (event.key.code == sf::Keyboard::E) {
-                EnterHouseUp();
-                EnterHouseDown();
-            }
+            // if (event.key.code == sf::Keyboard::E) {
+                
+            // }
 
             if (event.key.code == sf::Keyboard::J) {
                 labyrinthe = true;
@@ -214,7 +215,6 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
         labyrinthe = false;
         music.stop( );
         player.ResetNbPas();
-        std::cout << player.getNbPas() << std::endl;
         return new Labyrinthe(window, 0, sf::Vector2f(15,10), sf::Vector2u(31,21), player.getInventory(), 3);
     }
     if(in_house){
@@ -247,14 +247,14 @@ void InGame::CheckChangeMap(sf::Vector2u position){
             NPCs = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getNPCs();
             obstacles = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getObstacles();
 
-            if (!music.openFromFile(MusicPath)){ 
-                std::cerr << "Erreur lors du chargement du son" << std::endl;
-                std::exit(-1);
-            }
-            music.stop();
-            music.setVolume(5);
-            music.setLoop(true);
-            music.play();  
+            // if (!music.openFromFile(MusicPath)){ 
+            //     std::cerr << "Erreur lors du chargement du son" << std::endl;
+            //     std::exit(-1);
+            // }
+            // music.stop();
+            // music.setVolume(5);
+            // music.setLoop(true);
+            // music.play();  
 
             if (!map.load("texture/texture_decor/tileset.png", sf::Vector2u(ftile_size_ingame, ftile_size_ingame), level)) {
                 std::cerr << "Erreur lors du chargement de la carte" << std::endl;
@@ -274,14 +274,14 @@ void InGame::CheckChangeMap(sf::Vector2u position){
             NPCs = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getNPCs();
             obstacles = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getObstacles();
 
-            if (!music.openFromFile(MusicPath)){ 
-                std::cerr << "Erreur lors du chargement du son" << std::endl;
-                std::exit(-1);
-            }
-            music.stop();
-            music.setVolume(5);
-            music.setLoop(true);
-            music.play();
+            // if (!music.openFromFile(MusicPath)){ 
+            //     std::cerr << "Erreur lors du chargement du son" << std::endl;
+            //     std::exit(-1);
+            // }
+            // music.stop();
+            // music.setVolume(5);
+            // music.setLoop(true);
+            // music.play();
 
             if (!map.load("texture/texture_decor/tileset.png", sf::Vector2u(ftile_size_ingame, ftile_size_ingame), level)) {
                 std::cerr << "Erreur lors du chargement de la carte" << std::endl;
@@ -301,14 +301,14 @@ void InGame::CheckChangeMap(sf::Vector2u position){
             NPCs = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getNPCs();
             obstacles = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getObstacles();
 
-            if (!music.openFromFile(MusicPath)){ 
-                std::cerr << "Erreur lors du chargement du son" << std::endl;
-                std::exit(-1);
-            }
-            music.stop();
-            music.setVolume(5);
-            music.setLoop(true);
-            music.play();  
+            // if (!music.openFromFile(MusicPath)){ 
+            //     std::cerr << "Erreur lors du chargement du son" << std::endl;
+            //     std::exit(-1);
+            // }
+            // music.stop();
+            // music.setVolume(5);
+            // music.setLoop(true);
+            // music.play();  
 
             if (!map.load("texture/texture_decor/tileset.png", sf::Vector2u(ftile_size_ingame, ftile_size_ingame), level)) {
                 std::cerr << "Erreur lors du chargement de la carte" << std::endl;
@@ -328,14 +328,14 @@ void InGame::CheckChangeMap(sf::Vector2u position){
             NPCs = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getNPCs();
             obstacles = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getObstacles();
 
-            if (!music.openFromFile(MusicPath)){ 
-                std::cerr << "Erreur lors du chargement du son" << std::endl;
-                std::exit(-1);
-            }
-            music.stop();
-            music.setVolume(5);
-            music.setLoop(true);
-            music.play();
+            // if (!music.openFromFile(MusicPath)){ 
+            //     std::cerr << "Erreur lors du chargement du son" << std::endl;
+            //     std::exit(-1);
+            // }
+            // music.stop();
+            // music.setVolume(5);
+            // music.setLoop(true);
+            // music.play();
 
             if (!map.load("texture/texture_decor/tileset.png", sf::Vector2u(ftile_size_ingame, ftile_size_ingame), level)) {
                 std::cerr << "Erreur lors du chargement de la carte" << std::endl;

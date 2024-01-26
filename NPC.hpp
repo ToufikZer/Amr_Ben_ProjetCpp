@@ -82,9 +82,15 @@ private:
     std::string direction;
     std::string moves;
     unsigned int current_move = 0;
+    unsigned int current_move_moving = 0;
 
     bool is_talking;
     bool is_asking;
+
+    bool going_right = false;
+    bool going_left = false;
+    bool going_up = false;
+    bool going_down = false;
 
     void draw_answer(sf::RenderWindow& window, sf::Event& event, sf::Font& font, float rectangleX, float rectangleWidth, float rectangleY, float rectangleHeight, unsigned int current_answer);
     void drawTriangle(sf::RenderWindow& window, float edge, float pos_x, float pos_y);

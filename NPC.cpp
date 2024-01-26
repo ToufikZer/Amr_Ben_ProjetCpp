@@ -84,15 +84,14 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
         target.draw(m_vertices, states);
     }
     bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs,Player player, std::vector<Obstacle> obstacles){
-        if (plan[(position.y)][(position.x)] != 0) return true;
-        if (collision_npcs(position, NPCs)) return true;
-        if (collision_obstacles(position, obstacles)) return true;
-        if ((position.x == player.getCurrentPos().x && position.y == player.getCurrentPos().y)) return true;
+        if (plan[(position.y)][(position.x)] != 0) {return true;}
+        if (collision_obstacles(position, obstacles)) {return true;}
+        if ((position.x == player.getCurrentPos().x && position.y == player.getCurrentPos().y)) {return true;}
     return false;
 }
 
     void NPC::update(Player& player,const sf::Time& deltaTime, unsigned int map_width, unsigned int map_height, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles) {
-        int moveDelay = 500;
+        int moveDelay = 150;
         sf::Vector2u new_position;
         float speed = ftile_size_npc;
         if (is_talking){
@@ -109,49 +108,113 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
             char movement = moves[current_move];
 
             if(elapsed.asMilliseconds() >= moveDelay){
-                if (movement == 'R'){
-                    new_position.x = (current_pos.x + 1); 
+                if ((movement == 'R' || going_right) && !going_down && !going_left && !going_up){
+                    if(going_right) new_position.x = (current_pos.x); 
+                    else new_position.x = (current_pos.x + 1);
                     new_position.y = current_pos.y;
                     if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs, player, obstacles)){
-                    move(speed, 0.f); 
-                    current_pos.x += 1;
-                    current_move += 1;
+                    if (!going_right) 
+                    {
+                        move(speed/4, 0.f);
+                        going_right = true;
+                        current_pos.x += 1;
+                    }
+                    else{
+                        if(current_move_moving != 3)
+                        {
+                            current_move_moving +=1;
+                            move(speed/4, 0.f);
+                        }
+                        else {
+                            current_move_moving = 0;
+                            going_right = false;
+                            current_move += 1;
+                        }
+                    }
                 } 
-                    update_texture(2,3, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
+                    update_texture(2,current_move_moving, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
 
                     elapsed = sf::Time::Zero;
                 }   
-                else if (movement == 'U'){
-                    new_position.x = (current_pos.x); 
-                    new_position.y = current_pos.y - 1;
+                else if ((movement == 'U' || going_up) && !going_down && !going_left && !going_right){
+                    if(going_up) new_position.y = (current_pos.y); 
+                    else new_position.y = (current_pos.y - 1);
+                    new_position.x = current_pos.x;
                     if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs, player, obstacles)){
-                    move(0.f, -speed); 
-                    current_pos.y -= 1;
-                    current_move += 1;
+                    if (!going_up) 
+                    {
+                        move(0.f, -speed/4);
+                        going_up = true;
+                        current_pos.y -= 1;
+                    }
+                    else{
+                        if(current_move_moving != 3)
+                        {
+                            current_move_moving +=1;
+                            move(0.f, -speed/4);
+                        }
+                        else {
+                            current_move_moving = 0;
+                            going_up = false;
+                            current_move += 1;
+                        }
+                    }
                     } 
-                    update_texture(0,0, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
+                    update_texture(0,current_move_moving, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
                     elapsed = sf::Time::Zero;
                 }
-                else if (movement == 'L'){
-                    new_position.x = (current_pos.x - 1); 
+                else if ((movement == 'L' || going_left) && !going_down && !going_right && !going_up){
+                    if(going_left) new_position.x = (current_pos.x); 
+                    else new_position.x = (current_pos.x - 1);
                     new_position.y = current_pos.y;
                     if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs, player, obstacles)){
-                    move(-speed, 0.f); 
-                    current_pos.x -= 1;
-                    current_move += 1;
+                    if (!going_left) 
+                    {
+                        move(-speed/4, 0.f);
+                        going_left = true;
+                        current_pos.x -= 1;
+                    }
+                    else{
+                        if(current_move_moving != 3)
+                        {
+                            current_move_moving +=1;
+                            move(-speed/4, 0.f);
+                        }
+                        else {
+                            current_move_moving = 0;
+                            going_left = false;
+                            current_move += 1;
+                        }
+                    }
                     } 
-                    update_texture(0,2, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
+                    update_texture(0,current_move_moving, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
                     elapsed = sf::Time::Zero;
                 }
-                else if (movement == 'D'){
-                    new_position.x = (current_pos.x); 
-                    new_position.y = current_pos.y +1;
+                else if ((movement == 'D' || going_down) && !going_right && !going_left && !going_up){
+                    if(going_down) new_position.y = (current_pos.y); 
+                    else new_position.y = (current_pos.y + 1);
+                    new_position.x = current_pos.x;
                     if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs, player, obstacles)){
-                    move(0.f, speed); 
-                    current_pos.y += 1;
-                    current_move += 1;
+                    if (!going_down) 
+                    {
+                        move(0.f, speed/4);
+                        going_down = true;
+                        current_pos.y += 1;
+                    }
+                    else{
+                        if(current_move_moving != 3)
+                        {
+                            current_move_moving +=1;
+                            move(0.f, speed/4);
+                        }
+                        else {
+                            current_move_moving = 0;
+                            going_down = false;
+                            current_move += 1;
+                        }
+                    }
                     }  
-                    update_texture(0,1, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
+                    update_texture(0,current_move_moving, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
                     elapsed = sf::Time::Zero;
                 }
             }
