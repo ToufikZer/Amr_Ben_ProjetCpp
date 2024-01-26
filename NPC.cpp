@@ -91,7 +91,7 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
 }
 
     void NPC::update(Player& player,const sf::Time& deltaTime, unsigned int map_width, unsigned int map_height, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles) {
-        int moveDelay = 150;
+        int moveDelay = 90;
         sf::Vector2u new_position;
         float speed = ftile_size_npc;
         if (is_talking){

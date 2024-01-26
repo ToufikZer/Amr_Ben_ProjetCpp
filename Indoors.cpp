@@ -13,8 +13,9 @@ Item keyRoom = Item("Key","Une clé de chambre", 1, "texture/texture_item/key.pn
 Item KitchenKnife = Item("KitchenKnife", "Un couteau de cuisine banal", 2, "texture/texture_item/zanpakuto.png");
 Item Zanpakuto = Item("Zanpakuto", "Decoupe Mokhtar", 2, "texture/texture_item/knife.png");
 
-Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player_x, float pos_player_y, Inventory inventaire)
+Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player_x, float pos_player_y, Inventory inventaire, std::string objectif_text)
     : window(window),
+      objectif_text(objectif_text),
       player("texture/texture_char/player.png", pos_player_x, pos_player_y, inventaire),
       MapName(MapName),
       isTalking(false),
@@ -24,7 +25,8 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
       backmenu(false),
       next_town(false),
       kitchen(false),
-      crous(false)
+      crous(false),
+      combat_win(false)
 {
     MapList.push_back(GARE);
     MapList.push_back(MARIO);
@@ -64,6 +66,12 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
     backgroundSprite.setTexture(backgroundTexture);
     player.setSpeed(PlayerSpeed);
     view.reset(sf::FloatRect(0, 0, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height));
+    objectif.setPosition(sf::Vector2f(backgroundSprite.getGlobalBounds().width * 0.39, backgroundSprite.getGlobalBounds().height*0.02));
+    objectif.setCharacterSize(backgroundSprite.getGlobalBounds().height*0.05);
+    objectif.setFillColor(sf::Color::Black);
+    objectif.setStyle(sf::Text::Bold);
+    objectif.setFont(font);
+    objectif.setString(objectif_text);
 
 }
 
@@ -232,7 +240,7 @@ void Indoors::draw(sf::RenderWindow& window, sf::Event& event) {
                 npc.sendMessage(window, event, viewRect, font, currentMessage);
             }
         }
-
+    window.draw(objectif);
     player.drawInventory(window, font, view);
     // player.drawInteractText(window, font);
     // Afficher la fenêtre
@@ -248,22 +256,23 @@ GameState* Indoors::getNextState() {
     if (back_to_town){
         back_to_town = false;
         music.stop();
-        return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(10,7), sf::Vector2u(16,16),player.getInventory(), 3);
+        if(combat_win) return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(10,7), sf::Vector2u(16,16), player.getInventory(), 3, "Se rendre a la gare");
+        else return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(3,3), sf::Vector2u(16,16),player.getInventory(), 0, "Se rendre au CROUS");
     }
     if (next_town){
         next_town = false;
         music.stop();
-        return new InGame(window, sf::Vector2u(0,0), sf::Vector2f(3,3), sf::Vector2u(16,16),player.getInventory(), 0);
+        return new InGame(window, sf::Vector2u(0,0), sf::Vector2f(3,3), sf::Vector2u(16,16),player.getInventory(), 0, "Trouver un moyen de se deplacer");
     }
     if (crous){
         crous = false;
         music.stop();
-        return new Indoors(window, "CROUS", 840, 740, player.getInventory());
+        return new Indoors(window, "CROUS", 840, 740, player.getInventory(), "Trouver une chambre libre");
     }
     if (kitchen){
         kitchen = false;
         music.stop();
-        return new Indoors(window, "KITCHEN", 20, 160, player.getInventory());
+        return new Indoors(window, "KITCHEN", 20, 160, player.getInventory(), "");
     }
     return nullptr;
 }

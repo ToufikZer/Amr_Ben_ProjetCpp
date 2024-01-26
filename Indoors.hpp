@@ -15,7 +15,7 @@
 
 class Indoors : public GameState {
 public:
-    Indoors(sf::RenderWindow& window, std::string MapName, float pos_player_x, float pos_player_y, Inventory inventaire);
+    Indoors(sf::RenderWindow& window, std::string MapName, float pos_player_x, float pos_player_y, Inventory inventaire, std::string objectif_text);
 
     void handleEvent(sf::Event& event, sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window);
@@ -26,6 +26,8 @@ private:
     sf::RenderWindow& window;
     sf::View view;
     sf::Font font;
+    sf::Text objectif;
+    std::string objectif_text;
     PlayerInDoors player;
     MapIndoors map;
     sf::Texture backgroundTexture;
@@ -50,6 +52,7 @@ private:
     bool next_town;
     bool kitchen;
     bool crous;
+    bool combat_win;
 
     bool has_key(Inventory inventaire);
     bool has_kitchen_knife(Inventory inventaire);

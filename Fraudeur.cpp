@@ -79,7 +79,6 @@ void Fraudeur::update(const sf::Time& deltaTime, sf::Font& font, unsigned int ma
             if (elapsed.asMilliseconds() > 200){
                 invincible = true;
                 update_texture(2);
-                std::cout << "ok" << std::endl;
                 elapsed = sf::Time::Zero;
             }
         }

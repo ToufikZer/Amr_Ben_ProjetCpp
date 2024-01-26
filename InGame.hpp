@@ -22,7 +22,7 @@
 class InGame : public GameState {
 public:
     InGame(sf::RenderWindow& window);
-    InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2f pos_player, sf::Vector2u map_dimension, Inventory inventaire, unsigned int player_direction);
+    InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2f pos_player, sf::Vector2u map_dimension, Inventory inventaire, unsigned int player_direction, std::string objectif_text);
 
     void handleEvent(sf::Event& event, sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window);
@@ -32,6 +32,8 @@ public:
 private:
     sf::RenderWindow& window;
     sf::View view;
+    sf::Text objectif;
+    std::string objectif_text;
     MapManager maps;
     TileMap map;
     Player player;

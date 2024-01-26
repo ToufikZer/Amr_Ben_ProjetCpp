@@ -146,7 +146,7 @@ GameState* InGame_CarGameplay::getNextState() {
         {
             is_arrived = false;
             // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
-            return new InGame(window, sf::Vector2u(0,1), sf::Vector2f(2,3), sf::Vector2u(16,16), player.getInventory(), 0);
+            return new InGame(window, sf::Vector2u(0,1), sf::Vector2f(2,3), sf::Vector2u(16,16), player.getInventory(), 0, "Se rendre au CROUS");
         }
     }
     return nullptr;

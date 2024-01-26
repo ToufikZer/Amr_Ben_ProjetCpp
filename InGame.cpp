@@ -9,9 +9,10 @@ InGame::InGame(sf::RenderWindow& window): window(window){
 
 }
 
-InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2f pos_player, sf::Vector2u map_dimension, Inventory inventaire, unsigned int player_direction)
+InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2f pos_player, sf::Vector2u map_dimension, Inventory inventaire, unsigned int player_direction, std::string objectif_text)
     : window(window),
       view(sf::Vector2f(player.getPosition().x + 16.f, player.getPosition().y + 16.f), sf::Vector2f(300, 300)),
+      objectif_text(objectif_text),
       maps(),
       map(map_dimension),
       player("texture/texture_char/player_sheet.png", pos_player.x, pos_player.y, player_direction, inventaire),
@@ -29,6 +30,12 @@ InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2f p
     level = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getLevel();
     NPCs = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getNPCs();
     obstacles = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getObstacles();
+
+    objectif.setPosition(sf::Vector2f(window.getSize().x * 0.7, window.getSize().y*0.01));
+    objectif.setCharacterSize(window.getSize().x * 0.02);
+    objectif.setFillColor(sf::Color::Red);
+    objectif.setFont(font);
+    objectif.setString(objectif_text);
 
     initialize();
 }
@@ -189,7 +196,6 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
     window.setView(view);
     window.draw(map);
     window.draw(player);
-    player.drawInventory(window, font, view);
         for (NPC& npc : NPCs) {
             window.draw(npc);
             if (isTalking && (&npc == npcThatWasTalking)) {
@@ -200,6 +206,9 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
         for (Obstacle& obstacle : obstacles) {
             window.draw(obstacle);
         }
+    window.draw(objectif);
+    player.drawInventory(window, font, view);
+    
     // player.drawInteractText(window, font);
 
     window.display();
@@ -222,8 +231,8 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
         in_house = false;
         if (obstacleInteracting != nullptr) {
             if (obstacleInteracting->getId() != 0){
-                if (obstacleInteracting->getId() == 1) return new Indoors(window, "CROUS", 64.f, 140.f, player.getInventory());
-                if (obstacleInteracting->getId() == 2) return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(10,7), sf::Vector2u(16,16), player.getInventory(), 3);
+                if (obstacleInteracting->getId() == 1) return new Indoors(window, "CROUS", 64.f, 140.f, player.getInventory(), "Trouver une chambre libre");
+                if (obstacleInteracting->getId() == 2) return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(10,7), sf::Vector2u(16,16), player.getInventory(), 3, "");
                 if (obstacleInteracting->getId() == 3) return new FraudeGameplay(window, Save("InGame", sf::Vector2f(player.getCurrentPos().x, player.getCurrentPos().y), maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true), player.getInventory());
             }
         }

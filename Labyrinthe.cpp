@@ -161,7 +161,7 @@
         if(end_lab){
             end_lab = false;
             music.stop();
-            return new InGame(window, sf::Vector2u(0,0), sf::Vector2f(3,3), sf::Vector2u(16,16),player.getInventory(), 0);
+            return new InGame(window, sf::Vector2u(0,0), sf::Vector2f(3,3), sf::Vector2u(16,16),player.getInventory(), 0, "Aller en finir avec Annie d'Algo !");
         }
         return nullptr;
     }
