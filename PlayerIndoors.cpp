@@ -9,6 +9,7 @@
 
 bool last_move = true; //true si dernier deplacement à droite, false sinon
 
+
 PlayerInDoors::PlayerInDoors(const std::string &texturePath, float pos_x, float pos_y, Inventory inventaire):
     inventaire(inventaire)
     {
