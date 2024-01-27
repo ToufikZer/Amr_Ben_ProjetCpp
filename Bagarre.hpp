@@ -20,7 +20,7 @@
 
 class Bagarre : public GameState {
 public:
-    Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std::string backgroundPath);
+    Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std::string backgroundPath, float ennemi_attack_speed, unsigned int ennemi_degats);
 
     void handleEvent(sf::Event& event, sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window);
@@ -29,6 +29,7 @@ public:
 
 private:
     sf::RenderWindow& window;
+    sf::Time elapsed; 
     sf::View view;
     sf::Font font;
     sf::Texture backgroundTexture;
@@ -38,7 +39,7 @@ private:
     sf::Music music;
     std::string MusicPath;
     std::vector<Obstacle> obstacles;
-    std::vector<Projectile> projs;
+    std::vector<Projectile> projs_player;
 
     sf::Text Finish;
     bool backmenu;

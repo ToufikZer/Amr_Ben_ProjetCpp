@@ -15,7 +15,7 @@
 
 class EnnemiBagarre : public sf::Drawable, public sf::Transformable {
 public:
-    EnnemiBagarre(const std::string& texturePath, float pos_x, float pos_y);
+    EnnemiBagarre(const std::string& texturePath, float pos_x, float pos_y , float attack_speed, unsigned int degats);
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -24,9 +24,11 @@ public:
 
     void update_texture(unsigned int u, unsigned int i);
 
-    Projectile tir(int degats, float vitesse, sf::Vector2f position, std::string direction);
+    Projectile tir(unsigned int degats, float vitesse, sf::Vector2f position, std::string direction = "bas");
 
-
+    const std::vector<Projectile>& getProjsEnnemi(){
+        return projs_ennemi;
+    }
     
     // void drawInteractText(sf::RenderWindow& window, sf::Font& font);
 protected:
@@ -37,6 +39,9 @@ private:
     sf::Time elapsed; 
     sf::Texture m_texture;
     sf::VertexArray m_vertices;
+    std::vector<Projectile> projs_ennemi;
     float speed;
+    float attack_speed;
+    unsigned int degats;
     int HP = 100;
 };

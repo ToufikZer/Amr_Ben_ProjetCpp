@@ -3,10 +3,10 @@
 #include "InGame.hpp"
 #include <iostream>
 
-Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std::string backgroundPath)
+Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std::string backgroundPath, float ennemi_attack_speed, unsigned int ennemi_degats)
     : window(window),
       player("texture/texture_char/new_player2.png", 260, 200, inventaire),
-      ennemi("texture/texture_char/new_player2.png", 260, 0),
+      ennemi("texture/texture_char/new_player2.png", 260, 0, ennemi_attack_speed, ennemi_degats),
       backmenu(false),
       save(save),
       is_arrived(false)
@@ -53,18 +53,33 @@ void Bagarre::handleEvent(sf::Event& event, sf::RenderWindow& window) {
             backmenu = true;
         }
         if (event.key.code == sf::Keyboard::A || event.key.code == sf::Keyboard::Space || event.key.code == sf::Keyboard::E) {
-            projs.push_back(player.tir(50, 20, player.getPosition(), "haut"));
+            if (elapsed.asMilliseconds() > 330) {
+                projs_player.push_back(player.tir(20, 2, player.getPosition(), "haut"));
+                elapsed = sf::Time::Zero;
+            }
+        }
+    }
+    if (event.type == sf::Event::MouseButtonPressed)
+    {
+        if (event.mouseButton.button == sf::Mouse::Left){
+            if (elapsed.asMilliseconds() > 330) {
+                projs_player.push_back(player.tir(20, 2, player.getPosition(), "haut"));
+                elapsed = sf::Time::Zero;
+            }
         }
     }
 }
 
 void Bagarre::update(sf::Time deltaTime, sf::RenderWindow& window) {
     player.update(deltaTime, font, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height ,view, obstacles);
-    std::cout << backgroundSprite.getGlobalBounds().width << ";" << backgroundSprite.getGlobalBounds().height << std::endl;
     ennemi.update(deltaTime, font, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height ,view, obstacles, player);
-    for(Projectile& proj:projs){
+    for(Projectile& proj:projs_player){
         proj.update(deltaTime, backgroundSprite.getGlobalBounds().height);
+        if (proj.getDeleteIt()) {
+            projs_player.erase(projs_player.begin());
+        }
     }
+    elapsed += deltaTime;
     // if (ennemi.getHP <= 0) 
     // {
     //     ILEMOR
@@ -91,7 +106,10 @@ void Bagarre::draw(sf::RenderWindow& window, sf::Event& event) {
     window.draw(player);
     window.draw(ennemi);
 
-    for (Projectile& proj : projs){
+    for (Projectile& proj : projs_player){
+        window.draw(proj);
+    }
+    for (const Projectile& proj : ennemi.getProjsEnnemi()){
         window.draw(proj);
     }
 

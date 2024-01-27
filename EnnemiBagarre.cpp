@@ -11,8 +11,10 @@
 bool last_moveE = true; //true si dernier deplacement à droite, false sinon
 
 
-EnnemiBagarre::EnnemiBagarre(const std::string& texturePath, float pos_x, float pos_y):
-    speed(50)
+EnnemiBagarre::EnnemiBagarre(const std::string& texturePath, float pos_x, float pos_y, float attack_speed, unsigned int degats):
+    speed(50),
+    attack_speed(attack_speed),
+    degats(degats)
     {
 
     if (!m_texture.loadFromFile(texturePath)) {
@@ -48,8 +50,8 @@ void EnnemiBagarre::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 }
 
 
-Projectile EnnemiBagarre::tir(int degats, float vitesse, sf::Vector2f position, std::string direction){
-    return Projectile(50, 20, position, "haut", "texture/texture_obstacle/proj.png");
+Projectile EnnemiBagarre::tir(unsigned int degats, float vitesse, sf::Vector2f position, std::string direction){
+    return Projectile(vitesse, degats, position, direction, "texture/texture_obstacle/proj_bas.png");
 }
 
 void EnnemiBagarre::update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, 
@@ -78,6 +80,22 @@ void EnnemiBagarre::update(const sf::Time& deltaTime, sf::Font& font, unsigned i
                 else{
                     update_texture(1,0);
                 }
+            }
+
+            for(Projectile& proj:projs_ennemi){
+                proj.update(deltaTime, map_height);
+                if (proj.getDeleteIt()) {
+                    projs_ennemi.erase(projs_ennemi.begin());
+                }
+            }
+            std::cout << projs_ennemi.size() << std::endl;
+
+            if (elapsed.asMilliseconds() > 1000){
+                projs_ennemi.push_back(tir(degats, attack_speed, getPosition(), "bas"));
+                elapsed = sf::Time::Zero;
+            }
+            else{
+                elapsed += deltaTime;
             }
 }
 

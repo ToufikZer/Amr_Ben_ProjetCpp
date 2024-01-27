@@ -23,7 +23,7 @@ public:
 
     void update_texture(unsigned int u, unsigned int i);
 
-    Projectile tir(int degats, float vitesse, sf::Vector2f position, std::string direction = "haut");
+    Projectile tir(unsigned int degats, float vitesse, sf::Vector2f position, std::string direction = "haut");
 
     Inventory& getInventory(){
         return inventaire;
