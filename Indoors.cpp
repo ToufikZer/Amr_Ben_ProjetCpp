@@ -16,7 +16,7 @@ Item Zanpakuto = Item("Zanpakuto", "Decoupe Mokhtar", 2, "texture/texture_item/k
 Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player_x, float pos_player_y, Inventory inventaire, std::string objectif_text)
     : window(window),
       objectif_text(objectif_text),
-      player("texture/texture_char/player.png", pos_player_x, pos_player_y, inventaire),
+      player("texture/texture_char/new_player2.png", pos_player_x, pos_player_y, inventaire),
       MapName(MapName),
       isTalking(false),
       npcThatWasTalking(nullptr),

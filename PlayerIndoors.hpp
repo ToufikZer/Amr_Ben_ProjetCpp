@@ -19,7 +19,7 @@ public:
     void update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, sf::View& view, 
                 std::vector<Obstacle> obstacles, std::vector<NPC> NPCs, unsigned int FloorNumber, bool is_talking);
 
-    void update_texture(unsigned int u);
+    void update_texture(unsigned int u, unsigned int i);
 
     void setSpeed(float value){
         speed = value;

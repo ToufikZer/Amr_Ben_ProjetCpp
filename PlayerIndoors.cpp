@@ -7,6 +7,8 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
 
+bool last_move = true; //true si dernier deplacement à droite, false sinon
+
 PlayerInDoors::PlayerInDoors(const std::string &texturePath, float pos_x, float pos_y, Inventory inventaire):
     inventaire(inventaire)
     {
@@ -20,14 +22,14 @@ PlayerInDoors::PlayerInDoors(const std::string &texturePath, float pos_x, float 
     m_vertices.resize(4);
 
     m_vertices[0].position = sf::Vector2f(0.f, 0.f);
-    m_vertices[1].position = sf::Vector2f(m_texture.getSize().x /3, 0.f);
-    m_vertices[2].position = sf::Vector2f(m_texture.getSize().x/3, m_texture.getSize().y);
-    m_vertices[3].position = sf::Vector2f(0.f, m_texture.getSize().y);
+    m_vertices[1].position = sf::Vector2f(m_texture.getSize().x/4, 0.f);
+    m_vertices[2].position = sf::Vector2f(m_texture.getSize().x/4, m_texture.getSize().y/2);
+    m_vertices[3].position = sf::Vector2f(0.f, m_texture.getSize().y/2);
 
     m_vertices[0].texCoords = sf::Vector2f(0.f, 0.f);
-    m_vertices[1].texCoords = sf::Vector2f(m_texture.getSize().x/3, 0.f);
-    m_vertices[2].texCoords = sf::Vector2f(m_texture.getSize().x/3, m_texture.getSize().y);
-    m_vertices[3].texCoords = sf::Vector2f(0.f, m_texture.getSize().y);
+    m_vertices[1].texCoords = sf::Vector2f(m_texture.getSize().x/4, 0.f);
+    m_vertices[2].texCoords = sf::Vector2f(m_texture.getSize().x/4, m_texture.getSize().y/2);
+    m_vertices[3].texCoords = sf::Vector2f(0.f, m_texture.getSize().y/2);
 
     m_vertices[0].color = sf::Color::White;
     m_vertices[1].color = sf::Color::White;
@@ -81,27 +83,33 @@ void PlayerInDoors::update(const sf::Time& deltaTime, sf::Font& font, unsigned i
                 out_map(map_width, map_height, sf::Vector2f(getPosition().x + speed* deltaTime.asSeconds(), getPosition().y), FloorNumber);
                 if(!collision_obstacles(sf::Vector2f(sf::Vector2f(getPosition().x + speed* deltaTime.asSeconds(), getPosition().y)),obstacles)){
                     move(speed * deltaTime.asSeconds(), 0.f);
-                    update_texture(0);
+                    update_texture(0, (int)getPosition().x / 10 % 4);
+                    last_move = true;
                 }
             }
             else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
                 out_map(map_width, map_height, sf::Vector2f(getPosition().x - speed* deltaTime.asSeconds(), getPosition().y), FloorNumber);
                 if(!collision_obstacles(sf::Vector2f(sf::Vector2f(getPosition().x - speed* deltaTime.asSeconds(), getPosition().y)),obstacles)){
                     move(-speed * deltaTime.asSeconds(), 0.f);
-                    update_texture(2);
+                    update_texture(1, (int)getPosition().x / 10 % 4);
+                    last_move = false;
                 }
             }
             else {
-                update_texture(1);
+                if(last_move)
+                    update_texture(0, 0);
+                else{
+                    update_texture(1,0);
+                }
             }
         }
 }
 
-void PlayerInDoors::update_texture(unsigned int u) {
-    m_vertices[0].texCoords = sf::Vector2f(u * m_texture.getSize().x/3, 0.f);
-    m_vertices[1].texCoords = sf::Vector2f((u+1) * m_texture.getSize().x/3, 0.f);
-    m_vertices[2].texCoords = sf::Vector2f((u+1) * m_texture.getSize().x/3, m_texture.getSize().y);
-    m_vertices[3].texCoords = sf::Vector2f(u * m_texture.getSize().x/3, m_texture.getSize().y);
+void PlayerInDoors::update_texture(unsigned int u, unsigned int i) {
+    m_vertices[0].texCoords = sf::Vector2f((i) * m_texture.getSize().x/4, (u) * m_texture.getSize().y/2);
+    m_vertices[1].texCoords = sf::Vector2f((i+1) * m_texture.getSize().x/4, (u) * m_texture.getSize().y/2);
+    m_vertices[2].texCoords = sf::Vector2f((i+1) * m_texture.getSize().x/4, (u+1) * m_texture.getSize().y/2);
+    m_vertices[3].texCoords = sf::Vector2f((i) * m_texture.getSize().x/4, (u+1) * m_texture.getSize().y/2);
 }
 
 void PlayerInDoors::out_map(unsigned int map_width, unsigned int map_height, sf::Vector2f position, unsigned int FloorNumber) {
