@@ -1,5 +1,6 @@
 #pragma once
-
+#include "EnnemiBagarre.hpp"
+#include "PlayerBagarre.hpp"
 #include <SFML/Graphics.hpp>
 #include <string>
 
