@@ -50,7 +50,7 @@ void PlayerBagarre::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 
 
 Projectile PlayerBagarre::tir(unsigned int degats, float vitesse, sf::Vector2f position, std::string direction){
-    return Projectile(vitesse, degats, position, direction, "texture/texture_obstacle/proj.png");
+    return Projectile(vitesse, degats, position, direction, "texture/texture_obstacle/proj.png", 1);
 }
 
 
