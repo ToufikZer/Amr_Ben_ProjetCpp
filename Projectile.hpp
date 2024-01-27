@@ -1,6 +1,5 @@
 #pragma once
-#include "EnnemiBagarre.hpp"
-#include "PlayerBagarre.hpp"
+
 #include <SFML/Graphics.hpp>
 #include <string>
 
@@ -35,7 +34,7 @@ private:
     sf::Vector2f position;
     std::string direction;
     bool delete_it;
-    int cible
+    int cible;
     sf::Sprite sprite;
     sf::Texture m_texture;
     sf::VertexArray m_vertices;

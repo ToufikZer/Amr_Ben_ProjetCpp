@@ -90,7 +90,7 @@ void EnnemiBagarre::update(const sf::Time& deltaTime, sf::Font& font, unsigned i
             }
             std::cout << projs_ennemi.size() << std::endl;
 
-            if (elapsed.asMilliseconds() > 1000){
+            if (elapsed.asMilliseconds() > 1250){
                 projs_ennemi.push_back(tir(degats, attack_speed, getPosition(), "bas"));
                 elapsed = sf::Time::Zero;
             }

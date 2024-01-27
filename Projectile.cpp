@@ -44,13 +44,13 @@ void Projectile::update(const sf::Time& deltaTime, unsigned int map_height) {
     }
 }
 
-bool Projectile::collision(){
-    if(cible == 0){
-        //Vise le player
+// bool Projectile::collision(){
+//     if(cible == 0){
+//         //Vise le player
 
-    }
-    else{
-        //Vise l'ennemi
-        
-    }
-}
+//     }
+//     else{
+//         //Vise l'ennemi
+
+//     }
+// }
