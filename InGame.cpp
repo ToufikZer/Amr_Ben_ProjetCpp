@@ -224,7 +224,7 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
         labyrinthe = false;
         music.stop( );
         player.ResetNbPas();
-        return new Bagarre(window, Save("InGame", sf::Vector2f(player.getCurrentPos().x, player.getCurrentPos().y), maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true), player.getInventory(), "texture/texture_decor/2Qpng.png", 2, 20);
+        return new Bagarre(window, Save("InGame", sf::Vector2f(player.getCurrentPos().x, player.getCurrentPos().y), maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true), player.getInventory(), "texture/texture_decor/2Qpng.png", 2, 20, 1500, 100);
     }
     if(in_house){
         music.stop();

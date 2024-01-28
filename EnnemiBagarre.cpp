@@ -11,10 +11,12 @@
 bool last_moveE = true; //true si dernier deplacement à droite, false sinon
 
 
-EnnemiBagarre::EnnemiBagarre(const std::string& texturePath, float pos_x, float pos_y, float attack_speed, unsigned int degats):
+EnnemiBagarre::EnnemiBagarre(const std::string& texturePath, float pos_x, float pos_y, float attack_speed, unsigned int degats, int attack_delay, int HP):
     speed(50),
     attack_speed(attack_speed),
-    degats(degats)
+    degats(degats),
+    attack_delay(attack_delay),
+    HP(HP)
     {
 
     if (!m_texture.loadFromFile(texturePath)) {
@@ -58,7 +60,7 @@ Projectile EnnemiBagarre::tir(unsigned int degats, float vitesse, sf::Vector2f p
 bool EnnemiBagarre::collision(Projectile& proj){
     if(proj.getCible() == 1){
         //Vise le player
-            if (sf::FloatRect(sf::Vector2f(proj.getPosition().x + 10.f, proj.getPosition().y + 4.f), sf::Vector2f(10.f, 24.f)).intersects(getGlobalBounds()))
+            if (sf::FloatRect(sf::Vector2f(proj.getPosition().x + 10.f, proj.getPosition().y + 4.f), sf::Vector2f(10.f, 24.f)).intersects(getHitbox()))
             {
                 return true;
             }
@@ -98,13 +100,14 @@ void EnnemiBagarre::update(const sf::Time& deltaTime, sf::Font& font, unsigned i
 
             for(Projectile& proj:projs_ennemi){
                 proj.update(deltaTime, map_height);
-                if (player.collision(proj)) proj.setDeleteIt(true);
+                if (player.collision(proj)) {proj.setDeleteIt(true);}
                 if (proj.getDeleteIt()) {
                     projs_ennemi.erase(projs_ennemi.begin());
+                    
                 }
             }
 
-            if (elapsed.asMilliseconds() > 1250){
+            if (elapsed.asMilliseconds() > attack_delay){
                 projs_ennemi.push_back(tir(degats, attack_speed, getPosition(), "bas"));
                 elapsed = sf::Time::Zero;
             }

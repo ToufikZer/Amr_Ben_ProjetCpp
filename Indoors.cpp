@@ -26,6 +26,7 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
       next_town(false),
       kitchen(false),
       crous(false),
+      room(false),
       combat_win(false)
 {
     MapList.push_back(GARE);
@@ -90,7 +91,7 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                         // music.stop();
                     }
                     else if (has_key(player.getInventory()) && npc.getDialogue()[currentMessage] == "Oh, the doors seems to be half-open"){
-                        std::cout << "BAGARRE" << std::endl;
+                        room = true;
                         player.getInventory().removeItem(keyRoom);
                     }
                     
@@ -273,6 +274,11 @@ GameState* Indoors::getNextState() {
         kitchen = false;
         music.stop();
         return new Indoors(window, "KITCHEN", 20, 160, player.getInventory(), "");
+    }
+    if (room){
+        room = false;
+        music.stop();
+        return new Indoors(window, "ROOM", 20, 160, player.getInventory(), "C'est l'heure de la BAGARRE");
     }
     return nullptr;
 }

@@ -22,12 +22,13 @@ void Inventory::removeItem(const Item& item_to_remove) {
     }
 }
 
-void Inventory::exchangeItems(unsigned int index1, unsigned int index2) {
-    if (index1 < items.size() && index2 < items.size()) {
-        std::swap(items[index1], items[index2]);
+void Inventory::exchangeItems(const Item& item_to_remove, const Item& item_to_add) {
+    if (items.size() == maxItems) {
+        removeItem(item_to_remove);
+        addItem(item_to_add);
         std::cout << "Objets échangés avec succès." << std::endl;
     } else {
-        std::cout << "Index d'objet invalide pour l'échange." << std::endl;
+        addItem(item_to_add);
     }
 }
 

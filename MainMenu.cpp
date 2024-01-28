@@ -187,7 +187,7 @@ GameState* MainMenu::getNextState() {
         continue_game = false;
         if (save.getStateName() == "InGame") return new InGame(window, save.getCurrentMap(), save.getPlayerPosition(), save.getmapDimension(), save.getInventory(), 3, "Easter egg : Dans les poubelles \nvous pouvez trouver des armes");
         if (save.getStateName() == "InDoors") return new Indoors(window, save.getName(), save.getPlayerPosition().x, save.getPlayerPosition().y, save.getInventory(), "Easter Egg : juste la flemme");
-        if (save.getStateName() == "Labyrinthe") return new Labyrinthe(window, save.getNbPas(), sf::Vector2f(15,10), save.getmapDimension(), save.getInventory(), 3);
+        if (save.getStateName() == "Labyrinthe") return new Labyrinthe(window, save.getNbPas(), sf::Vector2f(save.getPlayerPosition().x, save.getPlayerPosition().y), save.getmapDimension(), save.getInventory(), 3);
     }
     else if (keybinds) {
         keybinds = false;

@@ -2,7 +2,7 @@
 #include <iostream>
 
 Projectile::Projectile(float vitesse, unsigned int degats, sf::Vector2f position, const std::string& direction, const std::string& texturePath, int cible)
-    : vitesse(vitesse), degats(degats), position(position), direction(direction), cible(cible)
+    : vitesse(vitesse), degats(degats), position(position), direction(direction),delete_it(false), cible(cible)
 {
     if (!m_texture.loadFromFile(texturePath)) {
         std::cerr << "Erreur lors du chargement de la texture" << std::endl;
@@ -40,7 +40,7 @@ void Projectile::update(const sf::Time& deltaTime, unsigned int map_height) {
     } else if (direction == "bas") {
         move(0, vitesse);
     }
-    if (getPosition().y < 0 || getPosition().y > map_height) {
+    if (getPosition().y <= 0 || getPosition().y > map_height) {
         delete_it = true;
     }
 }

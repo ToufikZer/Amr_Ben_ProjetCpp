@@ -25,9 +25,19 @@ public:
 
     bool collision(Projectile& proj);
 
-    sf::FloatRect getGlobalBounds() const {
-        return getTransform().transformRect(m_vertices.getBounds());
-    }
+    sf::FloatRect getHitbox() const {
+    sf::FloatRect originalBounds = getTransform().transformRect(m_vertices.getBounds());
+
+    sf::FloatRect reducedBounds(
+        originalBounds.left + 17.f,
+        originalBounds.top + 6.f,
+        originalBounds.width /3,
+        originalBounds.height - 6.f
+    );
+
+    return reducedBounds;
+}
+
 
     Projectile tir(unsigned int degats, float vitesse, sf::Vector2f position, std::string direction = "haut");
 

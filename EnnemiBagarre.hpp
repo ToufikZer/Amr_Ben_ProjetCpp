@@ -14,7 +14,7 @@
 
 class EnnemiBagarre : public sf::Drawable, public sf::Transformable {
 public:
-    EnnemiBagarre(const std::string& texturePath, float pos_x, float pos_y , float attack_speed, unsigned int degats);
+    EnnemiBagarre(const std::string& texturePath, float pos_x, float pos_y , float attack_speed, unsigned int degats, int attack_delay, int HP);
     EnnemiBagarre(){}
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -26,9 +26,18 @@ public:
 
     bool collision(Projectile& proj);
 
-    sf::FloatRect getGlobalBounds() const {
-        return getTransform().transformRect(m_vertices.getBounds());
-    }
+    sf::FloatRect getHitbox() const {
+    sf::FloatRect originalBounds = getTransform().transformRect(m_vertices.getBounds());
+
+    sf::FloatRect reducedBounds(
+        originalBounds.left + 17.f,
+        originalBounds.top + 6.f,
+        originalBounds.width /3,
+        originalBounds.height - 6.f
+    );
+
+    return reducedBounds;
+}
 
 
     Projectile tir(unsigned int degats, float vitesse, sf::Vector2f position, std::string direction = "bas");
@@ -50,5 +59,6 @@ private:
     float speed;
     float attack_speed;
     unsigned int degats;
-    int HP = 100;
+    int attack_delay;
+    int HP;
 };

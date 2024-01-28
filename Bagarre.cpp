@@ -3,10 +3,10 @@
 #include "InGame.hpp"
 #include <iostream>
 
-Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std::string backgroundPath, float ennemi_attack_speed, unsigned int ennemi_degats)
+Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std::string backgroundPath, float ennemi_attack_speed, unsigned int ennemi_degats, int attack_delay, int HP)
     : window(window),
       player("texture/texture_char/new_player2.png", 260, 200, inventaire),
-      ennemi("texture/texture_char/new_player2.png", 260, 0, ennemi_attack_speed, ennemi_degats),
+      ennemi("texture/texture_char/new_player2.png", 260, 0, ennemi_attack_speed, ennemi_degats, attack_delay, HP),
       backmenu(false),
       save(save),
       is_arrived(false)

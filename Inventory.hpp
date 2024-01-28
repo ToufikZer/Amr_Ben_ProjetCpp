@@ -19,7 +19,7 @@ public:
 
     void addItem(const Item& item);
     void removeItem(const Item& item_to_remove);
-    void exchangeItems(unsigned int index1, unsigned int index2);
+    void exchangeItems(const Item& item_to_remove, const Item& item_to_add);
     void displayInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view);
 
 private:

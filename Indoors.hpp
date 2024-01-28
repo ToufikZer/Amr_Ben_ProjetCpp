@@ -52,6 +52,7 @@ private:
     bool next_town;
     bool kitchen;
     bool crous;
+    bool room;
     bool combat_win;
 
     bool has_key(Inventory inventaire);
