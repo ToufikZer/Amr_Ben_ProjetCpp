@@ -41,6 +41,8 @@ public:
 
     Projectile tir(unsigned int degats, float vitesse, sf::Vector2f position, std::string direction = "haut");
 
+    bool has_knife();
+
     Inventory& getInventory(){
         return inventaire;
     }

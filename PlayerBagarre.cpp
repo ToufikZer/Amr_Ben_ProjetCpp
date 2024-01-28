@@ -67,6 +67,19 @@ bool PlayerBagarre::collision(Projectile& proj){
     return false;
 }
 
+bool PlayerBagarre::has_knife(){
+    for (Item& item : inventaire.getItems()){
+        if (item.getName() == "Zanpakuto") return true;
+    }
+    return false;
+}
+
+// bool Indoors::has_kitchen_knife(Inventory inventaire){
+//     for (Item& item : inventaire.getItems()){
+//         if (item.getName() == "KitchenKnife") return true;
+//     }
+//     return false;
+// }
 
 void PlayerBagarre::update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, 
                            sf::View& view, std::vector<Obstacle> obstacles){

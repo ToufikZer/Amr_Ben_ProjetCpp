@@ -111,7 +111,7 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                         first_dialogue = npc.getDialogue();
                         if (!has_kitchen_knife(player.getInventory())){
                             isTalking = true;
-                            player.getInventory().addItem(KitchenKnife);
+                            player.getInventory().addItem(Zanpakuto);
                             npc.setIsTalking(true);
                             npcThatWasTalking = &npc;
                             currentMessage += 1;
