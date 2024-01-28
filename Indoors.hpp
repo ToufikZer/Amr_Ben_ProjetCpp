@@ -56,6 +56,7 @@ private:
     bool combat_win;
 
     bool has_key(Inventory inventaire);
+    bool has_boots(Inventory inventaire);
     bool has_kitchen_knife(Inventory inventaire);
     void executeOption();
 };

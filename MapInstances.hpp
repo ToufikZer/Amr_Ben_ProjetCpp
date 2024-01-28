@@ -22,7 +22,7 @@
                     {1,0,1,0,3,0,2,2,0,0,1,1,1,1,2,1},\
                     {1,0,1,0,3,0,2,2,2,0,1,1,1,1,1,1},\
                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}}, \
-                    {(NPC("texture/texture_npc/npcpkmn.png", 8, 13, {"Salut", "test", "caca"},"RULD",{},0)), \
+                    {(NPC("texture/texture_npc/npcpkmn.png", 8, 13, {"Voulez vous manger avec moi?","QUESTION"},"RUUULRRDULLRDDDL",{Answer("yes",{"YOUHOUUU","Enfin qqn qui accepte!"},0),Answer("no",{"QUOI, COMMENT CA NON", "CETAIT UNE PIZZA AU CACA"},1)},0)), \
                      (NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut2", "pioupiou", "hello!"},"RRUUUDDDLL",{},0))}, \
                     "sound/music/music1.ogg")
 
@@ -64,8 +64,8 @@
                     {1,2,2,0,3,3,3,0,0,0,2,1,1,1,0,1},\
                     {1,0,1,0,3,0,1,2,0,0,2,2,2,1,1,1},\
                     {1,0,0,0,3,0,2,2,2,0,2,1,1,1,1,1},\
-                    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}}, \
-                    {(NPC("texture/texture_npc/npcpkmn.png", 8, 13, {"Voulez vous manger avec moi?","QUESTION"},"RUUULRRDULLRDDDL",{Answer("yes",{"YOUHOUUU","Enfin qqn qui accepte!"},0),Answer("no",{"QUOI, COMMENT CA NON", "CETAIT UNE PIZZA AU CACA"},1)},0)), \
+                    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}},\
+                    {(NPC("texture/texture_npc/npcpkmn.png", 8, 13, {"Y'a beaucoup de touriste ces temps ci,\nc'est a en perdre la tete", "Le nouveau concessionnaire fait des ravages"}, "RUDL",{}, 0)), \
                      (NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut2", "pioupiou", "hello!", "okok"},"RRUUUDDDLL",{},0))}, \
                      {Obstacle("texture/texture_obstacle/garage_tile.png", 8, 1, sf::Vector2u(10,7),2, 3)}, \
                     "sound/music/music1.ogg")
@@ -115,7 +115,7 @@
                         (NPC("texture/texture_npc/door_invisible.png", 840, 400, {"The door seems to be closed"},"",{},1)), \
                         (NPC("texture/texture_npc/door_invisible.png", 80, 700, {"Oh, the doors seems to be half-open"},"",{},1)), \
                         (NPC("texture/texture_npc/door_invisible.png", 350, 700, {"The door seems to be closed"},"",{},1)), \
-                        (NPC("texture/texture_npc/door_invisible.png", 565, 700, {"The door seems to be closed"},"",{},1)), \
+                        (NPC("texture/texture_npc/door_invisible.png", 565, 700, {"BOTTES","Quelqu'un semble tourner une video derriere" , "Salut a tous c'est Skyyart, aujourd'hui\n toute nouvelle video", "En fait si tu ignite on CD, avec les degats du Luden", "Si tu rajoutes a ca le dernier buff des mages", "Normalement tu peux one shot Cait puis\npush la lane into Nashor","... Il vous apercoit ...", "EH TOI LA REND MOI MES BOTTES"},"",{},1)), \
                         (NPC("texture/texture_npc/door_invisible.png", 840, 700, {"CUISINE"},"",{},1))}, \
                         {(Obstacle("texture/texture_obstacle/invisible_wall.png", 15, 12, 0)), \
                         (Obstacle("texture/texture_obstacle/invisible_wall.png", 0, 2, 0))}, \

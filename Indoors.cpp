@@ -12,6 +12,7 @@ MapIndoors AIRPORT = MAP9;
 Item keyRoom = Item("Key","Une clé de chambre", 1, "texture/texture_item/key.png");
 Item KitchenKnife = Item("KitchenKnife", "Un couteau de cuisine banal", 2, "texture/texture_item/zanpakuto.png");
 Item Zanpakuto = Item("Zanpakuto", "Decoupe Mokhtar", 2, "texture/texture_item/knife.png");
+Item Bottes = Item("Bottes", "Cours Forest", 0, "texture/texture_item/bottes.png");
 
 Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player_x, float pos_player_y, Inventory inventaire, std::string objectif_text)
     : window(window),
@@ -112,6 +113,18 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                         if (!has_kitchen_knife(player.getInventory())){
                             isTalking = true;
                             player.getInventory().addItem(Zanpakuto);
+                            npc.setIsTalking(true);
+                            npcThatWasTalking = &npc;
+                            currentMessage += 1;
+                            break;
+                        }
+                        else {}
+                    }
+                    else if (npc.getDialogue()[currentMessage] == "BOTTES"){
+                        first_dialogue = npc.getDialogue();
+                        if (!has_boots(player.getInventory())){
+                            isTalking = true;
+                            player.getInventory().addItem(Bottes);
                             npc.setIsTalking(true);
                             npcThatWasTalking = &npc;
                             currentMessage += 1;
@@ -293,10 +306,18 @@ bool Indoors::has_key(Inventory inventaire){
 
 bool Indoors::has_kitchen_knife(Inventory inventaire){
     for (Item& item : inventaire.getItems()){
-        if (item.getName() == "KitchenKnife") return true;
+        if (item.getName() == "Zanpakuto") return true;
     }
     return false;
 }
+
+bool Indoors::has_boots(Inventory inventaire){
+    for (Item& item : inventaire.getItems()){
+        if (item.getName() == "Bottes") return true;
+    }
+    return false;
+}
+
 
 void Indoors::executeOption(){
     if (npcThatWasTalking->getIsAsking()){

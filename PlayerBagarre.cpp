@@ -15,7 +15,7 @@ PlayerBagarre::PlayerBagarre(const std::string &texturePath, float pos_x, float 
     speed(150),
     HP(100)
     {
-
+    if (has_boots()) speed = 2* speed;
     if (!m_texture.loadFromFile(texturePath)) {
         std::cerr << "Erreur lors du chargement de la texture" << std::endl;
         std::exit(-1);
@@ -84,19 +84,14 @@ bool PlayerBagarre::has_knife(){
     return false;
 }
 
-// bool PlayerBagarre::has_boots(){
-//     for (Item& item : inventaire.getItems()){
-//         if (item.getName() == "Zanpakuto") return true;
-//     }
-//     return false;
-// }
+bool PlayerBagarre::has_boots(){
+    for (Item& item : inventaire.getItems()){
+        if (item.getName() == "Bottes") return true;
+    }
+    return false;
+}
 
-// bool Indoors::has_kitchen_knife(Inventory inventaire){
-//     for (Item& item : inventaire.getItems()){
-//         if (item.getName() == "KitchenKnife") return true;
-//     }
-//     return false;
-// }
+
 
 void PlayerBagarre::update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, 
                            sf::View& view, std::vector<Obstacle> obstacles){
