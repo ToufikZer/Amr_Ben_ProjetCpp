@@ -32,25 +32,15 @@ void Projectile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 }
 
 void Projectile::update(const sf::Time& deltaTime, unsigned int map_height) {
+    //collision(player, ennemi);
+    
     if (direction == "haut") {
         move(0, -vitesse);
 
     } else if (direction == "bas") {
         move(0, vitesse);
-        std::cout << vitesse << std::endl;
     }
     if (getPosition().y < 0 || getPosition().y > map_height) {
         delete_it = true;
     }
 }
-
-// bool Projectile::collision(){
-//     if(cible == 0){
-//         //Vise le player
-
-//     }
-//     else{
-//         //Vise l'ennemi
-
-//     }
-// }

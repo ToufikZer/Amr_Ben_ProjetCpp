@@ -74,6 +74,7 @@ void Bagarre::update(sf::Time deltaTime, sf::RenderWindow& window) {
     player.update(deltaTime, font, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height ,view, obstacles);
     ennemi.update(deltaTime, font, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height ,view, obstacles, player);
     for(Projectile& proj:projs_player){
+        ennemi.collision(proj);
         proj.update(deltaTime, backgroundSprite.getGlobalBounds().height);
         if (proj.getDeleteIt()) {
             projs_player.erase(projs_player.begin());

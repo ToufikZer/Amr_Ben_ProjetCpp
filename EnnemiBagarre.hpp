@@ -15,6 +15,7 @@
 class EnnemiBagarre : public sf::Drawable, public sf::Transformable {
 public:
     EnnemiBagarre(const std::string& texturePath, float pos_x, float pos_y , float attack_speed, unsigned int degats);
+    EnnemiBagarre(){}
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -22,6 +23,13 @@ public:
                 std::vector<Obstacle> obstacles, PlayerBagarre player);
 
     void update_texture(unsigned int u, unsigned int i);
+
+    bool collision(Projectile proj);
+
+    sf::FloatRect getGlobalBounds() const {
+        return getTransform().transformRect(m_vertices.getBounds());
+    }
+
 
     Projectile tir(unsigned int degats, float vitesse, sf::Vector2f position, std::string direction = "bas");
 

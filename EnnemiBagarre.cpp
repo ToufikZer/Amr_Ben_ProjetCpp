@@ -54,6 +54,21 @@ Projectile EnnemiBagarre::tir(unsigned int degats, float vitesse, sf::Vector2f p
     return Projectile(vitesse, degats, position, direction, "texture/texture_obstacle/proj_bas.png", 0);
 }
 
+
+bool EnnemiBagarre::collision(Projectile proj){
+    if(proj.getCible() == 1){
+        //Vise le player
+            if (sf::FloatRect(sf::Vector2f(proj.getPosition().x + 10.f, proj.getPosition().y + 4.f), sf::Vector2f(10.f, 24.f)).intersects(getGlobalBounds()))
+            {
+                std::cout << "JAXBOOOOOOOOOOOOOOOOOOOOOOOOOO" << std::endl;
+                return true;
+            }
+    }
+    
+    return false;
+}
+
+
 void EnnemiBagarre::update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, 
                            sf::View& view, std::vector<Obstacle> obstacles, PlayerBagarre player){
             if (player.getPosition().x > getPosition().x + 10.f) { //droite
@@ -83,12 +98,12 @@ void EnnemiBagarre::update(const sf::Time& deltaTime, sf::Font& font, unsigned i
             }
 
             for(Projectile& proj:projs_ennemi){
+                player.collision(proj);
                 proj.update(deltaTime, map_height);
                 if (proj.getDeleteIt()) {
                     projs_ennemi.erase(projs_ennemi.begin());
                 }
             }
-            std::cout << projs_ennemi.size() << std::endl;
 
             if (elapsed.asMilliseconds() > 1250){
                 projs_ennemi.push_back(tir(degats, attack_speed, getPosition(), "bas"));

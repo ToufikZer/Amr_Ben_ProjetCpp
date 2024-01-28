@@ -23,6 +23,12 @@ public:
 
     void update_texture(unsigned int u, unsigned int i);
 
+    bool collision(Projectile proj);
+
+    sf::FloatRect getGlobalBounds() const {
+        return getTransform().transformRect(m_vertices.getBounds());
+    }
+
     Projectile tir(unsigned int degats, float vitesse, sf::Vector2f position, std::string direction = "haut");
 
     Inventory& getInventory(){
