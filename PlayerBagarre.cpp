@@ -52,12 +52,13 @@ Projectile PlayerBagarre::tir(unsigned int degats, float vitesse, sf::Vector2f p
     return Projectile(vitesse, degats, position, direction, "texture/texture_obstacle/proj.png", 1);
 }
 
-bool PlayerBagarre::collision(Projectile proj){
+bool PlayerBagarre::collision(Projectile& proj){
     if(proj.getCible() == 0){
         //Vise le player
             if (sf::FloatRect(sf::Vector2f(proj.getPosition().x + 10.f, proj.getPosition().y + 4.f), sf::Vector2f(10.f, 24.f)).intersects(getGlobalBounds()))
             {
-                std::cout << "AKALISAKEEEEEEEEEEEEEEEEEN" << std::endl;
+                proj.setDeleteIt(true);
+                // std::cout << proj.getDeleteIt() << std::endl;
                 return true;
             }
     }

@@ -2,7 +2,7 @@
 #include <iostream>
 
 Projectile::Projectile(float vitesse, unsigned int degats, sf::Vector2f position, const std::string& direction, const std::string& texturePath, int cible)
-    : vitesse(vitesse), degats(degats), position(position), direction(direction), delete_it(false), cible(cible)
+    : vitesse(vitesse), degats(degats), position(position), direction(direction), cible(cible)
 {
     if (!m_texture.loadFromFile(texturePath)) {
         std::cerr << "Erreur lors du chargement de la texture" << std::endl;

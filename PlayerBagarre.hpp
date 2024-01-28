@@ -23,7 +23,7 @@ public:
 
     void update_texture(unsigned int u, unsigned int i);
 
-    bool collision(Projectile proj);
+    bool collision(Projectile& proj);
 
     sf::FloatRect getGlobalBounds() const {
         return getTransform().transformRect(m_vertices.getBounds());

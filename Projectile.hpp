@@ -28,9 +28,13 @@ public:
         return degats;
     }
 
-    bool getDeleteIt() const {
+    bool getDeleteIt(){
         return delete_it;
     }
+    void setDeleteIt(bool value){
+        delete_it = value;
+    }
+
     ~Projectile() {}
 
 private:
