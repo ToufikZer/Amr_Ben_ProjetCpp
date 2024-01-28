@@ -45,6 +45,10 @@ public:
         return inventaire;
     }
     
+    int getHP(){
+        return HP;
+    }
+
     void drawInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view);
     // void drawInteractText(sf::RenderWindow& window, sf::Font& font);
 protected:
@@ -57,5 +61,5 @@ private:
     sf::VertexArray m_vertices;
     Inventory inventaire;
     float speed;
-    int HP = 100;
+    int HP;
 };

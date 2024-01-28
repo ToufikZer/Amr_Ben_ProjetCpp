@@ -20,7 +20,7 @@ public:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
     void update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, sf::View& view, 
-                std::vector<Obstacle> obstacles, PlayerBagarre player);
+                std::vector<Obstacle> obstacles, PlayerBagarre& player);
 
     void update_texture(unsigned int u, unsigned int i);
 
@@ -46,6 +46,9 @@ public:
         return projs_ennemi;
     }
     
+    int getHP(){
+        return HP;
+    }
     // void drawInteractText(sf::RenderWindow& window, sf::Font& font);
 protected:
     bool out_map(unsigned int map_width, unsigned int map_height, sf::Vector2f position);

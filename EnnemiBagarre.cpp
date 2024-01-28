@@ -62,6 +62,8 @@ bool EnnemiBagarre::collision(Projectile& proj){
         //Vise le player
             if (sf::FloatRect(sf::Vector2f(proj.getPosition().x + 10.f, proj.getPosition().y + 4.f), sf::Vector2f(10.f, 24.f)).intersects(getHitbox()))
             {
+                HP -= proj.getDegats();
+                std::cout << HP << std::endl;
                 return true;
             }
     }
@@ -71,7 +73,7 @@ bool EnnemiBagarre::collision(Projectile& proj){
 
 
 void EnnemiBagarre::update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, 
-                           sf::View& view, std::vector<Obstacle> obstacles, PlayerBagarre player){
+                           sf::View& view, std::vector<Obstacle> obstacles, PlayerBagarre& player){
             if (player.getPosition().x > getPosition().x + 10.f) { //droite
                 if(!out_map(map_width, map_height, sf::Vector2f(getPosition().x + speed* deltaTime.asSeconds(), getPosition().y))){
                     //if(!collision_obstacles(sf::Vector2f(sf::Vector2f(getPosition().x + speed* deltaTime.asSeconds(), getPosition().y)),obstacles)){

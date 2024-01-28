@@ -12,7 +12,8 @@ bool last_moveB = true; //true si dernier deplacement à droite, false sinon
 
 PlayerBagarre::PlayerBagarre(const std::string &texturePath, float pos_x, float pos_y, Inventory inventaire):
     inventaire(inventaire),
-    speed(150)
+    speed(150),
+    HP(100)
     {
 
     if (!m_texture.loadFromFile(texturePath)) {
@@ -59,7 +60,6 @@ bool PlayerBagarre::collision(Projectile& proj){
             {
                 proj.setDeleteIt(true);
                 HP -= proj.getDegats();
-                std::cout << HP << std::endl;
                 return true;
             }
     }

@@ -42,7 +42,9 @@ private:
     std::vector<Projectile> projs_player;
 
     sf::Text Finish;
+    sf::Text Lose;
     bool backmenu;
     Save save;
-    bool is_arrived;
+    bool combat_lose;
+    bool combat_win;
 };

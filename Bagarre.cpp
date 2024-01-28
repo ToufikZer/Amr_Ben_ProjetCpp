@@ -9,7 +9,8 @@ Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std:
       ennemi("texture/texture_char/new_player2.png", 260, 0, ennemi_attack_speed, ennemi_degats, attack_delay, HP),
       backmenu(false),
       save(save),
-      is_arrived(false)
+      combat_lose(false),
+      combat_win(false)
 {
     if (!font.loadFromFile("font/arial.ttf")) {
         std::cerr << "Erreur lors du chargement de la police" << std::endl;
@@ -25,17 +26,6 @@ Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std:
     // music.setLoop(true);
     // music.play();
 
-    
-
-/*
-    Finish.setFont(font);
-    Finish.setStyle(sf::Text::Bold);
-    Finish.setString("Congrats! Press Return to go near to the CROUS");
-    Finish.setFillColor(sf::Color(30,250,30,250));
-    Finish.setCharacterSize(30);
-
-*/
-
     if (!backgroundTexture.loadFromFile(backgroundPath)) {
         std::cerr << "Erreur lors du chargement de l'image de fond" << std::endl;
         std::exit(-1);
@@ -45,6 +35,19 @@ Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std:
 
     view.reset(sf::FloatRect(0, 0, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height));
 
+    Finish.setFont(font);
+    Finish.setStyle(sf::Text::Bold);
+    Finish.setString("Let's go, maintenant tu peux\ndormir chez lui tranquille!\n\nAppuie sur entrer \npour continuer");
+    Finish.setFillColor(sf::Color(250,10,10,250));
+    Finish.setCharacterSize(30);
+    Finish.setPosition(sf::Vector2f(backgroundSprite.getGlobalBounds().width / 5, backgroundSprite.getGlobalBounds().height/4));
+
+    Lose.setFont(font);
+    Lose.setStyle(sf::Text::Bold);
+    Lose.setString("HAHAHA t'as perdu la bagarre\nDebrouille toi maintenant!\n\nAppuie sur entrer pour repartir\n ou sur R pour recommencer");
+    Lose.setFillColor(sf::Color(250,10,10,250));
+    Lose.setCharacterSize(30);
+    Lose.setPosition(sf::Vector2f(backgroundSprite.getGlobalBounds().width / 5, backgroundSprite.getGlobalBounds().height/4));
 }
 
 void Bagarre::handleEvent(sf::Event& event, sf::RenderWindow& window) {
@@ -71,32 +74,29 @@ void Bagarre::handleEvent(sf::Event& event, sf::RenderWindow& window) {
 }
 
 void Bagarre::update(sf::Time deltaTime, sf::RenderWindow& window) {
-    player.update(deltaTime, font, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height ,view, obstacles);
-    ennemi.update(deltaTime, font, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height ,view, obstacles, player);
-    for(Projectile& proj:projs_player){
-        proj.update(deltaTime, backgroundSprite.getGlobalBounds().height);
-        if (ennemi.collision(proj)) proj.setDeleteIt(true);
-        if (proj.getDeleteIt()) {
-            projs_player.erase(projs_player.begin());
+    if(!combat_win && !combat_lose){
+        player.update(deltaTime, font, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height ,view, obstacles);
+        ennemi.update(deltaTime, font, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height ,view, obstacles, player);
+        for(Projectile& proj:projs_player){
+            proj.update(deltaTime, backgroundSprite.getGlobalBounds().height);
+            if (ennemi.collision(proj)) proj.setDeleteIt(true);
+            if (proj.getDeleteIt()) {
+                projs_player.erase(projs_player.begin());
+            }
         }
+        elapsed += deltaTime;
     }
-    elapsed += deltaTime;
+    if (player.getHP() <= 0) combat_lose = true;
     // std::cout << projs_player.size() << std::endl;
-    // if (ennemi.getHP <= 0) 
-    // {
-    //     ILEMOR
-    //     player.setSpeed(0);
-    //     is_arrived = true;
-    //     Finish.setPosition(sf::Vector2f(player.getPosition().x - 200.f, player.getPosition().y - 120.f));
-    // }
+    if (ennemi.getHP() <= 0) 
+    {
+        combat_win = true;
+    }
 
 }
 
 void Bagarre::draw(sf::RenderWindow& window, sf::Event& event) {
-    // Effacer la fenêtre
-    //std::cout << "aalalala" << std::endl;
     window.clear();
-    //std::cout << "olololol" << std::endl;
 
     window.draw(backgroundSprite);
 
@@ -115,7 +115,8 @@ void Bagarre::draw(sf::RenderWindow& window, sf::Event& event) {
         window.draw(proj);
     }
 
-    if (is_arrived) window.draw(Finish);
+    if (combat_win) window.draw(Finish);
+    if (combat_lose) window.draw(Lose);
 
     // Afficher la fenêtre
     window.display();
@@ -127,20 +128,28 @@ GameState* Bagarre::getNextState() {
         music.stop( );
         return new MainMenu(window, save);
     }
-    // if (player.getCrash()){
-    //     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-    //     {
-    //         player.setCrash(false);
-    //         return new Bagarre(window,save, player.getInventory());
-    //     }
-    // }
-    // if (is_arrived){
-    //     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-    //     {
-    //         is_arrived = false;
-    //         // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
-    //         return new InGame(window, sf::Vector2u(0,1), sf::Vector2f(2,3), sf::Vector2u(16,16), player.getInventory(), 0, "Se rendre au CROUS");
-    //     }
-    // }
+    if(combat_lose){
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        {
+            combat_lose = false;
+            // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
+            return new InGame(window, save.getCurrentMap(), save.getPlayerPosition(), save.getmapDimension(), save.getInventory(), 3, "Prend ta revanche !");
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+        {
+            combat_lose = false;
+            // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
+            return new Bagarre(window, save, player.getInventory(), "texture/texture_decor/2Qpng.png", 2, 20, 1500, 100);
+        }
+    }
+    
+    if (combat_win){
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        {
+            combat_win = false;
+            // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
+            return new InGame(window, sf::Vector2u(0,1), sf::Vector2f(2,3), sf::Vector2u(16,16), player.getInventory(), 0, "Se rendre au CROUS");
+        }
+    }
     return nullptr;
 }
