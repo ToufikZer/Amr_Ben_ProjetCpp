@@ -234,6 +234,7 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
                 if (obstacleInteracting->getId() == 1) return new Indoors(window, "CROUS", 64.f, 140.f, player.getInventory(), "Trouver une chambre libre");
                 if (obstacleInteracting->getId() == 2) return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(10,7), sf::Vector2u(16,16), player.getInventory(), 3, "");
                 if (obstacleInteracting->getId() == 3) return new InGame_CarGameplay(window, Save("InGame", sf::Vector2f(player.getCurrentPos().x, player.getCurrentPos().y), maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true), player.getInventory());
+                if (obstacleInteracting->getId() == 4) return new Indoors(window, "AIRPORT", 500, 120, player.getInventory(), "Trouver un moyen de se deplacer");
             }
         }
         else std::cerr << "error obstacle interacting is NULL" << std::endl;
