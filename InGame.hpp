@@ -16,6 +16,7 @@
 #include "InGame_CarGameplay.hpp"
 #include "Bagarre.hpp"
 #include "FraudeGameplay.hpp"
+#include "Explication.hpp"
 #include "Inventory.hpp"
 #include "Item.hpp"
 #include "Save.hpp"
