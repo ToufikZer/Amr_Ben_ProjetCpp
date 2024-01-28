@@ -41,6 +41,8 @@ private:
     std::vector<Obstacle> obstacles;
     std::vector<Projectile> projs_player;
 
+    sf::RectangleShape playerHealthBar;
+    sf::RectangleShape ennemiHealthBar;
     sf::Text Finish;
     sf::Text Lose;
     bool backmenu;

@@ -58,9 +58,19 @@ bool PlayerBagarre::collision(Projectile& proj){
         //Vise le player
             if (sf::FloatRect(sf::Vector2f(proj.getPosition().x + 10.f, proj.getPosition().y + 4.f), sf::Vector2f(10.f, 24.f)).intersects(getHitbox()))
             {
+                m_vertices[0].color = sf::Color::Red;
+                m_vertices[1].color = sf::Color::Red;
+                m_vertices[2].color = sf::Color::Red;
+                m_vertices[3].color = sf::Color::Red;
                 proj.setDeleteIt(true);
                 HP -= proj.getDegats();
                 return true;
+            }
+            else {
+                m_vertices[0].color = sf::Color::White;
+                m_vertices[1].color = sf::Color::White;
+                m_vertices[2].color = sf::Color::White;
+                m_vertices[3].color = sf::Color::White;
             }
     }
     
@@ -73,6 +83,13 @@ bool PlayerBagarre::has_knife(){
     }
     return false;
 }
+
+// bool PlayerBagarre::has_boots(){
+//     for (Item& item : inventaire.getItems()){
+//         if (item.getName() == "Zanpakuto") return true;
+//     }
+//     return false;
+// }
 
 // bool Indoors::has_kitchen_knife(Inventory inventaire){
 //     for (Item& item : inventaire.getItems()){

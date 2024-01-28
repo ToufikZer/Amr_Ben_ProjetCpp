@@ -48,6 +48,12 @@ Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std:
     Lose.setFillColor(sf::Color(250,10,10,250));
     Lose.setCharacterSize(30);
     Lose.setPosition(sf::Vector2f(backgroundSprite.getGlobalBounds().width / 5, backgroundSprite.getGlobalBounds().height/4));
+
+    playerHealthBar.setFillColor(sf::Color::Green);   // Couleur verte
+    playerHealthBar.setPosition(backgroundSprite.getGlobalBounds().width - 110, backgroundSprite.getGlobalBounds().height - 10);  // Position de la barre de vie du joueur
+
+    ennemiHealthBar.setFillColor(sf::Color::Red);   // Couleur verte
+    ennemiHealthBar.setPosition(10 , 10);  // Position de la barre de vie de l'ennemi
 }
 
 void Bagarre::handleEvent(sf::Event& event, sf::RenderWindow& window) {
@@ -76,6 +82,15 @@ void Bagarre::handleEvent(sf::Event& event, sf::RenderWindow& window) {
 }
 
 void Bagarre::update(sf::Time deltaTime, sf::RenderWindow& window) {
+    if (player.getHP() <= 0) combat_lose = true;
+    // std::cout << projs_player.size() << std::endl;
+    if (ennemi.getHP() <= 0) 
+    {
+        combat_win = true;
+    }
+
+    playerHealthBar.setSize(sf::Vector2f(player.getHP(), 10));
+    ennemiHealthBar.setSize(sf::Vector2f(ennemi.getHP(), 10));
     if(!combat_win && !combat_lose){
         player.update(deltaTime, font, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height ,view, obstacles);
         ennemi.update(deltaTime, font, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height ,view, obstacles, player);
@@ -88,12 +103,6 @@ void Bagarre::update(sf::Time deltaTime, sf::RenderWindow& window) {
         }
         elapsed += deltaTime;
     }
-    if (player.getHP() <= 0) combat_lose = true;
-    // std::cout << projs_player.size() << std::endl;
-    if (ennemi.getHP() <= 0) 
-    {
-        combat_win = true;
-    }
 
 }
 
@@ -104,6 +113,9 @@ void Bagarre::draw(sf::RenderWindow& window, sf::Event& event) {
 
     // Définir la vue
     window.setView(view);
+
+    window.draw(playerHealthBar);
+    window.draw(ennemiHealthBar);
 
 
     // Dessiner le joueur

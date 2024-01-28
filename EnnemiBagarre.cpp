@@ -64,7 +64,17 @@ bool EnnemiBagarre::collision(Projectile& proj){
             {
                 HP -= proj.getDegats();
                 std::cout << HP << std::endl;
+                m_vertices[0].color = sf::Color::Red;
+                m_vertices[1].color = sf::Color::Red;
+                m_vertices[2].color = sf::Color::Red;
+                m_vertices[3].color = sf::Color::Red;
                 return true;
+            }
+            else{
+                m_vertices[0].color = sf::Color::White;
+                m_vertices[1].color = sf::Color::White;
+                m_vertices[2].color = sf::Color::White;
+                m_vertices[3].color = sf::Color::White;
             }
     }
     
