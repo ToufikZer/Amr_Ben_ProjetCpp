@@ -276,7 +276,7 @@ GameState* Indoors::getNextState() {
     if (next_town){
         next_town = false;
         music.stop();
-        return new InGame(window, sf::Vector2u(0,0), sf::Vector2f(3,3), sf::Vector2u(16,16),player.getInventory(), 0, "Trouver un moyen de se deplacer");
+        return new InGame(window, sf::Vector2u(0,0), sf::Vector2f(4,7), sf::Vector2u(16,16),player.getInventory(), 0, "Trouver un moyen de se deplacer");
     }
     if (crous){
         crous = false;

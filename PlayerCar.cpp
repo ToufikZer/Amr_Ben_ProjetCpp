@@ -97,7 +97,7 @@ void PlayerCar::update(const sf::Time& deltaTime, sf::Font& font, unsigned int m
             rotate(5);
         }
     }
-    view.setCenter(getPosition().x + 0.85*view.getSize().x, map_height *16 + 160);
+    view.setCenter(getPosition().x + 0.4*view.getSize().x, map_height *16 + 160);
 }
 
 void PlayerCar::draw_crash(sf::RenderWindow& window){

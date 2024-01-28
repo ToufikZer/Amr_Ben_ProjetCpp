@@ -6,7 +6,7 @@
 Map map1 = MAP1;
 Map map2 = MAP2;
 Map map3 = MAP3;
-
+Map map0 = MAP0;
 MapManager::MapManager(){
-    MapMap = {{map3, map1, map2}}; 
+    MapMap = {{map0, map3, map1, map2}}; 
 }

@@ -16,7 +16,7 @@ InGame_CarGameplay::InGame_CarGameplay(sf::RenderWindow& window, Save save, Inve
         std::exit(-1);
     }
 
-    view.setCenter(player.getPosition().x + 0.85*window.getSize().x, map.getHeight() *16 + 160);
+    view.setCenter(player.getPosition().x + 0.4*window.getSize().x, map.getHeight() *16 + 160);
     view.setSize(window.getSize().x, map.getHeight() *64);
     // if (!music.openFromFile("path/to/music.ogg")) {
     //     std::cerr << "Erreur lors du chargement du son" << std::endl;
