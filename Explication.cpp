@@ -41,6 +41,10 @@ GameState* Explication::getNextState(){
         expl = true;
         if(name == "lab") return new Labyrinthe(window, 0, sf::Vector2f(15,10), sf::Vector2u(31,21), save.getInventory(), 3);      
         else if(name == "bagarre") return new Bagarre(window, save, save.getInventory(), "texture/texture_decor/2Qpng.png", 2, 20, 1500, 200);
+        // POUR ANNIE D'ALGOAT 
+        //else if(name == "bagarre_2") return new Bagarre(window, save, save.getInventory(), "texture/texture_decor/2Qpng.png", 2, 20, 1500, 200);
+        else if(name == "car") return new InGame_CarGameplay(window, Save("InGame", sf::Vector2f(save.getPlayerPosition().x, save.getPlayerPosition().y), sf::Vector2u(save.getCurrentMap().x, save.getCurrentMap().y), sf::Vector2u(save.getmapDimension().x, save.getmapDimension().y), save.getInventory(), true, true), save.getInventory());
+        else if(name == "fraude") return new FraudeGameplay(window, Save("InGame", sf::Vector2f(save.getPlayerPosition().x, save.getPlayerPosition().y), sf::Vector2u(save.getCurrentMap().x, save.getCurrentMap().y), sf::Vector2u(save.getCurrentMap().x, save.getCurrentMap().y), save.getInventory(), true, true), save.getInventory());
     }
 
     return nullptr;
