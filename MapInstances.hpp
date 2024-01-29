@@ -23,10 +23,9 @@
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}}, \
-                    {(NPC("texture/texture_npc/npcpkmn.png", 8, 13, {"Y'a beaucoup de touriste ces temps ci,\nc'est a en perdre la tete", "Le nouveau concessionnaire fait des ravages"}, "RUDL",{}, 0)), \
-                     (NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut2", "pioupiou", "hello!", "okok"},"RRUUUDDDLL",{},0))}, \
-                     {Obstacle("texture/texture_obstacle/aeroport_tile.png", 1, 1, sf::Vector2u(4,7),2, 4),\
-                      Obstacle("texture/texture_obstacle/avion.png", 1, 5, 0)}, \
+                    {(NPC("texture/texture_npc/npcpkmn.png", 10, 13, {"Y'a beaucoup de touriste ces temps ci,\nc'est a en perdre la tete", "Le nouveau concessionnaire fait des ravages"}, "RUDL",{}, 0)), \
+                     (NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut2", "pioupiou", "hello!", "okok"},"RRLL",{},0))}, \
+                      {Obstacle("texture/texture_obstacle/avion.png", 1, 5, 0)}, \
                     "sound/music/music1.ogg")
 
 #define MAP1 Map({{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},\

@@ -4,8 +4,8 @@
 
 Explication::Explication(sf::RenderWindow& window, Save save, std::string backgroundPath):
     window(window),
-    save(save),
-    expl(true)
+    expl(true),
+    save(save)
     {
     if (!backgroundTexture.loadFromFile(backgroundPath)) {
         std::cerr << "Erreur lors du chargement de l'image de fond" << std::endl;

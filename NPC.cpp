@@ -83,7 +83,7 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
         states.texture = &m_texture; 
         target.draw(m_vertices, states);
     }
-    bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs,Player player, std::vector<Obstacle> obstacles){
+    bool NPC::collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs,Player& player, std::vector<Obstacle> obstacles){
         if (plan[(position.y)][(position.x)] != 0) {return true;}
         if (collision_obstacles(position, obstacles)) {return true;}
         if ((position.x == player.getCurrentPos().x && position.y == player.getCurrentPos().y)) {return true;}
