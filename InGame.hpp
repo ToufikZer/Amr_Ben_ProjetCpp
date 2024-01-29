@@ -24,7 +24,7 @@
 class InGame : public GameState {
 public:
     InGame(sf::RenderWindow& window);
-    InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2f pos_player, sf::Vector2u map_dimension, Inventory inventaire, unsigned int player_direction, std::string objectif_text);
+    InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2f pos_player, sf::Vector2u map_dimension, Inventory inventaire, unsigned int player_direction, std::string objectif_text, bool combat_win);
 
     void handleEvent(sf::Event& event, sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window);
@@ -55,6 +55,7 @@ private:
     Obstacle* obstacleInteracting;
     bool in_house;
     bool labyrinthe;
+    bool combat_win;
     bool backmenu;
 
     void EnterHouseUp();

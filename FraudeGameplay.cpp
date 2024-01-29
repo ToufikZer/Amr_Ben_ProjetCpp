@@ -144,7 +144,7 @@ GameState* FraudeGameplay::getNextState() {
         {
             is_arrived = false;
             // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
-            return new InGame(window, sf::Vector2u(0,1), sf::Vector2f(9,10), sf::Vector2u(16,16), player.getInventory(), 0, "Se rendre au stade");
+            return new InGame(window, sf::Vector2u(0,1), sf::Vector2f(9,10), sf::Vector2u(16,16), player.getInventory(), 0, "Se rendre au stade", save.getCombatWin());
         }
     }
     return nullptr;

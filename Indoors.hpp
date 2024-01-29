@@ -12,10 +12,11 @@
 #include "MapIndoors.hpp"
 #include "InGame.hpp"
 #include "Item.hpp"
+#include "Enigme.hpp"
 
 class Indoors : public GameState {
 public:
-    Indoors(sf::RenderWindow& window, std::string MapName, float pos_player_x, float pos_player_y, Inventory inventaire, std::string objectif_text);
+    Indoors(sf::RenderWindow& window, std::string MapName, float pos_player_x, float pos_player_y, Inventory inventaire, std::string objectif_text, bool combat_win);
 
     void handleEvent(sf::Event& event, sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window);
@@ -41,6 +42,7 @@ private:
     float PlayerSpeed;
     std::vector<MapIndoors> MapList;
     std::string MapName;
+    Enigme enigme;
 
     std::vector<std::string> first_dialogue;
     bool isTalking;
@@ -53,7 +55,10 @@ private:
     bool kitchen;
     bool crous;
     bool room;
+    bool exit_room;
+    bool bagarre;
     bool combat_win;
+    bool enigme_active;
 
     bool has_key(Inventory inventaire);
     bool has_boots(Inventory inventaire);

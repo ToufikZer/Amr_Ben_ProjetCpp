@@ -89,8 +89,8 @@ void Bagarre::update(sf::Time deltaTime, sf::RenderWindow& window) {
         combat_win = true;
     }
 
-    playerHealthBar.setSize(sf::Vector2f(player.getHP(), 10));
-    ennemiHealthBar.setSize(sf::Vector2f(ennemi.getHP(), 10));
+    playerHealthBar.setSize(sf::Vector2f(player.getHP() , 10));
+    ennemiHealthBar.setSize(sf::Vector2f(ennemi.getHP() / 2, 10));
     if(!combat_win && !combat_lose){
         player.update(deltaTime, font, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height ,view, obstacles);
         ennemi.update(deltaTime, font, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height ,view, obstacles, player);
@@ -147,7 +147,7 @@ GameState* Bagarre::getNextState() {
         {
             combat_lose = false;
             // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
-            return new InGame(window, save.getCurrentMap(), save.getPlayerPosition(), save.getmapDimension(), save.getInventory(), 3, "Prend ta revanche !");
+            return new Indoors(window, save.getName(), save.getPlayerPosition().x, save.getPlayerPosition().y, save.getInventory(), "Prend ta revanche !", false);
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
         {
@@ -162,7 +162,7 @@ GameState* Bagarre::getNextState() {
         {
             combat_win = false;
             // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
-            return new InGame(window, sf::Vector2u(0,1), sf::Vector2f(2,3), sf::Vector2u(16,16), player.getInventory(), 0, "Se rendre au CROUS");
+            return new Indoors(window, save.getName(), save.getPlayerPosition().x, save.getPlayerPosition().y, save.getInventory(), "Se rendre a la gare", true);
         }
     }
     return nullptr;

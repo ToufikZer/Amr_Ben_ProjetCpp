@@ -11,14 +11,14 @@ public:
     //     : gameState(state) {}
     Save() = default;
 
-    Save(std::string StateName, sf::Vector2f position, sf::Vector2u map_coords,sf::Vector2u mapDimension, Inventory inventaire, bool game_started)
-        : StateName(StateName), playerPosition(position), map_coords(map_coords), mapDimension(mapDimension), inventaire(inventaire), game_started(game_started) {}
+    Save(std::string StateName, sf::Vector2f position, sf::Vector2u map_coords,sf::Vector2u mapDimension, Inventory inventaire, bool game_started, bool combat_win)
+        : StateName(StateName), playerPosition(position), map_coords(map_coords), mapDimension(mapDimension), inventaire(inventaire), game_started(game_started), combat_win(combat_win) {}
 
-    Save(std::string StateName, sf::Vector2f position, unsigned int nb_pas, sf::Vector2u mapDimension, Inventory inventaire, bool game_started)
-        : StateName(StateName), playerPosition(position), nb_pas(nb_pas), mapDimension(mapDimension), inventaire(inventaire), game_started(game_started) {}
+    Save(std::string StateName, sf::Vector2f position, unsigned int nb_pas, sf::Vector2u mapDimension, Inventory inventaire, bool game_started, bool combat_win)
+        : StateName(StateName), playerPosition(position), nb_pas(nb_pas), mapDimension(mapDimension), inventaire(inventaire), game_started(game_started), combat_win(combat_win) {}
 
-    Save(std::string StateName, sf::Vector2f position, std::string MapName, Inventory inventaire, bool game_started)
-        : StateName(StateName), playerPosition(position), MapName(MapName), inventaire(inventaire), game_started(game_started) {}
+    Save(std::string StateName, sf::Vector2f position, std::string MapName, Inventory inventaire, bool game_started, bool combat_win)
+        : StateName(StateName), playerPosition(position), MapName(MapName), inventaire(inventaire), game_started(game_started), combat_win(combat_win) {}
 
     // Getters pour accéder aux attributs privés
     std::string getStateName() const {
@@ -53,6 +53,10 @@ public:
         return game_started;
     }
 
+    bool getCombatWin(){
+        return combat_win;
+    }
+
     void setGameStarted(bool value){
         game_started = value;
     }
@@ -65,4 +69,5 @@ private:
     std::string MapName;
     Inventory inventaire;
     bool game_started = false;
+    bool combat_win;
 };

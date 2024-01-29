@@ -14,11 +14,12 @@ Item KitchenKnife = Item("KitchenKnife", "Un couteau de cuisine banal", 2, "text
 Item Zanpakuto = Item("Zanpakuto", "Decoupe Mokhtar", 2, "texture/texture_item/knife.png");
 Item Bottes = Item("Bottes", "Cours Forest", 0, "texture/texture_item/bottes.png");
 
-Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player_x, float pos_player_y, Inventory inventaire, std::string objectif_text)
+Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player_x, float pos_player_y, Inventory inventaire, std::string objectif_text, bool combat_win)
     : window(window),
       objectif_text(objectif_text),
       player("texture/texture_char/new_player2.png", pos_player_x, pos_player_y, inventaire),
       MapName(MapName),
+      enigme(Enigme()),
       isTalking(false),
       npcThatWasTalking(nullptr),
       currentMessage(0),
@@ -28,7 +29,10 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
       kitchen(false),
       crous(false),
       room(false),
-      combat_win(false)
+      exit_room(false),
+      bagarre(false),
+      combat_win(combat_win),
+      enigme_active(false)
 {
     MapList.push_back(GARE);
     MapList.push_back(MARIO);
@@ -85,15 +89,18 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                 if (player.collision_NPCs(sf::Vector2f(player.getPosition().x,player.getPosition().y), npc)) {
                     if (npc.getDialogue()[currentMessage] == "EXIT") {
                         back_to_town = true;
-                        // music.stop();
+                    }
+                    if (npc.getDialogue()[currentMessage] == "EXITROOM") {
+                        exit_room = true;
                     }
                     else if (npc.getDialogue()[currentMessage] == "CUISINE"){
                         kitchen = true;
-                        // music.stop();
+                    }
+                    else if (npc.getDialogue()[currentMessage] == "BAGARRE"){
+                        bagarre = true;
                     }
                     else if (has_key(player.getInventory()) && npc.getDialogue()[currentMessage] == "Oh, the doors seems to be half-open"){
                         room = true;
-                        player.getInventory().removeItem(keyRoom);
                     }
                     
                     else if (npc.getDialogue()[currentMessage] == "KEY"){
@@ -107,6 +114,14 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                         break;
                         }
                         else {}
+                    }
+                    else if (npc.getDialogue()[currentMessage] == "ENIGME1"){
+                        enigme_active = true;
+                        enigme = Enigme("Si j'ai 3 pommes et que Charles en a 5, \ncombien a-t-on de pommes ?", 8, font);
+                        enigme.supprimerCaractere();
+                        isTalking = false;
+                        currentMessage = 0;
+                        break;
                     }
                     else if (npc.getDialogue()[currentMessage] == "KNIFE"){
                         first_dialogue = npc.getDialogue();
@@ -215,9 +230,37 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                 backmenu = true;
             }
     }
+    if (event.type == sf::Event::TextEntered) {
+        if (enigme_active) {
+            if (event.text.unicode == 8) {
+                // Supprimer le dernier caractère si la touche de retour arrière est enfoncée
+                enigme.supprimerCaractere();
+            } 
+            else if (event.text.unicode == 13) {
+                // Vérifier la réponse si la touche Entrée est enfoncée
+                if (enigme.verifierReponse()) {
+                    std::cout << "Bonne reponse ! Vous pouvez avancer dans le jeu." << std::endl;
+                    // Ajoutez ici la logique pour faire avancer le jeu en conséquence
+                } else {
+                    std::cout << "Mauvaise reponse. Essayez a nouveau." << std::endl;
+                }
+
+                // Désactiver l'énigme du PNJ
+                enigme_active = false;
+            } 
+            else if (event.text.unicode < 48 || event.text.unicode > 57) {
+
+            } 
+            else {
+                // Ajouter le caractère à la réponse en cours
+                enigme.ajouterCaractere(event.text.unicode);
+            }
+        }
+    }
 }
 
 void Indoors::update(sf::Time deltaTime, sf::RenderWindow& window) {
+    std::cout << combat_win << std::endl;
     player.update(deltaTime, font, backgroundSprite.getGlobalBounds().width,
                   backgroundSprite.getGlobalBounds().height, view, obstacles, NPCs, FloorNumber, isTalking);
     if (player.getPosition().y <= 0.f){
@@ -256,6 +299,11 @@ void Indoors::draw(sf::RenderWindow& window, sf::Event& event) {
         }
     window.draw(objectif);
     player.drawInventory(window, font, view);
+    if (enigme_active) {
+        enigme.setPosition(50,50);
+        enigme.setSize(400,200);
+        enigme.afficher(window);
+    }
     // player.drawInteractText(window, font);
     // Afficher la fenêtre
     window.display();
@@ -264,34 +312,37 @@ void Indoors::draw(sf::RenderWindow& window, sf::Event& event) {
 GameState* Indoors::getNextState() {
     if(backmenu){
         backmenu = false;
-        music.stop( );
-        return new MainMenu(window, Save("InDoors", player.getPosition(), MapName, player.getInventory(), true));
+        return new MainMenu(window, Save("InDoors", player.getPosition(), MapName, player.getInventory(), true, combat_win));
     }
     if (back_to_town){
         back_to_town = false;
-        music.stop();
-        if(combat_win) return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(10,7), sf::Vector2u(16,16), player.getInventory(), 3, "Se rendre a la gare");
-        else return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(3,3), sf::Vector2u(16,16),player.getInventory(), 0, "Se rendre au CROUS");
+        if(combat_win) return new InGame(window, sf::Vector2u(0,3), sf::Vector2f(10,7), sf::Vector2u(16,16), player.getInventory(), 3, "Se rendre a la gare", combat_win);
+        else return new InGame(window, sf::Vector2u(0,3), sf::Vector2f(10,7), sf::Vector2u(16,16),player.getInventory(), 0, "Se rendre au CROUS", combat_win);
     }
     if (next_town){
         next_town = false;
-        music.stop();
-        return new InGame(window, sf::Vector2u(0,0), sf::Vector2f(4,7), sf::Vector2u(16,16),player.getInventory(), 0, "Trouver un moyen de se deplacer");
+        return new InGame(window, sf::Vector2u(0,0), sf::Vector2f(4,7), sf::Vector2u(16,16),player.getInventory(), 0, "Trouver un moyen de se deplacer", combat_win);
     }
     if (crous){
         crous = false;
-        music.stop();
-        return new Indoors(window, "CROUS", 840, 740, player.getInventory(), "Trouver une chambre libre");
+        return new Indoors(window, "CROUS", 840, 740, player.getInventory(), "Trouver une chambre libre", combat_win);
     }
     if (kitchen){
         kitchen = false;
-        music.stop();
-        return new Indoors(window, "KITCHEN", 20, 160, player.getInventory(), "");
+        return new Indoors(window, "KITCHEN", 20, 160, player.getInventory(), "", combat_win);
     }
     if (room){
         room = false;
-        music.stop();
-        return new Indoors(window, "ROOM", 20, 160, player.getInventory(), "C'est l'heure de la BAGARRE");
+        return new Indoors(window, "ROOM", 500, 320, player.getInventory(), "C'est l'heure de la BAGARRE", combat_win);
+    }
+    if (exit_room){
+        exit_room = false;
+        if(combat_win) return new Indoors(window, "CROUS", 80, 740, player.getInventory(), "Se rendre a la gare", combat_win);
+        else return new Indoors(window, "CROUS", 80, 740, player.getInventory(), "Va prendre ta revanche !", combat_win);
+    }
+    if (bagarre){
+        bagarre = false;
+        return new Explication(window, "bagarre", Save("InDoors", player.getPosition(), MapName, player.getInventory(), true, combat_win), "texture/texture_expl/bagarre.png");
     }
     return nullptr;
 }

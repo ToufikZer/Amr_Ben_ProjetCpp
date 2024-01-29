@@ -13,7 +13,7 @@
 
 class Explication : public GameState {
 public:
-    Explication(sf::RenderWindow& window, Save save, std::string backgroundPath);
+    Explication(sf::RenderWindow& window, std::string name, Save save, std::string backgroundPath);
 
     void handleEvent(sf::Event& event, sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window);
@@ -31,5 +31,6 @@ private:
 
     bool backmenu;
     bool expl;
+    std::string name;
     Save save;
 };

@@ -94,5 +94,5 @@ private:
 
     void draw_answer(sf::RenderWindow& window, sf::Event& event, sf::Font& font, float rectangleX, float rectangleWidth, float rectangleY, float rectangleHeight, unsigned int current_answer);
     void drawTriangle(sf::RenderWindow& window, float edge, float pos_x, float pos_y);
-    bool collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs,Player player, std::vector<Obstacle> obstacles);
+    bool collision(sf::Vector2u position, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs,Player& player, std::vector<Obstacle> obstacles);
 };

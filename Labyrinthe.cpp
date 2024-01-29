@@ -173,12 +173,12 @@
         if(backmenu){
             backmenu = false;
             music.stop();
-            return new MainMenu(window, Save("Labyrinthe", sf::Vector2f(player.getPosition().x / 32, player.getPosition().y / 32), player.getNbPas(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true));
+            return new MainMenu(window, Save("Labyrinthe", sf::Vector2f(player.getPosition().x / 32, player.getPosition().y / 32), player.getNbPas(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true, true));
         }
         if(end_lab){
             end_lab = false;
             music.stop();
-            return new InGame(window, sf::Vector2u(0,0), sf::Vector2f(3,3), sf::Vector2u(16,16),player.getInventory(), 0, "Aller en finir avec Annie d'Algo !");
+            return new InGame(window, sf::Vector2u(0,0), sf::Vector2f(3,3), sf::Vector2u(16,16),player.getInventory(), 0, "Aller en finir avec Annie d'Algo !", true);
         }
         return nullptr;
     }

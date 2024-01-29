@@ -23,9 +23,10 @@
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}}, \
-                    {(NPC("texture/texture_npc/npcpkmn.png", 10, 13, {"Y'a beaucoup de touriste ces temps ci,\nc'est a en perdre la tete", "Le nouveau concessionnaire fait des ravages"}, "RUDL",{}, 0)), \
-                     (NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut2", "pioupiou", "hello!", "okok"},"RRLL",{},0))}, \
-                      {Obstacle("texture/texture_obstacle/avion.png", 1, 5, 0)}, \
+                    {(NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Y'a beaucoup de touriste ces temps ci,\nc'est a en perdre la tete", "Le nouveau concessionnaire fait des ravages"}, "RUDL",{}, 0)), \
+                     (NPC("texture/texture_npc/npcpkmn.png", 10, 13, {"Salut2", "pioupiou", "hello!", "okok"},"RRRRUUULLLLDDD",{},0))}, \
+                     {Obstacle("texture/texture_obstacle/aeroport_tile.png", 1, 1, sf::Vector2u(4,7),2, 4),\
+                     Obstacle("texture/texture_obstacle/avion.png", 1, 5, 0)}, \
                     "sound/music/music1.ogg")
 
 #define MAP1 Map({{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},\
@@ -119,11 +120,15 @@
                         "texture/texture_decor/decorgare.jpg", \
                         {(NPC("texture/texture_npc/npc.png", 10, 1, {"Voulez vous manger avec moi?", "QUOI, COMMENT CA NON", "CETAIT UNE PIZZA AU CACA"},"RUUULRRDULLRDDDL",{},1))}, \
                         {(Obstacle("texture/texture_obstacle/invisible_wall.png", 16, 15, 0))}, \
-                        "sound/music/music2.ogg",4,10)
+                        "sound/music/music2.ogg",4,150)
 
 #define MAP6 MapIndoors("ROOM", \
                         "texture/texture_decor/room.png", \
-                        "sound/music/music2.ogg",1,10)
+                        {(NPC("texture/texture_npc/door_invisible.png", 80, 400, {"BAGARRE"},"",{},1)),\
+                         (NPC("texture/texture_npc/door_invisible.png", 500, 320, {"EXITROOM"},"",{},1))}, \
+                        {(Obstacle("texture/texture_obstacle/invisible_wall.png", 10, 5, 0)), \
+                        (Obstacle("texture/texture_obstacle/invisible_wall.png", 0, 5, 0))}, \
+                        "sound/music/music2.ogg",1,150)
 
 #define MAP7 MapIndoors("CROUS", \
                         "texture/texture_decor/crous.png", \
@@ -155,7 +160,7 @@
                         {(NPC("texture/texture_npc/npc_airport.png", 326, 143, {"Salut!", "Tu viens d'arriver?", "QUESTION"}, "", \
                         {Answer("Oui, pk",{"Je dois te prevenir, les taxis sont en greve", "tu vas devoir prendre les transports","Ou bien il y a une agence de location de vehicule qui a ouvert\nTu peux tenter ta chance elle n'est pas loin",  "Il faut que tu prennes a droite, si c'est ferme tu vas\n devoir faire un detour par le haut!"},0), \
                         Answer("non tkt",{"Ah alors tu dois deja savoir ce qu'il se passe\nBon courage!"},1),Answer("maybe",{"Comment ca maybe, pk tu fais le ricain ici?"},2)},1)), \
-                        (NPC("texture/texture_npc/valise.png", 476, 170, {"KNIFE", "Il y a un couteau dans la valise", "Ca pourrait etre utile, on sait jamais..."},"",{},1))}, \
+                        (NPC("texture/texture_npc/valise.png", 476, 170, {"ENIGME1"},"",{},1))}, \
                         {(Obstacle("texture/texture_obstacle/invisible_wall.png", 0, 3, 0))}, \
                         "sound/music/music1.ogg",1,180)
                         

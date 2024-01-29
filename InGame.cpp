@@ -9,7 +9,7 @@ InGame::InGame(sf::RenderWindow& window): window(window){
 
 }
 
-InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2f pos_player, sf::Vector2u map_dimension, Inventory inventaire, unsigned int player_direction, std::string objectif_text)
+InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2f pos_player, sf::Vector2u map_dimension, Inventory inventaire, unsigned int player_direction, std::string objectif_text, bool combat_win)
     : window(window),
       view(sf::Vector2f(player.getPosition().x + 16.f, player.getPosition().y + 16.f), sf::Vector2f(300, 300)),
       objectif_text(objectif_text),
@@ -22,6 +22,7 @@ InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2f p
       obstacleInteracting(nullptr),
       in_house(false),
       labyrinthe(false),
+      combat_win(combat_win),
       backmenu(false)
 {
     view.reset(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y));
@@ -30,6 +31,11 @@ InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2f p
     level = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getLevel();
     NPCs = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getNPCs();
     obstacles = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getObstacles();
+    if (combat_win && currentmap.x == 0 && currentmap.y == 3) {
+        std::cout << "ok" << std::endl;
+        level[7][15] = 0;
+        level[8][15] = 0;
+    }
 
     objectif.setPosition(sf::Vector2f(window.getSize().x * 0.7, window.getSize().y*0.01));
     objectif.setCharacterSize(window.getSize().x * 0.02);
@@ -170,14 +176,9 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
 
 
 void InGame::update(sf::Time deltaTime,sf::RenderWindow& window) {
+    std::cout << combat_win << std::endl;
     player.update(deltaTime, map, view, level, NPCs, obstacles, isTalking);
-    // if (player.getWallColl()) 
-    //     {
-    //     player.setWallColl(false);
-    //     bump_sound.setBuffer(buffer_bump);
-    //     bump_sound.setVolume(7);
-    //     bump_sound.play();
-    //     }
+
     for (NPC& npc : NPCs) {
         npc.update(player, deltaTime, map.getWidth(), map.getHeight(), level, NPCs, obstacles);
         CheckChangeMap(player.getCurrentPos());
@@ -218,26 +219,25 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
     if(backmenu){
         backmenu = false;
         music.stop( );
-        return new MainMenu(window, Save("InGame", sf::Vector2f(player.getPosition().x / 32, player.getPosition().y / 32),maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true));
+        return new MainMenu(window, Save("InGame", sf::Vector2f(player.getPosition().x / 32, player.getPosition().y / 32),maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true, combat_win));
     }
     if(labyrinthe){
         labyrinthe = false;
         music.stop( );
         player.ResetNbPas();
-        return new Explication(window, Save("InGame", sf::Vector2f(player.getCurrentPos().x, player.getCurrentPos().y), maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true), "texture/texture_expl/bagarre.png");
+        return new Explication(window, "lab", Save("InGame", sf::Vector2f(player.getCurrentPos().x, player.getCurrentPos().y), maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true, combat_win), "texture/texture_expl/fraude.png");
     }
     if(in_house){
         music.stop();
         in_house = false;
         if (obstacleInteracting != nullptr) {
             if (obstacleInteracting->getId() != 0){
-                if (obstacleInteracting->getId() == 1) return new Indoors(window, "CROUS", 64.f, 140.f, player.getInventory(), "Trouver une chambre libre");
-                if (obstacleInteracting->getId() == 2) return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(10,7), sf::Vector2u(16,16), player.getInventory(), 3, "");
-                if (obstacleInteracting->getId() == 3) return new InGame_CarGameplay(window, Save("InGame", sf::Vector2f(player.getCurrentPos().x, player.getCurrentPos().y), maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true), player.getInventory());
-                if (obstacleInteracting->getId() == 4) return new Indoors(window, "AIRPORT", 500, 120, player.getInventory(), "Trouver un moyen de se deplacer");
+                if (obstacleInteracting->getId() == 1) return new Indoors(window, "CROUS", 64.f, 140.f, player.getInventory(), "Trouver une chambre libre", combat_win);
+                if (obstacleInteracting->getId() == 2) return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(10,7), sf::Vector2u(16,16), player.getInventory(), 3, "", combat_win);
+                if (obstacleInteracting->getId() == 3) return new InGame_CarGameplay(window, Save("InGame", sf::Vector2f(player.getCurrentPos().x, player.getCurrentPos().y), maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true, combat_win), player.getInventory());
+                if (obstacleInteracting->getId() == 4) return new Indoors(window, "AIRPORT", 500, 120, player.getInventory(), "Trouver un moyen de se deplacer", combat_win);
             }
         }
-        else std::cerr << "error obstacle interacting is NULL" << std::endl;
     }
     return nullptr;
 }

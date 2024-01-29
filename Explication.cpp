@@ -2,9 +2,10 @@
 #include "Explication.hpp"
 
 
-Explication::Explication(sf::RenderWindow& window, Save save, std::string backgroundPath):
+Explication::Explication(sf::RenderWindow& window, std::string name, Save save, std::string backgroundPath):
     window(window),
     expl(true),
+    name(name),
     save(save)
     {
     if (!backgroundTexture.loadFromFile(backgroundPath)) {
@@ -38,7 +39,8 @@ void Explication::draw(sf::RenderWindow& window, sf::Event& event){
 GameState* Explication::getNextState(){
     if(!expl){
         expl = true;
-        return new Bagarre(window, save, save.getInventory(), "texture/texture_decor/2Qpng.png", 2, 20, 1500, 100);
+        if(name == "lab") return new Labyrinthe(window, 0, sf::Vector2f(15,10), sf::Vector2u(31,21), save.getInventory(), 3);      
+        else if(name == "bagarre") return new Bagarre(window, save, save.getInventory(), "texture/texture_decor/2Qpng.png", 2, 20, 1500, 200);
     }
 
     return nullptr;
