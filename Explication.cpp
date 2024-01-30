@@ -41,11 +41,11 @@ GameState* Explication::getNextState(){
     if(!expl){
         expl = true;
         if(name == "lab") return new Labyrinthe(window, 0, sf::Vector2f(15,10), sf::Vector2u(31,21), save.getInventory(), 3);      
-        else if(name == "bagarre") return new Bagarre(window, save, save.getInventory(), "texture/texture_decor/2Qpng.png", 8, 20, 800, 400, 0);
+        else if(name == "bagarre") return new Bagarre(window, save, save.getInventory(), "texture/texture_decor/2Qpng.png", 8, 20, 800, 400, 0, false);
         // POUR ANNIE D'ALGOAT 
-        else if(name == "bagarre_2") return new Bagarre(window, save, save.getInventory(), "texture/texture_decor/2Qpng.png", 8, 40, 500, 800, 1);
-        else if(name == "car") return new InGame_CarGameplay(window, save, save.getInventory());
-        else if(name == "fraude") return new FraudeGameplay(window, save, save.getInventory());
+        else if(name == "bagarre_2") return new Bagarre(window, save, save.getInventory(), "texture/texture_decor/2Qpng.png", 8, 40, 500, 800, 1, false);
+        else if(name == "car") return new InGame_CarGameplay(window, save, save.getInventory(), false);
+        else if(name == "fraude") return new FraudeGameplay(window, save, save.getInventory(), false);
         else if(name == "start") return new Indoors(window, "AIRPORT", 40, 120, Inventory(), "Trouver un endroit ou dormir", false);
     }
 

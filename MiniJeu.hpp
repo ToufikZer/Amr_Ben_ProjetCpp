@@ -26,32 +26,33 @@ private:
     sf::Texture backgroundTexture;
     sf::Sprite backgroundSprite;
     sf::Text titleText;
-    sf::Text continueText;
-    sf::Text startText;
+    sf::Text carText;
+    sf::Text fraudeText;
     sf::Text exitText;
-    sf::Text ctrlText;
+    sf::Text bagarreText;
 
     int selectedOption;
-    bool start_game;                // dit si on doit entrer dans InGame
-    bool continue_game;              //dit si on continue la partie 
+    bool bagarre_game;
+    bool car_game;              //dit si on continue la partie 
+    bool fraude_game;                // dit si on doit entrer dans InGame
     bool keyboard_pressed;          // permet de verifier si le clavier a été pressé pour figer la sélection dans le menu sinon ca highlight que pendant une frame
 
 
     Save save;
 
-    void Detect_Continue(sf::RenderWindow& window);
-    void Detect_Start(sf::RenderWindow& window);
+    void Detect_Car(sf::RenderWindow& window);
+    void Detect_Fraude(sf::RenderWindow& window);
     void Detect_Exit(sf::RenderWindow& window);
-    void Detect_Ctrl(sf::RenderWindow& window);
+    void Detect_Bagarre(sf::RenderWindow& window);
     void moveUp();
     void moveDown();
     void executeOption();
-    void HighlightContinue();
-    void ResetContinue();
-    void HighlightStart();
-    void ResetStart();
-    void HighlightCtrl();
-    void ResetCtrl();
+    void HighlightCar();
+    void ResetCar();
+    void HighlightFraude();
+    void ResetFraude();
+    void HighlightBagarre();
+    void ResetBagarre();
     void HighlightExit();
     void ResetExit();
 };

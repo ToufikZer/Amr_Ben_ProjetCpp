@@ -20,7 +20,7 @@
 
 class Bagarre : public GameState {
 public:
-    Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std::string backgroundPath, float ennemi_attack_speed, unsigned int ennemi_degats, int attack_delay, int HP, int id_bagarre);
+    Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std::string backgroundPath, float ennemi_attack_speed, unsigned int ennemi_degats, int attack_delay, int HP, int id_bagarre, bool minijeu);
 
     void handleEvent(sf::Event& event, sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window);
@@ -50,4 +50,5 @@ private:
     bool combat_lose;
     bool combat_win;
     int id_bagarre;
+    bool minijeu;
 };

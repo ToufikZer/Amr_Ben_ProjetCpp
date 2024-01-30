@@ -18,7 +18,7 @@
 
 class FraudeGameplay : public GameState {
 public:
-    FraudeGameplay(sf::RenderWindow& window, Save save, Inventory inventaire);
+    FraudeGameplay(sf::RenderWindow& window, Save save, Inventory inventaire, bool minijeu);
 
     void handleEvent(sf::Event& event, sf::RenderWindow& window);
     void update(sf::Time deltaTime, sf::RenderWindow& window);
@@ -42,4 +42,5 @@ private:
     bool backmenu;
     Save save;
     bool is_arrived;
+    bool minijeu;
 };

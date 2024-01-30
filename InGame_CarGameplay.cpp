@@ -3,13 +3,14 @@
 #include "InGame.hpp"
 #include <iostream>
 
-InGame_CarGameplay::InGame_CarGameplay(sf::RenderWindow& window, Save save, Inventory inventaire)
+InGame_CarGameplay::InGame_CarGameplay(sf::RenderWindow& window, Save save, Inventory inventaire, bool minijeu)
     : window(window),
       map(sf::Vector2u(216, 9)),
       player("texture/texture_char/cars_tileset.png", 8, 4, inventaire),
       backmenu(false),
       save(save),
-      is_arrived(false)
+      is_arrived(false),
+      minijeu(minijeu)
 {
     if (!font.loadFromFile("font/arial.ttf")) {
         std::cerr << "Erreur lors du chargement de la police" << std::endl;
@@ -163,13 +164,14 @@ GameState* InGame_CarGameplay::getNextState() {
     if(backmenu){
         backmenu = false;
         music.stop( );
-        return new MainMenu(window, save);
+        if(!minijeu) return new MainMenu(window, save);
+        else return new MiniJeu(window, save);
     }
     if (player.getCrash()){
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
             player.setCrash(false);
-            return new InGame_CarGameplay(window,save, player.getInventory());
+            return new InGame_CarGameplay(window,save, player.getInventory(), minijeu);
         }
     }
     if (is_arrived){
@@ -178,7 +180,8 @@ GameState* InGame_CarGameplay::getNextState() {
             is_arrived = false;
             player.getInventory().setMoney(0);
             // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
-            return new InGame(window, sf::Vector2u(0,1), sf::Vector2f(2,3), sf::Vector2u(16,16), player.getInventory(), 0, "Se rendre au CROUS", save.getCombatWin());
+            if(!minijeu) return new InGame(window, sf::Vector2u(0,1), sf::Vector2f(2,3), sf::Vector2u(16,16), player.getInventory(), 0, "Se rendre au CROUS", save.getCombatWin());
+            else return new MiniJeu(window, save);
         }
     }
     return nullptr;

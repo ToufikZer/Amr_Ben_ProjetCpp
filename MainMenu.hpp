@@ -29,11 +29,9 @@ private:
     sf::Text continueText;
     sf::Text startText;
     sf::Text exitText;
-    sf::Text ctrlText;
 
     int selectedOption;
     bool start_game;                // dit si on doit entrer dans InGame
-    bool minijeu;                  // dit si on doit entrer dans les controles de keybind
     bool continue_game;              //dit si on continue la partie 
     bool keyboard_pressed;          // permet de verifier si le clavier a été pressé pour figer la sélection dans le menu sinon ca highlight que pendant une frame
 
@@ -43,7 +41,6 @@ private:
     void Detect_Continue(sf::RenderWindow& window);
     void Detect_Start(sf::RenderWindow& window);
     void Detect_Exit(sf::RenderWindow& window);
-    void Detect_Ctrl(sf::RenderWindow& window);
     void moveUp();
     void moveDown();
     void executeOption();
@@ -51,8 +48,6 @@ private:
     void ResetContinue();
     void HighlightStart();
     void ResetStart();
-    void HighlightCtrl();
-    void ResetCtrl();
     void HighlightExit();
     void ResetExit();
 };

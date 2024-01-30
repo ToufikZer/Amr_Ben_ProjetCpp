@@ -3,13 +3,14 @@
 #include "InGame.hpp"
 #include <iostream>
 
-FraudeGameplay::FraudeGameplay(sf::RenderWindow& window, Save save, Inventory inventaire)
+FraudeGameplay::FraudeGameplay(sf::RenderWindow& window, Save save, Inventory inventaire, bool minijeu)
     : window(window),
       map(sf::Vector2u(216, 9)),
       player("texture/texture_char/fraudeur.png", 8, 4, inventaire),
       backmenu(false),
       save(save),
-      is_arrived(false)
+      is_arrived(false),
+      minijeu(minijeu)
 {
     if (!font.loadFromFile("font/arial.ttf")) {
         std::cerr << "Erreur lors du chargement de la police" << std::endl;
@@ -168,15 +169,16 @@ GameState* FraudeGameplay::getNextState() {
     if(backmenu){
         backmenu = false;
         music.stop( );
-        return new MainMenu(window, save);
+        if(!minijeu) return new MainMenu(window, save);
+        else return new MiniJeu(window, save);
     }
     if (player.getCrash()){
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
         {
             player.setCrash(false);
-            return new FraudeGameplay(window,save, player.getInventory());
+            return new FraudeGameplay(window,save, player.getInventory(), minijeu);
         }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        if((sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) && !minijeu)
         {
             player.setCrash(false);
             return new Indoors(window, save.getName(), save.getPlayerPosition().x, save.getPlayerPosition().y, save.getInventory(), "Frauder ou voler", save.getCombatWin());
@@ -187,7 +189,8 @@ GameState* FraudeGameplay::getNextState() {
         {
             is_arrived = false;
             // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
-            return new InGame(window, sf::Vector2u(0,1), sf::Vector2f(9,10), sf::Vector2u(16,16), player.getInventory(), 0, "Se rendre au stade", save.getCombatWin());
+            if(!minijeu) return new InGame(window, sf::Vector2u(0,1), sf::Vector2f(9,10), sf::Vector2u(16,16), player.getInventory(), 0, "Se rendre au stade", save.getCombatWin());
+            else return new MiniJeu(window, save);
         }
     }
     return nullptr;

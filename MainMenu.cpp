@@ -6,7 +6,6 @@ MainMenu::MainMenu(sf::RenderWindow& window, Save save)
     : window(window),
       selectedOption(0),
       start_game(false),
-      minijeu(false),
       continue_game(false),
       keyboard_pressed(false),
       save(save) {
@@ -36,10 +35,6 @@ MainMenu::MainMenu(sf::RenderWindow& window, Save save)
     startText.setString("Nouvelle Partie");
     ResetStart();
 
-    ctrlText.setFont(font);
-    ctrlText.setString("Controles");
-    ResetCtrl();
-
     exitText.setFont(font);
     exitText.setString("Quitter");
     ResetExit();
@@ -63,10 +58,6 @@ void MainMenu::handleEvent(sf::Event& event, sf::RenderWindow& window) {
             if (exitText.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))
             {
                 window.close();
-            }
-            if (ctrlText.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))
-            {
-                minijeu = true;
             }
         }
     }
@@ -123,23 +114,6 @@ void MainMenu::Detect_Start(sf::RenderWindow& window){
     }
 }
 
-void MainMenu::Detect_Ctrl(sf::RenderWindow& window){
-    sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
-    if (ctrlText.getGlobalBounds().contains(mousePosition.x,mousePosition.y))
-    {
-        keyboard_pressed = false;
-        selectedOption = 2;
-        HighlightCtrl();
-    }
-    else{
-        if (!keyboard_pressed)
-        {
-        selectedOption = 0;
-        ResetCtrl();
-        }
-    }
-}
-
 void MainMenu::Detect_Exit(sf::RenderWindow& window){
     sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
     if (exitText.getGlobalBounds().contains(mousePosition.x,mousePosition.y))
@@ -161,7 +135,6 @@ void MainMenu::Detect_Exit(sf::RenderWindow& window){
 void MainMenu::update(sf::Time deltaTime, sf::RenderWindow& window) {
     // On permet a l'utilisateur de detecter au clavier et a la souris en meme temps prcq sinon ca reset keyboard_pressed
         if (selectedOption != 3) Detect_Start(window);
-        if (selectedOption != 2) Detect_Ctrl(window);
         if (selectedOption != 1) Detect_Exit(window);
         if (selectedOption != -1 && save.getGameStarted()) Detect_Continue(window);
         }
@@ -174,7 +147,6 @@ void MainMenu::draw(sf::RenderWindow& window, sf::Event& event) {
     window.draw(continueText);
     window.draw(startText);
     window.draw(exitText);
-    window.draw(ctrlText);
     window.display();
 }
 
@@ -188,10 +160,6 @@ GameState* MainMenu::getNextState() {
         if (save.getStateName() == "InGame") return new InGame(window, save.getCurrentMap(), save.getPlayerPosition(), save.getmapDimension(), save.getInventory(), 3, "Easter egg : Cherchez bien vous\npourrez trouver des objets utiles", save.getCombatWin());
         if (save.getStateName() == "InDoors") return new Indoors(window, save.getName(), save.getPlayerPosition().x, save.getPlayerPosition().y, save.getInventory(), "Easter Egg : On travaille \nsur une V2", save.getCombatWin());
         if (save.getStateName() == "Labyrinthe") return new Labyrinthe(window, save.getNbPas(), sf::Vector2f(save.getPlayerPosition().x, save.getPlayerPosition().y), save.getmapDimension(), save.getInventory(), 3);
-    }
-    else if (minijeu) {
-        minijeu = false;
-        return new MiniJeu(window, save);
     }
     return nullptr;
 }
@@ -209,13 +177,8 @@ void MainMenu::moveUp(){
     selectedOption = 3;
     break;
     case 1:
-    HighlightCtrl();
-    ResetExit();
-    selectedOption = 2;
-    break;
-    case 2:
     HighlightStart();
-    ResetCtrl();
+    ResetExit();
     selectedOption = 3;
     break;
     case 3:
@@ -236,13 +199,8 @@ void MainMenu::moveDown(){
     selectedOption = 3;
     break;
     case 3:
-    HighlightCtrl();
-    ResetStart();
-    selectedOption = 2;
-    break;
-    case 2:
     HighlightExit();
-    ResetCtrl();
+    ResetStart();
     selectedOption = 1;
     break;
     case -1:
@@ -260,7 +218,6 @@ void MainMenu::moveDown(){
 void MainMenu::executeOption(){
     if (selectedOption == -1) continue_game = true;
     if (selectedOption == 3) start_game = true;
-    if (selectedOption == 2) minijeu = true;
     if (selectedOption == 1) window.close();
 }
 
@@ -287,18 +244,6 @@ void MainMenu::ResetStart(){
     startText.setCharacterSize(44);
     startText.setPosition(view.getSize().x*0.43, 0.44*view.getSize().y);
     startText.setFillColor(sf::Color(50,200,50,250));
-}
-
-void MainMenu::HighlightCtrl(){
-    ctrlText.setCharacterSize(50);
-    ctrlText.setFillColor(sf::Color(200,200,50,250));
-    ctrlText.setPosition(view.getSize().x*0.43, 0.54*view.getSize().y);
-}
-
-void MainMenu::ResetCtrl(){
-    ctrlText.setCharacterSize(44);
-    ctrlText.setPosition(view.getSize().x*0.43, 0.55*view.getSize().y);
-    ctrlText.setFillColor(sf::Color(200,150,150,250));
 }
 
 void MainMenu::HighlightExit(){

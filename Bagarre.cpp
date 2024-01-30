@@ -3,7 +3,7 @@
 #include "InGame.hpp"
 #include <iostream>
 
-Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std::string backgroundPath, float ennemi_attack_speed, unsigned int ennemi_degats, int attack_delay, int HP, int id_bagarre)
+Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std::string backgroundPath, float ennemi_attack_speed, unsigned int ennemi_degats, int attack_delay, int HP, int id_bagarre, bool minijeu)
     : window(window),
       player("texture/texture_char/new_player2.png", 260, 200, inventaire),
       ennemi("texture/texture_char/new_player2.png", 260, 0, ennemi_attack_speed, ennemi_degats, attack_delay, HP),
@@ -11,7 +11,8 @@ Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std:
       save(save),
       combat_lose(false),
       combat_win(false),
-      id_bagarre(id_bagarre)
+      id_bagarre(id_bagarre),
+      minijeu(minijeu)
 {
     if (!font.loadFromFile("font/arial.ttf")) {
         std::cerr << "Erreur lors du chargement de la police" << std::endl;
@@ -144,10 +145,11 @@ GameState* Bagarre::getNextState() {
     if(backmenu){
         backmenu = false;
         music.stop( );
-        return new MainMenu(window, save);
+        if(!minijeu) return new MainMenu(window, save);
+        else return new MiniJeu(window, save);
     }
     if(combat_lose){
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        if((sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) && !minijeu)
         {
             combat_lose = false;
             // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
@@ -157,7 +159,7 @@ GameState* Bagarre::getNextState() {
         {
             combat_lose = false;
             // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
-            return new Bagarre(window, save, player.getInventory(), "texture/texture_decor/2Qpng.png", ennemi.getAttackSpeed(), ennemi.getDegats(), ennemi.getAttackDelay(), ennemi.getHP(), id_bagarre);
+            return new Bagarre(window, save, player.getInventory(), "texture/texture_decor/2Qpng.png", ennemi.getAttackSpeed(), ennemi.getDegats(), ennemi.getAttackDelay(), ennemi.getHP(), id_bagarre, minijeu);
         }
     }
     
@@ -165,9 +167,11 @@ GameState* Bagarre::getNextState() {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
             combat_win = false;
-            // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
-            if(id_bagarre != 1) return new Indoors(window, save.getName(), save.getPlayerPosition().x, save.getPlayerPosition().y, save.getInventory(), "Se rendre a la gare", true);
-            else return new MainMenu(window, Save());
+            if(!minijeu){
+                if(id_bagarre != 1) return new Indoors(window, save.getName(), save.getPlayerPosition().x, save.getPlayerPosition().y, save.getInventory(), "Se rendre a la gare", true);
+                else return new MiniJeu(window, Save());
+            }
+            else return new MiniJeu(window, save);
         }
     }
     return nullptr;

@@ -5,8 +5,9 @@
 MiniJeu::MiniJeu(sf::RenderWindow& window, Save save)
     : window(window),
       selectedOption(0),
-      start_game(false),
-      continue_game(false),
+      bagarre_game(false),
+      car_game(false),
+      fraude_game(false),
       keyboard_pressed(false),
       save(save) {
     if (!font.loadFromFile("font/Aller_Rg.ttf")) {
@@ -27,17 +28,17 @@ MiniJeu::MiniJeu(sf::RenderWindow& window, Save save)
     titleText.setPosition(view.getSize().x / 2 - titleText.getGlobalBounds().width / 2 + 20.f, 50);
     titleText.setFillColor(sf::Color(50,50,200,250));
 
-    continueText.setFont(font);
-    continueText.setString("Continuer");
-    ResetContinue();
+    bagarreText.setFont(font);
+    bagarreText.setString("Jeu de Bagarre");
+    ResetBagarre();
 
-    startText.setFont(font);
-    startText.setString("Nouvelle Partie");
-    ResetStart();
+    carText.setFont(font);
+    carText.setString("Jeu de course");
+    ResetCar();
 
-    ctrlText.setFont(font);
-    ctrlText.setString("Controles");
-    ResetCtrl();
+    fraudeText.setFont(font);
+    fraudeText.setString("Jeu de la fraude");
+    ResetFraude();
 
     exitText.setFont(font);
     exitText.setString("Quitter");
@@ -51,21 +52,21 @@ void MiniJeu::handleEvent(sf::Event& event, sf::RenderWindow& window) {
     {
         if (event.mouseButton.button == sf::Mouse::Left)
         {
-            if (continueText.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y) && save.getGameStarted())
+            if (bagarreText.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))
             {
-                continue_game = true;
+                bagarre_game = true;
             }
-            if (startText.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))
+            if (carText.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))
             {
-                start_game = true;
+                car_game = true;
             }
             if (exitText.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))
             {
                 window.close();
             }
-            if (ctrlText.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))
+            if (fraudeText.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))
             {
-                // MiniJeu = true;
+                fraude_game = true;
             }
         }
     }
@@ -88,53 +89,53 @@ void MiniJeu::handleEvent(sf::Event& event, sf::RenderWindow& window) {
     }
 }
 
-void MiniJeu::Detect_Continue(sf::RenderWindow& window){
+void MiniJeu::Detect_Bagarre(sf::RenderWindow& window){
     sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
-    if (continueText.getGlobalBounds().contains(mousePosition.x,mousePosition.y))
+    if (bagarreText.getGlobalBounds().contains(mousePosition.x,mousePosition.y))
     {
         keyboard_pressed = false;
         selectedOption = -1;
-        HighlightContinue();
+        HighlightBagarre();
     }
     else{
         if (!keyboard_pressed)
         {
         selectedOption = 0;
-        ResetContinue();
+        ResetBagarre();
         }
     }
 }
 
-void MiniJeu::Detect_Start(sf::RenderWindow& window){
+void MiniJeu::Detect_Car(sf::RenderWindow& window){
     sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
-    if (startText.getGlobalBounds().contains(mousePosition.x,mousePosition.y))
+    if (carText.getGlobalBounds().contains(mousePosition.x,mousePosition.y))
     {
         keyboard_pressed = false;
         selectedOption = 3;
-        HighlightStart();
+        HighlightCar();
     }
     else{
         if (!keyboard_pressed)
         {
         selectedOption = 0;
-        ResetStart();
+        ResetCar();
         }
     }
 }
 
-void MiniJeu::Detect_Ctrl(sf::RenderWindow& window){
+void MiniJeu::Detect_Fraude(sf::RenderWindow& window){
     sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
-    if (ctrlText.getGlobalBounds().contains(mousePosition.x,mousePosition.y))
+    if (fraudeText.getGlobalBounds().contains(mousePosition.x,mousePosition.y))
     {
         keyboard_pressed = false;
         selectedOption = 2;
-        HighlightCtrl();
+        HighlightFraude();
     }
     else{
         if (!keyboard_pressed)
         {
         selectedOption = 0;
-        ResetCtrl();
+        ResetFraude();
         }
     }
 }
@@ -159,10 +160,10 @@ void MiniJeu::Detect_Exit(sf::RenderWindow& window){
 
 void MiniJeu::update(sf::Time deltaTime, sf::RenderWindow& window) {
     // On permet a l'utilisateur de detecter au clavier et a la souris en meme temps prcq sinon ca reset keyboard_pressed
-        if (selectedOption != 3) Detect_Start(window);
-        if (selectedOption != 2) Detect_Ctrl(window);
+        if (selectedOption != 3) Detect_Car(window);
+        if (selectedOption != 2) Detect_Fraude(window);
         if (selectedOption != 1) Detect_Exit(window);
-        if (selectedOption != -1 && save.getGameStarted()) Detect_Continue(window);
+        if (selectedOption != -1) Detect_Bagarre(window);
         }
 
 void MiniJeu::draw(sf::RenderWindow& window, sf::Event& event) {
@@ -170,28 +171,26 @@ void MiniJeu::draw(sf::RenderWindow& window, sf::Event& event) {
     window.setView(view);
     window.draw(backgroundSprite);
     window.draw(titleText);
-    window.draw(continueText);
-    window.draw(startText);
+    window.draw(bagarreText);
+    window.draw(carText);
     window.draw(exitText);
-    window.draw(ctrlText);
+    window.draw(fraudeText);
     window.display();
 }
 
 GameState* MiniJeu::getNextState() {
-    if(start_game){
-        start_game = false;
-        return new PseudoInterface(window, save);
+    if(car_game){
+        car_game = false;
+        return new InGame_CarGameplay(window, save, save.getInventory(), true);
     }
-    else if(continue_game){
-        continue_game = false;
-        if (save.getStateName() == "InGame") return new InGame(window, save.getCurrentMap(), save.getPlayerPosition(), save.getmapDimension(), save.getInventory(), 3, "Easter egg : Cherchez bien vous\npourrez trouver des objets utiles", save.getCombatWin());
-        if (save.getStateName() == "InDoors") return new Indoors(window, save.getName(), save.getPlayerPosition().x, save.getPlayerPosition().y, save.getInventory(), "Easter Egg : On travaille \nsur une V2", save.getCombatWin());
-        if (save.getStateName() == "Labyrinthe") return new Labyrinthe(window, save.getNbPas(), sf::Vector2f(save.getPlayerPosition().x, save.getPlayerPosition().y), save.getmapDimension(), save.getInventory(), 3);
+    else if(fraude_game){
+        fraude_game = false;
+        return new FraudeGameplay(window, save, save.getInventory(), true);
     }
-    // else if (MiniJeu) {
-    //     MiniJeu = false;
-    //     return new MiniJeu(window, save);
-    // }
+    else if(bagarre_game){
+        bagarre_game = false;
+        return new Bagarre(window, save, save.getInventory(), "texture/texture_decor/2Qpng.png", 8, 40, 500, 800, 1, true);
+    }
     return nullptr;
 }
 
@@ -204,26 +203,24 @@ void MiniJeu::moveUp(){
     switch(selectedOption)
     {
     case 0:
-    HighlightStart();
+    HighlightCar();
     selectedOption = 3;
     break;
     case 1:
-    HighlightCtrl();
+    HighlightFraude();
     ResetExit();
     selectedOption = 2;
     break;
     case 2:
-    HighlightStart();
-    ResetCtrl();
+    HighlightCar();
+    ResetFraude();
     selectedOption = 3;
     break;
     case 3:
-    if (save.getGameStarted()) {
-        HighlightContinue();
-        ResetStart();
-        selectedOption = -1;
-        break;
-        }
+    HighlightBagarre();
+    ResetCar();
+    selectedOption = -1;
+    break;
     }
     // consequence du clavier si on presse Down
 }
@@ -231,73 +228,70 @@ void MiniJeu::moveDown(){
     switch(selectedOption)
     {
     case 0:
-    HighlightStart();
+    HighlightCar();
     selectedOption = 3;
     break;
     case 3:
-    HighlightCtrl();
-    ResetStart();
+    HighlightFraude();
+    ResetCar();
     selectedOption = 2;
     break;
     case 2:
     HighlightExit();
-    ResetCtrl();
+    ResetFraude();
     selectedOption = 1;
     break;
     case -1:
-    if (save.getGameStarted()) {
-        HighlightStart();
-        ResetContinue();
-        selectedOption = 3;
-        break;
-        }
+    HighlightCar();
+    ResetBagarre();
+    selectedOption = 3;
+    break;
     }
 }
 
 // consequence du clavier si on presse Enter
 
 void MiniJeu::executeOption(){
-    if (selectedOption == -1) continue_game = true;
-    if (selectedOption == 3) start_game = true;
-    // if (selectedOption == 2) MiniJeu = true;
+    if (selectedOption == -1) bagarre_game = true;
+    if (selectedOption == 3) car_game = true;
+    if (selectedOption == 2) fraude_game = true;
     if (selectedOption == 1) window.close();
 }
 
-void MiniJeu::HighlightContinue(){
-    continueText.setCharacterSize(50);
-    continueText.setFillColor(sf::Color(200,200,50,250));
-    continueText.setPosition(view.getSize().x*0.43, 0.32*view.getSize().y);
+void MiniJeu::HighlightBagarre(){
+    bagarreText.setCharacterSize(50);
+    bagarreText.setFillColor(sf::Color(200,200,50,250));
+    bagarreText.setPosition(view.getSize().x*0.43, 0.32*view.getSize().y);
 }
 
-void MiniJeu::ResetContinue(){
-    continueText.setCharacterSize(44);
-    continueText.setPosition(view.getSize().x*0.43, 0.33*view.getSize().y);
-    if (save.getGameStarted()) continueText.setFillColor(sf::Color(220,220,220,250));
-    else continueText.setFillColor(sf::Color(100,100,100,150));
+void MiniJeu::ResetBagarre(){
+    bagarreText.setCharacterSize(44);
+    bagarreText.setPosition(view.getSize().x*0.43, 0.33*view.getSize().y);
+    bagarreText.setFillColor(sf::Color(220,220,220,250));
 }
 
-void MiniJeu::HighlightStart(){
-    startText.setCharacterSize(50);
-    startText.setFillColor(sf::Color(200,200,50,250));
-    startText.setPosition(view.getSize().x*0.43, 0.43*view.getSize().y);
+void MiniJeu::HighlightCar(){
+    carText.setCharacterSize(50);
+    carText.setFillColor(sf::Color(200,200,50,250));
+    carText.setPosition(view.getSize().x*0.43, 0.43*view.getSize().y);
 }
 
-void MiniJeu::ResetStart(){
-    startText.setCharacterSize(44);
-    startText.setPosition(view.getSize().x*0.43, 0.44*view.getSize().y);
-    startText.setFillColor(sf::Color(50,200,50,250));
+void MiniJeu::ResetCar(){
+    carText.setCharacterSize(44);
+    carText.setPosition(view.getSize().x*0.43, 0.44*view.getSize().y);
+    carText.setFillColor(sf::Color(50,200,50,250));
 }
 
-void MiniJeu::HighlightCtrl(){
-    ctrlText.setCharacterSize(50);
-    ctrlText.setFillColor(sf::Color(200,200,50,250));
-    ctrlText.setPosition(view.getSize().x*0.43, 0.54*view.getSize().y);
+void MiniJeu::HighlightFraude(){
+    fraudeText.setCharacterSize(50);
+    fraudeText.setFillColor(sf::Color(200,200,50,250));
+    fraudeText.setPosition(view.getSize().x*0.43, 0.54*view.getSize().y);
 }
 
-void MiniJeu::ResetCtrl(){
-    ctrlText.setCharacterSize(44);
-    ctrlText.setPosition(view.getSize().x*0.43, 0.55*view.getSize().y);
-    ctrlText.setFillColor(sf::Color(200,150,150,250));
+void MiniJeu::ResetFraude(){
+    fraudeText.setCharacterSize(44);
+    fraudeText.setPosition(view.getSize().x*0.43, 0.55*view.getSize().y);
+    fraudeText.setFillColor(sf::Color(200,150,150,250));
 }
 
 void MiniJeu::HighlightExit(){
