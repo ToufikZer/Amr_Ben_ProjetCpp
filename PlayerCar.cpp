@@ -9,7 +9,7 @@
 
 PlayerCar::PlayerCar(const std::string &texturePath, unsigned int pos_x, unsigned int pos_y, Inventory inventaire) :
     crash(false),
-    speed(0.2),
+    speed(5),
     inventaire(inventaire)
     {
 
@@ -67,9 +67,9 @@ bool PlayerCar::collision_obstacles(sf::Vector2f position, std::vector<Obstacle>
 void PlayerCar::update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, 
                        sf::View& view, std::vector<std::vector<int>> plan, std::vector<Obstacle> obstacles){
     if(!collision_obstacles(getPosition(),obstacles ) && !crash){
-        float speedIncrease = 0.2;
+        float speedIncrease = 0.1;
         move(speed ,0.f);
-        speed += speedIncrease;
+        if (speed < 25) speed += speedIncrease;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
             if (in_map(map_width, map_height, sf::Vector2f(getPosition().x, getPosition().y + 2))){
                 move(0,3);

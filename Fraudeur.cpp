@@ -9,7 +9,7 @@
 
 Fraudeur::Fraudeur(const std::string &texturePath, unsigned int pos_x, unsigned int pos_y, Inventory inventaire) :
     crash(false),
-    speed(0.2),
+    speed(5),
     invincible(false),
     inventaire(inventaire)
     {
@@ -72,9 +72,9 @@ void Fraudeur::update(const sf::Time& deltaTime, sf::Font& font, unsigned int ma
                        sf::View& view, std::vector<std::vector<int>> plan, std::vector<Obstacle> obstacles){
     elapsed += deltaTime;
     if(!collision_obstacles(getPosition(),obstacles ) && !crash){
-        float speedIncrease = 0.06;
+        float speedIncrease = 0.02;
         move(speed ,0.f);
-        speed += speedIncrease;
+        if (speed < 12 )speed += speedIncrease;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !invincible){
             if (elapsed.asMilliseconds() > 200){
                 invincible = true;
