@@ -62,6 +62,10 @@ private:
     bool exit_gare;
     bool combat_win;
     bool enigme_active;
+    bool enigme1_done;
+    bool enigme2_done;
+    bool enigme3_done;
+    bool enigme4_done;
 
     bool has_key(Inventory inventaire);
     bool has_boots(Inventory inventaire);

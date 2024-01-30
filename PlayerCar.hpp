@@ -30,7 +30,7 @@ public:
         crash = value;
     }
 
-    Inventory getInventory() const {
+    Inventory& getInventory() {
         return inventaire;
     }
 

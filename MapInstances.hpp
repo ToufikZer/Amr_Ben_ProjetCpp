@@ -80,8 +80,8 @@
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},\
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},\
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},\
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
@@ -126,7 +126,7 @@
 
 #define MAP6 MapIndoors("ROOM", \
                         "texture/texture_decor/room.png", \
-                        {(NPC("texture/texture_npc/door_invisible.png", 80, 400, {"BAGARRE"},"",{},1)),\
+                        {(NPC("texture/texture_npc/npc_invisible.png", 80, 400, {"Mais qu'est ce que tu fais chez moi\nSORS DE LA!!!","BATS TOI"},"",{},1)),\
                          (NPC("texture/texture_npc/door_invisible.png", 500, 320, {"EXITROOM"},"",{},1))}, \
                         {(Obstacle("texture/texture_obstacle/invisible_wall.png", 10, 5, 0)), \
                         (Obstacle("texture/texture_obstacle/invisible_wall.png", 0, 5, 0))}, \
@@ -162,13 +162,13 @@
                         {(NPC("texture/texture_npc/npc_airport.png", 326, 143, {"Salut!", "Tu viens d'arriver?", "QUESTION"}, "", \
                         {Answer("Oui, pk",{"Je dois te prevenir, les taxis sont en greve", "tu vas devoir prendre les transports","Ou bien il y a une agence de location de vehicule qui a ouvert\nTu peux tenter ta chance elle n'est pas loin",  "Il faut que tu prennes a droite, si c'est ferme tu vas\n devoir faire un detour par le haut!"},0), \
                         Answer("non tkt",{"Ah alors tu dois deja savoir ce qu'il se passe\nBon courage!"},1),Answer("maybe",{"Comment ca maybe, pk tu fais le ricain ici?"},2)},1)), \
-                        (NPC("texture/texture_npc/valise.png", 476, 170, {{"KNIFE", "Il y a un couteau dans la valise", "Ca pourrait etre utile, on sait jamais..."}},"",{},1))}, \
+                        (NPC("texture/texture_npc/valise.png", 476, 170, {{"ENIGME1"}},"",{},1))}, \
                         {(Obstacle("texture/texture_obstacle/invisible_wall.png", 0, 3, 0))}, \
                         "sound/music/music1.ogg",1,180)
                         
 #define MAP10 MapIndoors("CONCESS", \
                         "texture/texture_decor/concess_indoors.png", \
-                        {(NPC("texture/texture_npc/door_invisible.png", 240, 200, {"Salut", "Tu viens pour louer une voiture?", "Je suis desole,tous les modeles abordables\nviennent de partir comme des petits pains!","Il me reste que des modeles probablement\nhors de prix pour toi desole","Tu as beaucoup d'argent?", "QUESTION"},"",{Answer("300 euros",{"Bon il reste toujours ce modele de golmon","Raboule ton argent et interagis avec lui"},0),Answer("Pas un rond",{"Pourquoi tu me parles alors?", "Vas-y a pied si c'est comme ca!"},1),Answer("Je suis RICHE",{"Oui oui et moi je suis developpeur de jeu \nvideo tant que tu y es", "Allez va-t-en!"},2)},1)), \
+                        {(NPC("texture/texture_npc/npc_invisible.png", 240, 200, {"Salut", "Tu viens pour louer une voiture?", "Je suis desole,tous les modeles abordables\nviennent de partir comme des petits pains!","Il me reste que des modeles probablement\nhors de prix pour toi desole","Tu as beaucoup d'argent?", "QUESTION"},"",{Answer("300 euros",{"Bon il reste toujours ce modele de golmon","Raboule ton argent et interagis avec lui"},0),Answer("Pas un rond",{"Pourquoi tu me parles alors?", "Vas-y a pied si c'est comme ca!"},1),Answer("Je suis RICHE",{"Oui oui et moi je suis developpeur de jeu \nvideo tant que tu y es", "Allez va-t-en!"},2)},1)), \
                         (NPC("texture/texture_obstacle/invisible_wall.png", 0, 200,{"EXITCONCESS"},"",{},1)), \
                         (NPC("texture/texture_npc/door_invisible.png", 30, 200,{"CAR"},"",{},1))}, \
                         {(Obstacle("texture/texture_obstacle/invisible_wall.png", 0, 4, 0)), \

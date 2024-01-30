@@ -33,7 +33,6 @@ void Projectile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
 void Projectile::update(const sf::Time& deltaTime, unsigned int map_height) {
     //collision(player, ennemi);
-    
     if (direction == "haut") {
         move(0, -vitesse);
 

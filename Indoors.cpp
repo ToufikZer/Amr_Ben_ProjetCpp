@@ -107,9 +107,9 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                         kitchen = true;
                     }
                     else if (npc.getDialogue()[currentMessage] == "CAR"){
-                        car = true;
+                        if (player.getInventory().getMoney() >= 300) car = true;
                     }
-                    else if (npc.getDialogue()[currentMessage] == "BAGARRE"){
+                    else if (npc.getDialogue()[currentMessage] == "BATS TOI"){
                         bagarre = true;
                     }
                     else if (has_key(player.getInventory()) && npc.getDialogue()[currentMessage] == "Oh, the doors seems to be half-open"){
@@ -129,12 +129,14 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                         else {}
                     }
                     else if (npc.getDialogue()[currentMessage] == "ENIGME1"){
-                        enigme_active = true;
-                        enigme = Enigme("Si j'ai 3 pommes et que Charles en a 5, \ncombien a-t-on de pommes ?", 8, font);
-                        enigme.supprimerCaractere();
-                        isTalking = false;
-                        currentMessage = 0;
-                        break;
+                        if(!enigme1_done){
+                            enigme_active = true;
+                            npcThatWasTalking = nullptr;
+                            enigme = Enigme("Si j'ai 3 pommes et que Charles en a 5, \ncombien a-t-on de pommes ?", 8, font, 0);
+                            isTalking = true;
+                            currentMessage = 0;
+                            break;
+                        }
                     }
                     else if (npc.getDialogue()[currentMessage] == "KNIFE"){
                         first_dialogue = npc.getDialogue();
@@ -224,21 +226,6 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                 }
             }
         }
-        if (event.key.code == sf::Keyboard::E) {
-            // if (npcThatWasTalking!=nullptr) executeOption();
-            for (NPC& npc : NPCs) {
-                if (player.collision_NPCs(sf::Vector2f(player.getPosition().x,player.getPosition().y), npc)) {
-                    if (npc.getDialogue()[currentMessage] == "EXIT") {
-                        back_to_town = true;
-                        music.stop();
-                    }
-                    else if (npc.getDialogue()[currentMessage] == "CUISINE"){
-                        kitchen = true;
-                        music.stop();
-                    }
-                }
-            }
-        }
         if (event.key.code == sf::Keyboard::Escape) {
                 backmenu = true;
             }
@@ -246,26 +233,21 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
     if (event.type == sf::Event::TextEntered) {
         if (enigme_active) {
             if (event.text.unicode == 8) {
-                // Supprimer le dernier caractère si la touche de retour arrière est enfoncée
                 enigme.supprimerCaractere();
             } 
             else if (event.text.unicode == 13) {
-                // Vérifier la réponse si la touche Entrée est enfoncée
                 if (enigme.verifierReponse()) {
-                    std::cout << "Bonne reponse ! Vous pouvez avancer dans le jeu." << std::endl;
-                    // Ajoutez ici la logique pour faire avancer le jeu en conséquence
-                } else {
-                    std::cout << "Mauvaise reponse. Essayez a nouveau." << std::endl;
-                }
+                    player.getInventory().WinMoney();
+                    if (enigme.getId() == 0) enigme1_done = true;
 
-                // Désactiver l'énigme du PNJ
+                } 
                 enigme_active = false;
+                isTalking = false;
             } 
             else if (event.text.unicode < 48 || event.text.unicode > 57) {
 
             } 
             else {
-                // Ajouter le caractère à la réponse en cours
                 enigme.ajouterCaractere(event.text.unicode);
             }
         }

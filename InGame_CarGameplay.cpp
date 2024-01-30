@@ -175,6 +175,7 @@ GameState* InGame_CarGameplay::getNextState() {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
             is_arrived = false;
+            player.getInventory().setMoney(0);
             // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
             return new InGame(window, sf::Vector2u(0,1), sf::Vector2f(2,3), sf::Vector2u(16,16), player.getInventory(), 0, "Se rendre au CROUS", save.getCombatWin());
         }

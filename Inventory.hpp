@@ -22,7 +22,21 @@ public:
     void exchangeItems(const Item& item_to_remove, const Item& item_to_add);
     void displayInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view);
 
+    int getMoney(){
+        return money;
+    }
+
+    void setMoney(int value){
+        money = value;
+    }
+
+    void WinMoney(){
+        money++;
+    }
+
 private:
     std::vector<Item> items;
     const unsigned int maxItems;
+    int money;
+    sf::Text money_text;
 };

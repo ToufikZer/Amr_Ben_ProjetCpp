@@ -7,6 +7,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
+#include <cstdlib>
 
 bool last_moveE = true; //true si dernier deplacement à droite, false sinon
 
@@ -120,7 +121,7 @@ void EnnemiBagarre::update(const sf::Time& deltaTime, sf::Font& font, unsigned i
             }
 
             if (elapsed.asMilliseconds() > attack_delay){
-                projs_ennemi.push_back(tir(degats, attack_speed, getPosition(), "bas"));
+                projs_ennemi.push_back(tir(degats, attack_speed, sf::Vector2f(getPosition().x + (rand() % 40), getPosition().y + 10), "bas"));
                 elapsed = sf::Time::Zero;
             }
             else{

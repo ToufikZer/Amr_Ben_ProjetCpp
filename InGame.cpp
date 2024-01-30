@@ -31,11 +31,6 @@ InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2f p
     level = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getLevel();
     NPCs = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getNPCs();
     obstacles = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getObstacles();
-    if (combat_win && currentmap.x == 0 && currentmap.y == 3) {
-        std::cout << "ok" << std::endl;
-        level[7][15] = 0;
-        level[8][15] = 0;
-    }
 
     objectif.setPosition(sf::Vector2f(window.getSize().x * 0.65, window.getSize().y*0.01));
     objectif.setCharacterSize(window.getSize().x * 0.02);
@@ -163,15 +158,15 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
 
 void InGame::update(sf::Time deltaTime,sf::RenderWindow& window) {
     player.update(deltaTime, map, view, level, NPCs, obstacles, isTalking);
+    CheckChangeMap(player.getCurrentPos());
 
-    for (NPC& npc : NPCs) {
-        npc.update(player, deltaTime, map.getWidth(), map.getHeight(), level, NPCs, obstacles);
-        CheckChangeMap(player.getCurrentPos());
-    }
+        for (NPC& npc : NPCs) {
+            npc.update(player, deltaTime, map.getWidth(), map.getHeight(), level, NPCs, obstacles);
+        }
 
-    for (Obstacle& obstacle : obstacles) {
-        obstacle.update(player, deltaTime);
-    }
+        for (Obstacle& obstacle : obstacles) {
+            obstacle.update(player, deltaTime);
+        }
 
     }
 
@@ -239,6 +234,8 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
 
 
 void InGame::CheckChangeMap(sf::Vector2u position){
+    if (player.getChangeMap() != 0)
+        {
         if (player.getChangeMap()== 1){
             player.setChangeMap(0);
             player.setCurrentPos(sf::Vector2u (map.getWidth() - position.x - 1, position.y));
@@ -246,25 +243,6 @@ void InGame::CheckChangeMap(sf::Vector2u position){
             // view.setCenter(player.getPosition().x + 16.f, player.getPosition().y+ 16.f);
 
             maps.setPreviousCurrentMap();
-            MusicPath = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getMusicPath();
-            level = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getLevel();
-            NPCs = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getNPCs();
-            obstacles = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getObstacles();
-
-            // if (!music.openFromFile(MusicPath)){ 
-            //     std::cerr << "Erreur lors du chargement du son" << std::endl;
-            //     std::exit(-1);
-            // }
-            // music.stop();
-            // music.setVolume(5);
-            // music.setLoop(true);
-            // music.play();  
-
-            if (!map.load("texture/texture_decor/tileset.png", sf::Vector2u(ftile_size_ingame, ftile_size_ingame), level)) {
-                std::cerr << "Erreur lors du chargement de la carte" << std::endl;
-                std::exit(-1);
-            }
-
         }
         if (player.getChangeMap()== 3){
             player.setChangeMap(0);
@@ -273,24 +251,6 @@ void InGame::CheckChangeMap(sf::Vector2u position){
             // view.setCenter(player.getPosition().x + 16.f, player.getPosition().y+ 16.f);
 
             maps.setNextCurrentMap();
-            MusicPath = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getMusicPath();
-            level = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getLevel();
-            NPCs = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getNPCs();
-            obstacles = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getObstacles();
-
-            // if (!music.openFromFile(MusicPath)){ 
-            //     std::cerr << "Erreur lors du chargement du son" << std::endl;
-            //     std::exit(-1);
-            // }
-            // music.stop();
-            // music.setVolume(5);
-            // music.setLoop(true);
-            // music.play();
-
-            if (!map.load("texture/texture_decor/tileset.png", sf::Vector2u(ftile_size_ingame, ftile_size_ingame), level)) {
-                std::cerr << "Erreur lors du chargement de la carte" << std::endl;
-                std::exit(-1);
-            }
         }
 
         if (player.getChangeMap()== 2){
@@ -300,52 +260,35 @@ void InGame::CheckChangeMap(sf::Vector2u position){
             // view.setCenter(player.getPosition().x + 16.f, player.getPosition().y+ 16.f);
 
             maps.setUpCurrentMap();
-            MusicPath = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getMusicPath();
-            level = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getLevel();
-            NPCs = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getNPCs();
-            obstacles = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getObstacles();
-
-            // if (!music.openFromFile(MusicPath)){ 
-            //     std::cerr << "Erreur lors du chargement du son" << std::endl;
-            //     std::exit(-1);
-            // }
-            // music.stop();
-            // music.setVolume(5);
-            // music.setLoop(true);
-            // music.play();  
-
-            if (!map.load("texture/texture_decor/tileset.png", sf::Vector2u(ftile_size_ingame, ftile_size_ingame), level)) {
-                std::cerr << "Erreur lors du chargement de la carte" << std::endl;
-                std::exit(-1);
-            }
 
         }
         if (player.getChangeMap()== 4){
             player.setChangeMap(0);
             player.setCurrentPos(sf::Vector2u (position.x, map.getHeight() - position.y - 1));
             player.setPosition(ftile_size_ingame*player.getCurrentPos().x , ftile_size_ingame*player.getCurrentPos().y);
-            // view.setCenter(player.getPosition().x + 16.f, player.getPosition().y+ 16.f);
-
+            
             maps.setDownCurrentMap();
+        }
             MusicPath = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getMusicPath();
             level = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getLevel();
             NPCs = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getNPCs();
             obstacles = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getObstacles();
-
-            // if (!music.openFromFile(MusicPath)){ 
-            //     std::cerr << "Erreur lors du chargement du son" << std::endl;
-            //     std::exit(-1);
-            // }
-            // music.stop();
-            // music.setVolume(5);
-            // music.setLoop(true);
-            // music.play();
-
-            if (!map.load("texture/texture_decor/tileset.png", sf::Vector2u(ftile_size_ingame, ftile_size_ingame), level)) {
-                std::cerr << "Erreur lors du chargement de la carte" << std::endl;
-                std::exit(-1);
-            }
         }
+
+    if (combat_win && maps.getCurrentMap().x == 0 && maps.getCurrentMap().y == 3) {
+        level[7][15] = 0;
+        level[8][15] = 0;
+    }
+    if (player.getInventory().getMoney() < 300){
+        if (maps.getCurrentMap().x == 0 && maps.getCurrentMap().y == 1) {
+            level[7][15] = 0;
+            level[8][15] = 0;
+        }
+    }
+    if (!map.load("texture/texture_decor/tileset.png", sf::Vector2u(ftile_size_ingame, ftile_size_ingame), level)) {
+        std::cerr << "Erreur lors du chargement de la carte" << std::endl;
+        std::exit(-1);
+    }
     // }
 }
 

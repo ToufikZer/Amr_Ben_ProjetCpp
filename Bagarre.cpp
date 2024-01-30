@@ -63,8 +63,8 @@ void Bagarre::handleEvent(sf::Event& event, sf::RenderWindow& window) {
         }
         if (event.key.code == sf::Keyboard::A || event.key.code == sf::Keyboard::Space || event.key.code == sf::Keyboard::E) {
             if (elapsed.asMilliseconds() > 330) {
-                if (player.has_knife()) projs_player.push_back(player.tir(40, 2, player.getPosition(), "haut"));
-                else projs_player.push_back(player.tir(20, 2, player.getPosition(), "haut"));
+                if (player.has_knife()) projs_player.push_back(player.tir(40, 2, sf::Vector2f(player.getPosition().x + 15, player.getPosition().y - 10), "haut"));
+                else projs_player.push_back(player.tir(20, 2, sf::Vector2f(player.getPosition().x + 15, player.getPosition().y - 10), "haut"));
                 elapsed = sf::Time::Zero;
             }
         }
@@ -73,8 +73,8 @@ void Bagarre::handleEvent(sf::Event& event, sf::RenderWindow& window) {
     {
         if (event.mouseButton.button == sf::Mouse::Left){
             if (elapsed.asMilliseconds() > 330) {
-                if (player.has_knife()) projs_player.push_back(player.tir(40, 2, player.getPosition(), "haut"));
-                else projs_player.push_back(player.tir(20, 2, player.getPosition(), "haut"));
+                if (player.has_knife()) projs_player.push_back(player.tir(40, 2, sf::Vector2f(player.getPosition().x + 15, player.getPosition().y - 10), "haut"));
+                else projs_player.push_back(player.tir(20, 2, sf::Vector2f(player.getPosition().x + 15, player.getPosition().y - 10), "haut"));
                 elapsed = sf::Time::Zero;
             }
         }
@@ -153,7 +153,7 @@ GameState* Bagarre::getNextState() {
         {
             combat_lose = false;
             // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
-            return new Bagarre(window, save, player.getInventory(), "texture/texture_decor/2Qpng.png", 2, 20, 1500, 100);
+            return new Bagarre(window, save, player.getInventory(), "texture/texture_decor/2Qpng.png", ennemi.getAttackSpeed(), ennemi.getDegats(), ennemi.getAttackDelay(), ennemi.getHP());
         }
     }
     

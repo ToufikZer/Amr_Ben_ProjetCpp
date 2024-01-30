@@ -1,7 +1,7 @@
 #include "Inventory.hpp"
 #include <iostream>
 
-Inventory::Inventory() : maxItems(3) {}
+Inventory::Inventory() : maxItems(3), money(300) {}
 
 void Inventory::addItem(const Item& item) {
     if (items.size() < maxItems) {
@@ -39,7 +39,17 @@ void Inventory::displayInventory(sf::RenderWindow& window, sf::Font& font, const
 
     // Taille des cases
     float caseSize = 50.0f;
-
+    money_text.setString(std::to_string(money) + "euros");
+    money_text.setPosition(sf::Vector2f(12,65));
+    money_text.setFont(font);
+    money_text.setCharacterSize(20);
+    sf::RectangleShape rectEuro(sf::Vector2f(90,25));
+    rectEuro.setPosition(9,65);
+    rectEuro.setFillColor(sf::Color(15,45,128,180));
+    rectEuro.setOutlineColor(sf::Color(158,45,12));
+    rectEuro.setOutlineThickness(2);
+    window.draw(rectEuro);
+    window.draw(money_text);
     // Dessiner les cases vides
     for (unsigned int i = 0; i < maxItems; ++i) {
         sf::RectangleShape itemBox(sf::Vector2f(caseSize, caseSize));

@@ -49,6 +49,15 @@ public:
     int getHP(){
         return HP;
     }
+    float getAttackSpeed(){
+        return attack_speed;
+    }
+    unsigned int getDegats(){
+        return degats;
+    }
+    int getAttackDelay(){
+        return attack_delay;
+    }
     // void drawInteractText(sf::RenderWindow& window, sf::Font& font);
 protected:
     bool out_map(unsigned int map_width, unsigned int map_height, sf::Vector2f position);

@@ -9,8 +9,8 @@ public:
 
     Enigme() = default;
 
-    Enigme(const std::string& question, int reponseAttendue, sf::Font font)
-        : question(question), reponseAttendue(reponseAttendue), font(font) {}
+    Enigme(const std::string& question, int reponseAttendue, sf::Font font, int id)
+        : question(question), reponseAttendue(reponseAttendue), font(font), id(id) {}
 
     bool verifierReponse() {
         try {
@@ -41,7 +41,7 @@ public:
 
     void setPosition(float x, float y) {
         rectangle.setPosition(x, y);
-        rectangle.setFillColor(sf::Color::Black);
+        rectangle.setFillColor(sf::Color(169,169,169,236));
         rectangle.setOutlineColor(sf::Color(142, 70, 19));
         rectangle.setOutlineThickness(4);
     }
@@ -70,10 +70,15 @@ public:
         window.draw(userInputText);
     }
 
+    int getId(){
+        return id;
+    }
+
 private:
     std::string userInput;
     sf::Texture texture;
     sf::RectangleShape rectangle;
     sf::Font font;
     sf::Text texteEnigme;
+    int id;
 };
