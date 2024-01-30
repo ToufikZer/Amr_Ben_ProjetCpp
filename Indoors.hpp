@@ -66,6 +66,8 @@ private:
     bool enigme2_done;
     bool enigme3_done;
     bool enigme4_done;
+    bool fraude;
+    bool no_fraude;
 
     bool has_key(Inventory inventaire);
     bool has_boots(Inventory inventaire);

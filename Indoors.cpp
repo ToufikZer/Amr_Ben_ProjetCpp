@@ -36,7 +36,13 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
       bagarre(false),
       exit_gare(false),
       combat_win(combat_win),
-      enigme_active(false)
+      enigme_active(false),
+      enigme1_done(false),
+      enigme2_done(false),
+      enigme3_done(false),
+      enigme4_done(false),
+      fraude(false),
+      no_fraude(false)
 {
     MapList.push_back(GARE);
     MapList.push_back(ROOM);
@@ -106,8 +112,14 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                     else if (npc.getDialogue()[currentMessage] == "CUISINE"){
                         kitchen = true;
                     }
+                    else if (npc.getDialogue()[currentMessage] == "Fraudons!"){
+                        fraude = true;
+                    }
                     else if (npc.getDialogue()[currentMessage] == "CAR"){
                         if (player.getInventory().getMoney() >= 300) car = true;
+                    }
+                    else if (npc.getDialogue()[currentMessage] == "Avez vous assez d'argent?" && (player.getInventory().getMoney() >= 4)){
+                        no_fraude = true;
                     }
                     else if (npc.getDialogue()[currentMessage] == "BATS TOI"){
                         bagarre = true;
@@ -132,7 +144,37 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                         if(!enigme1_done){
                             enigme_active = true;
                             npcThatWasTalking = nullptr;
-                            enigme = Enigme("Si j'ai 3 pommes et que Charles en a 5, \ncombien a-t-on de pommes ?", 8, font, 0);
+                            enigme = Enigme("Si j'ai 3 pommes et que Charles en a 5,\nSachant que Abdel m'a vendu 2 pommes\nEt que Charles m'en a vole 4\ncombien avais-je de pommes au debut?", 5, font, 0);
+                            isTalking = true;
+                            currentMessage = 0;
+                            break;
+                        }
+                    }
+                    else if (npc.getDialogue()[currentMessage] == "ENIGME2"){
+                        if(!enigme2_done){
+                            enigme_active = true;
+                            npcThatWasTalking = nullptr;
+                            enigme = Enigme("Voici une enigme:\nUn homme faisant connaissance avec\nsa voisine apprend qu'elle a 3 filles.\nIl lui demande leurs ages, mais ne voulant pas repondre\ndirectement elle prefere lui faire deviner:\n-Le produit de leurs ages fait 36; dit-elle\n-Il me faudrait plus d'indices\n-La somme de leurs ages = au numero de la maison en face\n-Je ne peux toujours pas trouver\n-L'ainee est blonde\n-Ah oui, c'est bon j'ai trouve !\n\nQuel est l'age de l'ainee ?", 9, font, 1);
+                            isTalking = true;
+                            currentMessage = 0;
+                            break;
+                        }
+                    }
+                    else if (npc.getDialogue()[currentMessage] == "ENIGME3"){
+                        if(!enigme3_done){
+                            enigme_active = true;
+                            npcThatWasTalking = nullptr;
+                            enigme = Enigme("Trouvez le code secret a 4 chiffres:\nLa somme des 4 chiffres est 13,\nle chiffre des milliers est 2 fois plus\ngrand que celui des unites\nle chiffre des centaines est 3 fois plus\ngrand que celui des dizaines.", 6313, font, 2);
+                            isTalking = true;
+                            currentMessage = 0;
+                            break;
+                        }
+                    }
+                    else if (npc.getDialogue()[currentMessage] == "ENIGME4"){
+                        if(!enigme4_done){
+                            enigme_active = true;
+                            npcThatWasTalking = nullptr;
+                            enigme = Enigme("Trouvez le code cache dans la phrase suivante:\n\nUn oeuf bien cuit!", 1918, font, 3);
                             isTalking = true;
                             currentMessage = 0;
                             break;
@@ -239,7 +281,9 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                 if (enigme.verifierReponse()) {
                     player.getInventory().WinMoney();
                     if (enigme.getId() == 0) enigme1_done = true;
-
+                    if (enigme.getId() == 1) enigme2_done = true;
+                    if (enigme.getId() == 2) enigme3_done = true;
+                    if (enigme.getId() == 3) enigme4_done = true;
                 } 
                 enigme_active = false;
                 isTalking = false;
@@ -281,16 +325,16 @@ void Indoors::draw(sf::RenderWindow& window, sf::Event& event) {
         window.draw(obstacle);
     }
 
-    window.draw(player);
     for (NPC& npc : NPCs) {
+            if (isTalking && (&npc == npcThatWasTalking)) {
+                npc.sendMessage(window, event, viewRect, font, currentMessage);
+            }
             if (npc.getDialogue()[0] == "KEY" && has_key(player.getInventory())){} //On pourrait faire une fonction draw_key avec la meme condition mais pg la
             else{
                 window.draw(npc);
             }
-            if (isTalking && (&npc == npcThatWasTalking)) {
-                npc.sendMessage(window, event, viewRect, font, currentMessage);
-            }
         }
+    window.draw(player);
     sf::FloatRect globalBounds = objectif.getGlobalBounds();
     sf::RectangleShape boundingBox(sf::Vector2f(globalBounds.width + 10, globalBounds.height + 10));
     boundingBox.setPosition(globalBounds.left - 5, globalBounds.top - 5);
@@ -300,8 +344,8 @@ void Indoors::draw(sf::RenderWindow& window, sf::Event& event) {
     window.draw(objectif);
     player.drawInventory(window, font, view);
     if (enigme_active) {
-        enigme.setPosition(50,50);
-        enigme.setSize(400,200);
+        enigme.setPosition(164,264);
+        enigme.setSize(738,484);
         enigme.afficher(window);
     }
     // player.drawInteractText(window, font);
@@ -357,6 +401,14 @@ GameState* Indoors::getNextState() {
     if (exit_gare){
         exit_gare = false;
         return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(6,7), sf::Vector2u(16,16),player.getInventory(), 0, "Aller a la gare", combat_win);
+    }
+    if (fraude){
+        fraude = false;
+        return new Explication(window, "fraude", Save("InDoors", player.getPosition(), MapName, player.getInventory(), true, combat_win), "texture/texture_expl/fraude.png");
+    }
+    if (no_fraude){
+        no_fraude = false;
+        return new InGame(window, sf::Vector2u(0,3), sf::Vector2f(9,9), sf::Vector2u(16,16),player.getInventory(), 1, "Aller voir le match", combat_win);
     }
     return nullptr;
 }

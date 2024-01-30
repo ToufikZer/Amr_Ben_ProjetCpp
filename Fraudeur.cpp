@@ -42,7 +42,7 @@ Fraudeur::Fraudeur(const std::string &texturePath, unsigned int pos_x, unsigned 
 
     CrashText.rotate(90);
     CrashText.setStyle(sf::Text::Bold);
-    CrashText.setString("You just crashed, press Return to play again");
+    CrashText.setString("Entrer pour revenir, R pour recommencer");
     CrashText.setFillColor(sf::Color(250,30,30,250));
     CrashText.setCharacterSize(30);
 }

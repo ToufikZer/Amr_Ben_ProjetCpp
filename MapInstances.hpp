@@ -119,7 +119,13 @@
 
 #define MAP5 MapIndoors("GARE", \
                         "texture/texture_decor/decorgare.jpg", \
-                        {(NPC("texture/texture_npc/door_invisible.png", 20, 40, {"EXITGARE"},"RUUULRRDULLRDDDL",{},1))}, \
+                        {(NPC("texture/texture_npc/door_invisible.png", 20, 40, {"EXITGARE"},"",{},1)), \
+                        (NPC("texture/texture_npc/npc_invisible.png", 848, 906, {"Voulez vous frauder?","QUESTION"},"",{Answer("Oui!",{"Fraudons!"},0),Answer("NON!",{"Avez vous assez d'argent?"},1)},1)), \
+                        (NPC("texture/texture_npc/sdf1.png", 463, 100, {"La gestion du pays devient catastrophique,", "Annie d'Algo et Valery PekinExpress\nont passe le ticket de metro a 4 euros.", "Rien ne va plus, en plus, avec ce froid\ndehors les sdf n'ont pas le choix,", "Ils doivent se refugier dans cette gare.", "Heureusement ils sont tres genereux,peut\netre qu'en resolvant leur enigme", "Ils accepteront de te donner une\npetite compensation.","Quitte a ne pas avoir de morale pour voler\ntu peux aussi frauder, a tes risques et perils!"},"",{},1)),\
+                        (NPC("texture/texture_npc/sdf2.png", 222, 344, {"ENIGME1"},"",{},1)), \
+                        (NPC("texture/texture_npc/sdf3.png", 294, 642, {"ENIGME2"},"",{},1)), \
+                        (NPC("texture/texture_npc/npc2.png", 809, 591, {"ENIGME3"},"",{},1)), \
+                        (NPC("texture/texture_npc/sdf3.png", 315, 881, {"ENIGME4"},"",{},1))}, \
                         {(Obstacle("texture/texture_obstacle/invisible_wall.png", 16, 15, 0)), \
                         (Obstacle("texture/texture_obstacle/invisible_wall.png", 0, 2, 0))}, \
                         "sound/music/music2.ogg",4,230)
@@ -162,7 +168,7 @@
                         {(NPC("texture/texture_npc/npc_airport.png", 326, 143, {"Salut!", "Tu viens d'arriver?", "QUESTION"}, "", \
                         {Answer("Oui, pk",{"Je dois te prevenir, les taxis sont en greve", "tu vas devoir prendre les transports","Ou bien il y a une agence de location de vehicule qui a ouvert\nTu peux tenter ta chance elle n'est pas loin",  "Il faut que tu prennes a droite, si c'est ferme tu vas\n devoir faire un detour par le haut!"},0), \
                         Answer("non tkt",{"Ah alors tu dois deja savoir ce qu'il se passe\nBon courage!"},1),Answer("maybe",{"Comment ca maybe, pk tu fais le ricain ici?"},2)},1)), \
-                        (NPC("texture/texture_npc/valise.png", 476, 170, {{"ENIGME1"}},"",{},1))}, \
+                        (NPC("texture/texture_npc/valise.png", 476, 170, {{"KNIFE","Oh un couteau...", "Ca pourrait etre utile"}},"",{},1))}, \
                         {(Obstacle("texture/texture_obstacle/invisible_wall.png", 0, 3, 0))}, \
                         "sound/music/music1.ogg",1,180)
                         

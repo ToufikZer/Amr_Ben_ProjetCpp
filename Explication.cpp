@@ -44,8 +44,8 @@ GameState* Explication::getNextState(){
         else if(name == "bagarre") return new Bagarre(window, save, save.getInventory(), "texture/texture_decor/2Qpng.png", 8, 20, 800, 400);
         // POUR ANNIE D'ALGOAT 
         //else if(name == "bagarre_2") return new Bagarre(window, save, save.getInventory(), "texture/texture_decor/2Qpng.png", 8, 40, 500, 800);
-        else if(name == "car") return new InGame_CarGameplay(window, Save("InDoors", save.getPlayerPosition(), save.getName(), save.getInventory(), true, save.getCombatWin()), save.getInventory());
-        else if(name == "fraude") return new FraudeGameplay(window, Save("InGame", sf::Vector2f(save.getPlayerPosition().x, save.getPlayerPosition().y), sf::Vector2u(save.getCurrentMap().x, save.getCurrentMap().y), sf::Vector2u(save.getCurrentMap().x, save.getCurrentMap().y), save.getInventory(), true, save.getCombatWin()), save.getInventory());
+        else if(name == "car") return new InGame_CarGameplay(window, save, save.getInventory());
+        else if(name == "fraude") return new FraudeGameplay(window, save, save.getInventory());
     }
 
     return nullptr;

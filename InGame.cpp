@@ -224,7 +224,7 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
                 // if (obstacleInteracting->getId() == 3) return new InGame_CarGameplay(window, Save("InGame", sf::Vector2f(player.getCurrentPos().x, player.getCurrentPos().y), maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true, combat_win), player.getInventory());
                 if (obstacleInteracting->getId() == 3) return new Indoors(window, "CONCESS", 30, 180, player.getInventory(), "Louer un vehicule", combat_win);
                 if (obstacleInteracting->getId() == 4) return new Indoors(window, "AIRPORT", 500, 120, player.getInventory(), "Trouver un moyen de se deplacer", combat_win);
-                if (obstacleInteracting->getId() == 5) return new Indoors(window, "GARE", 55.f, 140.f, player.getInventory(), "Acheter un ticket(ou pas...)", combat_win);
+                if (obstacleInteracting->getId() == 5) return new Indoors(window, "GARE", 55.f, 123.f, player.getInventory(), "Acheter un ticket(ou pas...)", combat_win);
             }
         }
     }

@@ -97,7 +97,7 @@ FraudeGameplay::FraudeGameplay(sf::RenderWindow& window, Save save, Inventory in
     Finish.rotate(90);
     Finish.setFont(font);
     Finish.setStyle(sf::Text::Bold);
-    Finish.setString("Congrats! Press Return to go near to the CROUS");
+    Finish.setString("Bien joue! Entrer pour arriver au stade");
     Finish.setFillColor(sf::Color(30,250,30,250));
     Finish.setCharacterSize(30);
 
@@ -162,10 +162,15 @@ GameState* FraudeGameplay::getNextState() {
         return new MainMenu(window, save);
     }
     if (player.getCrash()){
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
         {
             player.setCrash(false);
             return new FraudeGameplay(window,save, player.getInventory());
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        {
+            player.setCrash(false);
+            return new Indoors(window, save.getName(), save.getPlayerPosition().x, save.getPlayerPosition().y, save.getInventory(), "Frauder ou voler", save.getCombatWin());
         }
     }
     if (is_arrived){

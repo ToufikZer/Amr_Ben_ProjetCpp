@@ -253,7 +253,7 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
         }
         sf::RectangleShape TextRectangle(sf::Vector2f(rectangleWidth -2 *0.0093 * ViewRect.height, rectangleHeight - 0.0093 * ViewRect.height));
         TextRectangle.setPosition(rectangleX + 0.0093 * ViewRect.height, rectangleY);
-        TextRectangle.setFillColor(sf::Color(139, 69, 19, 180));
+        TextRectangle.setFillColor(sf::Color(139, 69, 19, 245));
 
         // Définir la bordure du rectangle
         TextRectangle.setOutlineColor(sf::Color(50, 50, 50, 200));  

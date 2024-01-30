@@ -37,6 +37,7 @@ Obstacle::Obstacle(const std::string& texturePath, unsigned int pos_x, unsigned 
 Obstacle::Obstacle(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y, sf::Vector2u changeTile1, unsigned int direction_to_enter, unsigned int id) :
     id_obstacle(id),
     ChangeTile1(changeTile1),
+    ChangeTile2(sf::Vector2f(200,200)),
     is_open(false),
     can_enter(false),
     direction_to_enter(direction_to_enter)
@@ -63,7 +64,9 @@ Obstacle::Obstacle(const std::string& texturePath, unsigned int pos_x, unsigned 
 }
 
 Obstacle::Obstacle(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y, unsigned int id) :
-    id_obstacle(id)
+    id_obstacle(id),
+    ChangeTile1(sf::Vector2f(200,200)),
+    ChangeTile2(sf::Vector2f(200,200))
     {
     if (!m_texture.loadFromFile(texturePath)) {
         std::cerr << "Erreur lors du chargement de la texture" << std::endl;
@@ -93,15 +96,16 @@ void Obstacle::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 }
 
 void Obstacle::update(Player& player, const sf::Time &deltaTime){
-    unsigned int u = 0;
-    if(player.getCurrentPos().x == ChangeTile1.x && player.getCurrentPos().y == ChangeTile1.y) {u = 1; is_open = true;}
-    else if(player.getCurrentPos().x == ChangeTile2.x && player.getCurrentPos().y == ChangeTile2.y) {u = 2; is_open = true;}
-    else is_open = false;
+    if(player.getCurrentPos().x == ChangeTile1.x && player.getCurrentPos().y == ChangeTile1.y) {update_texture(1); is_open = true;}
+    else if(player.getCurrentPos().x == ChangeTile2.x && player.getCurrentPos().y == ChangeTile2.y) {update_texture(2); is_open = true;}
+    else {
+        is_open = false;
+        update_texture(0);
+    }
     if (player.getDirection() == direction_to_enter && is_open) {
         can_enter = true;
     }
     else can_enter = false;
-    update_texture(u);
 }
 
 void Obstacle::update_texture(unsigned int u){
