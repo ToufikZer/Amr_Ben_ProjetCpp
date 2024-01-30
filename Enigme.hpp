@@ -42,6 +42,8 @@ public:
     void setPosition(float x, float y) {
         rectangle.setPosition(x, y);
         rectangle.setFillColor(sf::Color::Black);
+        rectangle.setOutlineColor(sf::Color(142, 70, 19));
+        rectangle.setOutlineThickness(4);
     }
 
     void setSize(float width, float height) {

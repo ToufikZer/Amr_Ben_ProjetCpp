@@ -53,10 +53,13 @@ private:
     bool backmenu;
     bool next_town;
     bool kitchen;
+    bool exit_concess;
+    bool car;
     bool crous;
     bool room;
     bool exit_room;
     bool bagarre;
+    bool exit_gare;
     bool combat_win;
     bool enigme_active;
 

@@ -37,7 +37,7 @@ InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2f p
         level[8][15] = 0;
     }
 
-    objectif.setPosition(sf::Vector2f(window.getSize().x * 0.7, window.getSize().y*0.01));
+    objectif.setPosition(sf::Vector2f(window.getSize().x * 0.65, window.getSize().y*0.01));
     objectif.setCharacterSize(window.getSize().x * 0.02);
     objectif.setFillColor(sf::Color::Red);
     objectif.setFont(font);
@@ -157,26 +157,11 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
             }
                       
         }
-        // if (event.type == sf::Event::MouseButtonPressed)
-        // {
-        //     if (event.mouseButton.button == sf::Mouse::Left)
-        //     {
-        //         if (yesText.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))
-        //         {
-        //             backmenu = true;
-        //         }
-        //         if (cancelText.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))
-        //         {
-        //             escape_menu = false;
-        //         }
-        //     }
-        // }
     }
 
 
 
 void InGame::update(sf::Time deltaTime,sf::RenderWindow& window) {
-    std::cout << combat_win << std::endl;
     player.update(deltaTime, map, view, level, NPCs, obstacles, isTalking);
 
     for (NPC& npc : NPCs) {
@@ -207,6 +192,12 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
         for (Obstacle& obstacle : obstacles) {
             window.draw(obstacle);
         }
+    sf::FloatRect globalBounds = objectif.getGlobalBounds();
+    sf::RectangleShape boundingBox(sf::Vector2f(globalBounds.width + 10, globalBounds.height + 10));
+    boundingBox.setPosition(globalBounds.left - 5, globalBounds.top - 5);
+    boundingBox.setOutlineColor(sf::Color(139, 69, 19));
+    boundingBox.setOutlineThickness(globalBounds.width * 0.01);
+    window.draw(boundingBox);
     window.draw(objectif);
     player.drawInventory(window, font, view);
     
@@ -235,8 +226,10 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
             if (obstacleInteracting->getId() != 0){
                 if (obstacleInteracting->getId() == 1) return new Indoors(window, "CROUS", 64.f, 140.f, player.getInventory(), "Trouver une chambre libre", combat_win);
                 if (obstacleInteracting->getId() == 2) return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(10,7), sf::Vector2u(16,16), player.getInventory(), 3, "", combat_win);
-                if (obstacleInteracting->getId() == 3) return new InGame_CarGameplay(window, Save("InGame", sf::Vector2f(player.getCurrentPos().x, player.getCurrentPos().y), maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true, combat_win), player.getInventory());
+                // if (obstacleInteracting->getId() == 3) return new InGame_CarGameplay(window, Save("InGame", sf::Vector2f(player.getCurrentPos().x, player.getCurrentPos().y), maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true, combat_win), player.getInventory());
+                if (obstacleInteracting->getId() == 3) return new Indoors(window, "CONCESS", 30, 180, player.getInventory(), "Louer un vehicule", combat_win);
                 if (obstacleInteracting->getId() == 4) return new Indoors(window, "AIRPORT", 500, 120, player.getInventory(), "Trouver un moyen de se deplacer", combat_win);
+                if (obstacleInteracting->getId() == 5) return new Indoors(window, "GARE", 55.f, 140.f, player.getInventory(), "Acheter un ticket(ou pas...)", combat_win);
             }
         }
     }

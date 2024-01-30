@@ -253,7 +253,7 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
         }
         sf::RectangleShape TextRectangle(sf::Vector2f(rectangleWidth -2 *0.0093 * ViewRect.height, rectangleHeight - 0.0093 * ViewRect.height));
         TextRectangle.setPosition(rectangleX + 0.0093 * ViewRect.height, rectangleY);
-        TextRectangle.setFillColor(sf::Color(200, 200, 200, 100));
+        TextRectangle.setFillColor(sf::Color(139, 69, 19, 180));
 
         // Définir la bordure du rectangle
         TextRectangle.setOutlineColor(sf::Color(50, 50, 50, 200));  
@@ -302,12 +302,12 @@ void NPC::play_toctoc(){
 }
 
 void NPC::draw_answer(sf::RenderWindow& window, sf::Event& event, sf::Font& font, float rectangleX, float rectangleWidth, float rectangleY, float rectangleHeight, unsigned int current_answer) {
-    sf::RectangleShape answerBox(sf::Vector2f(0.25*rectangleWidth, 0.5*rectangleHeight * AnswerVector.size()));
-    answerBox.setPosition(rectangleX + 0.75*rectangleWidth, rectangleY - 0.5*rectangleHeight * AnswerVector.size() );
+    sf::RectangleShape answerBox(sf::Vector2f(0.4*rectangleWidth, 0.5*rectangleHeight * AnswerVector.size()));
+    answerBox.setPosition(rectangleX + 0.6*rectangleWidth, rectangleY - 0.5*rectangleHeight * AnswerVector.size() );
     answerBox.setFillColor(sf::Color(150,150,150,150)); // Couleur de la case de réponse
     window.draw(answerBox);
     float gap = 0;
-    drawTriangle(window,0.15*rectangleHeight,rectangleX + 0.90*rectangleWidth, answerBox.getPosition().y + 2 + current_answer * rectangleHeight / 2);
+    drawTriangle(window,0.15*rectangleHeight,rectangleX + 0.95*rectangleWidth, answerBox.getPosition().y + 2 + current_answer * rectangleHeight / 2);
     for (Answer& answer : AnswerVector){
         sf::Text text(answer.getChoice(), font, rectangleHeight / 3); // Ajustez la taille du texte
         text.setFillColor(sf::Color(0, 0, 0)); // Couleur du texte

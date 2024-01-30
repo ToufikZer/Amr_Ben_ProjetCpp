@@ -35,7 +35,7 @@
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
+                    {1,3,3,3,3,0,0,0,3,3,3,2,2,2,2,1},\
                     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},\
                     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},\
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
@@ -47,6 +47,7 @@
                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}}, \
                     {(NPC("texture/texture_npc/npcpkmn.png", 8, 13, {"Voulez vous manger avec moi?","QUESTION"},"RUUULRRDULLRDDDL",{Answer("yes",{"YOUHOUUU","Enfin qqn qui accepte!"},0),Answer("no",{"QUOI, COMMENT CA NON", "CETAIT UNE PIZZA AU CACA"},1)},0)), \
                      (NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut2", "pioupiou", "hello!"},"RRUUUDDDLL",{},0))}, \
+                     {Obstacle("texture/texture_obstacle/gare.png", 1, 1, sf::Vector2u(6,7),2, 5)}, \
                     "sound/music/music1.ogg")
 
 #define MAP2 Map({{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},\
@@ -118,9 +119,10 @@
 
 #define MAP5 MapIndoors("GARE", \
                         "texture/texture_decor/decorgare.jpg", \
-                        {(NPC("texture/texture_npc/npc.png", 10, 1, {"Voulez vous manger avec moi?", "QUOI, COMMENT CA NON", "CETAIT UNE PIZZA AU CACA"},"RUUULRRDULLRDDDL",{},1))}, \
-                        {(Obstacle("texture/texture_obstacle/invisible_wall.png", 16, 15, 0))}, \
-                        "sound/music/music2.ogg",4,150)
+                        {(NPC("texture/texture_npc/door_invisible.png", 20, 40, {"EXITGARE"},"RUUULRRDULLRDDDL",{},1))}, \
+                        {(Obstacle("texture/texture_obstacle/invisible_wall.png", 16, 15, 0)), \
+                        (Obstacle("texture/texture_obstacle/invisible_wall.png", 0, 2, 0))}, \
+                        "sound/music/music2.ogg",4,230)
 
 #define MAP6 MapIndoors("ROOM", \
                         "texture/texture_decor/room.png", \
@@ -160,14 +162,17 @@
                         {(NPC("texture/texture_npc/npc_airport.png", 326, 143, {"Salut!", "Tu viens d'arriver?", "QUESTION"}, "", \
                         {Answer("Oui, pk",{"Je dois te prevenir, les taxis sont en greve", "tu vas devoir prendre les transports","Ou bien il y a une agence de location de vehicule qui a ouvert\nTu peux tenter ta chance elle n'est pas loin",  "Il faut que tu prennes a droite, si c'est ferme tu vas\n devoir faire un detour par le haut!"},0), \
                         Answer("non tkt",{"Ah alors tu dois deja savoir ce qu'il se passe\nBon courage!"},1),Answer("maybe",{"Comment ca maybe, pk tu fais le ricain ici?"},2)},1)), \
-                        (NPC("texture/texture_npc/valise.png", 476, 170, {"ENIGME1"},"",{},1))}, \
+                        (NPC("texture/texture_npc/valise.png", 476, 170, {{"KNIFE", "Il y a un couteau dans la valise", "Ca pourrait etre utile, on sait jamais..."}},"",{},1))}, \
                         {(Obstacle("texture/texture_obstacle/invisible_wall.png", 0, 3, 0))}, \
                         "sound/music/music1.ogg",1,180)
                         
 #define MAP10 MapIndoors("CONCESS", \
                         "texture/texture_decor/concess_indoors.png", \
-                        {(NPC("texture/texture_obstacle/key.png", 188, 200, {"KEY", "Wow there's keys !!", "Probably one student forgot them there", "Oh, there is something written on it?", "'with great power comes great responsibility'"},"",{},1))}, \
-                        {(Obstacle("texture/texture_obstacle/invisible_wall.png", 5, 3, 0))}, \
+                        {(NPC("texture/texture_npc/door_invisible.png", 240, 200, {"Salut", "Tu viens pour louer une voiture?", "Je suis desole,tous les modeles abordables\nviennent de partir comme des petits pains!","Il me reste que des modeles probablement\nhors de prix pour toi desole","Tu as beaucoup d'argent?", "QUESTION"},"",{Answer("300 euros",{"Bon il reste toujours ce modele de golmon","Raboule ton argent et interagis avec lui"},0),Answer("Pas un rond",{"Pourquoi tu me parles alors?", "Vas-y a pied si c'est comme ca!"},1),Answer("Je suis RICHE",{"Oui oui et moi je suis developpeur de jeu \nvideo tant que tu y es", "Allez va-t-en!"},2)},1)), \
+                        (NPC("texture/texture_obstacle/invisible_wall.png", 0, 200,{"EXITCONCESS"},"",{},1)), \
+                        (NPC("texture/texture_npc/door_invisible.png", 30, 200,{"CAR"},"",{},1))}, \
+                        {(Obstacle("texture/texture_obstacle/invisible_wall.png", 0, 4, 0)), \
+                        (Obstacle("texture/texture_obstacle/invisible_wall.png", 5, 4, 0))}, \
                         "sound/music/music1.ogg",1,100)
 
 

@@ -5,10 +5,11 @@
 #include <iostream>
 
 MapIndoors GARE = MAP5;
-MapIndoors MARIO = MAP6;
+MapIndoors ROOM = MAP6;
 MapIndoors CROUS = MAP7;
 MapIndoors KITCHEN = MAP8;
 MapIndoors AIRPORT = MAP9;
+MapIndoors CONCESS = MAP10;
 Item keyRoom = Item("Key","Une clé de chambre", 1, "texture/texture_item/key.png");
 Item KitchenKnife = Item("KitchenKnife", "Un couteau de cuisine banal", 2, "texture/texture_item/zanpakuto.png");
 Item Zanpakuto = Item("Zanpakuto", "Decoupe Mokhtar", 2, "texture/texture_item/knife.png");
@@ -27,18 +28,22 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
       backmenu(false),
       next_town(false),
       kitchen(false),
+      exit_concess(false),
+      car(false),
       crous(false),
       room(false),
       exit_room(false),
       bagarre(false),
+      exit_gare(false),
       combat_win(combat_win),
       enigme_active(false)
 {
     MapList.push_back(GARE);
-    MapList.push_back(MARIO);
+    MapList.push_back(ROOM);
     MapList.push_back(CROUS);
     MapList.push_back(KITCHEN);
     MapList.push_back(AIRPORT);
+    MapList.push_back(CONCESS);
 
     for (MapIndoors& map: MapList){
         if (MapName == map.getName()){
@@ -78,7 +83,6 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
     objectif.setStyle(sf::Text::Bold);
     objectif.setFont(font);
     objectif.setString(objectif_text);
-
 }
 
 void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
@@ -90,11 +94,20 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                     if (npc.getDialogue()[currentMessage] == "EXIT") {
                         back_to_town = true;
                     }
-                    if (npc.getDialogue()[currentMessage] == "EXITROOM") {
+                    else if (npc.getDialogue()[currentMessage] == "EXITCONCESS") {
+                        exit_concess = true;
+                    }
+                    else if (npc.getDialogue()[currentMessage] == "EXITROOM") {
                         exit_room = true;
+                    }
+                    else if (npc.getDialogue()[currentMessage] == "EXITGARE") {
+                        exit_gare = true;
                     }
                     else if (npc.getDialogue()[currentMessage] == "CUISINE"){
                         kitchen = true;
+                    }
+                    else if (npc.getDialogue()[currentMessage] == "CAR"){
+                        car = true;
                     }
                     else if (npc.getDialogue()[currentMessage] == "BAGARRE"){
                         bagarre = true;
@@ -260,7 +273,6 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
 }
 
 void Indoors::update(sf::Time deltaTime, sf::RenderWindow& window) {
-    std::cout << combat_win << std::endl;
     player.update(deltaTime, font, backgroundSprite.getGlobalBounds().width,
                   backgroundSprite.getGlobalBounds().height, view, obstacles, NPCs, FloorNumber, isTalking);
     if (player.getPosition().y <= 0.f){
@@ -297,6 +309,12 @@ void Indoors::draw(sf::RenderWindow& window, sf::Event& event) {
                 npc.sendMessage(window, event, viewRect, font, currentMessage);
             }
         }
+    sf::FloatRect globalBounds = objectif.getGlobalBounds();
+    sf::RectangleShape boundingBox(sf::Vector2f(globalBounds.width + 10, globalBounds.height + 10));
+    boundingBox.setPosition(globalBounds.left - 5, globalBounds.top - 5);
+    boundingBox.setOutlineColor(sf::Color(139, 69, 19));
+    boundingBox.setOutlineThickness(globalBounds.width * 0.01);
+    window.draw(boundingBox);
     window.draw(objectif);
     player.drawInventory(window, font, view);
     if (enigme_active) {
@@ -331,6 +349,14 @@ GameState* Indoors::getNextState() {
         kitchen = false;
         return new Indoors(window, "KITCHEN", 20, 160, player.getInventory(), "", combat_win);
     }
+    if (exit_concess){
+        exit_concess = false;
+        return new InGame(window, sf::Vector2u(0,1), sf::Vector2f(10,7), sf::Vector2u(16,16),player.getInventory(), 0, "Acheter un vehicule", combat_win);
+    }
+    if (car){
+        car = false;
+        return new Explication(window, "car", Save("InDoors", player.getPosition(), MapName, player.getInventory(), true, combat_win), "texture/texture_expl/car.png");
+    }
     if (room){
         room = false;
         return new Indoors(window, "ROOM", 500, 320, player.getInventory(), "C'est l'heure de la BAGARRE", combat_win);
@@ -343,6 +369,10 @@ GameState* Indoors::getNextState() {
     if (bagarre){
         bagarre = false;
         return new Explication(window, "bagarre", Save("InDoors", player.getPosition(), MapName, player.getInventory(), true, combat_win), "texture/texture_expl/bagarre.png");
+    }
+    if (exit_gare){
+        exit_gare = false;
+        return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(6,7), sf::Vector2u(16,16),player.getInventory(), 0, "Aller a la gare", combat_win);
     }
     return nullptr;
 }
