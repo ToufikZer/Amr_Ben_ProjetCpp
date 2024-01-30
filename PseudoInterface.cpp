@@ -160,7 +160,7 @@ GameState* PseudoInterface::getNextState() {
         // return new InGame(window, sf::Vector2u(0,1), sf::Vector2u(2,3), sf::Vector2u(16,16), 0);
         // return new InGame_CarGameplay(window);
 
-        return new Indoors(window, "AIRPORT", 40, 120, Inventory(), "Trouver un endroit ou dormir", false);
+        return new Explication(window, "start", Save(), "texture/texture_expl/intro.png");
         // return new Indoors(window, "GARE");
     }
     if(come_back){

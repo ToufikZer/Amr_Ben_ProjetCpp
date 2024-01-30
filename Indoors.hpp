@@ -68,6 +68,8 @@ private:
     bool enigme4_done;
     bool fraude;
     bool no_fraude;
+    bool labyrinthe;
+    bool bagarreF;
 
     bool has_key(Inventory inventaire);
     bool has_boots(Inventory inventaire);

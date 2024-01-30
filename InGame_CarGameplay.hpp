@@ -12,7 +12,7 @@
 #include "MainMenu.hpp"
 #include "MapManager.hpp"
 #include "Map.hpp"
-#include "Keybinds.hpp"
+#include "MiniJeu.hpp"
 #include "Inventory.hpp"
 #include "Item.hpp"
 

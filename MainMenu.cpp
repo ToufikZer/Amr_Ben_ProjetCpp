@@ -6,7 +6,7 @@ MainMenu::MainMenu(sf::RenderWindow& window, Save save)
     : window(window),
       selectedOption(0),
       start_game(false),
-      keybinds(false),
+      minijeu(false),
       continue_game(false),
       keyboard_pressed(false),
       save(save) {
@@ -66,7 +66,7 @@ void MainMenu::handleEvent(sf::Event& event, sf::RenderWindow& window) {
             }
             if (ctrlText.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))
             {
-                keybinds = true;
+                minijeu = true;
             }
         }
     }
@@ -189,9 +189,9 @@ GameState* MainMenu::getNextState() {
         if (save.getStateName() == "InDoors") return new Indoors(window, save.getName(), save.getPlayerPosition().x, save.getPlayerPosition().y, save.getInventory(), "Easter Egg : On travaille \nsur une V2", save.getCombatWin());
         if (save.getStateName() == "Labyrinthe") return new Labyrinthe(window, save.getNbPas(), sf::Vector2f(save.getPlayerPosition().x, save.getPlayerPosition().y), save.getmapDimension(), save.getInventory(), 3);
     }
-    else if (keybinds) {
-        keybinds = false;
-        return new Keybinds(window, save);
+    else if (minijeu) {
+        minijeu = false;
+        return new MiniJeu(window, save);
     }
     return nullptr;
 }
@@ -260,7 +260,7 @@ void MainMenu::moveDown(){
 void MainMenu::executeOption(){
     if (selectedOption == -1) continue_game = true;
     if (selectedOption == 3) start_game = true;
-    if (selectedOption == 2) keybinds = true;
+    if (selectedOption == 2) minijeu = true;
     if (selectedOption == 1) window.close();
 }
 

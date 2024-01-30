@@ -21,7 +21,6 @@ InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2f p
       currentMessage(0),
       obstacleInteracting(nullptr),
       in_house(false),
-      labyrinthe(false),
       combat_win(combat_win),
       backmenu(false)
 {
@@ -71,7 +70,7 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::A) {
                 EnterHouseUp();
-                EnterHouseDown();
+                EnterHouseRight();
                 if (npcThatWasTalking!=nullptr) executeOption();
                 for (NPC& npc : NPCs) {
                     if (!isTalking && player.is_looking_at(npc)) {
@@ -108,14 +107,6 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
 
             if (event.key.code == sf::Keyboard::Escape) {
                 backmenu = true;
-            }
-
-            // if (event.key.code == sf::Keyboard::E) {
-                
-            // }
-
-            if (event.key.code == sf::Keyboard::J) {
-                labyrinthe = true;
             }
 
             if (event.key.code == sf::Keyboard::Down) {
@@ -207,13 +198,6 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
         music.stop( );
         return new MainMenu(window, Save("InGame", sf::Vector2f(player.getPosition().x / 32, player.getPosition().y / 32),maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true, combat_win));
     }
-    if(labyrinthe){
-        labyrinthe = false;
-        music.stop( );
-        player.ResetNbPas();
-        //return new Explication(window, "lab", Save("InGame", sf::Vector2f(player.getCurrentPos().x, player.getCurrentPos().y), maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true, combat_win), "texture/texture_expl/fraude.png");
-        return new Explication(window, "fraude", Save("InGame", sf::Vector2f(player.getCurrentPos().x, player.getCurrentPos().y), maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true, combat_win), "texture/texture_expl/fraude.png");
-    }
     if(in_house){
         music.stop();
         in_house = false;
@@ -225,6 +209,7 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
                 if (obstacleInteracting->getId() == 3) return new Indoors(window, "CONCESS", 30, 180, player.getInventory(), "Louer un vehicule", combat_win);
                 if (obstacleInteracting->getId() == 4) return new Indoors(window, "AIRPORT", 500, 120, player.getInventory(), "Trouver un moyen de se deplacer", combat_win);
                 if (obstacleInteracting->getId() == 5) return new Indoors(window, "GARE", 55.f, 123.f, player.getInventory(), "Acheter un ticket(ou pas...)", combat_win);
+                if (obstacleInteracting->getId() == 6) return new Indoors(window, "STADE", 240.f, 125.f, player.getInventory(), "Parler du match!", combat_win);
             }
         }
     }
@@ -303,9 +288,9 @@ void InGame::EnterHouseUp(){
                 }
 }
 
-void InGame::EnterHouseDown(){
+void InGame::EnterHouseRight(){
     for (Obstacle& obstacle : obstacles) {
-                    if (obstacle.getCanEnter() && obstacle.getDirection() == 3){
+                    if (obstacle.getCanEnter() && obstacle.getDirection() == 0){
                         obstacleInteracting = &obstacle;
                         obstacle.setCanEnter(false);
                         in_house = true;

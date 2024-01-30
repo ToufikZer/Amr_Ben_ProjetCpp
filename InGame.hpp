@@ -11,7 +11,7 @@
 #include "MainMenu.hpp"
 #include "MapManager.hpp"
 #include "Map.hpp"
-#include "Keybinds.hpp"
+#include "MiniJeu.hpp"
 #include "Indoors.hpp"
 #include "InGame_CarGameplay.hpp"
 #include "Bagarre.hpp"
@@ -54,12 +54,11 @@ private:
     unsigned int currentMessage;
     Obstacle* obstacleInteracting;
     bool in_house;
-    bool labyrinthe;
     bool combat_win;
     bool backmenu;
 
     void EnterHouseUp();
-    void EnterHouseDown();
+    void EnterHouseRight();
 
 // FAIRE PAREIL POUR DISCUSSION AVEC A
 

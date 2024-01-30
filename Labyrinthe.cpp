@@ -95,7 +95,6 @@
 
     void Labyrinthe::update(sf::Time deltaTime,sf::RenderWindow& window) {
         player.update(deltaTime, map, view, level, NPCs, obstacles, isTalking);
-        std::cout << player.getCurrentPos().x << ";"<< player.getCurrentPos().y << std::endl;
         if ((player.getCurrentPos().x == 5 && player.getCurrentPos().y == 6) || (player.getCurrentPos().x == 4 && player.getCurrentPos().y == 7) || (player.getCurrentPos().x == 5 && player.getCurrentPos().y == 7)){
             level[7][5] = 16;
             map.load("texture/texture_decor/tileset_lab.png", sf::Vector2u(ftile_size_ingame_lab, ftile_size_ingame_lab), level);
@@ -105,17 +104,14 @@
             map.load("texture/texture_decor/tileset_lab.png", sf::Vector2u(ftile_size_ingame_lab, ftile_size_ingame_lab), level);
         }
         if ((player.getCurrentPos().x == 11 && player.getCurrentPos().y == 19)){
-            std::cout << "ok" << std::endl;
             level[19][12] = 1;
             map.load("texture/texture_decor/tileset_lab.png", sf::Vector2u(ftile_size_ingame_lab, ftile_size_ingame_lab), level);
         }
         if ((player.getCurrentPos().x == 5 && player.getCurrentPos().y == 17)){
-            std::cout << "ok" << std::endl;
             level[16][2] = 1;
             map.load("texture/texture_decor/tileset_lab.png", sf::Vector2u(ftile_size_ingame_lab, ftile_size_ingame_lab), level);
         }
         if ((player.getCurrentPos().x == 23 && player.getCurrentPos().y == 15)){
-            std::cout << "ok" << std::endl;
             level[15][24] = 1;
             map.load("texture/texture_decor/tileset_lab.png", sf::Vector2u(ftile_size_ingame_lab, ftile_size_ingame_lab), level);
         }
@@ -178,7 +174,7 @@
         if(end_lab){
             end_lab = false;
             music.stop();
-            return new InGame(window, sf::Vector2u(0,0), sf::Vector2f(3,3), sf::Vector2u(16,16),player.getInventory(), 0, "Aller en finir avec Annie d'Algo !", true);
+            return new Indoors(window, "FINAL", 300.f, 125.f, player.getInventory(), "AFFRONTEZ ANNIE!!", true);
         }
         return nullptr;
     }

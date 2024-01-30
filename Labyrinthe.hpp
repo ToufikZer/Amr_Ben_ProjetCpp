@@ -12,7 +12,7 @@
 #include "MapManager.hpp"
 #include "MapInstances.hpp"
 #include "Map.hpp"
-#include "Keybinds.hpp"
+#include "MiniJeu.hpp"
 #include "Indoors.hpp"
 #include "InGame_CarGameplay.hpp"
 #include "FraudeGameplay.hpp"

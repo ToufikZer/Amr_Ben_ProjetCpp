@@ -94,6 +94,27 @@
                      {Obstacle("texture/texture_obstacle/garage_tile.png", 8, 1, sf::Vector2u(10,7),2, 3)}, \
                     "sound/music/music1.ogg")
 
+#define MAP_S Map({{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},\
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
+                    {1,0,0,0,0,0,0,0,2,2,2,2,2,2,2,1},\
+                    {1,0,0,0,0,0,0,3,0,0,0,0,0,0,0,1},\
+                    {1,0,0,0,0,0,3,0,0,0,0,0,0,0,0,1},\
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
+                    {1,0,0,0,0,0,3,0,0,0,0,0,0,0,0,1},\
+                    {1,0,0,0,0,0,0,3,0,0,0,0,0,0,0,1},\
+                    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}}, \
+                    {(NPC("texture/texture_npc/npcpkmn.png", 5, 7, {"Y'a beaucoup de touriste ces temps ci,\nc'est a en perdre la tete", "Le nouveau concessionnaire fait des ravages"}, "RUDL",{}, 0)), \
+                     (NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut2", "pioupiou", "hello!", "okok"},"RRUUUDDDLL",{},0))}, \
+                     {Obstacle("texture/texture_obstacle/stade.png", 7, 9, sf::Vector2u(6,11), sf::Vector2u(6,12),0, 6)}, \
+                    "sound/music/music1.ogg")
+
 #define MAP4 Map({  {1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,10,10,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 },\
                     {1 ,1 ,4 ,1 ,16,4 ,4 ,4 ,4 ,1 ,16,4 ,4 ,4 ,4 ,4 ,4 ,12,1 ,16,4 ,4 ,4 ,16,1 ,12,4 ,4 ,4 ,1 ,1 },\
                     {1 ,16,10,1 ,0 ,0 ,1 ,0 ,0 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,1 ,18,10,10,0 ,1 ,0 ,0 ,1 ,10,0 ,1 ,12,16,1 },\
@@ -179,6 +200,21 @@
                         (NPC("texture/texture_npc/door_invisible.png", 30, 200,{"CAR"},"",{},1))}, \
                         {(Obstacle("texture/texture_obstacle/invisible_wall.png", 0, 4, 0)), \
                         (Obstacle("texture/texture_obstacle/invisible_wall.png", 5, 4, 0))}, \
+                        "sound/music/music1.ogg",1,100)
+
+#define MAP11 MapIndoors("STADE", \
+                        "texture/texture_decor/stade_in.png", \
+                        {(NPC("texture/texture_npc/sdf2.png", 40, 100,{"ANNIE, A CAUSE DE TOI MA JOURNEE\nA ETE UN CAUCHEMAR", "J'AI DU FRAPPER UN ETUDIANT\nVOLER, FRAUDER", "ET EN PLUS, J'AI RATE LE MATCH\nPOUR LEQUEL JE SUIS VENU", "EH C'EST QUOI CETTE POUD...", "*Vous vous evanouissez brusquement...*"},"",{},1)), \
+                        (NPC("texture/texture_npc/sdf1.png", 200, 100,{"Tu viens seulement d'arriver?", "Tu etais pour qui?", "QUESTION"},"",{Answer("L'algerie !", {"Tu viens de louper le match du siecle", "L'algerie a gagne 13-2\n*Tous ca a cause de Annie d'Algo*"}, 0), Answer("PAS l'Algerie", {"Eh bah, t'es pas chanceux mon pote...", "Ton equipe vient de perdre 2-13\nEt en plus t'as rien vu", "*Tout ca a cause de Annie d'Algo*"}, 1)},1))}, \
+                        {(Obstacle("texture/texture_obstacle/invisible_wall.png", 0, 3, 0)), \
+                        (Obstacle("texture/texture_obstacle/invisible_wall.png", 5, 3, 0))}, \
+                        "sound/music/music1.ogg",1,100)
+
+#define MAP12 MapIndoors("FINAL", \
+                        "texture/texture_decor/final.png", \
+                        {(NPC("texture/texture_npc/npc_invisible.png", 160, 150,{"PREPARE TOI, C'EST LA BATAILLE FINALE\n DERESHISHISHISHISHI!", "AFFRONTE MOI"},"",{},1))}, \
+                        {(Obstacle("texture/texture_obstacle/invisible_wall.png", 0, 3, 0)), \
+                        (Obstacle("texture/texture_obstacle/invisible_wall.png", 6, 3, 0))}, \
                         "sound/music/music1.ogg",1,100)
 
 

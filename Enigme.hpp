@@ -51,7 +51,7 @@ public:
 
         // Ajuster la position du texte dans le rectangle
         texteEnigme.setString(question);
-        texteEnigme.setCharacterSize(30);
+        texteEnigme.setCharacterSize(28);
         texteEnigme.setFont(font);
         texteEnigme.setPosition(rectangle.getPosition().x + 10, rectangle.getPosition().y + 10);
     }

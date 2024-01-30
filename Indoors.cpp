@@ -10,6 +10,8 @@ MapIndoors CROUS = MAP7;
 MapIndoors KITCHEN = MAP8;
 MapIndoors AIRPORT = MAP9;
 MapIndoors CONCESS = MAP10;
+MapIndoors STADE = MAP11;
+MapIndoors FINAL = MAP12;
 Item keyRoom = Item("Key","Une clé de chambre", 1, "texture/texture_item/key.png");
 Item KitchenKnife = Item("KitchenKnife", "Un couteau de cuisine banal", 2, "texture/texture_item/zanpakuto.png");
 Item Zanpakuto = Item("Zanpakuto", "Decoupe Mokhtar", 2, "texture/texture_item/knife.png");
@@ -42,7 +44,9 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
       enigme3_done(false),
       enigme4_done(false),
       fraude(false),
-      no_fraude(false)
+      no_fraude(false),
+      labyrinthe(false),
+      bagarreF(false)
 {
     MapList.push_back(GARE);
     MapList.push_back(ROOM);
@@ -50,6 +54,8 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
     MapList.push_back(KITCHEN);
     MapList.push_back(AIRPORT);
     MapList.push_back(CONCESS);
+    MapList.push_back(STADE);
+    MapList.push_back(FINAL);
 
     for (MapIndoors& map: MapList){
         if (MapName == map.getName()){
@@ -124,6 +130,12 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                     else if (npc.getDialogue()[currentMessage] == "BATS TOI"){
                         bagarre = true;
                     }
+                    else if (npc.getDialogue()[currentMessage] == "AFFRONTE MOI"){
+                        bagarreF = true;
+                    }
+                    else if (npc.getDialogue()[currentMessage] == "*Vous vous evanouissez brusquement...*"){
+                        labyrinthe = true;
+                    }
                     else if (has_key(player.getInventory()) && npc.getDialogue()[currentMessage] == "Oh, the doors seems to be half-open"){
                         room = true;
                     }
@@ -154,7 +166,7 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                         if(!enigme2_done){
                             enigme_active = true;
                             npcThatWasTalking = nullptr;
-                            enigme = Enigme("Voici une enigme:\nUn homme faisant connaissance avec\nsa voisine apprend qu'elle a 3 filles.\nIl lui demande leurs ages, mais ne voulant pas repondre\ndirectement elle prefere lui faire deviner:\n-Le produit de leurs ages fait 36; dit-elle\n-Il me faudrait plus d'indices\n-La somme de leurs ages = au numero de la maison en face\n-Je ne peux toujours pas trouver\n-L'ainee est blonde\n-Ah oui, c'est bon j'ai trouve !\n\nQuel est l'age de l'ainee ?", 9, font, 1);
+                            enigme = Enigme("Voici une enigme:\nUn homme faisant connaissance avec\nsa voisine apprend qu'elle a 3 filles.\nIl demande leurs ages, mais elle ne repond pas\ndirectement elle prefere lui faire deviner:\n-Le produit de leurs ages fait 36; dit-elle\n-Il me faudrait plus d'indices\n-Somme de leurs ages = numero de la maison en face\n-Je ne peux toujours pas trouver\n-L'ainee est blonde\n-Ah oui, c'est bon j'ai trouve !\n\nQuel est l'age de l'ainee ?", 9, font, 1);
                             isTalking = true;
                             currentMessage = 0;
                             break;
@@ -325,16 +337,19 @@ void Indoors::draw(sf::RenderWindow& window, sf::Event& event) {
         window.draw(obstacle);
     }
 
+    // window.draw(player);
+    for (NPC& npc : NPCs) {
+        if (npc.getDialogue()[0] == "KEY" && has_key(player.getInventory())){} //On pourrait faire une fonction draw_key avec la meme condition mais pg la
+        else{
+            window.draw(npc);
+        }
+    }
+        window.draw(player);
     for (NPC& npc : NPCs) {
             if (isTalking && (&npc == npcThatWasTalking)) {
                 npc.sendMessage(window, event, viewRect, font, currentMessage);
             }
-            if (npc.getDialogue()[0] == "KEY" && has_key(player.getInventory())){} //On pourrait faire une fonction draw_key avec la meme condition mais pg la
-            else{
-                window.draw(npc);
-            }
         }
-    window.draw(player);
     sf::FloatRect globalBounds = objectif.getGlobalBounds();
     sf::RectangleShape boundingBox(sf::Vector2f(globalBounds.width + 10, globalBounds.height + 10));
     boundingBox.setPosition(globalBounds.left - 5, globalBounds.top - 5);
@@ -408,7 +423,16 @@ GameState* Indoors::getNextState() {
     }
     if (no_fraude){
         no_fraude = false;
+        player.getInventory().setMoney(0);
         return new InGame(window, sf::Vector2u(0,3), sf::Vector2f(9,9), sf::Vector2u(16,16),player.getInventory(), 1, "Aller voir le match", combat_win);
+    }
+    if(labyrinthe){
+        labyrinthe = false;
+        return new Explication (window, "lab", Save("InDoors", player.getPosition(), MapName, player.getInventory(), true, combat_win), "texture/texture_expl/lab.png");
+    }
+    if (bagarreF){
+        bagarreF = false;
+        return new Explication(window, "bagarre_2", Save("InDoors", player.getPosition(), MapName, player.getInventory(), true, combat_win), "texture/texture_expl/bagarre_2.png");
     }
     return nullptr;
 }

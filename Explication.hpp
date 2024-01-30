@@ -5,7 +5,7 @@
 #include "TileMap.hpp"
 #include "GameState.hpp"
 #include "MainMenu.hpp"
-#include "Keybinds.hpp"
+#include "MiniJeu.hpp"
 #include "Inventory.hpp"
 #include "Item.hpp"
 #include "Save.hpp"

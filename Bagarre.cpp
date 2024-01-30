@@ -3,14 +3,15 @@
 #include "InGame.hpp"
 #include <iostream>
 
-Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std::string backgroundPath, float ennemi_attack_speed, unsigned int ennemi_degats, int attack_delay, int HP)
+Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std::string backgroundPath, float ennemi_attack_speed, unsigned int ennemi_degats, int attack_delay, int HP, int id_bagarre)
     : window(window),
       player("texture/texture_char/new_player2.png", 260, 200, inventaire),
       ennemi("texture/texture_char/new_player2.png", 260, 0, ennemi_attack_speed, ennemi_degats, attack_delay, HP),
       backmenu(false),
       save(save),
       combat_lose(false),
-      combat_win(false)
+      combat_win(false),
+      id_bagarre(id_bagarre)
 {
     if (!font.loadFromFile("font/arial.ttf")) {
         std::cerr << "Erreur lors du chargement de la police" << std::endl;
@@ -37,14 +38,17 @@ Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std:
 
     Finish.setFont(font);
     Finish.setStyle(sf::Text::Bold);
-    Finish.setString("Let's go, maintenant tu peux\ndormir chez lui tranquille!\n\nAppuie sur entrer \npour continuer");
+    if (id_bagarre == 0) Finish.setString("Let's go, maintenant tu peux\ndormir chez lui tranquille!\n\nAppuie sur entrer \npour continuer");
+    else Finish.setString("FELICITATION!\n\nTU AS TERRASSE ANNIE\nEntrer pour continuer");
     Finish.setFillColor(sf::Color(250,10,10,250));
     Finish.setCharacterSize(30);
     Finish.setPosition(sf::Vector2f(backgroundSprite.getGlobalBounds().width / 5, backgroundSprite.getGlobalBounds().height/4));
 
     Lose.setFont(font);
     Lose.setStyle(sf::Text::Bold);
-    Lose.setString("HAHAHA t'as perdu la bagarre\nDebrouille toi maintenant!\n\nAppuie sur entrer pour repartir\n ou sur R pour recommencer");
+    if (id_bagarre == 0) Lose.setString("HAHAHA t'as perdu la bagarre\nDebrouille toi maintenant!\n\nAppuie sur entrer pour repartir\n ou sur R pour recommencer");
+    else if (id_bagarre == 2) Lose.setString("Faut parler au fou de la gare\nPour pas qu'il te tape\n\nAppuie sur entrer pour repartir");
+    else Lose.setString("Annie t'as encore humilie\n prend ta revanche avec R");
     Lose.setFillColor(sf::Color(250,10,10,250));
     Lose.setCharacterSize(30);
     Lose.setPosition(sf::Vector2f(backgroundSprite.getGlobalBounds().width / 5, backgroundSprite.getGlobalBounds().height/4));
@@ -153,7 +157,7 @@ GameState* Bagarre::getNextState() {
         {
             combat_lose = false;
             // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
-            return new Bagarre(window, save, player.getInventory(), "texture/texture_decor/2Qpng.png", ennemi.getAttackSpeed(), ennemi.getDegats(), ennemi.getAttackDelay(), ennemi.getHP());
+            return new Bagarre(window, save, player.getInventory(), "texture/texture_decor/2Qpng.png", ennemi.getAttackSpeed(), ennemi.getDegats(), ennemi.getAttackDelay(), ennemi.getHP(), id_bagarre);
         }
     }
     
@@ -162,7 +166,8 @@ GameState* Bagarre::getNextState() {
         {
             combat_win = false;
             // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
-            return new Indoors(window, save.getName(), save.getPlayerPosition().x, save.getPlayerPosition().y, save.getInventory(), "Se rendre a la gare", true);
+            if(id_bagarre != 1) return new Indoors(window, save.getName(), save.getPlayerPosition().x, save.getPlayerPosition().y, save.getInventory(), "Se rendre a la gare", true);
+            else return new MainMenu(window, Save());
         }
     }
     return nullptr;
