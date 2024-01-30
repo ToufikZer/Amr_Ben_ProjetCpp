@@ -125,7 +125,7 @@
                         (NPC("texture/texture_npc/sdf2.png", 222, 344, {"ENIGME1"},"",{},1)), \
                         (NPC("texture/texture_npc/sdf3.png", 294, 642, {"ENIGME2"},"",{},1)), \
                         (NPC("texture/texture_npc/npc2.png", 809, 591, {"ENIGME3"},"",{},1)), \
-                        (NPC("texture/texture_npc/sdf3.png", 315, 881, {"ENIGME4"},"",{},1))}, \
+                        (NPC("texture/texture_npc/sdf4.png", 315, 881, {"ENIGME4"},"",{},1))}, \
                         {(Obstacle("texture/texture_obstacle/invisible_wall.png", 16, 15, 0)), \
                         (Obstacle("texture/texture_obstacle/invisible_wall.png", 0, 2, 0))}, \
                         "sound/music/music2.ogg",4,230)
