@@ -225,7 +225,8 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
         labyrinthe = false;
         music.stop( );
         player.ResetNbPas();
-        return new Explication(window, "lab", Save("InGame", sf::Vector2f(player.getCurrentPos().x, player.getCurrentPos().y), maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true, combat_win), "texture/texture_expl/fraude.png");
+        //return new Explication(window, "lab", Save("InGame", sf::Vector2f(player.getCurrentPos().x, player.getCurrentPos().y), maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true, combat_win), "texture/texture_expl/fraude.png");
+        return new Explication(window, "fraude", Save("InGame", sf::Vector2f(player.getCurrentPos().x, player.getCurrentPos().y), maps.getCurrentMap(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true, combat_win), "texture/texture_expl/fraude.png");
     }
     if(in_house){
         music.stop();

@@ -72,7 +72,7 @@ void Fraudeur::update(const sf::Time& deltaTime, sf::Font& font, unsigned int ma
                        sf::View& view, std::vector<std::vector<int>> plan, std::vector<Obstacle> obstacles){
     elapsed += deltaTime;
     if(!collision_obstacles(getPosition(),obstacles ) && !crash){
-        float speedIncrease = 0.02;
+        float speedIncrease = 0.06;
         move(speed ,0.f);
         speed += speedIncrease;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !invincible){
