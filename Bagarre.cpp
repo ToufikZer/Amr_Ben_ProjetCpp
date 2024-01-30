@@ -62,7 +62,7 @@ void Bagarre::handleEvent(sf::Event& event, sf::RenderWindow& window) {
             backmenu = true;
         }
         if (event.key.code == sf::Keyboard::A || event.key.code == sf::Keyboard::Space || event.key.code == sf::Keyboard::E) {
-            if (elapsed.asMilliseconds() > 330) {
+            if (elapsed.asMilliseconds() > 660) {
                 if (player.has_knife()) projs_player.push_back(player.tir(40, 2, sf::Vector2f(player.getPosition().x + 15, player.getPosition().y - 10), "haut"));
                 else projs_player.push_back(player.tir(20, 2, sf::Vector2f(player.getPosition().x + 15, player.getPosition().y - 10), "haut"));
                 elapsed = sf::Time::Zero;
@@ -72,7 +72,7 @@ void Bagarre::handleEvent(sf::Event& event, sf::RenderWindow& window) {
     if (event.type == sf::Event::MouseButtonPressed)
     {
         if (event.mouseButton.button == sf::Mouse::Left){
-            if (elapsed.asMilliseconds() > 330) {
+            if (elapsed.asMilliseconds() > 660) {
                 if (player.has_knife()) projs_player.push_back(player.tir(40, 2, sf::Vector2f(player.getPosition().x + 15, player.getPosition().y - 10), "haut"));
                 else projs_player.push_back(player.tir(20, 2, sf::Vector2f(player.getPosition().x + 15, player.getPosition().y - 10), "haut"));
                 elapsed = sf::Time::Zero;

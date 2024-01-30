@@ -321,7 +321,8 @@ GameState* Indoors::getNextState() {
     }
     if (next_town){
         next_town = false;
-        return new InGame(window, sf::Vector2u(0,0), sf::Vector2f(4,7), sf::Vector2u(16,16),player.getInventory(), 0, "Trouver un moyen de se deplacer", combat_win);
+        if(combat_win) return new InGame(window, sf::Vector2u(0,0), sf::Vector2f(4,7), sf::Vector2u(16,16),player.getInventory(), 0, "Se rendre a la gare", combat_win);
+        else return new InGame(window, sf::Vector2u(0,0), sf::Vector2f(4,7), sf::Vector2u(16,16),player.getInventory(), 0, "Trouver un moyen de se deplacer", combat_win);
     }
     if (crous){
         crous = false;
@@ -333,8 +334,9 @@ GameState* Indoors::getNextState() {
     }
     if (exit_concess){
         exit_concess = false;
-        return new InGame(window, sf::Vector2u(0,1), sf::Vector2f(10,7), sf::Vector2u(16,16),player.getInventory(), 0, "Acheter un vehicule", combat_win);
-    }
+        if(combat_win) return new InGame(window, sf::Vector2u(0,1), sf::Vector2f(10,7), sf::Vector2u(16,16),player.getInventory(), 0, "Se rendre a la gare", combat_win);
+        else return new InGame(window, sf::Vector2u(0,1), sf::Vector2f(10,7), sf::Vector2u(16,16),player.getInventory(), 0, "Acheter un vehicule", combat_win);
+    }   
     if (car){
         car = false;
         return new Explication(window, "car", Save("InDoors", player.getPosition(), MapName, player.getInventory(), true, combat_win), "texture/texture_expl/car.png");
