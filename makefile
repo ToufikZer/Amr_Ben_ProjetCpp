@@ -1,18 +1,30 @@
 
-CXX = g++
-CXXFLAGS = -Wall -O3
-SFML_LIBS = -lsfml-graphics -lsfml-system -lsfml-audio -lsfml-window
-EXEC = game
-SOURCES = $(wildcard *.cpp)
-OBJECTS = $(SOURCES:.cpp=.o)
+CC=g++
+CCFLAGS= -Wall  -std=c++14 -g 
+LIBFLAGS= 
+SRC= $(wildcard *.cpp)
+OBJ= $(SRC:.cpp=.o)
+EXEC= eco.out
+
 
 all: $(EXEC)
 
-$(EXEC): $(OBJECTS)
-	$(CXX) $(CXXFLAGS) $(OBJECTS) -o $(EXEC) $(SFML_LIBS)
+
+$(EXEC): $(OBJ)
+	$(CC) $(LIBFLAGS) $^ -o $@  -lsfml-graphics -lsfml-system -lsfml-audio -lsfml-window
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CC) $(CCFLAGS) -o $@ -c $<  -lsfml-graphics -lsfml-system -lsfml-audio -lsfml-window
+
+
+depends:
+	g++ -MM $(SRC) > .depends
+
+-include .depends
+
+test:
+	cd tests ; make
+	./tests/testcase.out
 
 clean:
-	rm -f $(OBJECTS) $(EXEC)
+	rm -f $(OBJ) $(EXEC) *.*~
