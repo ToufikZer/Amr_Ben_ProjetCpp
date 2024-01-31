@@ -1,7 +1,9 @@
 #include "Inventory.hpp"
 #include <iostream>
 
-Inventory::Inventory() : maxItems(3), money(300) {}
+Inventory::Inventory() : maxItems(3), money(300) {
+    
+}
 
 void Inventory::addItem(const Item& item) {
     if (items.size() < maxItems) {
