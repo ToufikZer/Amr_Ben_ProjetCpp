@@ -102,7 +102,7 @@ void Bagarre::handleEvent(sf::Event& event, sf::RenderWindow& window) { //inputs
     }
 }
 
-void Bagarre::update(sf::Time deltaTime, sf::RenderWindow& window) { //traitement à chaque frame pour le jeu BAGARRE
+void Bagarre::update(sf::Time deltaTime, sf::RenderWindow& window) { //traitement à chaque frame du jeu 
     if (player.getHP() <= 0) combat_lose = true;
     if (ennemi.getHP() <= 0) combat_win = true;
 

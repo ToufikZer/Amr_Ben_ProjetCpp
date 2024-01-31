@@ -27,7 +27,7 @@ MainMenu::MainMenu(sf::RenderWindow& window, Save save)
     window.setKeyRepeatEnabled(false);
 }
 
-void MainMenu::initialize_text(){
+void MainMenu::initialize_text(){ //initialisation du menu principal
     titleText.setFont(font);
     titleText.setString("J.O Tourismo");
     titleText.setCharacterSize(64);
@@ -47,7 +47,7 @@ void MainMenu::initialize_text(){
     ResetExit();
 }
 
-void MainMenu::handleEvent(sf::Event& event, sf::RenderWindow& window) {
+void MainMenu::handleEvent(sf::Event& event, sf::RenderWindow& window) { //inputs joueur
     if (event.type == sf::Event::MouseButtonPressed)
     {
         if (event.mouseButton.button == sf::Mouse::Left)
@@ -137,14 +137,14 @@ void MainMenu::Detect_Exit(sf::RenderWindow& window){
 }
 
 
-void MainMenu::update(sf::Time deltaTime, sf::RenderWindow& window) {
+void MainMenu::update(sf::Time deltaTime, sf::RenderWindow& window) { //traitement à chaque frame pour le jeu
     // On permet a l'utilisateur de detecter au clavier et a la souris en meme temps prcq sinon ca reset keyboard_pressed
         if (selectedOption != 3) Detect_Start(window);
         if (selectedOption != 1) Detect_Exit(window);
         if (selectedOption != -1 && save.getGameStarted()) Detect_Continue(window);
         }
 
-void MainMenu::draw(sf::RenderWindow& window, sf::Event& event) {
+void MainMenu::draw(sf::RenderWindow& window, sf::Event& event) { //affichage sur l'écran du joueur
     window.clear();
     window.setView(view);
     window.draw(backgroundSprite);
@@ -155,7 +155,7 @@ void MainMenu::draw(sf::RenderWindow& window, sf::Event& event) {
     window.display();
 }
 
-GameState* MainMenu::getNextState() {
+GameState* MainMenu::getNextState() { // indique les différents cas de figure à la fin de l'état MainMenu
     if(start_game){
         start_game = false;
         return new PseudoInterface(window, save);
@@ -167,10 +167,6 @@ GameState* MainMenu::getNextState() {
         if (save.getStateName() == "Labyrinthe") return new Labyrinthe(window, save.getNbPas(), sf::Vector2f(save.getPlayerPosition().x, save.getPlayerPosition().y), save.getmapDimension(), save.getInventory(), 3);
     }
     return nullptr;
-}
-
-bool MainMenu::isRunning() {
-    return true;
 }
 
 // consequence du clavier si on presse Up
@@ -194,7 +190,8 @@ void MainMenu::moveUp(){
         break;
         }
     }
-    // consequence du clavier si on presse Down
+
+// consequence du clavier si on presse Down
 }
 void MainMenu::moveDown(){
     switch(selectedOption)
@@ -219,7 +216,6 @@ void MainMenu::moveDown(){
 }
 
 // consequence du clavier si on presse Enter
-
 void MainMenu::executeOption(){
     if (selectedOption == -1) continue_game = true;
     if (selectedOption == 3) start_game = true;

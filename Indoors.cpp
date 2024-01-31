@@ -1,4 +1,4 @@
-//Ce code permet la gestion des différentes parties durant lesquelles le joueur est en intérieur (il s'en passe des choses en intérieur...)
+//Ce code permet la gestion des différentes parties durant lesquelles le joueur est en intérieur 
 // 
 
 
@@ -81,7 +81,7 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
     initialize_objectif();
 }
 
-void Indoors::initialize_maplist(){
+void Indoors::initialize_maplist(){ //initialisation des maps
     MapList.push_back(GARE);
     MapList.push_back(ROOM);
     MapList.push_back(CROUS);
@@ -92,7 +92,7 @@ void Indoors::initialize_maplist(){
     MapList.push_back(FINAL);
 }
 
-void Indoors::initialize_objectif(){
+void Indoors::initialize_objectif(){ // initialisation de la boite où sera marqué l'objectif actuel
     objectif.setPosition(sf::Vector2f(backgroundSprite.getGlobalBounds().width * 0.39, backgroundSprite.getGlobalBounds().height*0.02));
     objectif.setCharacterSize(backgroundSprite.getGlobalBounds().height*0.05);
     objectif.setFillColor(sf::Color::Black);
@@ -101,7 +101,7 @@ void Indoors::initialize_objectif(){
     objectif.setString(objectif_text);
 }
 
-void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
+void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {//inputs joueur
     if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::A) {
             if (npcThatWasTalking!=nullptr) executeOption();
@@ -221,7 +221,7 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
     EnigmeAnswer(event);
 }
 
-void Indoors::event_key(NPC& npc){
+void Indoors::event_key(NPC& npc){ //ajout de la clé à l'inventaire (cuisine du CROUS)
     isTalking = true;
     player.getInventory().addItem(keyRoom);
     npc.setIsTalking(true);
@@ -229,7 +229,7 @@ void Indoors::event_key(NPC& npc){
     currentMessage += 1;
 }
 
-void Indoors::event_knife(NPC& npc){
+void Indoors::event_knife(NPC& npc){ //ajout du couteau à l'inventaire (valise au début du jeu, aéroport)
     isTalking = true;
     player.getInventory().addItem(Zanpakuto);
     npc.setIsTalking(true);
@@ -237,7 +237,7 @@ void Indoors::event_knife(NPC& npc){
     currentMessage += 1;
 }
 
-void Indoors::event_bottes(NPC& npc){
+void Indoors::event_bottes(NPC& npc){ //ajout des bottes à l'inventaire (CROUS chambre numéro 19)
     isTalking = true;
     player.getInventory().addItem(Bottes);
     npc.setIsTalking(true);
@@ -296,7 +296,7 @@ void Indoors::LastTalk(NPC& npc){
     }
 }
 
-void Indoors::ChooseAnswer(sf::Event& event){
+void Indoors::ChooseAnswer(sf::Event& event){ //navigation dans les choix de dialogues
     if (event.key.code == sf::Keyboard::Up)
         {
             if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
@@ -335,7 +335,7 @@ void Indoors::ChooseAnswer(sf::Event& event){
     }
 }
 
-void Indoors::EnigmeAnswer(sf::Event& event){
+void Indoors::EnigmeAnswer(sf::Event& event){ //gestion de la fenetre d'affichage des enigmes et des inputs pour répondre
     if (event.type == sf::Event::TextEntered) {
         if (enigme_active) {
             if (event.text.unicode == 8) {
@@ -362,7 +362,7 @@ void Indoors::EnigmeAnswer(sf::Event& event){
     }
 }
 
-void Indoors::update(sf::Time deltaTime, sf::RenderWindow& window) {
+void Indoors::update(sf::Time deltaTime, sf::RenderWindow& window) { //traitement à chaque frame du jeu
     player.update(deltaTime, font, backgroundSprite.getGlobalBounds().width,
                   backgroundSprite.getGlobalBounds().height, view, obstacles, NPCs, FloorNumber, isTalking);
     if (player.getPosition().y <= 0.f){
@@ -373,7 +373,7 @@ void Indoors::update(sf::Time deltaTime, sf::RenderWindow& window) {
     }
 }
 
-void Indoors::draw(sf::RenderWindow& window, sf::Event& event) {
+void Indoors::draw(sf::RenderWindow& window, sf::Event& event) { //affichage sur l'écran du joueur
     sf::FloatRect viewRect(0, 0, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height);
     window.clear();
 
@@ -407,7 +407,7 @@ void Indoors::draw(sf::RenderWindow& window, sf::Event& event) {
     window.display();
 }
 
-void Indoors::draw_objectif(){
+void Indoors::draw_objectif(){ //dessine la boite de l'objectif actuel
     sf::FloatRect globalBounds = objectif.getGlobalBounds();
     sf::RectangleShape boundingBox(sf::Vector2f(globalBounds.width + 10, globalBounds.height + 10));
     boundingBox.setPosition(globalBounds.left - 5, globalBounds.top - 5);
@@ -417,7 +417,7 @@ void Indoors::draw_objectif(){
     window.draw(objectif);
 }
 
-GameState* Indoors::getNextState() {
+GameState* Indoors::getNextState() { // indique les différents cas de figure à la fin du gamestate Indoors
     if(backmenu){
         backmenu = false;
         return new MainMenu(window, Save("InDoors", player.getPosition(), MapName, player.getInventory(), true, combat_win));
@@ -513,7 +513,7 @@ bool Indoors::has_boots(Inventory inventaire){
 }
 
 
-void Indoors::executeOption(){
+void Indoors::executeOption(){ //actions liées aux choix dans les dialogues
     if (npcThatWasTalking->getIsAsking()){
         std::vector<std::string>& dialogue = npcThatWasTalking->getDialogue();
         std::vector<std::string> answers = npcThatWasTalking->getAnswerVector()[npcThatWasTalking->getCurrentAnswer()].getText();

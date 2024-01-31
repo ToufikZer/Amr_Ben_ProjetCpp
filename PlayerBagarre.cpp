@@ -43,11 +43,11 @@ void PlayerBagarre::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 }
 
 
-Projectile PlayerBagarre::tir(unsigned int degats, float vitesse, sf::Vector2f position, std::string direction){
+Projectile PlayerBagarre::tir(unsigned int degats, float vitesse, sf::Vector2f position, std::string direction){ // le joueur tire
     return Projectile(vitesse, degats, position, direction, "texture/texture_obstacle/proj.png", 1);
 }
 
-bool PlayerBagarre::collision(Projectile& proj){
+bool PlayerBagarre::collision(Projectile& proj){ //détecte la collision du tir de l'ennemi (cf classe EnnemiBagarre) avec le joueur et diminue les point de vie (HP) du joueur
     if(proj.getCible() == 0){
         //Vise le player
             if (sf::FloatRect(sf::Vector2f(proj.getPosition().x + 10.f, proj.getPosition().y + 4.f), sf::Vector2f(10.f, 24.f)).intersects(getHitbox()))
@@ -71,7 +71,7 @@ bool PlayerBagarre::collision(Projectile& proj){
     return false;
 }
 
-bool PlayerBagarre::has_knife(){
+bool PlayerBagarre::has_knife(){ 
     for (Item& item : inventaire.getItems()){
         if (item.getName() == "Zanpakuto") return true;
     }
@@ -112,7 +112,7 @@ void PlayerBagarre::update(const sf::Time& deltaTime, sf::Font& font, unsigned i
             }
 }
 
-void PlayerBagarre::update_texture(unsigned int u, unsigned int i) {
+void PlayerBagarre::update_texture(unsigned int u, unsigned int i) { //animation lors du déplacement du joueur
     m_vertices[0].texCoords = sf::Vector2f((i) * m_texture.getSize().x/4, (u) * m_texture.getSize().y/2);
     m_vertices[1].texCoords = sf::Vector2f((i+1) * m_texture.getSize().x/4, (u) * m_texture.getSize().y/2);
     m_vertices[2].texCoords = sf::Vector2f((i+1) * m_texture.getSize().x/4, (u+1) * m_texture.getSize().y/2);

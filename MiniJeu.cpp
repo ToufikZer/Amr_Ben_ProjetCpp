@@ -198,9 +198,6 @@ GameState* MiniJeu::getNextState() {
     return nullptr;
 }
 
-bool MiniJeu::isRunning() {
-    return true;
-}
 
 // consequence du clavier si on presse Up
 void MiniJeu::moveUp(){
@@ -226,7 +223,8 @@ void MiniJeu::moveUp(){
     selectedOption = -1;
     break;
     }
-    // consequence du clavier si on presse Down
+
+// consequence du clavier si on presse Down
 }
 void MiniJeu::moveDown(){
     switch(selectedOption)
@@ -254,7 +252,6 @@ void MiniJeu::moveDown(){
 }
 
 // consequence du clavier si on presse Enter
-
 void MiniJeu::executeOption(){
     if (selectedOption == -1) bagarre_game = true;
     if (selectedOption == 3) car_game = true;

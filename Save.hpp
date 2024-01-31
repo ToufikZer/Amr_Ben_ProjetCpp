@@ -5,7 +5,8 @@
 #include "MapIndoors.hpp"
 #include "Inventory.hpp"
 
-class Save {
+class Save { // Classe servant à gardes les informations nécessaires sur le joueur et le jeu afin d'assurer la transition entre les différents états du jeu
+             // gardant entre autre l'inventaire et des booléens qui marquent l'avencement du joueur dans le jeu
 public:
     Save() = default;
 

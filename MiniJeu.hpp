@@ -16,7 +16,6 @@ public:
     void update(sf::Time deltaTime, sf::RenderWindow& window) ;
     void draw(sf::RenderWindow& window, sf::Event& event) ;
     GameState* getNextState() ;
-    bool isRunning();
 
 
 private:

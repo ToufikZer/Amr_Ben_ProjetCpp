@@ -55,7 +55,7 @@ FraudeGameplay::FraudeGameplay(sf::RenderWindow& window, Save save, Inventory in
 }
 
 
-void FraudeGameplay::handleEvent(sf::Event& event, sf::RenderWindow& window) {
+void FraudeGameplay::handleEvent(sf::Event& event, sf::RenderWindow& window) { //inputs joueur
     if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::Escape) {
             backmenu = true;
@@ -66,7 +66,7 @@ void FraudeGameplay::handleEvent(sf::Event& event, sf::RenderWindow& window) {
     }
 }
 
-void FraudeGameplay::update(sf::Time deltaTime, sf::RenderWindow& window) {
+void FraudeGameplay::update(sf::Time deltaTime, sf::RenderWindow& window) { //traitement à chaque frame du jeu
     player.update(deltaTime, font, map.getWidth(), map.getHeight(),view, obstacles);
     if (player.getPosition().x > 210*64.f) 
     {
@@ -77,7 +77,7 @@ void FraudeGameplay::update(sf::Time deltaTime, sf::RenderWindow& window) {
 
 }
 
-void FraudeGameplay::draw(sf::RenderWindow& window, sf::Event& event) {
+void FraudeGameplay::draw(sf::RenderWindow& window, sf::Event& event) { //affichage sur l'écran du joueur
     window.clear();
 
     window.setView(view);
@@ -98,7 +98,7 @@ void FraudeGameplay::draw(sf::RenderWindow& window, sf::Event& event) {
     window.display();
 }
 
-GameState* FraudeGameplay::getNextState() {
+GameState* FraudeGameplay::getNextState() { // indique les différents cas de figure à la fin du jeu (si le joueur gagne, si le joueur perd, si le joueur skip...)
     if(backmenu){
         backmenu = false;
         if(!minijeu) return new MainMenu(window, save);

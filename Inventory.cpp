@@ -3,13 +3,13 @@
 
 Inventory::Inventory() : maxItems(3), money(300) {}
 
-void Inventory::addItem(const Item& item) {
+void Inventory::addItem(const Item& item) { //ajout d'un item dans l'inventaire
     if (items.size() < maxItems) {
         items.push_back(item);
     }
 }
 
-void Inventory::removeItem(const Item& item_to_remove) {
+void Inventory::removeItem(const Item& item_to_remove) { //retrait d'un item de l'inventaire
     if (!items.empty()){
         int index = 0;
         for (Item& item : items){
@@ -20,7 +20,7 @@ void Inventory::removeItem(const Item& item_to_remove) {
     }
 }
 
-void Inventory::displayInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view) {
+void Inventory::displayInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view) { //affichage de l'inventaire
     float xPos = view.getCenter().x - view.getSize().x / 2 + 10.0f;
     float yPos = view.getCenter().y - view.getSize().y / 2 + 10.0f;
 

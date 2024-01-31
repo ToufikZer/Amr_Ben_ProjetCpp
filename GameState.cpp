@@ -22,7 +22,3 @@ GameState* GameState::getNextState()
     return nullptr;
 }
 
-bool GameState::isRunning()
-{
-    return true;
-}

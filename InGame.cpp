@@ -33,7 +33,7 @@ InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2f p
     initialize();
 }
 
-void InGame::initialize() {
+void InGame::initialize() { //initialisation de la phase de jeu en extérieur 
     objectif.setPosition(sf::Vector2f(window.getSize().x * 0.65, window.getSize().y*0.01));
     objectif.setCharacterSize(window.getSize().x * 0.02);
     objectif.setFillColor(sf::Color::Red);
@@ -52,7 +52,7 @@ void InGame::initialize() {
 }
 
 
-void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
+void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) { //inputs joueur
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::A) {
                 EnterHouseUp();
@@ -82,7 +82,7 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
 
 
 
-void InGame::update(sf::Time deltaTime,sf::RenderWindow& window) {
+void InGame::update(sf::Time deltaTime,sf::RenderWindow& window) { //traitement à chaque frame du jeu
     player.update(deltaTime, map, level, NPCs, obstacles, isTalking);
     CheckChangeMap(player.getCurrentPos());
 
@@ -97,7 +97,7 @@ void InGame::update(sf::Time deltaTime,sf::RenderWindow& window) {
     }
 
 
-void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
+void InGame::draw(sf::RenderWindow& window, sf::Event& event) { //affichage sur l'écran du joueur
     sf::FloatRect viewRect(0, 0, window.getSize().x, window.getSize().y);
     window.clear();
     window.setView(view);
@@ -125,7 +125,7 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
     window.display();
 }
 
- GameState* InGame::getNextState(){
+ GameState* InGame::getNextState(){ // indique les différents cas de figure à la fin du jeu (si le joueur gagne, si le joueur perd, si le joueur skip...)
     if(backmenu){
         backmenu = false;
         music.stop( );
@@ -150,7 +150,7 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
 
 
 
-void InGame::CheckChangeMap(sf::Vector2u position){
+void InGame::CheckChangeMap(sf::Vector2u position){ //gère les déplacement entre les différentes map selon le côté par lequel le joueur est sorti de la map
     if (player.getChangeMap() != 0)
         {
         if (player.getChangeMap()== 1) ChangeLeft(position);
@@ -183,7 +183,7 @@ void InGame::CheckChangeMap(sf::Vector2u position){
     }
 }
 
-void InGame::FirstTalk(NPC& npc){
+void InGame::FirstTalk(NPC& npc){ //Lit la première partie du dialogue (première chaine de caractères du vecteur de chaines de caractères)
     first_dialogue = npc.getDialogue();
     npc.play_voice();
     isTalking = true;
@@ -192,7 +192,7 @@ void InGame::FirstTalk(NPC& npc){
     npcThatWasTalking = &npc;
 }
 
-void InGame::NextTalk(NPC& npc){
+void InGame::NextTalk(NPC& npc){ //Lit la suite du dialogue
     npc.stop_voice();
     npc.play_voice();
     currentMessage += 1;
@@ -202,7 +202,7 @@ void InGame::NextTalk(NPC& npc){
     }
 }
 
-void InGame::LastTalk(NPC& npc){
+void InGame::LastTalk(NPC& npc){ //lit la fin du dialogue
     if (npcThatWasTalking != nullptr) {
         if (&npc == npcThatWasTalking) {
             npc.getDialogue() = first_dialogue;
@@ -214,7 +214,7 @@ void InGame::LastTalk(NPC& npc){
     }
 }
 
-void InGame::HandleUpChoice(sf::Event& event){
+void InGame::HandleUpChoice(sf::Event& event){ //navigation dans les choix des dialogues
     if (event.key.code == sf::Keyboard::Up) {
         if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
             if(npcThatWasTalking->getCurrentAnswer() == 0){}
@@ -234,7 +234,7 @@ void InGame::HandleUpChoice(sf::Event& event){
     }
 }
 
-void InGame::HandleDownChoice(sf::Event& event){
+void InGame::HandleDownChoice(sf::Event& event){ //navigation dans les choix des dialogues
     if (event.key.code == sf::Keyboard::Down) {
         if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
             if(npcThatWasTalking->getCurrentAnswer() == npcThatWasTalking->getAnswerVector().size()-1) {}
@@ -253,7 +253,7 @@ void InGame::HandleDownChoice(sf::Event& event){
     }
 }
 
-void InGame::ChangeRight(sf::Vector2u position){
+void InGame::ChangeRight(sf::Vector2u position){ //changement de map vers la droite
     player.setChangeMap(0);
     player.setCurrentPos(sf::Vector2u (map.getWidth() - position.x - 1, position.y));
     player.setPosition(ftile_size_ingame*player.getCurrentPos().x , ftile_size_ingame*player.getCurrentPos().y);
@@ -261,7 +261,7 @@ void InGame::ChangeRight(sf::Vector2u position){
     maps.setNextCurrentMap();
 }
 
-void InGame::ChangeLeft(sf::Vector2u position){
+void InGame::ChangeLeft(sf::Vector2u position){ // changement de map vers la gauche
     player.setChangeMap(0);
     player.setCurrentPos(sf::Vector2u (map.getWidth() - position.x - 1, position.y));
     player.setPosition(ftile_size_ingame*player.getCurrentPos().x , ftile_size_ingame*player.getCurrentPos().y);
@@ -269,7 +269,7 @@ void InGame::ChangeLeft(sf::Vector2u position){
     maps.setPreviousCurrentMap();
 }
 
-void InGame::ChangeUp(sf::Vector2u position){
+void InGame::ChangeUp(sf::Vector2u position){ //changement de map vers la haut 
     player.setChangeMap(0);
     player.setCurrentPos(sf::Vector2u (position.x, map.getHeight() - position.y - 1));
     player.setPosition(ftile_size_ingame*player.getCurrentPos().x , ftile_size_ingame*player.getCurrentPos().y);
@@ -277,7 +277,7 @@ void InGame::ChangeUp(sf::Vector2u position){
     maps.setUpCurrentMap();
 }
 
-void InGame::ChangeDown(sf::Vector2u position){
+void InGame::ChangeDown(sf::Vector2u position){ //changement de map vers le bas
     player.setChangeMap(0);
     player.setCurrentPos(sf::Vector2u (position.x, map.getHeight() - position.y - 1));
     player.setPosition(ftile_size_ingame*player.getCurrentPos().x , ftile_size_ingame*player.getCurrentPos().y);
@@ -286,7 +286,7 @@ void InGame::ChangeDown(sf::Vector2u position){
 }
 
 
-void InGame::EnterHouseUp(){
+void InGame::EnterHouseUp(){ // changement de map vers un batiment dont l'accès se fait en montant
     for (Obstacle& obstacle : obstacles) {
                     if (obstacle.getCanEnter() && obstacle.getDirection() == 2){
                         obstacleInteracting = &obstacle;
@@ -297,7 +297,7 @@ void InGame::EnterHouseUp(){
                 }
 }
 
-void InGame::EnterHouseRight(){
+void InGame::EnterHouseRight(){ //changement de map vers un batiment dont l'accès se fait en allant à droite
     for (Obstacle& obstacle : obstacles) {
                     if (obstacle.getCanEnter() && obstacle.getDirection() == 0){
                         obstacleInteracting = &obstacle;
@@ -308,7 +308,7 @@ void InGame::EnterHouseRight(){
                 }
 }
 
-void InGame::executeOption(){
+void InGame::executeOption(){ //
     if (npcThatWasTalking->getIsAsking()){
         std::vector<std::string>& dialogue = npcThatWasTalking->getDialogue();
         std::vector<std::string> answers = npcThatWasTalking->getAnswerVector()[npcThatWasTalking->getCurrentAnswer()].getText();

@@ -38,13 +38,13 @@ Player::Player(const std::string &texturePath, unsigned int pos_x, unsigned int 
     setPosition(pos_x * tile_size, pos_y * tile_size);
 }
 
-void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const { //affichage sur l'écran du joueur
     states.transform *= getTransform();
     states.texture = &m_texture;
     target.draw(m_vertices, states);
 }
 
-bool Player::is_looking_at(NPC npc) {
+bool Player::is_looking_at(NPC npc) { //donne l'orientation du joueur sur la map
     if (direction == 0 && (current_pos.x + 1) == npc.getCurrentPos().x && current_pos.y == npc.getCurrentPos().y)
         return true;
     if (direction == 2 && (current_pos.x) == npc.getCurrentPos().x && current_pos.y - 1 == npc.getCurrentPos().y)
@@ -243,21 +243,21 @@ if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPress
     }
 }
 
-void Player::update_texture(unsigned int u, unsigned int i, sf::Vector2u tileSize,const sf::Time &deltaTime) {
+void Player::update_texture(unsigned int u, unsigned int i, sf::Vector2u tileSize,const sf::Time &deltaTime) { // animation lors du mouvement du joueur
         m_vertices[0].texCoords = sf::Vector2f(i * tileSize.x, u * tileSize.y);
         m_vertices[1].texCoords = sf::Vector2f((i+1)*tileSize.x, u * tileSize.y);
         m_vertices[2].texCoords = sf::Vector2f((i+1)*tileSize.x, (u+1) * tileSize.y);
         m_vertices[3].texCoords = sf::Vector2f(i * tileSize.x, (u+1) * tileSize.y);
 }
 
-bool Player::in_map(unsigned int map_width, unsigned int map_height, sf::Vector2u position) {
+bool Player::in_map(unsigned int map_width, unsigned int map_height, sf::Vector2u position) { // return true si le joueur est dans l'enceinte de la map, false sinon
     if (position.x < map_width && position.y < map_height && position.x >= 0 && position.y >= 0)
         return true;
     else
         return false;
 }
 
-void Player::drawInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view){
+void Player::drawInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view){ //dessin l'inventaire
     inventaire.displayInventory(window, font, view);
 }
 

@@ -53,7 +53,7 @@ InGame_CarGameplay::InGame_CarGameplay(sf::RenderWindow& window, Save save, Inve
 
 }
 
-void InGame_CarGameplay::handleEvent(sf::Event& event, sf::RenderWindow& window) {
+void InGame_CarGameplay::handleEvent(sf::Event& event, sf::RenderWindow& window) { //inputs joueur
     if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::Escape) {
             backmenu = true;
@@ -64,7 +64,7 @@ void InGame_CarGameplay::handleEvent(sf::Event& event, sf::RenderWindow& window)
     }
 }
 
-void InGame_CarGameplay::update(sf::Time deltaTime, sf::RenderWindow& window) {
+void InGame_CarGameplay::update(sf::Time deltaTime, sf::RenderWindow& window) { //traitement à chaque frame du jeu
     player.update(deltaTime, font, map.getWidth(), map.getHeight(),view, level, obstacles);
     if (player.getPosition().x > 210*64.f) 
     {
@@ -75,7 +75,7 @@ void InGame_CarGameplay::update(sf::Time deltaTime, sf::RenderWindow& window) {
 
 }
 
-void InGame_CarGameplay::draw(sf::RenderWindow& window, sf::Event& event) {
+void InGame_CarGameplay::draw(sf::RenderWindow& window, sf::Event& event) { //affichage sur l'écran du joueur
     window.clear();
 
     window.setView(view);
@@ -96,7 +96,7 @@ void InGame_CarGameplay::draw(sf::RenderWindow& window, sf::Event& event) {
     window.display();
 }
 
-GameState* InGame_CarGameplay::getNextState() {
+GameState* InGame_CarGameplay::getNextState() { // indique les différents cas de figure à la fin du jeu (si le joueur gagne, si le joueur perd, si le joueur skip...)
     if(backmenu){
         backmenu = false;
         music.stop( );

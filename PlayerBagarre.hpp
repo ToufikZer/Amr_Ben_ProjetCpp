@@ -4,7 +4,6 @@
 #include "TileMap.hpp"
 #include "Obstacle.hpp"
 #include "NPC.hpp"
-#include "CharacterBagarre.hpp"
 #include "Inventory.hpp"
 #include "Projectile.hpp"
 #include "Item.hpp"

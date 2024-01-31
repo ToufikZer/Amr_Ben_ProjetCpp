@@ -49,9 +49,9 @@ Projectile EnnemiBagarre::tir(unsigned int degats, float vitesse, sf::Vector2f p
 }
 
 
-bool EnnemiBagarre::collision(Projectile& proj){ //détecte la collision et diminue les point de vie (HP) du joueur
+bool EnnemiBagarre::collision(Projectile& proj){ //détecte la collision du tir du joueur (cf classe PlayerBagarre) avec l'ennemi et diminue les point de vie (HP) de l'ennemi
     if(proj.getCible() == 1){
-        //Vise le player
+        //Vise l'ennemi
             if (sf::FloatRect(sf::Vector2f(proj.getPosition().x + 10.f, proj.getPosition().y + 4.f), sf::Vector2f(10.f, 24.f)).intersects(getHitbox()))
             {
                 HP -= proj.getDegats();
