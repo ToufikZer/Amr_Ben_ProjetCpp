@@ -31,6 +31,12 @@ public:
     GameState* getNextState() ;
 
 private:
+    void initialize();
+    void Trap();
+    void RedTile();
+    void GreenTile();
+    void YellowTile();
+
     sf::RenderWindow& window;
     sf::View view;
     sf::Font font;
@@ -51,7 +57,6 @@ private:
     bool end_lab;
     bool backmenu;
 
-    void initialize();
     sf::Vector2u tp(sf::Vector2u tp_tile);
 
 };

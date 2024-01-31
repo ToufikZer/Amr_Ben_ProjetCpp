@@ -9,5 +9,6 @@ Map map3 = MAP3;
 Map map0 = MAP0;
 Map map_s = MAP_S;
 MapManager::MapManager(){
-    MapMap = {{map0, map3, map1, map2, map_s}}; 
+    MapMap = {{map0, map3, map0, map2, map_s},
+              {map0, map3, map1, map2, map_s}}; 
 }

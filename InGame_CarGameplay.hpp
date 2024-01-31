@@ -26,6 +26,9 @@ public:
     GameState* getNextState() ;
 
 private:
+    void initialize_obstacles();
+    void initialize_finish();
+
     sf::RenderWindow& window;
     sf::View view;
     sf::Font font;

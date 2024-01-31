@@ -19,7 +19,7 @@ public:
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-    void update(const sf::Time& deltaTime, TileMap map, sf::View& view, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, bool is_talking);
+    void update(const sf::Time& deltaTime, TileMap map, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, bool is_talking);
 
     void update_texture(unsigned int u, unsigned int i, sf::Vector2u tileSize,const sf::Time &deltaTime);
     
@@ -86,7 +86,11 @@ protected:
     bool in_map(unsigned int map_width, unsigned int map_height, sf::Vector2u position);
 
 private:
-    // sf::Text InteractText;
+    void Aller_Bas(const sf::Time &deltaTime, sf::Vector2u new_position, TileMap map, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, float speed);
+    void Aller_Haut(const sf::Time &deltaTime, sf::Vector2u new_position, TileMap map, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, float speed);
+    void Aller_Gauche(const sf::Time &deltaTime, sf::Vector2u new_position, TileMap map, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, float speed);
+    void Aller_Droite(const sf::Time &deltaTime, sf::Vector2u new_position, TileMap map, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, float speed);
+
     sf::Time elapsed; 
     sf::Texture m_texture;
     sf::VertexArray m_vertices;

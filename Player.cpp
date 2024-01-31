@@ -14,6 +14,7 @@ Player::Player(const std::string &texturePath, unsigned int pos_x, unsigned int 
     current_pos(pos_x, pos_y),
     current_move(0),
     change_map(0),
+    direction(direction),
     wall_collision(false),
     inventaire(inventaire) {
     if (!m_texture.loadFromFile(texturePath)) {
@@ -33,11 +34,6 @@ Player::Player(const std::string &texturePath, unsigned int pos_x, unsigned int 
     m_vertices[1].texCoords = sf::Vector2f(m_texture.getSize().x / 4, 0.f);
     m_vertices[2].texCoords = sf::Vector2f(m_texture.getSize().x / 4, m_texture.getSize().y / 4);
     m_vertices[3].texCoords = sf::Vector2f(0.f, m_texture.getSize().y / 4);
-
-    m_vertices[0].color = sf::Color::White;
-    m_vertices[1].color = sf::Color::White;
-    m_vertices[2].color = sf::Color::White;
-    m_vertices[3].color = sf::Color::White;
 
     setPosition(pos_x * tile_size, pos_y * tile_size);
 }
@@ -72,15 +68,8 @@ bool Player::collision_obstacles(sf::Vector2u position, std::vector<Obstacle> ob
 bool Player::collision_npcs(sf::Vector2u position, std::vector<NPC> NPCs){
     for (NPC& npc : NPCs){
         if (position.x == npc.getCurrentPos().x && position.y == npc.getCurrentPos().y){
-                // InteractText.setPosition(getPosition().x - 40.f ,getPosition().y - 15.f);
-                // InteractText.setString("Press A to interact");
-                // InteractText.setCharacterSize(15);
-                // InteractText.setFillColor(sf::Color::Red);
                 return true;
         }
-        // else{
-        //     InteractText.setFillColor(sf::Color(0,0,0,0));
-        // }
     }
     return false;
 }
@@ -94,80 +83,98 @@ bool Player::collision(sf::Vector2u position, TileMap map, std::vector<std::vect
     if (collision_obstacles(position, obstacles)) return true;
     return false;
 }
-void Player::update(const sf::Time &deltaTime, TileMap map, sf::View& view, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, bool is_talking) {
+void Player::update(const sf::Time &deltaTime, TileMap map, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, bool is_talking) {
     int moveDelay;
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) moveDelay = 20;
-    else moveDelay = 50;
+    else moveDelay = 40;
     sf::Vector2u new_position;
     if (elapsed.asMilliseconds() >= moveDelay) {
         float speed = ftile_size;
     if(!is_talking){
-        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D) || going_right) && !going_down && !going_left && !going_up) {
-            if(going_right) new_position.x = (current_pos.x); 
-            else new_position.x = (current_pos.x + 1);
-            new_position.y = current_pos.y;
-            if(!in_map(map.getWidth(), map.getHeight(), new_position)) setChangeMap(3);
-            else{
-                if (collision(new_position, map, plan,NPCs, obstacles)){wall_collision = true;}
-                else {
-                    if (!going_right) 
+        Aller_Droite(deltaTime, new_position, map, plan, NPCs, obstacles, speed);
+        Aller_Haut(deltaTime, new_position, map, plan, NPCs, obstacles, speed);
+        Aller_Gauche(deltaTime, new_position, map, plan, NPCs, obstacles, speed);
+        Aller_Bas(deltaTime, new_position, map, plan, NPCs, obstacles, speed);
+    }
+    } 
+    else {
+        elapsed += deltaTime;
+    }
+}
+
+void Player::Aller_Bas(const sf::Time &deltaTime, sf::Vector2u new_position, TileMap map, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, float speed){
+    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S) || going_down) && !going_right && !going_left && !going_up) {
+        if(going_down) new_position.y = (current_pos.y); 
+        else new_position.y = (current_pos.y + 1);
+        new_position.x = current_pos.x;
+        if(!in_map(map.getWidth(), map.getHeight(), new_position)) setChangeMap(4);
+        else{
+            if (collision(new_position, map, plan,NPCs, obstacles)){wall_collision = true;}
+            else {
+                if (!going_down) 
+                {
+                    move(0.f, speed/4);
+                    going_down = true;
+                    current_pos.y += 1;
+                    nb_pas++;
+                }
+                else{
+                    if(current_move != 3)
                     {
-                        move(speed/4, 0.f);
-                        going_right = true;
-                        current_pos.x += 1;
-                        nb_pas++;
+                        current_move +=1;
+                        move(0.f, speed/4);
                     }
-                    else{
-                        if(current_move != 3)
-                        {
-                            current_move +=1;
-                            move(speed/4, 0.f);
-                        }
-                        else {
-                            current_move = 0;
-                            going_right = false;
-                        }
+                    else {
+                        current_move = 0;
+                        going_down = false;
                     }
                 }
             }
-            update_texture(2,current_move, sf::Vector2u(tile_size, tile_size), deltaTime);
-            direction = 0;
-            elapsed = sf::Time::Zero;
         }
-        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Z) || going_up) && !going_down && !going_left && !going_right) {
-            if(going_up) new_position.y = (current_pos.y); 
-            else new_position.y = (current_pos.y - 1);
-            new_position.x = current_pos.x;
-            if(!in_map(map.getWidth(), map.getHeight(), new_position)) setChangeMap(2);
-            else{
-                if (collision(new_position, map, plan,NPCs, obstacles)){wall_collision = true;}
-                else {
-                    if (!going_up) 
+        update_texture(0,current_move, sf::Vector2u(tile_size, tile_size), deltaTime);
+        direction = 3;
+        elapsed = sf::Time::Zero;
+    }
+}
+
+void Player::Aller_Haut(const sf::Time &deltaTime, sf::Vector2u new_position, TileMap map, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, float speed){
+    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Z) || going_up) && !going_down && !going_left && !going_right) {
+        if(going_up) new_position.y = (current_pos.y); 
+        else new_position.y = (current_pos.y - 1);
+        new_position.x = current_pos.x;
+        if(!in_map(map.getWidth(), map.getHeight(), new_position)) setChangeMap(2);
+        else{
+            if (collision(new_position, map, plan,NPCs, obstacles)){wall_collision = true;}
+            else {
+                if (!going_up) 
+                {
+                    move(0.f, -speed/4);
+                    going_up = true;
+                    current_pos.y -= 1;
+                    nb_pas++;
+                }
+                else{
+                    if(current_move != 3)
                     {
+                        current_move +=1;
                         move(0.f, -speed/4);
-                        going_up = true;
-                        current_pos.y -= 1;
-                        nb_pas++;
                     }
-                    else{
-                        if(current_move != 3)
-                        {
-                            current_move +=1;
-                            move(0.f, -speed/4);
-                        }
-                        else {
-                            current_move = 0;
-                            going_up = false;
-                        }
+                    else {
+                        current_move = 0;
+                        going_up = false;
                     }
                 }
             }
-            update_texture(3,current_move, sf::Vector2u(tile_size, tile_size), deltaTime);
-            direction = 2;
-            elapsed = sf::Time::Zero;
         }
-        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Q) || going_left) && !going_down && !going_right && !going_up) {
+        update_texture(3,current_move, sf::Vector2u(tile_size, tile_size), deltaTime);
+        direction = 2;
+        elapsed = sf::Time::Zero;
+    }
+}
+
+void Player::Aller_Gauche(const sf::Time &deltaTime, sf::Vector2u new_position, TileMap map, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, float speed){
+    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Q) || going_left) && !going_down && !going_right && !going_up) {
             if(going_left) new_position.x = (current_pos.x); 
             else new_position.x = (current_pos.x - 1);
             new_position.y = current_pos.y;
@@ -199,42 +206,40 @@ void Player::update(const sf::Time &deltaTime, TileMap map, sf::View& view, std:
             direction = 1;
             elapsed = sf::Time::Zero;
         }
-        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S) || going_down) && !going_right && !going_left && !going_up) {
-            if(going_down) new_position.y = (current_pos.y); 
-            else new_position.y = (current_pos.y + 1);
-            new_position.x = current_pos.x;
-            if(!in_map(map.getWidth(), map.getHeight(), new_position)) setChangeMap(4);
-            else{
-                if (collision(new_position, map, plan,NPCs, obstacles)){wall_collision = true;}
-                else {
-                    if (!going_down) 
+}
+
+void Player::Aller_Droite(const sf::Time &deltaTime, sf::Vector2u new_position, TileMap map, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles, float speed){
+if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D) || going_right) && !going_down && !going_left && !going_up) {
+        if(going_right) new_position.x = (current_pos.x); 
+        else new_position.x = (current_pos.x + 1);
+        new_position.y = current_pos.y;
+        if(!in_map(map.getWidth(), map.getHeight(), new_position)) setChangeMap(3);
+        else{
+            if (collision(new_position, map, plan,NPCs, obstacles)){wall_collision = true;}
+            else {
+                if (!going_right) 
+                {
+                    move(speed/4, 0.f);
+                    going_right = true;
+                    current_pos.x += 1;
+                    nb_pas++;
+                }
+                else{
+                    if(current_move != 3)
                     {
-                        move(0.f, speed/4);
-                        going_down = true;
-                        current_pos.y += 1;
-                        nb_pas++;
+                        current_move +=1;
+                        move(speed/4, 0.f);
                     }
-                    else{
-                        if(current_move != 3)
-                        {
-                            current_move +=1;
-                            move(0.f, speed/4);
-                        }
-                        else {
-                            current_move = 0;
-                            going_down = false;
-                        }
+                    else {
+                        current_move = 0;
+                        going_right = false;
                     }
                 }
             }
-            update_texture(0,current_move, sf::Vector2u(tile_size, tile_size), deltaTime);
-            direction = 3;
-            elapsed = sf::Time::Zero;
         }
-    }
-    } 
-    else {
-        elapsed += deltaTime;
+        update_texture(2,current_move, sf::Vector2u(tile_size, tile_size), deltaTime);
+        direction = 0;
+        elapsed = sf::Time::Zero;
     }
 }
 
@@ -255,9 +260,4 @@ bool Player::in_map(unsigned int map_width, unsigned int map_height, sf::Vector2
 void Player::drawInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view){
     inventaire.displayInventory(window, font, view);
 }
-
-// void Player::drawInteractText(sf::RenderWindow& window, sf::Font& font){
-//     InteractText.setFont(font);
-//     window.draw(InteractText);
-// }
 

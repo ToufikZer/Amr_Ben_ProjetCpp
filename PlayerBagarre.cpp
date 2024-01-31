@@ -14,7 +14,7 @@ PlayerBagarre::PlayerBagarre(const std::string &texturePath, float pos_x, float 
     speed(150),
     HP(100)
     {
-    if (has_boots()) speed = 2* speed;
+    if (has_boots()) speed = 2 * speed;
     if (!m_texture.loadFromFile(texturePath)) {
         std::cerr << "Erreur lors du chargement de la texture" << std::endl;
         std::exit(-1);
@@ -32,11 +32,6 @@ PlayerBagarre::PlayerBagarre(const std::string &texturePath, float pos_x, float 
     m_vertices[1].texCoords = sf::Vector2f(m_texture.getSize().x/4, 0.f);
     m_vertices[2].texCoords = sf::Vector2f(m_texture.getSize().x/4, m_texture.getSize().y/2);
     m_vertices[3].texCoords = sf::Vector2f(0.f, m_texture.getSize().y/2);
-
-    m_vertices[0].color = sf::Color::White;
-    m_vertices[1].color = sf::Color::White;
-    m_vertices[2].color = sf::Color::White;
-    m_vertices[3].color = sf::Color::White;
 
     setPosition(pos_x, pos_y);
 }

@@ -11,7 +11,6 @@ InGame::InGame(sf::RenderWindow& window): window(window){
 
 InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2f pos_player, sf::Vector2u map_dimension, Inventory inventaire, unsigned int player_direction, std::string objectif_text, bool combat_win)
     : window(window),
-      view(sf::Vector2f(player.getPosition().x + 16.f, player.getPosition().y + 16.f), sf::Vector2f(300, 300)),
       objectif_text(objectif_text),
       maps(),
       map(map_dimension),
@@ -31,16 +30,15 @@ InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2f p
     NPCs = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getNPCs();
     obstacles = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getObstacles();
 
+    initialize();
+}
+
+void InGame::initialize() {
     objectif.setPosition(sf::Vector2f(window.getSize().x * 0.65, window.getSize().y*0.01));
     objectif.setCharacterSize(window.getSize().x * 0.02);
     objectif.setFillColor(sf::Color::Red);
     objectif.setFont(font);
     objectif.setString(objectif_text);
-
-    initialize();
-}
-
-void InGame::initialize() {
 
     if (!font.loadFromFile("font/arial.ttf")) {
         std::cerr << "Erreur lors du chargement de la police" << std::endl;
@@ -51,11 +49,6 @@ void InGame::initialize() {
         std::cerr << "Erreur lors du chargement de la carte" << std::endl;
         std::exit(-1);
     }
-
-    // if (!buffer_bump.loadFromFile("sound/sound/bump.wav")) {
-    //     std::cerr << "Failed to load bump sound buffer!" << std::endl;
-    //     // Gestion de l'erreur, peut-être lancer une exception ou gérer autrement.
-    // }
 }
 
 
@@ -67,33 +60,14 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                 if (npcThatWasTalking!=nullptr) executeOption();
                 for (NPC& npc : NPCs) {
                     if (!isTalking && player.is_looking_at(npc)) {
-                        first_dialogue = npc.getDialogue();
-                        npc.play_voice();
-                        isTalking = true;
-                        npc.setIsTalking(true);
-                        npc.update(player, sf::Time::Zero, map.getWidth(), map.getHeight(), level, NPCs, obstacles);
-                        npcThatWasTalking = &npc;
+                        FirstTalk(npc);
                         break;
                     } else if ((&npc == npcThatWasTalking) && isTalking && (currentMessage < npc.getDialogue().size() - 1))
                     {
-                        npc.stop_voice();
-                        npc.play_voice();
-                        currentMessage += 1;
-                        if (currentMessage == npc.getDialogue().size()){
-                                npc.setPlayBool(false);
-                                npc.play_voice();
-                        }
+                        NextTalk(npc);
                         break;
                     } else {
-                        if (npcThatWasTalking != nullptr) {
-                            if (&npc == npcThatWasTalking) {
-                                npc.getDialogue() = first_dialogue;
-                                npc.setPlayBool(true);
-                                isTalking = false;
-                                currentMessage = 0;
-                                npcThatWasTalking->setIsTalking(false);
-                            }
-                        }
+                        LastTalk(npc);
                     }
                 }
             }
@@ -101,47 +75,15 @@ void InGame::handleEvent(sf::Event& event, sf::RenderWindow& window) {
             if (event.key.code == sf::Keyboard::Escape) {
                 backmenu = true;
             }
-
-            if (event.key.code == sf::Keyboard::Down) {
-                if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
-                    if(npcThatWasTalking->getCurrentAnswer() == npcThatWasTalking->getAnswerVector().size()-1) {}
-                    else {
-                        npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() + 1);
-                    }
-                }
-            }
-            if (event.key.code == sf::Keyboard::Up) {
-                if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
-                    if(npcThatWasTalking->getCurrentAnswer() == 0){}
-                    else{
-                        npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() - 1);
-                    }
-                }
-            }
-            if (event.key.code == sf::Keyboard::S) {
-                if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
-                    if(npcThatWasTalking->getCurrentAnswer() == npcThatWasTalking->getAnswerVector().size()-1) {}
-                    else {
-                        npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() + 1);
-                    }
-                }
-            }
-            if (event.key.code == sf::Keyboard::Z) {
-                if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
-                    if(npcThatWasTalking->getCurrentAnswer() == 0){}
-                    else{
-                        npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() - 1);
-                    }
-                }
-            }
-                      
+            HandleDownChoice(event);
+            HandleUpChoice(event);     
         }
     }
 
 
 
 void InGame::update(sf::Time deltaTime,sf::RenderWindow& window) {
-    player.update(deltaTime, map, view, level, NPCs, obstacles, isTalking);
+    player.update(deltaTime, map, level, NPCs, obstacles, isTalking);
     CheckChangeMap(player.getCurrentPos());
 
         for (NPC& npc : NPCs) {
@@ -180,8 +122,6 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
     window.draw(objectif);
     player.drawInventory(window, font, view);
     
-    // player.drawInteractText(window, font);
-
     window.display();
 }
 
@@ -213,39 +153,14 @@ void InGame::draw(sf::RenderWindow& window, sf::Event& event) {
 void InGame::CheckChangeMap(sf::Vector2u position){
     if (player.getChangeMap() != 0)
         {
-        if (player.getChangeMap()== 1){
-            player.setChangeMap(0);
-            player.setCurrentPos(sf::Vector2u (map.getWidth() - position.x - 1, position.y));
-            player.setPosition(ftile_size_ingame*player.getCurrentPos().x , ftile_size_ingame*player.getCurrentPos().y);
-            // view.setCenter(player.getPosition().x + 16.f, player.getPosition().y+ 16.f);
+        if (player.getChangeMap()== 1) ChangeLeft(position);
 
-            maps.setPreviousCurrentMap();
-        }
-        if (player.getChangeMap()== 3){
-            player.setChangeMap(0);
-            player.setCurrentPos(sf::Vector2u (map.getWidth() - position.x - 1, position.y));
-            player.setPosition(ftile_size_ingame*player.getCurrentPos().x , ftile_size_ingame*player.getCurrentPos().y);
-            // view.setCenter(player.getPosition().x + 16.f, player.getPosition().y+ 16.f);
+        if (player.getChangeMap()== 3) ChangeRight(position);
 
-            maps.setNextCurrentMap();
-        }
+        if (player.getChangeMap()== 2) ChangeUp(position);
 
-        if (player.getChangeMap()== 2){
-            player.setChangeMap(0);
-            player.setCurrentPos(sf::Vector2u (position.x, map.getHeight() - position.y - 1));
-            player.setPosition(ftile_size_ingame*player.getCurrentPos().x , ftile_size_ingame*player.getCurrentPos().y);
-            // view.setCenter(player.getPosition().x + 16.f, player.getPosition().y+ 16.f);
+        if (player.getChangeMap()== 4) ChangeDown(position);
 
-            maps.setUpCurrentMap();
-
-        }
-        if (player.getChangeMap()== 4){
-            player.setChangeMap(0);
-            player.setCurrentPos(sf::Vector2u (position.x, map.getHeight() - position.y - 1));
-            player.setPosition(ftile_size_ingame*player.getCurrentPos().x , ftile_size_ingame*player.getCurrentPos().y);
-            
-            maps.setDownCurrentMap();
-        }
             MusicPath = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getMusicPath();
             level = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getLevel();
             NPCs = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getNPCs();
@@ -266,8 +181,110 @@ void InGame::CheckChangeMap(sf::Vector2u position){
         std::cerr << "Erreur lors du chargement de la carte" << std::endl;
         std::exit(-1);
     }
-    // }
 }
+
+void InGame::FirstTalk(NPC& npc){
+    first_dialogue = npc.getDialogue();
+    npc.play_voice();
+    isTalking = true;
+    npc.setIsTalking(true);
+    npc.update(player, sf::Time::Zero, map.getWidth(), map.getHeight(), level, NPCs, obstacles);
+    npcThatWasTalking = &npc;
+}
+
+void InGame::NextTalk(NPC& npc){
+    npc.stop_voice();
+    npc.play_voice();
+    currentMessage += 1;
+    if (currentMessage == npc.getDialogue().size()){
+            npc.setPlayBool(false);
+            npc.play_voice();
+    }
+}
+
+void InGame::LastTalk(NPC& npc){
+    if (npcThatWasTalking != nullptr) {
+        if (&npc == npcThatWasTalking) {
+            npc.getDialogue() = first_dialogue;
+            npc.setPlayBool(true);
+            isTalking = false;
+            currentMessage = 0;
+            npcThatWasTalking->setIsTalking(false);
+        }
+    }
+}
+
+void InGame::HandleUpChoice(sf::Event& event){
+    if (event.key.code == sf::Keyboard::Up) {
+        if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
+            if(npcThatWasTalking->getCurrentAnswer() == 0){}
+            else{
+                npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() - 1);
+            }
+        }
+    }
+    
+    if (event.key.code == sf::Keyboard::Z) {
+        if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
+            if(npcThatWasTalking->getCurrentAnswer() == 0){}
+            else{
+                npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() - 1);
+            }
+        }
+    }
+}
+
+void InGame::HandleDownChoice(sf::Event& event){
+    if (event.key.code == sf::Keyboard::Down) {
+        if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
+            if(npcThatWasTalking->getCurrentAnswer() == npcThatWasTalking->getAnswerVector().size()-1) {}
+            else {
+                npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() + 1);
+            }
+        }
+    }
+    if (event.key.code == sf::Keyboard::S) {
+        if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
+            if(npcThatWasTalking->getCurrentAnswer() == npcThatWasTalking->getAnswerVector().size()-1) {}
+            else {
+                npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() + 1);
+            }
+        }
+    }
+}
+
+void InGame::ChangeRight(sf::Vector2u position){
+    player.setChangeMap(0);
+    player.setCurrentPos(sf::Vector2u (map.getWidth() - position.x - 1, position.y));
+    player.setPosition(ftile_size_ingame*player.getCurrentPos().x , ftile_size_ingame*player.getCurrentPos().y);
+
+    maps.setNextCurrentMap();
+}
+
+void InGame::ChangeLeft(sf::Vector2u position){
+    player.setChangeMap(0);
+    player.setCurrentPos(sf::Vector2u (map.getWidth() - position.x - 1, position.y));
+    player.setPosition(ftile_size_ingame*player.getCurrentPos().x , ftile_size_ingame*player.getCurrentPos().y);
+
+    maps.setPreviousCurrentMap();
+}
+
+void InGame::ChangeUp(sf::Vector2u position){
+    player.setChangeMap(0);
+    player.setCurrentPos(sf::Vector2u (position.x, map.getHeight() - position.y - 1));
+    player.setPosition(ftile_size_ingame*player.getCurrentPos().x , ftile_size_ingame*player.getCurrentPos().y);
+
+    maps.setUpCurrentMap();
+}
+
+void InGame::ChangeDown(sf::Vector2u position){
+    player.setChangeMap(0);
+    player.setCurrentPos(sf::Vector2u (position.x, map.getHeight() - position.y - 1));
+    player.setPosition(ftile_size_ingame*player.getCurrentPos().x , ftile_size_ingame*player.getCurrentPos().y);
+    
+    maps.setDownCurrentMap();
+}
+
 
 void InGame::EnterHouseUp(){
     for (Obstacle& obstacle : obstacles) {

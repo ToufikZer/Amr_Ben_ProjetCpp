@@ -94,53 +94,20 @@
 
 
     void Labyrinthe::update(sf::Time deltaTime,sf::RenderWindow& window) {
-        player.update(deltaTime, map, view, level, NPCs, obstacles, isTalking);
-        if ((player.getCurrentPos().x == 5 && player.getCurrentPos().y == 6) || (player.getCurrentPos().x == 4 && player.getCurrentPos().y == 7) || (player.getCurrentPos().x == 5 && player.getCurrentPos().y == 7)){
-            level[7][5] = 16;
-            map.load("texture/texture_decor/tileset_lab.png", sf::Vector2u(ftile_size_ingame_lab, ftile_size_ingame_lab), level);
-        }
-        else if (level[7][5] == 16){
-            level[7][5] = 14;
-            map.load("texture/texture_decor/tileset_lab.png", sf::Vector2u(ftile_size_ingame_lab, ftile_size_ingame_lab), level);
-        }
-        if ((player.getCurrentPos().x == 11 && player.getCurrentPos().y == 19)){
-            level[19][12] = 1;
-            map.load("texture/texture_decor/tileset_lab.png", sf::Vector2u(ftile_size_ingame_lab, ftile_size_ingame_lab), level);
-        }
-        if ((player.getCurrentPos().x == 5 && player.getCurrentPos().y == 17)){
-            level[16][2] = 1;
-            map.load("texture/texture_decor/tileset_lab.png", sf::Vector2u(ftile_size_ingame_lab, ftile_size_ingame_lab), level);
-        }
-        if ((player.getCurrentPos().x == 23 && player.getCurrentPos().y == 15)){
-            level[15][24] = 1;
-            map.load("texture/texture_decor/tileset_lab.png", sf::Vector2u(ftile_size_ingame_lab, ftile_size_ingame_lab), level);
-        }
+        player.update(deltaTime, map, level, NPCs, obstacles, isTalking);
+        
+        Trap();
         
         if (player.getChangeMap()== 2){
             player.setChangeMap(0);
             end_lab = true;
         }
-        if (level[player.getCurrentPos().y][player.getCurrentPos().x] == 16)
-        {
-            player.ResetMove();
-            player.setPosition(15*32.f, 10*32.f);
-            player.setCurrentPos(sf::Vector2u(15,10));
-            player.ResetNbPas();
-            light_off = false;
-        }
+        RedTile();
         
-        if (level[player.getCurrentPos().y][player.getCurrentPos().x] == 14){
-            player.ResetMove();
-            sf::Vector2u new_pos = tp(sf::Vector2u(player.getCurrentPos().y, player.getCurrentPos().x));
-            player.setPosition(new_pos.x*32.f, new_pos.y*32.f);
-            player.setCurrentPos(new_pos);
-            // player.ResetNbPas();
-            // light_off = false;
-        }
-        if (level[player.getCurrentPos().y][player.getCurrentPos().x] == 18){
-            player.ResetNbPas();
-            light_off = false;
-        }
+        GreenTile();
+
+        YellowTile();
+
         if (player.getNbPas() > 15) light_off = true;
     }
 
@@ -159,8 +126,6 @@
         }
         window.draw(player);
         player.drawInventory(window, font, view);
-
-        // player.drawInteractText(window, font);
 
         window.display();
     }
@@ -185,4 +150,55 @@ sf::Vector2u Labyrinthe::tp(sf::Vector2u tp_tile){
     else if(tp_tile.y == 19 && tp_tile.x == 17) return sf::Vector2u(19,15);
     else if(tp_tile.y == 20 && tp_tile.x == 15) return sf::Vector2u(20,17);
     else return sf::Vector2u(15,10);
+}
+
+void Labyrinthe::Trap(){
+    if ((player.getCurrentPos().x == 5 && player.getCurrentPos().y == 6) || (player.getCurrentPos().x == 4 && player.getCurrentPos().y == 7) || (player.getCurrentPos().x == 5 && player.getCurrentPos().y == 7)){
+        level[7][5] = 16;
+        map.load("texture/texture_decor/tileset_lab.png", sf::Vector2u(ftile_size_ingame_lab, ftile_size_ingame_lab), level);
+    }
+    else if (level[7][5] == 16){
+        level[7][5] = 14;
+        map.load("texture/texture_decor/tileset_lab.png", sf::Vector2u(ftile_size_ingame_lab, ftile_size_ingame_lab), level);
+    }
+    if ((player.getCurrentPos().x == 11 && player.getCurrentPos().y == 19)){
+        level[19][12] = 1;
+        map.load("texture/texture_decor/tileset_lab.png", sf::Vector2u(ftile_size_ingame_lab, ftile_size_ingame_lab), level);
+    }
+    if ((player.getCurrentPos().x == 5 && player.getCurrentPos().y == 17)){
+        level[16][2] = 1;
+        map.load("texture/texture_decor/tileset_lab.png", sf::Vector2u(ftile_size_ingame_lab, ftile_size_ingame_lab), level);
+    }
+    if ((player.getCurrentPos().x == 23 && player.getCurrentPos().y == 15)){
+        level[15][24] = 1;
+        map.load("texture/texture_decor/tileset_lab.png", sf::Vector2u(ftile_size_ingame_lab, ftile_size_ingame_lab), level);
+    }
+}
+
+void Labyrinthe::RedTile(){
+    if (level[player.getCurrentPos().y][player.getCurrentPos().x] == 16)
+    {
+        player.ResetMove();
+        player.setPosition(15*32.f, 10*32.f);
+        player.setCurrentPos(sf::Vector2u(15,10));
+        player.ResetNbPas();
+        light_off = false;
+    }
+}
+
+void Labyrinthe::GreenTile(){
+    if (level[player.getCurrentPos().y][player.getCurrentPos().x] == 14){
+        player.ResetMove();
+        sf::Vector2u new_pos = tp(sf::Vector2u(player.getCurrentPos().y, player.getCurrentPos().x));
+        player.setPosition(new_pos.x*32.f, new_pos.y*32.f);
+        player.setCurrentPos(new_pos);
+
+    }
+}
+
+void Labyrinthe::YellowTile(){
+    if (level[player.getCurrentPos().y][player.getCurrentPos().x] == 18){
+        player.ResetNbPas();
+        light_off = false;
+    }
 }

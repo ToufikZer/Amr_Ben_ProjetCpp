@@ -32,11 +32,6 @@ PlayerInDoors::PlayerInDoors(const std::string &texturePath, float pos_x, float 
     m_vertices[2].texCoords = sf::Vector2f(m_texture.getSize().x/4, m_texture.getSize().y/2);
     m_vertices[3].texCoords = sf::Vector2f(0.f, m_texture.getSize().y/2);
 
-    m_vertices[0].color = sf::Color::White;
-    m_vertices[1].color = sf::Color::White;
-    m_vertices[2].color = sf::Color::White;
-    m_vertices[3].color = sf::Color::White;
-
     setPosition(pos_x, pos_y);
 }
 
@@ -59,20 +54,8 @@ bool PlayerInDoors::collision_obstacles(sf::Vector2f position, std::vector<Obsta
 bool PlayerInDoors::collision_NPCs(sf::Vector2f position, NPC npc){
     if (sf::FloatRect(sf::Vector2f(position.x, position.y),sf::Vector2f(m_texture.getSize().x/3, m_texture.getSize().y)).intersects(npc.getGlobalBounds()))
     {
-        // if (!npc.getIsTalking()) {
-        //         InteractText.setPosition(getPosition().x - 30.f ,getPosition().y - 18.f);
-        //         InteractText.setString("Press A to interact");
-        //         InteractText.setCharacterSize(15);
-        //         InteractText.setFillColor(sf::Color::Red);
-        //     }
-        // else{
-        //     InteractText.setFillColor(sf::Color(0,0,0,0));
-        //     }
         return true;
     }
-    // else{
-    //     InteractText.setFillColor(sf::Color(0,0,0,0));
-    //     }
     return false;
 }
 
@@ -123,8 +106,3 @@ void PlayerInDoors::out_map(unsigned int map_width, unsigned int map_height, sf:
 void PlayerInDoors::drawInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view){
     inventaire.displayInventory(window, font, view);
 }
-
-// void PlayerInDoors::drawInteractText(sf::RenderWindow& window, sf::Font& font){
-//     InteractText.setFont(font);
-//     window.draw(InteractText);
-// }

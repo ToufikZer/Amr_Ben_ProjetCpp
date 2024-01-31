@@ -19,6 +19,8 @@ public:
 
 
 private:
+    void initialize_text();
+
     sf::RenderWindow& window;
     sf::View view;
     sf::Font font;

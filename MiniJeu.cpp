@@ -22,6 +22,12 @@ MiniJeu::MiniJeu(sf::RenderWindow& window, Save save)
     backgroundSprite.setTexture(backgroundTexture);
     backgroundSprite.setPosition(0,0);
     
+    initialize_text();
+
+    window.setKeyRepeatEnabled(false);
+}
+
+void MiniJeu::initialize_text(){
     titleText.setFont(font);
     titleText.setString("J.O Tourismo");
     titleText.setCharacterSize(64);
@@ -43,8 +49,6 @@ MiniJeu::MiniJeu(sf::RenderWindow& window, Save save)
     exitText.setFont(font);
     exitText.setString("Quitter");
     ResetExit();
-
-    window.setKeyRepeatEnabled(false);
 }
 
 void MiniJeu::handleEvent(sf::Event& event, sf::RenderWindow& window) {

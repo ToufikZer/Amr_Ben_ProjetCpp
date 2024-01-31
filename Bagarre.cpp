@@ -139,8 +139,14 @@ void Bagarre::draw(sf::RenderWindow& window, sf::Event& event) {
         window.draw(proj);
     }
 
-    if (combat_win) window.draw(Finish);
-    if (combat_lose) window.draw(Lose);
+    if (combat_win) {
+        window.draw(rectFinish);
+        window.draw(Finish);
+    }
+    if (combat_lose) {
+        window.draw(rectLose);
+        window.draw(Lose);
+    }
 
     window.display();
 }

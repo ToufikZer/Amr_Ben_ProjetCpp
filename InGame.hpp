@@ -41,8 +41,6 @@ private:
     Player player;
     sf::Font font;
     sf::Music music;
-    // sf::SoundBuffer buffer_bump;
-    // sf::Sound bump_sound;
     std::string MusicPath;
     std::vector<std::vector<int>> level;     
     std::vector<NPC> NPCs;
@@ -60,7 +58,17 @@ private:
     void EnterHouseUp();
     void EnterHouseRight();
 
-// FAIRE PAREIL POUR DISCUSSION AVEC A
+    void FirstTalk(NPC& npc);
+    void NextTalk(NPC& npc);
+    void LastTalk(NPC& npc);
+
+    void HandleDownChoice(sf::Event& event);
+    void HandleUpChoice(sf::Event& event);
+
+    void ChangeRight(sf::Vector2u position);
+    void ChangeLeft(sf::Vector2u position);
+    void ChangeUp(sf::Vector2u position);
+    void ChangeDown(sf::Vector2u position);
 
     void initialize();
     void CheckChangeMap(sf::Vector2u position);

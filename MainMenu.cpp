@@ -8,7 +8,8 @@ MainMenu::MainMenu(sf::RenderWindow& window, Save save)
       start_game(false),
       continue_game(false),
       keyboard_pressed(false),
-      save(save) {
+      save(save) 
+      {
     if (!font.loadFromFile("font/Aller_Rg.ttf")) {
         std::cerr << "Erreur lors du chargement de la police" << std::endl;
         std::exit(-1);
@@ -21,6 +22,12 @@ MainMenu::MainMenu(sf::RenderWindow& window, Save save)
     backgroundSprite.setTexture(backgroundTexture);
     backgroundSprite.setPosition(0,0);
     
+    initialize_text();
+
+    window.setKeyRepeatEnabled(false);
+}
+
+void MainMenu::initialize_text(){
     titleText.setFont(font);
     titleText.setString("J.O Tourismo");
     titleText.setCharacterSize(64);
@@ -38,8 +45,6 @@ MainMenu::MainMenu(sf::RenderWindow& window, Save save)
     exitText.setFont(font);
     exitText.setString("Quitter");
     ResetExit();
-
-    window.setKeyRepeatEnabled(false);
 }
 
 void MainMenu::handleEvent(sf::Event& event, sf::RenderWindow& window) {

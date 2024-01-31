@@ -66,7 +66,9 @@ Obstacle::Obstacle(const std::string& texturePath, unsigned int pos_x, unsigned 
 Obstacle::Obstacle(const std::string& texturePath, unsigned int pos_x, unsigned int pos_y, unsigned int id) :
     id_obstacle(id),
     ChangeTile1(sf::Vector2f(200,200)),
-    ChangeTile2(sf::Vector2f(200,200))
+    ChangeTile2(sf::Vector2f(200,200)),
+    is_open(false),
+    direction_to_enter(5)
     {
     if (!m_texture.loadFromFile(texturePath)) {
         std::cerr << "Erreur lors du chargement de la texture" << std::endl;
@@ -102,7 +104,7 @@ void Obstacle::update(Player& player, const sf::Time &deltaTime){
         is_open = false;
         update_texture(0);
     }
-    if (player.getDirection() == direction_to_enter && is_open) {
+    if ((player.getDirection() == direction_to_enter) && is_open) {
         can_enter = true;
     }
     else can_enter = false;
