@@ -106,6 +106,52 @@ TEST_CASE("Inventory addItem ajoute un objet à l'inventaire") {
     REQUIRE(inventaire.getItems()[0].getName() == "Sword");
 }
 
+TEST_CASE("Inventory addItem ne dépasse pas le nombre maximum d'objets") {
+    Inventory inventory;
+    Item item1("Sword", "A powerful weapon", 50, "sword_texture.png");
+    Item item2("Shield", "A protective shield", 30, "shield_texture.png");
+    Item item3("Potion", "A healing potion", 10, "potion_texture.png");
+
+    inventory.addItem(item1);
+    inventory.addItem(item2);
+    inventory.addItem(item3);
+
+    REQUIRE(inventory.getItems().size() == 3);
+
+    inventory.addItem(Item("Extra Item", "An extra item", 100, "extra_texture.png"));
+    REQUIRE(inventory.getItems().size() == 3);
+}
+
+TEST_CASE("Inventory removeItem enlève un objet de l'inventaire") {
+    Inventory inventory;
+    Item item("Sword", "A powerful weapon", 50, "sword_texture.png");
+    inventory.addItem(item);
+
+    REQUIRE(inventory.getItems().size() == 1);
+    inventory.removeItem(item);
+    REQUIRE(inventory.getItems().empty());
+}
+
+TEST_CASE("Inventory removeItem ne fait rien si l'inventaire est vide") {
+    Inventory inventory;
+    Item item("Sword", "A powerful weapon", 50, "sword_texture.png");
+
+    REQUIRE(inventory.getItems().empty());
+    inventory.removeItem(item);
+    REQUIRE(inventory.getItems().empty());
+}
+
+
+TEST_CASE("Inventory exchangeItems ajoute l'objet si l'inventaire n'est pas plein") {
+    Inventory inventory;
+    Item itemToAdd("Shield", "A protective shield", 30, "shield_texture.png");
+
+    REQUIRE(inventory.getItems().empty());
+    inventory.exchangeItems(Item("Nonexistent Item", "An item that doesn't exist", 0, "nonexistent_texture.png"), itemToAdd);
+    REQUIRE(inventory.getItems().size() == 1);
+    REQUIRE(inventory.getItems()[0].getName() == "Shield");
+}
+
 //////////////////// Save //////////////////////////////////////
 
 TEST_CASE("Save création d'un objet Save avec des valeurs arbitraires") {

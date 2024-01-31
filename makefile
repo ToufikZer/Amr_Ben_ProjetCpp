@@ -4,7 +4,7 @@ CCFLAGS= -Wall  -std=c++14 -g
 LIBFLAGS= 
 SRC= $(wildcard *.cpp)
 OBJ= $(SRC:.cpp=.o)
-EXEC= eco.out
+EXEC= game
 
 
 all: $(EXEC)

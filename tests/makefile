@@ -12,7 +12,7 @@ testcase.out : $(OBJ_TEST)
 	$(CC) $(CCFLAGS) -I../ -o $@ -c $< -lsfml-graphics -lsfml-system -lsfml-audio -lsfml-window
 
 clean :
-	rm -f $(OBJ_TEST) testcase.out
+	rm -f testcase.out tests.o
 
 depends:
 	g++ -MM $(SRC) >.depends
