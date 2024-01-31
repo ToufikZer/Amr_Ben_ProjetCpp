@@ -48,14 +48,7 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
       labyrinthe(false),
       bagarreF(false)
 {
-    MapList.push_back(GARE);
-    MapList.push_back(ROOM);
-    MapList.push_back(CROUS);
-    MapList.push_back(KITCHEN);
-    MapList.push_back(AIRPORT);
-    MapList.push_back(CONCESS);
-    MapList.push_back(STADE);
-    MapList.push_back(FINAL);
+    initialize_maplist();
 
     for (MapIndoors& map: MapList){
         if (MapName == map.getName()){
@@ -74,14 +67,6 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
         std::exit(-1);
     }
 
-    // if (!music.openFromFile(MusicPath)) {
-    //     std::cerr << "Erreur lors du chargement du son" << std::endl;
-    //     std::exit(-1);
-    // }
-
-    // music.setVolume(5);
-    // music.setLoop(true);
-    // music.play();
     if (!backgroundTexture.loadFromFile(BackgroundPath)) {
         std::cerr << "Erreur lors du chargement de l'image de fond" << std::endl;
         std::exit(-1);
@@ -89,6 +74,21 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
     backgroundSprite.setTexture(backgroundTexture);
     player.setSpeed(PlayerSpeed);
     view.reset(sf::FloatRect(0, 0, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height));
+    initialize_objectif();
+}
+
+void Indoors::initialize_maplist(){
+    MapList.push_back(GARE);
+    MapList.push_back(ROOM);
+    MapList.push_back(CROUS);
+    MapList.push_back(KITCHEN);
+    MapList.push_back(AIRPORT);
+    MapList.push_back(CONCESS);
+    MapList.push_back(STADE);
+    MapList.push_back(FINAL);
+}
+
+void Indoors::initialize_objectif(){
     objectif.setPosition(sf::Vector2f(backgroundSprite.getGlobalBounds().width * 0.39, backgroundSprite.getGlobalBounds().height*0.02));
     objectif.setCharacterSize(backgroundSprite.getGlobalBounds().height*0.05);
     objectif.setFillColor(sf::Color::Black);
@@ -143,63 +143,15 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                     else if (npc.getDialogue()[currentMessage] == "KEY"){
                         first_dialogue = npc.getDialogue();
                         if (!has_key(player.getInventory())){
-                        isTalking = true;
-                        player.getInventory().addItem(keyRoom);
-                        npc.setIsTalking(true);
-                        npcThatWasTalking = &npc;
-                        currentMessage += 1;
-                        break;
+                            event_key(npc);
+                            break;
                         }
                         else {}
-                    }
-                    else if (npc.getDialogue()[currentMessage] == "ENIGME1"){
-                        if(!enigme1_done){
-                            enigme_active = true;
-                            npcThatWasTalking = nullptr;
-                            enigme = Enigme("Si j'ai 3 pommes et que Charles en a 5,\nSachant que Abdel m'a vendu 2 pommes\nEt que Charles m'en a vole 4\ncombien avais-je de pommes au debut?", 5, font, 0);
-                            isTalking = true;
-                            currentMessage = 0;
-                            break;
-                        }
-                    }
-                    else if (npc.getDialogue()[currentMessage] == "ENIGME2"){
-                        if(!enigme2_done){
-                            enigme_active = true;
-                            npcThatWasTalking = nullptr;
-                            enigme = Enigme("Voici une enigme:\nUn homme faisant connaissance avec\nsa voisine apprend qu'elle a 3 filles.\nIl demande leurs ages, mais elle ne repond pas\ndirectement elle prefere lui faire deviner:\n-Le produit de leurs ages fait 36; dit-elle\n-Il me faudrait plus d'indices\n-Somme de leurs ages = numero de la maison en face\n-Je ne peux toujours pas trouver\n-L'ainee est blonde\n-Ah oui, c'est bon j'ai trouve !\n\nQuel est l'age de l'ainee ?", 9, font, 1);
-                            isTalking = true;
-                            currentMessage = 0;
-                            break;
-                        }
-                    }
-                    else if (npc.getDialogue()[currentMessage] == "ENIGME3"){
-                        if(!enigme3_done){
-                            enigme_active = true;
-                            npcThatWasTalking = nullptr;
-                            enigme = Enigme("Trouvez le code secret a 4 chiffres:\nLa somme des 4 chiffres est 13,\nle chiffre des milliers est 2 fois plus\ngrand que celui des unites\nle chiffre des centaines est 3 fois plus\ngrand que celui des dizaines.", 6313, font, 2);
-                            isTalking = true;
-                            currentMessage = 0;
-                            break;
-                        }
-                    }
-                    else if (npc.getDialogue()[currentMessage] == "ENIGME4"){
-                        if(!enigme4_done){
-                            enigme_active = true;
-                            npcThatWasTalking = nullptr;
-                            enigme = Enigme("Trouvez le code cache dans la phrase suivante:\n\nUn oeuf bien cuit!", 1918, font, 3);
-                            isTalking = true;
-                            currentMessage = 0;
-                            break;
-                        }
                     }
                     else if (npc.getDialogue()[currentMessage] == "KNIFE"){
                         first_dialogue = npc.getDialogue();
                         if (!has_kitchen_knife(player.getInventory())){
-                            isTalking = true;
-                            player.getInventory().addItem(Zanpakuto);
-                            npc.setIsTalking(true);
-                            npcThatWasTalking = &npc;
-                            currentMessage += 1;
+                            event_knife(npc);
                             break;
                         }
                         else {}
@@ -207,22 +159,39 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                     else if (npc.getDialogue()[currentMessage] == "BOTTES"){
                         first_dialogue = npc.getDialogue();
                         if (!has_boots(player.getInventory())){
-                            isTalking = true;
-                            player.getInventory().addItem(Bottes);
-                            npc.setIsTalking(true);
-                            npcThatWasTalking = &npc;
-                            currentMessage += 1;
+                            event_bottes(npc);
                             break;
                         }
                         else {}
                     }
+
+                    else if (npc.getDialogue()[currentMessage] == "ENIGME1"){
+                        if(!enigme1_done){
+                            event_enigme1();
+                            break;
+                        }
+                    }
+                    else if (npc.getDialogue()[currentMessage] == "ENIGME2"){
+                        if(!enigme2_done){
+                            event_enigme2();
+                            break;
+                        }
+                    }
+                    else if (npc.getDialogue()[currentMessage] == "ENIGME3"){
+                        if(!enigme3_done){
+                            event_enigme3();
+                            break;
+                        }
+                    }
+                    else if (npc.getDialogue()[currentMessage] == "ENIGME4"){
+                        if(!enigme4_done){
+                            event_enigme4();
+                            break;
+                        }
+                    }
                     else{
                         if (!isTalking){
-                            first_dialogue = npc.getDialogue();
-                            if (npc.getTexturePath() == "texture/texture_npc/door_invisible.png") npc.play_toctoc();
-                            isTalking = true;
-                            npc.setIsTalking(true);
-                            npcThatWasTalking = &npc;
+                            FirstTalk(npc);
                             break;
                         }
                         else if ((&npc == npcThatWasTalking) && isTalking && (currentMessage < npc.getDialogue().size() - 1))
@@ -231,20 +200,97 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                         break;
                     }
                         else {
-                            if (npcThatWasTalking != nullptr) {
-                                if (&npc == npcThatWasTalking) {
-                                    npc.getDialogue() = first_dialogue;
-                                    isTalking = false;
-                                    currentMessage = 0;
-                                    npcThatWasTalking->setIsTalking(false);
-                                }
-                            }
+                            LastTalk(npc);
                         }
                     }
                 }
             }
         }
-        if (event.key.code == sf::Keyboard::Up)
+        ChooseAnswer(event);
+        if (event.key.code == sf::Keyboard::Escape) {
+                backmenu = true;
+            }
+    }
+    EnigmeAnswer(event);
+}
+
+void Indoors::event_key(NPC& npc){
+    isTalking = true;
+    player.getInventory().addItem(keyRoom);
+    npc.setIsTalking(true);
+    npcThatWasTalking = &npc;
+    currentMessage += 1;
+}
+
+void Indoors::event_knife(NPC& npc){
+    isTalking = true;
+    player.getInventory().addItem(Zanpakuto);
+    npc.setIsTalking(true);
+    npcThatWasTalking = &npc;
+    currentMessage += 1;
+}
+
+void Indoors::event_bottes(NPC& npc){
+    isTalking = true;
+    player.getInventory().addItem(Bottes);
+    npc.setIsTalking(true);
+    npcThatWasTalking = &npc;
+    currentMessage += 1;
+}
+
+void Indoors::event_enigme1(){
+    enigme_active = true;
+    npcThatWasTalking = nullptr;
+    enigme = Enigme("Si j'ai 3 pommes et que Charles en a 5,\nSachant que Abdel m'a vendu 2 pommes\nEt que Charles m'en a vole 4\ncombien avais-je de pommes au debut?", 5, font, 0);
+    isTalking = true;
+    currentMessage = 0;
+}
+
+void Indoors::event_enigme2(){
+    enigme_active = true;
+    npcThatWasTalking = nullptr;
+    enigme = Enigme("Voici une enigme:\nUn homme faisant connaissance avec\nsa voisine apprend qu'elle a 3 filles.\nIl demande leurs ages, mais elle ne repond pas\ndirectement elle prefere lui faire deviner:\n-Le produit de leurs ages fait 36; dit-elle\n-Il me faudrait plus d'indices\n-Somme de leurs ages = numero de la maison en face\n-Je ne peux toujours pas trouver\n-L'ainee est blonde\n-Ah oui, c'est bon j'ai trouve !\n\nQuel est l'age de l'ainee ?", 9, font, 1);
+    isTalking = true;
+    currentMessage = 0;
+}
+
+void Indoors::event_enigme3(){
+    enigme_active = true;
+    npcThatWasTalking = nullptr;
+    enigme = Enigme("Trouvez le code secret a 4 chiffres:\nLa somme des 4 chiffres est 13,\nle chiffre des milliers est 2 fois plus\ngrand que celui des unites\nle chiffre des centaines est 3 fois plus\ngrand que celui des dizaines.", 6313, font, 2);
+    isTalking = true;
+    currentMessage = 0;
+}
+
+void Indoors::event_enigme4(){
+    enigme_active = true;
+    npcThatWasTalking = nullptr;
+    enigme = Enigme("Trouvez le code cache dans la phrase suivante:\n\nUn oeuf bien cuit!", 1918, font, 3);
+    isTalking = true;
+    currentMessage = 0;
+}
+
+void Indoors::FirstTalk(NPC& npc){
+    first_dialogue = npc.getDialogue();
+    if (npc.getTexturePath() == "texture/texture_npc/door_invisible.png") npc.play_toctoc();
+    isTalking = true;
+    npc.setIsTalking(true);
+    npcThatWasTalking = &npc;
+}
+
+void Indoors::LastTalk(NPC& npc){
+    if (npcThatWasTalking != nullptr) {
+        if (&npc == npcThatWasTalking) {
+            npc.getDialogue() = first_dialogue;
+            isTalking = false;
+            currentMessage = 0;
+            npcThatWasTalking->setIsTalking(false);
+        }
+    }
+}
+
+void Indoors::ChooseAnswer(sf::Event& event){
+    if (event.key.code == sf::Keyboard::Up)
         {
             if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
                 if(npcThatWasTalking->getCurrentAnswer() == 0){}
@@ -253,37 +299,36 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                 }
             }
         }
-        if (event.key.code == sf::Keyboard::Down)
-        {
-            if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
-                if(npcThatWasTalking->getCurrentAnswer() == npcThatWasTalking->getAnswerVector().size()-1) {}
-                else {
-                    npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() + 1);
-                }
+    if (event.key.code == sf::Keyboard::Down)
+    {
+        if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
+            if(npcThatWasTalking->getCurrentAnswer() == npcThatWasTalking->getAnswerVector().size()-1) {}
+            else {
+                npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() + 1);
             }
         }
-        if (event.key.code == sf::Keyboard::S)
-        {
-            if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
-                if(npcThatWasTalking->getCurrentAnswer() == npcThatWasTalking->getAnswerVector().size()-1) {}
-                else {
-                    npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() + 1);
-                }
-            }
-        }
-        if (event.key.code == sf::Keyboard::Z)
-        {
-            if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
-                if(npcThatWasTalking->getCurrentAnswer() == 0) {}
-                else {
-                    npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() - 1);
-                }
-            }
-        }
-        if (event.key.code == sf::Keyboard::Escape) {
-                backmenu = true;
-            }
     }
+    if (event.key.code == sf::Keyboard::S)
+    {
+        if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
+            if(npcThatWasTalking->getCurrentAnswer() == npcThatWasTalking->getAnswerVector().size()-1) {}
+            else {
+                npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() + 1);
+            }
+        }
+    }
+    if (event.key.code == sf::Keyboard::Z)
+    {
+        if (npcThatWasTalking!=nullptr && npcThatWasTalking->getIsAsking()){
+            if(npcThatWasTalking->getCurrentAnswer() == 0) {}
+            else {
+                npcThatWasTalking->setCurrentAnswer(npcThatWasTalking->getCurrentAnswer() - 1);
+            }
+        }
+    }
+}
+
+void Indoors::EnigmeAnswer(sf::Event& event){
     if (event.type == sf::Event::TextEntered) {
         if (enigme_active) {
             if (event.text.unicode == 8) {
@@ -323,23 +368,18 @@ void Indoors::update(sf::Time deltaTime, sf::RenderWindow& window) {
 
 void Indoors::draw(sf::RenderWindow& window, sf::Event& event) {
     sf::FloatRect viewRect(0, 0, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height);
-    // Effacer la fenêtre
     window.clear();
 
     window.draw(backgroundSprite);
 
-    // Définir la vue
     window.setView(view);
-    // Dessiner le joueur
-
 
     for (Obstacle& obstacle : obstacles){
         window.draw(obstacle);
     }
 
-    // window.draw(player);
     for (NPC& npc : NPCs) {
-        if (npc.getDialogue()[0] == "KEY" && has_key(player.getInventory())){} //On pourrait faire une fonction draw_key avec la meme condition mais pg la
+        if (npc.getDialogue()[0] == "KEY" && has_key(player.getInventory())){} 
         else{
             window.draw(npc);
         }
@@ -350,6 +390,17 @@ void Indoors::draw(sf::RenderWindow& window, sf::Event& event) {
                 npc.sendMessage(window, event, viewRect, font, currentMessage);
             }
         }
+    draw_objectif();
+    player.drawInventory(window, font, view);
+    if (enigme_active) {
+        enigme.setPosition(164,264);
+        enigme.setSize(738,484);
+        enigme.afficher(window);
+    }
+    window.display();
+}
+
+void Indoors::draw_objectif(){
     sf::FloatRect globalBounds = objectif.getGlobalBounds();
     sf::RectangleShape boundingBox(sf::Vector2f(globalBounds.width + 10, globalBounds.height + 10));
     boundingBox.setPosition(globalBounds.left - 5, globalBounds.top - 5);
@@ -357,15 +408,6 @@ void Indoors::draw(sf::RenderWindow& window, sf::Event& event) {
     boundingBox.setOutlineThickness(globalBounds.width * 0.01);
     window.draw(boundingBox);
     window.draw(objectif);
-    player.drawInventory(window, font, view);
-    if (enigme_active) {
-        enigme.setPosition(164,264);
-        enigme.setSize(738,484);
-        enigme.afficher(window);
-    }
-    // player.drawInteractText(window, font);
-    // Afficher la fenêtre
-    window.display();
 }
 
 GameState* Indoors::getNextState() {

@@ -24,6 +24,24 @@ public:
     GameState* getNextState() ;
 
 private:
+    void initialize_maplist();
+    void initialize_objectif();
+
+    void event_key(NPC& npc);
+    void event_knife(NPC& npc);
+    void event_bottes(NPC& npc);
+
+    void event_enigme1();
+    void event_enigme2();
+    void event_enigme3();
+    void event_enigme4();
+
+    void FirstTalk(NPC& npc);
+    void LastTalk(NPC& npc);
+
+    void ChooseAnswer(sf::Event& event);
+    void EnigmeAnswer(sf::Event& event);
+
     sf::RenderWindow& window;
     sf::View view;
     sf::Font font;
@@ -71,6 +89,7 @@ private:
     bool labyrinthe;
     bool bagarreF;
 
+    void draw_objectif();
     bool has_key(Inventory inventaire);
     bool has_boots(Inventory inventaire);
     bool has_kitchen_knife(Inventory inventaire);

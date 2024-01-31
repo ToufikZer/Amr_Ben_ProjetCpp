@@ -41,10 +41,6 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
             m_vertices[2].texCoords = sf::Vector2f(m_texture.getSize().x /3, 2*m_texture.getSize().y/4);
             m_vertices[3].texCoords = sf::Vector2f(0.f, 2*m_texture.getSize().y/4);
 
-            m_vertices[0].color = sf::Color::White;
-            m_vertices[1].color = sf::Color::White;
-            m_vertices[2].color = sf::Color::White;
-            m_vertices[3].color = sf::Color::White;
             setPosition(pos_x*ftile_size_npc,pos_y*ftile_size_npc);
         }
 
@@ -67,10 +63,6 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
             m_vertices[2].texCoords = sf::Vector2f(m_texture.getSize().x, m_texture.getSize().y);
             m_vertices[3].texCoords = sf::Vector2f(0.f, m_texture.getSize().y);
 
-            m_vertices[0].color = sf::Color::White;
-            m_vertices[1].color = sf::Color::White;
-            m_vertices[2].color = sf::Color::White;
-            m_vertices[3].color = sf::Color::White;
             setPosition(pos_x,pos_y);
         }
     }
@@ -109,113 +101,16 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
 
             if(elapsed.asMilliseconds() >= moveDelay){
                 if ((movement == 'R' || going_right) && !going_down && !going_left && !going_up){
-                    if(going_right) new_position.x = (current_pos.x); 
-                    else new_position.x = (current_pos.x + 1);
-                    new_position.y = current_pos.y;
-                    if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs, player, obstacles)){
-                    if (!going_right) 
-                    {
-                        move(speed/4, 0.f);
-                        going_right = true;
-                        current_pos.x += 1;
-                    }
-                    else{
-                        if(current_move_moving != 3)
-                        {
-                            current_move_moving +=1;
-                            move(speed/4, 0.f);
-                        }
-                        else {
-                            current_move_moving = 0;
-                            going_right = false;
-                            current_move += 1;
-                        }
-                    }
-                } 
-                    update_texture(2,current_move_moving, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
-
-                    elapsed = sf::Time::Zero;
+                Aller_Droite(new_position, speed, player, deltaTime, map_width, map_height, plan, NPCs, obstacles);
                 }   
                 else if ((movement == 'U' || going_up) && !going_down && !going_left && !going_right){
-                    if(going_up) new_position.y = (current_pos.y); 
-                    else new_position.y = (current_pos.y - 1);
-                    new_position.x = current_pos.x;
-                    if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs, player, obstacles)){
-                    if (!going_up) 
-                    {
-                        move(0.f, -speed/4);
-                        going_up = true;
-                        current_pos.y -= 1;
-                    }
-                    else{
-                        if(current_move_moving != 3)
-                        {
-                            current_move_moving +=1;
-                            move(0.f, -speed/4);
-                        }
-                        else {
-                            current_move_moving = 0;
-                            going_up = false;
-                            current_move += 1;
-                        }
-                    }
-                    } 
-                    update_texture(0,current_move_moving, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
-                    elapsed = sf::Time::Zero;
+                Aller_Haut(new_position, speed, player, deltaTime, map_width, map_height, plan, NPCs, obstacles);
                 }
                 else if ((movement == 'L' || going_left) && !going_down && !going_right && !going_up){
-                    if(going_left) new_position.x = (current_pos.x); 
-                    else new_position.x = (current_pos.x - 1);
-                    new_position.y = current_pos.y;
-                    if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs, player, obstacles)){
-                    if (!going_left) 
-                    {
-                        move(-speed/4, 0.f);
-                        going_left = true;
-                        current_pos.x -= 1;
-                    }
-                    else{
-                        if(current_move_moving != 3)
-                        {
-                            current_move_moving +=1;
-                            move(-speed/4, 0.f);
-                        }
-                        else {
-                            current_move_moving = 0;
-                            going_left = false;
-                            current_move += 1;
-                        }
-                    }
-                    } 
-                    update_texture(0,current_move_moving, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
-                    elapsed = sf::Time::Zero;
+                Aller_Gauche(new_position, speed, player, deltaTime, map_width, map_height, plan, NPCs, obstacles);
                 }
                 else if ((movement == 'D' || going_down) && !going_right && !going_left && !going_up){
-                    if(going_down) new_position.y = (current_pos.y); 
-                    else new_position.y = (current_pos.y + 1);
-                    new_position.x = current_pos.x;
-                    if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs, player, obstacles)){
-                    if (!going_down) 
-                    {
-                        move(0.f, speed/4);
-                        going_down = true;
-                        current_pos.y += 1;
-                    }
-                    else{
-                        if(current_move_moving != 3)
-                        {
-                            current_move_moving +=1;
-                            move(0.f, speed/4);
-                        }
-                        else {
-                            current_move_moving = 0;
-                            going_down = false;
-                            current_move += 1;
-                        }
-                    }
-                    }  
-                    update_texture(0,current_move_moving, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
-                    elapsed = sf::Time::Zero;
+                Aller_Bas(new_position, speed, player, deltaTime, map_width, map_height, plan, NPCs, obstacles);
                 }
             }
         else{
@@ -223,6 +118,119 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
         }
     }
     }
+
+    void NPC::Aller_Bas(sf::Vector2u new_position, float speed, Player& player,const sf::Time& deltaTime, unsigned int map_width, unsigned int map_height, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles){
+        if(going_down) new_position.y = (current_pos.y); 
+        else new_position.y = (current_pos.y + 1);
+        new_position.x = current_pos.x;
+        if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs, player, obstacles)){
+        if (!going_down) 
+        {
+            move(0.f, speed/4);
+            going_down = true;
+            current_pos.y += 1;
+        }
+        else{
+            if(current_move_moving != 3)
+            {
+                current_move_moving +=1;
+                move(0.f, speed/4);
+            }
+            else {
+                current_move_moving = 0;
+                going_down = false;
+                current_move += 1;
+            }
+        }
+        }  
+        update_texture(0,current_move_moving, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
+        elapsed = sf::Time::Zero;
+    }
+
+    void NPC::Aller_Haut(sf::Vector2u new_position, float speed, Player& player,const sf::Time& deltaTime, unsigned int map_width, unsigned int map_height, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles){
+        if(going_up) new_position.y = (current_pos.y); 
+        else new_position.y = (current_pos.y - 1);
+        new_position.x = current_pos.x;
+        if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs, player, obstacles)){
+        if (!going_up) 
+        {
+            move(0.f, -speed/4);
+            going_up = true;
+            current_pos.y -= 1;
+        }
+        else{
+            if(current_move_moving != 3)
+            {
+                current_move_moving +=1;
+                move(0.f, -speed/4);
+            }
+            else {
+                current_move_moving = 0;
+                going_up = false;
+                current_move += 1;
+            }
+        }
+        } 
+        update_texture(0,current_move_moving, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
+        elapsed = sf::Time::Zero;
+    }
+
+    void NPC::Aller_Gauche(sf::Vector2u new_position, float speed, Player& player,const sf::Time& deltaTime, unsigned int map_width, unsigned int map_height, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles){
+        if(going_left) new_position.x = (current_pos.x); 
+        else new_position.x = (current_pos.x - 1);
+        new_position.y = current_pos.y;
+        if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs, player, obstacles)){
+        if (!going_left) 
+        {
+            move(-speed/4, 0.f);
+            going_left = true;
+            current_pos.x -= 1;
+        }
+        else{
+            if(current_move_moving != 3)
+            {
+                current_move_moving +=1;
+                move(-speed/4, 0.f);
+            }
+            else {
+                current_move_moving = 0;
+                going_left = false;
+                current_move += 1;
+            }
+        }
+        } 
+        update_texture(0,current_move_moving, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
+        elapsed = sf::Time::Zero;
+    }
+
+    void NPC::Aller_Droite(sf::Vector2u new_position, float speed, Player& player,const sf::Time& deltaTime, unsigned int map_width, unsigned int map_height, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles){
+        if(going_right) new_position.x = (current_pos.x); 
+        else new_position.x = (current_pos.x + 1);
+        new_position.y = current_pos.y;
+        if (in_map(map_width, map_height, new_position) && !collision(new_position, plan,NPCs, player, obstacles)){
+        if (!going_right) 
+        {
+            move(speed/4, 0.f);
+            going_right = true;
+            current_pos.x += 1;
+        }
+        else{
+            if(current_move_moving != 3)
+            {
+                current_move_moving +=1;
+                move(speed/4, 0.f);
+            }
+            else {
+                current_move_moving = 0;
+                going_right = false;
+                current_move += 1;
+            }
+        }
+    } 
+        update_texture(2,current_move_moving, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
+        elapsed = sf::Time::Zero;
+    }
+
     void NPC::update_texture(unsigned int u,unsigned int v, sf::Vector2f tileSize){
         m_vertices[0].texCoords = sf::Vector2f(u * tileSize.x, v*tileSize.y);
         m_vertices[1].texCoords = sf::Vector2f((u + 1) * tileSize.x, v*tileSize.y);
@@ -238,6 +246,7 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
         else {
             is_asking = false;
         }
+
         sf::Text message;
         message.setFont(font);
         message.setString(dialogue[currentMessage]);
@@ -248,19 +257,18 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
         float rectangleHeight = 0.153 * ViewRect.height;
         float rectangleX = ViewRect.left;
         float rectangleY = ViewRect.top + ViewRect.height - rectangleHeight;
+
         if (is_asking) {
             draw_answer(window, event, font, rectangleX, rectangleWidth, rectangleY, rectangleHeight, current_answer);
         }
+
         sf::RectangleShape TextRectangle(sf::Vector2f(rectangleWidth -2 *0.0093 * ViewRect.height, rectangleHeight - 0.0093 * ViewRect.height));
         TextRectangle.setPosition(rectangleX + 0.0093 * ViewRect.height, rectangleY);
         TextRectangle.setFillColor(sf::Color(139, 69, 19, 245));
-
-        // Définir la bordure du rectangle
         TextRectangle.setOutlineColor(sf::Color(50, 50, 50, 200));  
         TextRectangle.setOutlineThickness(0.0093 * ViewRect.height);  
 
         window.draw(TextRectangle);
-
         message.setPosition(rectangleX + 0.0156 * ViewRect.width, rectangleY + 0.0088* ViewRect.width);
         window.draw(message);
 

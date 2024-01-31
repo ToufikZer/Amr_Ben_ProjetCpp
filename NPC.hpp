@@ -65,11 +65,17 @@ public:
     void stop_voice();
     void play_toctoc();
 private:
+    void Aller_Bas(sf::Vector2u new_position, float speed, Player& player,const sf::Time& deltaTime, unsigned int map_width, unsigned int map_height, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles);
+    void Aller_Haut(sf::Vector2u new_position, float speed, Player& player,const sf::Time& deltaTime, unsigned int map_width, unsigned int map_height, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles);
+    void Aller_Gauche(sf::Vector2u new_position, float speed, Player& player,const sf::Time& deltaTime, unsigned int map_width, unsigned int map_height, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles);
+    void Aller_Droite(sf::Vector2u new_position, float speed, Player& player,const sf::Time& deltaTime, unsigned int map_width, unsigned int map_height, std::vector<std::vector<int>> plan, std::vector<NPC> NPCs, std::vector<Obstacle> obstacles);
+
+
     sf::SoundBuffer buffer;
     sf::Sound npc_sound;
     bool playsound = true;
 
-    sf::Time elapsed;  // Temps écoulé depuis la dernière mise à jour
+    sf::Time elapsed;
     sf::Texture m_texture;
     sf::VertexArray m_vertices;
     std::string TexturePath;
