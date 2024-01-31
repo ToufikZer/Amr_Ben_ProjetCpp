@@ -1,4 +1,3 @@
-// Fraudeur.cpp
 #include "Fraudeur.hpp"
 
 #include "TileMap.hpp"
