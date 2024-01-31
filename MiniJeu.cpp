@@ -193,7 +193,7 @@ GameState* MiniJeu::getNextState() {
     }
     else if(bagarre_game){
         bagarre_game = false;
-        return new Bagarre(window, save, save.getInventory(), "texture/texture_decor/2Qpng.png", "texture/texture_char/new_player2.png", 8, 40, 500, 800, 1, true);
+        return new Bagarre(window, save, save.getInventory(), "texture/texture_decor/2Qpng.png", "texture/texture_char/etudiant.png", 8, 40, 500, 800, 1, true);
     }
     return nullptr;
 }

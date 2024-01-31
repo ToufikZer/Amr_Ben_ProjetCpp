@@ -178,7 +178,7 @@ GameState* Bagarre::getNextState() {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
         {
             combat_lose = false;
-            return new Bagarre(window, save, player.getInventory(), "texture/texture_decor/2Qpng.png","texture/texture_char/new_player2.png", ennemi.getAttackSpeed(), ennemi.getDegats(), ennemi.getAttackDelay(), ennemi.getHP(), id_bagarre, minijeu);
+            return new Bagarre(window, save, player.getInventory(), "texture/texture_decor/2Qpng.png","texture/texture_char/etudiant.png", ennemi.getAttackSpeed(), ennemi.getDegats(), ennemi.getAttackDelay(), ennemi.getHP(), id_bagarre, minijeu);
         }
     }
     
