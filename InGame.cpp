@@ -1,4 +1,4 @@
-// InGame.cpp
+//Ce code permet la gestion des différentes parties durant lesquelles le joueur est en extérieur
 #include "InGame.hpp"
 #include "iostream"
 

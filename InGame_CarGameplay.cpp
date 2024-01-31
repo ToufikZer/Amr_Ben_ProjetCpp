@@ -21,7 +21,7 @@ InGame_CarGameplay::InGame_CarGameplay(sf::RenderWindow& window, Save save, Inve
     view.setCenter(player.getPosition().x + 0.4*window.getSize().x, map.getHeight() *16 + 160);
     view.setSize(window.getSize().x, map.getHeight() *64);
 
-    level = {
+    level = {//map chargée à partir du tileset
         {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 , 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 , 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
         {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 , 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 , 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3},
         {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0 , 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0 , 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 5, 0, 1, 0, 1, 0},
@@ -106,7 +106,7 @@ GameState* InGame_CarGameplay::getNextState() {
     if(skip){
         skip = false;
         player.getInventory().setMoney(0);
-        if(!minijeu) return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(0,7), sf::Vector2u(16,16), player.getInventory(), 0, "Se rendre au CROUS", save.getCombatWin());
+        if(!minijeu) return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(2,7), sf::Vector2u(16,16), player.getInventory(), 0, "Se rendre au CROUS", save.getCombatWin());
         else return new MiniJeu(window, save);
     }
     if (player.getCrash()){
@@ -121,14 +121,14 @@ GameState* InGame_CarGameplay::getNextState() {
         {
             is_arrived = false;
             player.getInventory().setMoney(0);
-            if(!minijeu) return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(0,7), sf::Vector2u(16,16), player.getInventory(), 0, "Se rendre au CROUS", save.getCombatWin());
+            if(!minijeu) return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(2,7), sf::Vector2u(16,16), player.getInventory(), 0, "Se rendre au CROUS", save.getCombatWin());
             else return new MiniJeu(window, save);
         }
     }
     return nullptr;
 }
 
-void InGame_CarGameplay::initialize_obstacles(){
+void InGame_CarGameplay::initialize_obstacles(){ //Instaciation et déclaration des obstacles
     obstacles.push_back(Obstacle("texture/texture_obstacle/giletjaune.png", 16, 3, 0));
     obstacles.push_back(Obstacle("texture/texture_obstacle/giletjaune.png", 24, 6, 0));
     obstacles.push_back(Obstacle("texture/texture_obstacle/giletjaune.png", 32, 4, 0));
@@ -181,7 +181,7 @@ void InGame_CarGameplay::initialize_obstacles(){
     obstacles.push_back(Obstacle("texture/texture_obstacle/giletjaune.png", 208, 5, 0));
 }
 
-void InGame_CarGameplay::initialize_finish(){
+void InGame_CarGameplay::initialize_finish(){ //prépare l'affichage en cas de victoire
     Finish.rotate(15);
     Finish.setFont(font);
     Finish.setStyle(sf::Text::Bold);
