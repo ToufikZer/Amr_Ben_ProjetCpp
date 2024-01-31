@@ -57,6 +57,7 @@ private:
     bool end_lab;
     bool restart;
     bool backmenu;
+    bool skip;
 
     sf::Vector2u tp(sf::Vector2u tp_tile);
 

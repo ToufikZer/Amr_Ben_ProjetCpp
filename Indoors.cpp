@@ -394,8 +394,8 @@ void Indoors::draw(sf::RenderWindow& window, sf::Event& event) {
                 npc.sendMessage(window, event, viewRect, font, currentMessage);
             }
         }
-    draw_objectif();
     player.drawInventory(window, font, view);
+    draw_objectif();
     if (enigme_active) {
         enigme.setPosition(164,264);
         enigme.setSize(738,484);
@@ -421,8 +421,8 @@ GameState* Indoors::getNextState() {
     }
     if (back_to_town){
         back_to_town = false;
-        if(combat_win) return new InGame(window, sf::Vector2u(0,3), sf::Vector2f(10,7), sf::Vector2u(16,16), player.getInventory(), 3, "Se rendre a la gare", combat_win);
-        else return new InGame(window, sf::Vector2u(0,3), sf::Vector2f(10,7), sf::Vector2u(16,16),player.getInventory(), 0, "Se rendre au CROUS", combat_win);
+        if(combat_win) return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(10,7), sf::Vector2u(16,16), player.getInventory(), 3, "Se rendre a la gare", true);
+        else return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(10,7), sf::Vector2u(16,16),player.getInventory(), 0, "Se rendre au CROUS", false);
     }
     if (next_town){
         next_town = false;
@@ -465,7 +465,7 @@ GameState* Indoors::getNextState() {
     }
     if (exit_gare){
         exit_gare = false;
-        return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(6,7), sf::Vector2u(16,16),player.getInventory(), 0, "Aller a la gare", combat_win);
+        return new InGame(window, sf::Vector2u(0,3), sf::Vector2f(6,7), sf::Vector2u(16,16),player.getInventory(), 0, "Aller a la gare", combat_win);
     }
     if (fraude){
         fraude = false;

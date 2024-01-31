@@ -10,7 +10,8 @@ InGame_CarGameplay::InGame_CarGameplay(sf::RenderWindow& window, Save save, Inve
       backmenu(false),
       save(save),
       is_arrived(false),
-      minijeu(minijeu)
+      minijeu(minijeu),
+      skip(false)
 {
     if (!font.loadFromFile("font/arial.ttf")) {
         std::cerr << "Erreur lors du chargement de la police" << std::endl;
@@ -57,6 +58,9 @@ void InGame_CarGameplay::handleEvent(sf::Event& event, sf::RenderWindow& window)
         if (event.key.code == sf::Keyboard::Escape) {
             backmenu = true;
         }
+        if (event.key.code == sf::Keyboard::K) {
+            skip = true;
+        }
     }
 }
 
@@ -97,6 +101,12 @@ GameState* InGame_CarGameplay::getNextState() {
         backmenu = false;
         music.stop( );
         if(!minijeu) return new MainMenu(window, save);
+        else return new MiniJeu(window, save);
+    }
+    if(skip){
+        skip = false;
+        player.getInventory().setMoney(0);
+        if(!minijeu) return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(7,7), sf::Vector2u(16,16), player.getInventory(), 0, "Se rendre au CROUS", save.getCombatWin());
         else return new MiniJeu(window, save);
     }
     if (player.getCrash()){

@@ -10,7 +10,8 @@ FraudeGameplay::FraudeGameplay(sf::RenderWindow& window, Save save, Inventory in
       backmenu(false),
       save(save),
       is_arrived(false),
-      minijeu(minijeu)
+      minijeu(minijeu),
+      skip(false)
 {
     
     if (!font.loadFromFile("font/arial.ttf")) {
@@ -59,6 +60,9 @@ void FraudeGameplay::handleEvent(sf::Event& event, sf::RenderWindow& window) {
         if (event.key.code == sf::Keyboard::Escape) {
             backmenu = true;
         }
+        if (event.key.code == sf::Keyboard::K) {
+            skip = true;
+        }
     }
 }
 
@@ -98,6 +102,12 @@ GameState* FraudeGameplay::getNextState() {
     if(backmenu){
         backmenu = false;
         if(!minijeu) return new MainMenu(window, save);
+        else return new MiniJeu(window, save);
+    }
+
+    if(skip){
+        skip = false;
+        if(!minijeu) return new InGame(window, sf::Vector2u(0,4), sf::Vector2f(5,5), sf::Vector2u(16,16), player.getInventory(), 0, "Se rendre au stade", save.getCombatWin());
         else return new MiniJeu(window, save);
     }
 

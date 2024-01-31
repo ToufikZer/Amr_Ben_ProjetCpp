@@ -46,4 +46,5 @@ private:
     Save save;
     bool is_arrived;
     bool minijeu;
+    bool skip;
 };

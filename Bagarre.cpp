@@ -12,7 +12,8 @@ Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std:
       combat_lose(false),
       combat_win(false),
       id_bagarre(id_bagarre),
-      minijeu(minijeu)
+      minijeu(minijeu),
+      skip(false)
 {
     if (!font.loadFromFile("font/arial.ttf")) {
         std::cerr << "Erreur lors du chargement de la police" << std::endl;
@@ -77,6 +78,9 @@ void Bagarre::handleEvent(sf::Event& event, sf::RenderWindow& window) {
     if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::Escape) {
             backmenu = true;
+        }
+        if (event.key.code == sf::Keyboard::K) {
+            skip = true;
         }
         if (event.key.code == sf::Keyboard::A || event.key.code == sf::Keyboard::Space || event.key.code == sf::Keyboard::E) {
             if (elapsed.asMilliseconds() > 660) {
@@ -156,6 +160,14 @@ GameState* Bagarre::getNextState() {
         backmenu = false;
         if(!minijeu) return new MainMenu(window, save);
         else return new MiniJeu(window, save);
+    }
+    if(skip){
+        skip = false;
+        if(!minijeu){
+                if(id_bagarre != 1) return new Indoors(window, save.getName(), save.getPlayerPosition().x, save.getPlayerPosition().y, save.getInventory(), "Se rendre a la gare", true);
+                else return new MiniJeu(window, Save());
+            }
+            else return new MiniJeu(window, save);
     }
     if(combat_lose){
         if((sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) && !minijeu)

@@ -48,4 +48,5 @@ private:
     bool combat_win;
     int id_bagarre;
     bool minijeu;
+    bool skip;
 };

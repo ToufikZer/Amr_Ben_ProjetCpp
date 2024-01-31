@@ -20,7 +20,8 @@
         npcThatWasTalking(nullptr),
         currentMessage(0),
         end_lab(false),
-        backmenu(false)
+        backmenu(false),
+        skip(false)
     {
         player.SetNbPas(nb_pas);
         MusicPath = Lab.getMusicPath();
@@ -50,7 +51,9 @@
                 if (event.key.code == sf::Keyboard::R) {
                     restart = true;
                 }
-
+                if (event.key.code == sf::Keyboard::K) {
+                    skip = true;
+                }
                 if (event.key.code == sf::Keyboard::Escape) {
                     backmenu = true;
                 }         
@@ -100,6 +103,11 @@
         if(backmenu){
             backmenu = false;
             return new MainMenu(window, Save("Labyrinthe", sf::Vector2f(player.getPosition().x / 32, player.getPosition().y / 32), player.getNbPas(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true, true));
+        }
+        
+        if(skip){
+            skip = false;
+            return new Indoors(window, "FINAL", 300.f, 125.f, player.getInventory(), "AFFRONTEZ ANNIE!!", true);
         }
         if(restart){
             restart = false;

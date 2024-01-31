@@ -146,11 +146,11 @@
                         (NPC("texture/texture_npc/sdf2.png", 222, 344, {"ENIGME1"},"",{},1)), \
                         (NPC("texture/texture_npc/sdf3.png", 294, 642, {"ENIGME2"},"",{},1)), \
                         (NPC("texture/texture_npc/npc2.png", 809, 591, {"ENIGME3"},"",{},1)), \
-                        (NPC("texture/texture_npc/sdf1.png", 789, 821, {"Tu veux parler avec moi?","QUESTION"},"",{Answer("Oui!",{"Flemme en fait"},0),Answer("NON!",{"PARLE AVEC MOI"},1)},1)), \
+                        (NPC("texture/texture_npc/sdf1.png", 739, 866, {"Tu veux parler avec moi?","QUESTION"},"",{Answer("Oui!",{"Flemme en fait"},0),Answer("NON!",{"PARLE AVEC MOI"},1)},1)), \
                         (NPC("texture/texture_npc/sdf4.png", 315, 881, {"ENIGME4"},"",{},1))}, \
                         {(Obstacle("texture/texture_obstacle/invisible_wall.png", 16, 15, 0)), \
                         (Obstacle("texture/texture_obstacle/invisible_wall.png", 0, 2, 0))}, \
-                        "sound/music/music2.ogg",4,230)
+                        "sound/music/music2.ogg",4,300)
 
 #define MAP6 MapIndoors("ROOM", \
                         "texture/texture_decor/room.png", \
@@ -176,7 +176,7 @@
                         (NPC("texture/texture_npc/door_invisible.png", 840, 700, {"CUISINE"},"",{},1))}, \
                         {(Obstacle("texture/texture_obstacle/invisible_wall.png", 15, 12, 0)), \
                         (Obstacle("texture/texture_obstacle/invisible_wall.png", 0, 2, 0))}, \
-                        "sound/music/music2.ogg",3,250)
+                        "sound/music/music2.ogg",3,300)
                         
 
 #define MAP8 MapIndoors("KITCHEN", \

@@ -167,7 +167,7 @@ void InGame::CheckChangeMap(sf::Vector2u position){
             obstacles = maps.getMapMap()[maps.getCurrentMap().x][maps.getCurrentMap().y].getObstacles();
         }
 
-    if (combat_win && maps.getCurrentMap().x == 0 && maps.getCurrentMap().y == 3) {
+    if (combat_win && maps.getCurrentMap().x == 0 && maps.getCurrentMap().y == 2) {
         level[7][15] = 0;
         level[8][15] = 0;
     }
