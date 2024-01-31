@@ -2,7 +2,7 @@
 #include "Explication.hpp"
 
 
-Explication::Explication(sf::RenderWindow& window, std::string name, Save save, std::string backgroundPath):
+Explication::Explication(sf::RenderWindow& window, std::string name, Save save, std::string backgroundPath): //constructeur et initialisation
     window(window),
     expl(true),
     name(name),
@@ -18,7 +18,7 @@ Explication::Explication(sf::RenderWindow& window, std::string name, Save save, 
         view.reset(sf::FloatRect(0, 0, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height));
     }
 
-void Explication::handleEvent(sf::Event& event, sf::RenderWindow& window){
+void Explication::handleEvent(sf::Event& event, sf::RenderWindow& window){ //gestion des evenements (inputs utilisateur)
     if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::E) {
             expl = false;
@@ -26,11 +26,11 @@ void Explication::handleEvent(sf::Event& event, sf::RenderWindow& window){
     }
 }
 
-void Explication::update(sf::Time deltaTime, sf::RenderWindow& window){
+void Explication::update(sf::Time deltaTime, sf::RenderWindow& window){ 
 
 }
 
-void Explication::draw(sf::RenderWindow& window, sf::Event& event){
+void Explication::draw(sf::RenderWindow& window, sf::Event& event){ //affichage sur l'écran
     window.clear();
     window.setView(view);
     window.draw(backgroundSprite);
@@ -38,7 +38,7 @@ void Explication::draw(sf::RenderWindow& window, sf::Event& event){
 
 }
 
-GameState* Explication::getNextState(){
+GameState* Explication::getNextState(){ //disjonction de cas pour lancer le jeu après l'explication correspondante
     if(!expl){
         expl = true;
         if(name == "lab") return new Labyrinthe(window, 0, sf::Vector2f(15,10), sf::Vector2u(31,21), save.getInventory(), 3);      

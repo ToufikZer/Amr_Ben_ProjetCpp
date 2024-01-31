@@ -40,7 +40,7 @@ Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std:
     ennemiHealthBar.setPosition(10 , 10); 
 }
 
-void Bagarre::initialize_finish(){
+void Bagarre::initialize_finish(){ //prépare l'affichafe en cas de victoire à la BAGARRRE
     
     Finish.setFont(font);
     Finish.setStyle(sf::Text::Bold);
@@ -57,7 +57,7 @@ void Bagarre::initialize_finish(){
     rectFinish.setOutlineThickness(2);
 }
 
-void Bagarre::initialize_lose(){
+void Bagarre::initialize_lose(){ //prépare l'affichage en cas de défaite à la BAGARRE
     Lose.setFont(font);
     Lose.setStyle(sf::Text::Bold);
     if (id_bagarre == 0) Lose.setString("HAHAHA t'as perdu la bagarre\nDebrouille toi maintenant!\n\nAppuie sur entrer pour repartir\n ou sur R pour recommencer");
@@ -74,7 +74,7 @@ void Bagarre::initialize_lose(){
     rectLose.setOutlineThickness(2);
 }
 
-void Bagarre::handleEvent(sf::Event& event, sf::RenderWindow& window) {
+void Bagarre::handleEvent(sf::Event& event, sf::RenderWindow& window) { //inputs joueur
     if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::Escape) {
             backmenu = true;
@@ -102,7 +102,7 @@ void Bagarre::handleEvent(sf::Event& event, sf::RenderWindow& window) {
     }
 }
 
-void Bagarre::update(sf::Time deltaTime, sf::RenderWindow& window) {
+void Bagarre::update(sf::Time deltaTime, sf::RenderWindow& window) { //traitement à chaque frame pour le jeu BAGARRE
     if (player.getHP() <= 0) combat_lose = true;
     if (ennemi.getHP() <= 0) combat_win = true;
 
@@ -122,7 +122,7 @@ void Bagarre::update(sf::Time deltaTime, sf::RenderWindow& window) {
     }
 }
 
-void Bagarre::draw(sf::RenderWindow& window, sf::Event& event) {
+void Bagarre::draw(sf::RenderWindow& window, sf::Event& event) { //affichage sur l'écran du joueur
     window.clear();
 
     window.setView(view);
@@ -155,7 +155,7 @@ void Bagarre::draw(sf::RenderWindow& window, sf::Event& event) {
     window.display();
 }
 
-GameState* Bagarre::getNextState() {
+GameState* Bagarre::getNextState() { // indique les différents cas de figure à la fin du jeu (si le joueur gagne, si le joueur perd, si le joueur skip...)
     if(backmenu){
         backmenu = false;
         if(!minijeu) return new MainMenu(window, save);
