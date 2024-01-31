@@ -44,18 +44,17 @@ void EnnemiBagarre::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 }
 
 
-Projectile EnnemiBagarre::tir(unsigned int degats, float vitesse, sf::Vector2f position, std::string direction){
+Projectile EnnemiBagarre::tir(unsigned int degats, float vitesse, sf::Vector2f position, std::string direction){ //l'ennemi tire
     return Projectile(vitesse, degats, position, direction, "texture/texture_obstacle/proj_bas.png", 0);
 }
 
 
-bool EnnemiBagarre::collision(Projectile& proj){
+bool EnnemiBagarre::collision(Projectile& proj){ //détecte la collision et diminue les point de vie (HP) du joueur
     if(proj.getCible() == 1){
         //Vise le player
             if (sf::FloatRect(sf::Vector2f(proj.getPosition().x + 10.f, proj.getPosition().y + 4.f), sf::Vector2f(10.f, 24.f)).intersects(getHitbox()))
             {
                 HP -= proj.getDegats();
-                std::cout << HP << std::endl;
                 m_vertices[0].color = sf::Color::Red;
                 m_vertices[1].color = sf::Color::Red;
                 m_vertices[2].color = sf::Color::Red;
@@ -91,7 +90,7 @@ void EnnemiBagarre::update(const sf::Time& deltaTime, unsigned int map_width, un
             }
 }
 
-void EnnemiBagarre::deplacer(const sf::Time& deltaTime, unsigned int map_width, unsigned int map_height, PlayerBagarre& player){
+void EnnemiBagarre::deplacer(const sf::Time& deltaTime, unsigned int map_width, unsigned int map_height, PlayerBagarre& player){ //Déplacement automatique de l'ennemi qui va constamment du coté ou se trouve le joueur
     if (player.getPosition().x > getPosition().x + 10.f) { 
         if(!out_map(map_width, map_height, sf::Vector2f(getPosition().x + speed* deltaTime.asSeconds(), getPosition().y))){
                 move(speed * deltaTime.asSeconds(), 0.f);
@@ -122,7 +121,7 @@ void EnnemiBagarre::update_texture(unsigned int u, unsigned int i) {
     m_vertices[3].texCoords = sf::Vector2f((i) * m_texture.getSize().x/4, (u+1) * m_texture.getSize().y/2);
 }
 
-bool EnnemiBagarre::out_map(unsigned int map_width, unsigned int map_height, sf::Vector2f position) {
+bool EnnemiBagarre::out_map(unsigned int map_width, unsigned int map_height, sf::Vector2f position) { //détecte si l'ennemi est au bord de la map pour éviter qu'il en sorte
     if (position.x >= map_width - m_texture.getSize().x /4 || position.x < 0.f)
         return true;
     return false;

@@ -51,7 +51,7 @@ void Fraudeur::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(m_vertices, states);
 }
 
-bool Fraudeur::collision_obstacles(sf::Vector2f position, std::vector<Obstacle> obstacles){
+bool Fraudeur::collision_obstacles(sf::Vector2f position, std::vector<Obstacle> obstacles){ //détecte la collision du joueur avec un obstacle 
     for (Obstacle& obstacle : obstacles){
         if (sf::FloatRect(sf::Vector2f(position.x + m_texture.getSize().x/12, position.y+m_texture.getSize().y/8), 
             sf::Vector2f(m_texture.getSize().x*2/12, m_texture.getSize().y*6/8)).intersects(obstacle.getGlobalBounds()))
@@ -93,7 +93,7 @@ void Fraudeur::update(const sf::Time& deltaTime, sf::Font& font, unsigned int ma
 }
 
 
-void Fraudeur::draw_crash(sf::RenderWindow& window){
+void Fraudeur::draw_crash(sf::RenderWindow& window){ // animation en cas de crash (collision avec obstacle)
     if (crash) {
         CrashText.setPosition(sf::Vector2f(getPosition().x + 150.f, getPosition().y - 200.f));
         window.draw(CrashText);
@@ -117,7 +117,7 @@ bool Fraudeur::in_map(unsigned int map_width, unsigned int map_height, sf::Vecto
 }
 
 
-void Fraudeur::sauter_anim(){
+void Fraudeur::sauter_anim(){ //animation du saut
     if (elapsed.asMilliseconds() > 200){
         update_texture(3);
     }
@@ -131,7 +131,7 @@ void Fraudeur::sauter_anim(){
     }
 }
 
-void Fraudeur::sauter(){
+void Fraudeur::sauter(){ //permet au joueur de sauter par dessus les obstacles
     if (elapsed.asMilliseconds() > 200){
         invincible = true;
         update_texture(2);
@@ -139,12 +139,12 @@ void Fraudeur::sauter(){
     }
 }
 
-void Fraudeur::courir_anim(){
+void Fraudeur::courir_anim(){ //animation du joueur qui court
     if (elapsed.asMilliseconds() % 500 <= 250) update_texture(0);
     else update_texture(1);
 }
 
-void Fraudeur::deplacer_vert(){
+void Fraudeur::deplacer_vert(){ //gestion du saut 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !invincible){
         sauter();
     }
@@ -156,7 +156,7 @@ void Fraudeur::deplacer_vert(){
     }
 }
 
-void Fraudeur::deplacer_horiz(unsigned int map_width, unsigned int map_height){
+void Fraudeur::deplacer_horiz(unsigned int map_width, unsigned int map_height){ //gestion des déplacements horizontaux du joueur
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         if (in_map(map_width, map_height, sf::Vector2f(getPosition().x, getPosition().y + 2))){
             move(0,4);
