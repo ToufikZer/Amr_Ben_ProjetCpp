@@ -20,46 +20,9 @@ PseudoInterface::PseudoInterface(sf::RenderWindow& window, Save save):
         backgroundSprite.setTexture(backgroundTexture);
         backgroundSprite.setPosition(0,0);
 
-        text.setFont(font);
-        text.setString("Enter your nickname");
-        text.setCharacterSize(44);
-        text.setPosition(window.getSize().x*0.5 - text.getGlobalBounds().width * 0.5, 0.1*window.getSize().y);
-        text.setFillColor(sf::Color::Red);
+        initialize_menu();
 
-        ok.setFont(font);
-        ok.setString("OK");
-        ResetOK();
-
-        back.setFont(font);
-        back.setString("Back");
-        ResetBack();
-
-        float rectangleWidth = window.getSize().x;
-        float rectangleHeight = 0.153 * window.getSize().y;
-        float rectangleX = 0;
-        float rectangleY = 0.3*window.getSize().y;
-
-        blueRectangle.setSize(sf::Vector2f(rectangleWidth, 0.153 * window.getSize().y));
-        blueRectangleTop.setSize(sf::Vector2f(rectangleWidth, 0.0093*window.getSize().y));
-        blueRectangleLeft.setSize(sf::Vector2f(0.0093*window.getSize().y, 0.153 * window.getSize().y));
-        blueRectangleRight.setSize(sf::Vector2f(0.0093*window.getSize().x, 0.153 * window.getSize().y));
-        blueRectangleBot.setSize(sf::Vector2f(rectangleWidth, 0.0093*window.getSize().y));
-        blueRectangle.setPosition(rectangleX, rectangleY);
-        blueRectangle.setFillColor(sf::Color(200, 200, 200, 100));
-        blueRectangleTop.setPosition(rectangleX, rectangleY);
-        blueRectangleTop.setFillColor(sf::Color(50, 50, 50, 200));
-        blueRectangleLeft.setPosition(rectangleX, rectangleY);
-        blueRectangleLeft.setFillColor(sf::Color(50, 50, 50, 200));
-        blueRectangleRight.setPosition(rectangleWidth - 0.0093*window.getSize().y, rectangleY);
-        blueRectangleRight.setFillColor(sf::Color(50, 50, 50, 200));
-        blueRectangleBot.setPosition(rectangleX, 0.453*window.getSize().y);
-        blueRectangleBot.setFillColor(sf::Color(50, 50, 50, 200));
-
-        pseudo_text.setFont(font);
-        pseudo_text.setPosition(rectangleWidth/2 - pseudo_text.getGlobalBounds().width/2, 
-                                rectangleY  + rectangleHeight /2 - pseudo_text.getGlobalBounds().height/2 - 0.0093*window.getSize().y);
-        pseudo_text.setCharacterSize(36);
-        pseudo_text.setFillColor(sf::Color::White);
+        initialize_pseudo();
     }
 
 void PseudoInterface::handleEvent(sf::Event& event, sf::RenderWindow& window){
@@ -145,11 +108,7 @@ void PseudoInterface::draw(sf::RenderWindow& window, sf::Event& event){
     window.draw(pseudo_text);
     window.draw(back);
     window.draw(ok);
-    window.draw(blueRectangle);
-    window.draw(blueRectangleTop);
-    window.draw(blueRectangleLeft);
-    window.draw(blueRectangleRight);
-    window.draw(blueRectangleBot);
+    window.draw(Rectangle);
 
     window.display();
 }
@@ -157,11 +116,7 @@ void PseudoInterface::draw(sf::RenderWindow& window, sf::Event& event){
 GameState* PseudoInterface::getNextState() {
     if(launch_game){
         launch_game = false;
-        // return new InGame(window, sf::Vector2u(0,1), sf::Vector2u(2,3), sf::Vector2u(16,16), 0);
-        // return new InGame_CarGameplay(window);
-
         return new Explication(window, "start", Save(), "texture/texture_expl/intro.png");
-        // return new Indoors(window, "GARE");
     }
     if(come_back){
         come_back = false;
@@ -169,6 +124,43 @@ GameState* PseudoInterface::getNextState() {
     }
     return nullptr;
 }
+
+void PseudoInterface::initialize_menu(){
+    text.setFont(font);
+    text.setString("Entrez votre pseudo");
+    text.setCharacterSize(44);
+    text.setPosition(window.getSize().x*0.5 - text.getGlobalBounds().width * 0.5, 0.1*window.getSize().y);
+    text.setFillColor(sf::Color::Red);
+
+    ok.setFont(font);
+    ok.setString("OK");
+    ResetOK();
+
+    back.setFont(font);
+    back.setString("Retour");
+    ResetBack();
+}
+
+
+void PseudoInterface::initialize_pseudo(){
+    float rectangleWidth = window.getSize().x;
+    float rectangleHeight = 0.153 * window.getSize().y;
+    float rectangleX = 0;
+    float rectangleY = 0.3*window.getSize().y;
+
+    Rectangle.setSize(sf::Vector2f(rectangleWidth, 0.153 * window.getSize().y));
+    Rectangle.setPosition(rectangleX, rectangleY);
+    Rectangle.setFillColor(sf::Color(200, 200, 200, 100));
+    Rectangle.setOutlineColor(sf::Color::Red);
+    Rectangle.setOutlineThickness(0.0093*window.getSize().y);
+
+    pseudo_text.setFont(font);
+    pseudo_text.setPosition(rectangleWidth/2 - pseudo_text.getGlobalBounds().width/2, 
+                            rectangleY  + rectangleHeight /2 - pseudo_text.getGlobalBounds().height/2 - 0.0093*window.getSize().y);
+    pseudo_text.setCharacterSize(36);
+    pseudo_text.setFillColor(sf::Color::White);
+}
+
 
 void PseudoInterface::HighlightOK(){
     ok.setCharacterSize(44);

@@ -2,10 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 #include "GameState.hpp"
-#include "InGame.hpp"
-#include "InGame_CarGameplay.hpp"
-#include "Indoors.hpp"
 #include "MainMenu.hpp"
+#include "Explication.hpp"
 
 class PseudoInterface : public GameState {
 public:
@@ -22,11 +20,7 @@ public:
 
 private:
     sf::RenderWindow& window;
-    sf::RectangleShape blueRectangle;
-    sf::RectangleShape blueRectangleTop;
-    sf::RectangleShape blueRectangleLeft;
-    sf::RectangleShape blueRectangleRight;
-    sf::RectangleShape blueRectangleBot;
+    sf::RectangleShape Rectangle;
     sf::Texture backgroundTexture;
     sf::Sprite backgroundSprite;
     sf::Font font;
@@ -40,6 +34,8 @@ private:
     bool come_back;
     Save save;
 
+    void initialize_menu();
+    void initialize_pseudo();
     void Detect_OK(sf::RenderWindow& window);
     void Detect_Back(sf::RenderWindow& window);
     void HighlightOK();

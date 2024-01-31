@@ -33,10 +33,9 @@ private:
 
     int selectedOption;
     bool bagarre_game;
-    bool car_game;              //dit si on continue la partie 
-    bool fraude_game;                // dit si on doit entrer dans InGame
-    bool keyboard_pressed;          // permet de verifier si le clavier a été pressé pour figer la sélection dans le menu sinon ca highlight que pendant une frame
-
+    bool car_game;               
+    bool fraude_game;               
+    bool keyboard_pressed;          
 
     Save save;
 

@@ -18,9 +18,6 @@ FraudeGameplay::FraudeGameplay(sf::RenderWindow& window, Save save, Inventory in
         std::exit(-1);
     }
 
-    view.setSize(window.getSize().x, map.getHeight() *64);
-    view.setCenter(player.getPosition().x + 0.35*view.getSize().x, map.getHeight() *16 + 160);
-    view.rotate(90);
 
     level = {
         {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 , 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 , 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
@@ -38,6 +35,10 @@ FraudeGameplay::FraudeGameplay(sf::RenderWindow& window, Save save, Inventory in
         std::cerr << "Erreur lors du chargement de la carte" << std::endl;
         std::exit(-1);
     }
+    
+    view.setSize(window.getSize().x, map.getHeight() *64);
+    view.setCenter(player.getPosition().x + 0.35*view.getSize().x, map.getHeight() *16 + 160);
+    view.rotate(90);
 
     initialize_obstacles();
 

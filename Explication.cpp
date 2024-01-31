@@ -8,14 +8,14 @@ Explication::Explication(sf::RenderWindow& window, std::string name, Save save, 
     name(name),
     save(save)
     {
-        view.reset(sf::FloatRect(0, 0, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height));
-        
         if (!backgroundTexture.loadFromFile(backgroundPath)) {
             std::cerr << "Erreur lors du chargement de l'image de fond" << std::endl;
             std::exit(-1);
         }
         backgroundSprite.setTexture(backgroundTexture);
         backgroundSprite.setPosition(0,0);
+
+        view.reset(sf::FloatRect(0, 0, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height));
     }
 
 void Explication::handleEvent(sf::Event& event, sf::RenderWindow& window){
@@ -32,8 +32,8 @@ void Explication::update(sf::Time deltaTime, sf::RenderWindow& window){
 
 void Explication::draw(sf::RenderWindow& window, sf::Event& event){
     window.clear();
-    window.draw(backgroundSprite);
     window.setView(view);
+    window.draw(backgroundSprite);
     window.display();
 
 }

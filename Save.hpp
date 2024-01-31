@@ -7,8 +7,6 @@
 
 class Save {
 public:
-    // Save(GameState state, Inventory inventaire)
-    //     : gameState(state) {}
     Save() = default;
 
     Save(std::string StateName, sf::Vector2f position, sf::Vector2u map_coords,sf::Vector2u mapDimension, Inventory inventaire, bool game_started, bool combat_win)
@@ -20,7 +18,6 @@ public:
     Save(std::string StateName, sf::Vector2f position, std::string MapName, Inventory inventaire, bool game_started, bool combat_win)
         : StateName(StateName), playerPosition(position), MapName(MapName), inventaire(inventaire), game_started(game_started), combat_win(combat_win) {}
 
-    // Getters pour accéder aux attributs privés
     std::string getStateName() const {
         return StateName;
     }
