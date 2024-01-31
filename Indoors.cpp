@@ -1,4 +1,7 @@
-// InDoors.cpp
+//Ce code permet la gestion des différentes parties durant lesquelles le joueur est en intérieur (il s'en passe des choses en intérieur...)
+// 
+
+
 #include "Indoors.hpp"
 #include "PlayerIndoors.hpp"
 #include "MapInstances.hpp"
