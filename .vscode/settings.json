@@ -1,4 +1,5 @@
 {
+    "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
         "cctype": "cpp",
         "clocale": "cpp",
@@ -7,6 +8,7 @@
         "cstddef": "cpp",
         "cstdio": "cpp",
         "cstdlib": "cpp",
+        "cstring": "cpp",
         "ctime": "cpp",
         "cwchar": "cpp",
         "cwctype": "cpp",
@@ -17,6 +19,7 @@
         "cstdint": "cpp",
         "deque": "cpp",
         "map": "cpp",
+        "set": "cpp",
         "unordered_map": "cpp",
         "vector": "cpp",
         "exception": "cpp",
@@ -45,6 +48,9 @@
         "sstream": "cpp",
         "stdexcept": "cpp",
         "streambuf": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "compare": "cpp",
+        "concepts": "cpp",
+        "numbers": "cpp"
     }
 }
