@@ -8,23 +8,22 @@
 
 
 #define MAP0 Map({{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,7,1},\
+                    {1,0,0,0,0,0,0,0,6,6,6,6,6,6,0,1},\
+                    {1,0,0,0,0,0,0,0,6,6,6,6,6,6,0,1},\
+                    {1,0,0,0,0,0,0,0,6,6,6,6,6,6,0,1},\
+                    {1,0,0,0,0,0,0,0,6,6,6,6,6,6,0,1},\
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},\
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},\
-                    {1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1},\
+                    {1,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1},\
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
+                    {1,5,5,5,5,5,5,5,5,5,5,5,5,5,5,1},\
+                    {1,5,5,5,5,5,5,5,5,5,5,5,5,5,5,1},\
+                    {1,5,5,5,5,5,5,5,5,5,5,5,5,5,5,1},\
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}}, \
-                    {(NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Y'a beaucoup de touriste ces temps ci,\nc'est a en perdre la tete", "Le nouveau concessionnaire fait des ravages"}, "RUDL",{}, 0)), \
-                     (NPC("texture/texture_npc/npcpkmn.png", 10, 13, {"Salut2", "pioupiou", "hello!", "okok"},"RRRRUUULLLLDDD",{},0))}, \
+                    {(NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Y'a beaucoup de touriste ces temps ci,\nc'est a en perdre la tete", "Le nouveau concessionnaire fait des ravages"}, "RUDL",{}, 0))}, \
                      {Obstacle("texture/texture_obstacle/aeroport_tile.png", 1, 1, sf::Vector2u(4,7),2, 4),\
                      Obstacle("texture/texture_obstacle/avion.png", 1, 5, 0)}, \
                     "sound/music/music1.ogg")
@@ -35,7 +34,7 @@
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,3,3,3,3,0,0,0,3,3,3,2,2,2,2,1},\
+                    {1,3,3,3,3,0,0,0,3,3,3,4,4,4,4,1},\
                     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},\
                     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},\
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
@@ -45,73 +44,71 @@
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}}, \
-                    {(NPC("texture/texture_npc/npcpkmn.png", 8, 13, {"Voulez vous manger avec moi?","QUESTION"},"RUUULRRDULLRDDDL",{Answer("yes",{"YOUHOUUU","Enfin qqn qui accepte!"},0),Answer("no",{"QUOI, COMMENT CA NON", "CETAIT UNE PIZZA AU CACA"},1)},0)), \
-                     (NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut2", "pioupiou", "hello!"},"RRUUUDDDLL",{},0))}, \
+                    {(NPC("texture/texture_npc/npcpkmn.png", 8, 13, {"Voulez vous manger avec moi?","QUESTION"},"RUUULRRDULLRDDDL",{Answer("yes",{"YOUHOUUU","Enfin qqn qui accepte!", "Finalement les touristes ne sont pas\nsi aigris que ca"},0),Answer("no",{"Je ne suis meme plus etonne", "Qu'est ce qui vous differencie des parisiens?"},1)},0)), \
+                     (NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut", "C'est quoi l'intuition derriere ce jeu au juste?"},"RRUUUDDDLL",{},0))}, \
                      {Obstacle("texture/texture_obstacle/gare.png", 1, 1, sf::Vector2u(6,7),2, 5)}, \
                     "sound/music/music1.ogg")
 
 #define MAP2 Map({{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
+                    {1,10,10,10,10,11,10,10,10,0,0,0,0,0,0,1},\
+                    {1,10,10,10,10,10,10,10,11,0,0,0,0,0,0,1},\
+                    {1,11,10,10,10,10,10,10,10,0,0,0,0,0,0,1},\
+                    {1,10,10,10,10,10,11,10,10,0,0,0,0,0,0,1},\
+                    {1,10,10,11,10,10,10,10,10,0,0,0,0,0,0,1},\
+                    {1,10,10,10,10,10,10,10,10,0,0,0,0,0,0,1},\
+                    {0,0,0,0,0,0,0,0,0,8,0,8,3,3,3,1},\
                     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
+                    {1,0,0,0,0,0,0,0,0,0,8,8,8,0,0,1},\
+                    {1,0,0,0,0,0,0,0,0,8,6,6,6,8,0,1},\
+                    {1,0,0,0,0,0,0,0,0,8,6,6,6,8,0,1},\
+                    {1,0,0,0,0,0,0,0,0,8,6,6,6,8,0,1},\
+                    {1,0,0,0,0,0,0,0,0,0,8,8,8,0,0,1},\
                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}}, \
-                    {(NPC("texture/texture_npc/npcpkmn.png", 9, 9, {"Salut", "test", "caca","retest"},"UUUUDDDD",{},0)), \
-                     (NPC("texture/texture_npc/npcpkmn.png", 0, 3, {"Salut2", "pioupiou", "hello!"},"RULD",{},0))}, \
+                    {(NPC("texture/texture_npc/npcpkmn.png", 9, 9, {"Salut", "Je deviens fou, il y a des traces marrons\nun peu partout sur les murs du CROUS"},"UUUUDDDD",{},0)), \
+                     (NPC("texture/texture_npc/npcpkmn.png", 0, 3, {},"RULD",{},0))}, \
                     {Obstacle("texture/texture_obstacle/Crous.png", 9, 1, sf::Vector2u(10,7), sf::Vector2u(12,7),2, 1)}, \
                     "sound/music/music2.ogg")
 
 
 
 #define MAP3 Map({{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
+                    {1,5,5,5,5,5,5,5,5,5,5,5,5,5,5,1},\
+                    {1,5,5,5,5,5,5,5,5,5,5,5,5,5,5,1},\
+                    {1,5,5,5,5,5,5,5,5,5,5,5,5,5,5,1},\
+                    {1,5,5,5,5,5,5,5,5,5,5,5,5,5,5,1},\
+                    {1,5,5,5,5,5,5,5,5,5,5,5,5,5,5,1},\
+                    {1,4,4,4,4,4,4,4,0,0,0,0,0,0,0,1},\
+                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},\
+                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2},\
+                    {1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1},\
+                    {1,6,6,6,6,6,6,6,6,6,6,6,6,6,6,1},\
+                    {1,6,6,6,6,6,6,6,6,6,6,6,6,6,6,1},\
+                    {1,6,6,6,6,6,6,6,6,6,6,6,6,6,6,1},\
+                    {1,6,6,6,6,6,6,6,6,6,6,6,6,6,6,1},\
+                    {1,6,6,6,6,6,6,6,6,6,6,6,6,6,6,1},\
                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}}, \
-                    {(NPC("texture/texture_npc/npcpkmn.png", 8, 13, {"Y'a beaucoup de touriste ces temps ci,\nc'est a en perdre la tete", "Le nouveau concessionnaire fait des ravages"}, "RUDL",{}, 0)), \
-                     (NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut2", "pioupiou", "hello!", "okok"},"RRUUUDDDLL",{},0))}, \
+                     {(NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut", "Il y a de belles voitures dans ce concessionnaire", "J'aurai tant aime en avoir une"},"RRUUUDDDLL",{},0))}, \
                      {Obstacle("texture/texture_obstacle/garage_tile.png", 8, 1, sf::Vector2u(10,7),2, 3)}, \
                     "sound/music/music1.ogg")
 
 #define MAP_S Map({{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},\
+                    {1,0,0,0,0,0,0,0,8,10,10,11,10,10,11,1},\
+                    {1,0,0,0,0,0,0,0,8,11,10,10,8,10,10,1},\
+                    {1,0,0,0,0,0,0,0,8,10,11,10,10,11,10,1},\
+                    {1,0,0,0,0,0,0,0,8,10,10,11,10,11,10,1},\
+                    {1,0,0,0,0,0,0,0,8,8,8,8,8,8,8,1},\
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
+                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
+                    {0,0,0,0,0,0,0,4,4,4,4,4,4,4,4,1},\
+                    {1,8,0,0,0,0,9,0,0,0,0,0,0,0,0,1},\
+                    {1,0,0,0,0,0,9,0,0,0,0,0,0,0,0,1},\
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,2,2,2,2,2,2,2,1},\
-                    {1,0,0,0,0,0,0,3,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,3,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,3,0,0,0,0,0,0,0,0,1},\
-                    {1,0,0,0,0,0,0,3,0,0,0,0,0,0,0,1},\
+                    {1,0,0,8,0,0,0,0,0,0,0,0,0,0,0,1},\
+                    {1,0,0,0,0,0,9,0,0,0,0,0,0,0,0,1},\
+                    {1,0,0,0,0,7,9,0,0,0,0,0,0,0,0,1},\
                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}}, \
-                    {(NPC("texture/texture_npc/npcpkmn.png", 5, 7, {"Y'a beaucoup de touriste ces temps ci,\nc'est a en perdre la tete", "Le nouveau concessionnaire fait des ravages"}, "RUDL",{}, 0)), \
-                     (NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Salut2", "pioupiou", "hello!", "okok"},"RRUUUDDDLL",{},0))}, \
+                     {(NPC("texture/texture_npc/npcpkmn.png", 1, 8, {"Moi j'ai rien a dire, Tahia Djazair"},"RRUUUDDDLL",{},0))}, \
                      {Obstacle("texture/texture_obstacle/stade.png", 7, 9, sf::Vector2u(6,11), sf::Vector2u(6,12),0, 6)}, \
                     "sound/music/music1.ogg")
 
@@ -163,15 +160,15 @@
 #define MAP7 MapIndoors("CROUS", \
                         "texture/texture_decor/crous.png", \
                         {(NPC("texture/texture_npc/door_invisible.png", 80, 110, {"EXIT"},"",{},1)), \
-                        (NPC("texture/texture_npc/door_invisible.png", 350, 110, {"The door seems to be closed"},"",{},1)), \
-                        (NPC("texture/texture_npc/door_invisible.png", 565, 110, {"The door seems to be closed"},"",{},1)), \
-                        (NPC("texture/texture_npc/door_invisible.png", 840, 110, {"The door seems to be closed"},"",{},1)), \
-                        (NPC("texture/texture_npc/door_invisible.png", 80, 400, {"The door seems to be closed"},"",{},1)), \
-                        (NPC("texture/texture_npc/door_invisible.png", 350, 400, {"The door seems to be closed"},"",{},1)), \
-                        (NPC("texture/texture_npc/door_invisible.png", 565, 400, {"Someone is already posing un classique"},"",{},1)), \
-                        (NPC("texture/texture_npc/door_invisible.png", 840, 400, {"The door seems to be closed"},"",{},1)), \
-                        (NPC("texture/texture_npc/door_invisible.png", 80, 700, {"Oh, the doors seems to be half-open"},"",{},1)), \
-                        (NPC("texture/texture_npc/door_invisible.png", 350, 700, {"The door seems to be closed"},"",{},1)), \
+                        (NPC("texture/texture_npc/door_invisible.png", 350, 110, {"La porte semble fermee"},"",{},1)), \
+                        (NPC("texture/texture_npc/door_invisible.png", 565, 110, {"La porte semble fermee"},"",{},1)), \
+                        (NPC("texture/texture_npc/door_invisible.png", 840, 110, {"La porte semble fermee"},"",{},1)), \
+                        (NPC("texture/texture_npc/door_invisible.png", 80, 400, {"La porte semble fermee"},"",{},1)), \
+                        (NPC("texture/texture_npc/door_invisible.png", 350, 400, {"La porte semble fermee"},"",{},1)), \
+                        (NPC("texture/texture_npc/door_invisible.png", 565, 400, {"Quelqu'un pose actuellement un classique"},"",{},1)), \
+                        (NPC("texture/texture_npc/door_invisible.png", 840, 400, {"La porte semble fermee"},"",{},1)), \
+                        (NPC("texture/texture_npc/door_invisible.png", 80, 700, {"OH LA PORTE EST ENTROUVERTE\nCherchons de quoi entrer"},"",{},1)), \
+                        (NPC("texture/texture_npc/door_invisible.png", 350, 700, {"La porte semble fermee"},"",{},1)), \
                         (NPC("texture/texture_npc/door_invisible.png", 565, 700, {"BOTTES","Quelqu'un semble tourner une video derriere" , "Salut a tous c'est Skyyart, aujourd'hui\n toute nouvelle video", "En fait si tu ignite on CD, avec les degats du Luden", "Si tu rajoutes a ca le dernier buff des mages", "Normalement tu peux one shot Cait puis\npush la lane into Nashor","... Il vous apercoit ...", "EH TOI LA REND MOI MES BOTTES"},"",{},1)), \
                         (NPC("texture/texture_npc/door_invisible.png", 840, 700, {"CUISINE"},"",{},1))}, \
                         {(Obstacle("texture/texture_obstacle/invisible_wall.png", 15, 12, 0)), \
@@ -181,7 +178,7 @@
 
 #define MAP8 MapIndoors("KITCHEN", \
                         "texture/texture_decor/kitchen.jpg", \
-                        {(NPC("texture/texture_obstacle/key.png", 188, 200, {"KEY", "Wow there's keys !!", "Probably one student forgot them there", "Oh, there is something written on it?", "'with great power comes great responsibility'"},"",{},1))}, \
+                        {(NPC("texture/texture_obstacle/key.png", 188, 200, {"KEY", "DES CLEFS", "Quelqu'un a du les oublier la", "Oh, il ya quelque chose d'ecrit dessus", "'un grand pouvoir implique de grande responsabilites'"},"",{},1))}, \
                         {(Obstacle("texture/texture_obstacle/invisible_wall.png", 5, 3, 0))}, \
                         "sound/music/music1.ogg",1,100)
 

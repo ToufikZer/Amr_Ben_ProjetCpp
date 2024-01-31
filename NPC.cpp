@@ -87,10 +87,10 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
         sf::Vector2u new_position;
         float speed = ftile_size_npc;
         if (is_talking){
-            if (player.getDirection() == 0) update_texture(0,2, sf::Vector2f(ftile_size_npc,ftile_size_npc));
-            if (player.getDirection() == 1) update_texture(2,3, sf::Vector2f(ftile_size_npc,ftile_size_npc));
-            if (player.getDirection() == 2) update_texture(0,1, sf::Vector2f(ftile_size_npc,ftile_size_npc));
-            if (player.getDirection() == 3) update_texture(0,0, sf::Vector2f(ftile_size_npc,ftile_size_npc));
+            if (player.getDirection() == 0) update_texture(0,1, sf::Vector2f(ftile_size_npc,ftile_size_npc));
+            if (player.getDirection() == 1) update_texture(0,2, sf::Vector2f(ftile_size_npc,ftile_size_npc));
+            if (player.getDirection() == 2) update_texture(0,0, sf::Vector2f(ftile_size_npc,ftile_size_npc));
+            if (player.getDirection() == 3) update_texture(0,3, sf::Vector2f(ftile_size_npc,ftile_size_npc));
         }
         if(!is_talking){
 
@@ -143,7 +143,7 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
             }
         }
         }  
-        update_texture(0,current_move_moving, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
+        update_texture(current_move_moving, 0,sf::Vector2f(m_texture.getSize().x /4,m_texture.getSize().y /4));
         elapsed = sf::Time::Zero;
     }
 
@@ -171,7 +171,7 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
             }
         }
         } 
-        update_texture(0,current_move_moving, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
+        update_texture(current_move_moving, 3,sf::Vector2f(m_texture.getSize().x /4,m_texture.getSize().y /4));
         elapsed = sf::Time::Zero;
     }
 
@@ -199,7 +199,7 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
             }
         }
         } 
-        update_texture(0,current_move_moving, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
+        update_texture(current_move_moving, 1, sf::Vector2f(m_texture.getSize().x /4,m_texture.getSize().y /4));
         elapsed = sf::Time::Zero;
     }
 
@@ -227,7 +227,7 @@ float ftile_size_npc = static_cast<float> (TILESIZE);
             }
         }
     } 
-        update_texture(2,current_move_moving, sf::Vector2f(m_texture.getSize().x /3,m_texture.getSize().y /4));
+        update_texture(current_move_moving, 2, sf::Vector2f(m_texture.getSize().x /4,m_texture.getSize().y /4));
         elapsed = sf::Time::Zero;
     }
 
