@@ -44,7 +44,7 @@ InGame_CarGameplay::InGame_CarGameplay(sf::RenderWindow& window, Save save, Inve
 
     initialize_finish();
 
-    if (!backgroundTexture.loadFromFile("texture/texture_decor/carsBackgroundd.jpg")) {
+    if (!backgroundTexture.loadFromFile("texture/texture_decor/carsBackground.jpg")) {
         std::cerr << "Erreur lors du chargement de l'image de fond" << std::endl;
         std::exit(-1);
     }
