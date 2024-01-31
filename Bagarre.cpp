@@ -165,7 +165,7 @@ GameState* Bagarre::getNextState() {
         skip = false;
         if(!minijeu){
                 if(id_bagarre != 1) return new Indoors(window, save.getName(), save.getPlayerPosition().x, save.getPlayerPosition().y, save.getInventory(), "Se rendre a la gare", true);
-                else return new MiniJeu(window, Save());
+                else return new Explication(window, "fin", Save(), "texture/texture_expl/fin.png");
             }
             else return new MiniJeu(window, save);
     }
@@ -188,7 +188,8 @@ GameState* Bagarre::getNextState() {
             combat_win = false;
             if(!minijeu){
                 if(id_bagarre != 1) return new Indoors(window, save.getName(), save.getPlayerPosition().x, save.getPlayerPosition().y, save.getInventory(), "Se rendre a la gare", true);
-                else return new MiniJeu(window, Save());
+                else return new Explication(window, "fin", Save(), "texture/texture_expl/fin.png");
+
             }
             else return new MiniJeu(window, save);
         }

@@ -47,6 +47,7 @@ GameState* Explication::getNextState(){
         else if(name == "car") return new InGame_CarGameplay(window, save, save.getInventory(), false);
         else if(name == "fraude") return new FraudeGameplay(window, save, save.getInventory(), false);
         else if(name == "start") return new Indoors(window, "AIRPORT", 40, 120, Inventory(), "Trouver un endroit ou dormir", false);
+        else if(name == "fin") return new MiniJeu(window, save);
     }
 
     return nullptr;
