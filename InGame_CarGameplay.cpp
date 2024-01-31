@@ -111,8 +111,7 @@ GameState* InGame_CarGameplay::getNextState() {
         {
             is_arrived = false;
             player.getInventory().setMoney(0);
-            // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
-            if(!minijeu) return new InGame(window, sf::Vector2u(0,1), sf::Vector2f(2,3), sf::Vector2u(16,16), player.getInventory(), 0, "Se rendre au CROUS", save.getCombatWin());
+            if(!minijeu) return new InGame(window, sf::Vector2u(0,2), sf::Vector2f(7,7), sf::Vector2u(16,16), player.getInventory(), 0, "Se rendre au CROUS", save.getCombatWin());
             else return new MiniJeu(window, save);
         }
     }

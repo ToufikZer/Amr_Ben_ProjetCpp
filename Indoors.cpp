@@ -46,6 +46,7 @@ Indoors::Indoors(sf::RenderWindow& window, std::string MapName, float pos_player
       fraude(false),
       no_fraude(false),
       labyrinthe(false),
+      bagarreFou(false),
       bagarreF(false)
 {
     initialize_maplist();
@@ -129,6 +130,9 @@ void Indoors::handleEvent(sf::Event& event, sf::RenderWindow& window) {
                     }
                     else if (npc.getDialogue()[currentMessage] == "BATS TOI"){
                         bagarre = true;
+                    }
+                    else if (npc.getDialogue()[currentMessage] == "PARLE AVEC MOI"){
+                        bagarreFou = true;
                     }
                     else if (npc.getDialogue()[currentMessage] == "AFFRONTE MOI"){
                         bagarreF = true;
@@ -454,6 +458,10 @@ GameState* Indoors::getNextState() {
     if (bagarre){
         bagarre = false;
         return new Explication(window, "bagarre", Save("InDoors", player.getPosition(), MapName, player.getInventory(), true, combat_win), "texture/texture_expl/bagarre.png");
+    }
+    if (bagarreFou){
+        bagarreFou = false;
+        return new Bagarre(window, Save("InDoors", player.getPosition(), MapName, player.getInventory(), true, combat_win), player.getInventory(), "texture/texture_decor/2Qpng.png","texture/texture_char/new_player2.png", 15, 50, 400, 3000, 2, false);
     }
     if (exit_gare){
         exit_gare = false;

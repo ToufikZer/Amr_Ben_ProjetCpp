@@ -55,6 +55,7 @@ private:
     NPC* npcThatWasTalking;
     unsigned int currentMessage;
     bool end_lab;
+    bool restart;
     bool backmenu;
 
     sf::Vector2u tp(sf::Vector2u tp_tile);

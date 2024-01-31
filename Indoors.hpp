@@ -87,6 +87,7 @@ private:
     bool fraude;
     bool no_fraude;
     bool labyrinthe;
+    bool bagarreFou;
     bool bagarreF;
 
     void draw_objectif();

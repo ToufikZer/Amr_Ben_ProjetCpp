@@ -118,7 +118,7 @@ GameState* FraudeGameplay::getNextState() {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
             is_arrived = false;
-            if(!minijeu) return new InGame(window, sf::Vector2u(0,1), sf::Vector2f(9,10), sf::Vector2u(16,16), player.getInventory(), 0, "Se rendre au stade", save.getCombatWin());
+            if(!minijeu) return new InGame(window, sf::Vector2u(0,4), sf::Vector2f(5,5), sf::Vector2u(16,16), player.getInventory(), 0, "Se rendre au stade", save.getCombatWin());
             else return new MiniJeu(window, save);
         }
     }

@@ -3,10 +3,10 @@
 #include "InGame.hpp"
 #include <iostream>
 
-Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std::string backgroundPath, float ennemi_attack_speed, unsigned int ennemi_degats, int attack_delay, int HP, int id_bagarre, bool minijeu)
+Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std::string backgroundPath, std::string ennemiTexturePath, float ennemi_attack_speed, unsigned int ennemi_degats, int attack_delay, int HP, int id_bagarre, bool minijeu)
     : window(window),
       player("texture/texture_char/new_player2.png", 260, 200, inventaire),
-      ennemi("texture/texture_char/new_player2.png", 260, 0, ennemi_attack_speed, ennemi_degats, attack_delay, HP),
+      ennemi(ennemiTexturePath, 260, 0, ennemi_attack_speed, ennemi_degats, attack_delay, HP),
       save(save),
       backmenu(false),
       combat_lose(false),
@@ -166,7 +166,7 @@ GameState* Bagarre::getNextState() {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
         {
             combat_lose = false;
-            return new Bagarre(window, save, player.getInventory(), "texture/texture_decor/2Qpng.png", ennemi.getAttackSpeed(), ennemi.getDegats(), ennemi.getAttackDelay(), ennemi.getHP(), id_bagarre, minijeu);
+            return new Bagarre(window, save, player.getInventory(), "texture/texture_decor/2Qpng.png","texture/texture_char/new_player2.png", ennemi.getAttackSpeed(), ennemi.getDegats(), ennemi.getAttackDelay(), ennemi.getHP(), id_bagarre, minijeu);
         }
     }
     

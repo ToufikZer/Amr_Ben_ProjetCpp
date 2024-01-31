@@ -29,7 +29,7 @@ MiniJeu::MiniJeu(sf::RenderWindow& window, Save save)
 
 void MiniJeu::initialize_text(){
     titleText.setFont(font);
-    titleText.setString("J.O Tourismo");
+    titleText.setString("Mini-Jeux");
     titleText.setCharacterSize(64);
     titleText.setPosition(view.getSize().x / 2 - titleText.getGlobalBounds().width / 2 + 20.f, 50);
     titleText.setFillColor(sf::Color(50,50,200,250));
@@ -193,7 +193,7 @@ GameState* MiniJeu::getNextState() {
     }
     else if(bagarre_game){
         bagarre_game = false;
-        return new Bagarre(window, save, save.getInventory(), "texture/texture_decor/2Qpng.png", 8, 40, 500, 800, 1, true);
+        return new Bagarre(window, save, save.getInventory(), "texture/texture_decor/2Qpng.png", "texture/texture_char/new_player2.png", 8, 40, 500, 800, 1, true);
     }
     return nullptr;
 }

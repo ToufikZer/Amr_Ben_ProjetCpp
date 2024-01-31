@@ -47,42 +47,8 @@
 
     void Labyrinthe::handleEvent(sf::Event& event, sf::RenderWindow& window) {
             if (event.type == sf::Event::KeyPressed) {
-                if (event.key.code == sf::Keyboard::A) {
-                    for (NPC& npc : NPCs) {
-                        if (npc.getDialogue()[currentMessage] == "LIGHT" && !isTalking && player.is_looking_at(npc)){
-                            player.ResetNbPas();
-                            light_off = false;
-                            isTalking = true;
-                            npc.setIsTalking(true);
-                            npcThatWasTalking = &npc;
-                            currentMessage += 1;
-                            break;
-                        }
-                        else
-                            {
-                            if (!isTalking && player.is_looking_at(npc)) {
-                                isTalking = true;
-                                npc.setIsTalking(true);
-                                npc.update(player, sf::Time::Zero, map.getWidth(), map.getHeight(), level, NPCs, obstacles);
-                                npcThatWasTalking = &npc;
-                                break;
-                            }
-                            else if ((&npc == npcThatWasTalking) && isTalking && (currentMessage < npc.getDialogue().size() - 1))
-                            {
-                                currentMessage += 1;
-                                break;
-                            } 
-                            else {
-                                if (npcThatWasTalking != nullptr) {
-                                    if (&npc == npcThatWasTalking) {
-                                        isTalking = false;
-                                        currentMessage = 0;
-                                        npcThatWasTalking->setIsTalking(false);
-                                    }
-                                }
-                            }
-                        }
-                    }
+                if (event.key.code == sf::Keyboard::R) {
+                    restart = true;
                 }
 
                 if (event.key.code == sf::Keyboard::Escape) {
@@ -133,12 +99,14 @@
     GameState* Labyrinthe::getNextState(){
         if(backmenu){
             backmenu = false;
-            music.stop();
             return new MainMenu(window, Save("Labyrinthe", sf::Vector2f(player.getPosition().x / 32, player.getPosition().y / 32), player.getNbPas(), sf::Vector2u(map.getWidth(), map.getHeight()), player.getInventory(), true, true));
+        }
+        if(restart){
+            restart = false;
+            return new Labyrinthe(window, 0, sf::Vector2f(15,10), sf::Vector2u(31,21), player.getInventory(), 3);
         }
         if(end_lab){
             end_lab = false;
-            music.stop();
             return new Indoors(window, "FINAL", 300.f, 125.f, player.getInventory(), "AFFRONTEZ ANNIE!!", true);
         }
         return nullptr;
