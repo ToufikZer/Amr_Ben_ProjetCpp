@@ -1,7 +1,5 @@
 // GameState.cpp
 #include "GameState.hpp"
-#include "InGame.hpp"
-#include "MainMenu.hpp"
 #include <SFML/Graphics.hpp>
 
 void GameState::handleEvent(sf::Event& event, sf::RenderWindow& window)

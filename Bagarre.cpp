@@ -7,8 +7,8 @@ Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std:
     : window(window),
       player("texture/texture_char/new_player2.png", 260, 200, inventaire),
       ennemi("texture/texture_char/new_player2.png", 260, 0, ennemi_attack_speed, ennemi_degats, attack_delay, HP),
-      backmenu(false),
       save(save),
+      backmenu(false),
       combat_lose(false),
       combat_win(false),
       id_bagarre(id_bagarre),
@@ -19,15 +19,6 @@ Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std:
         std::exit(-1);
     }
 
-    // if (!music.openFromFile("path/to/music.ogg")) {
-    //     std::cerr << "Erreur lors du chargement du son" << std::endl;
-    //     std::exit(-1);
-    // }
-
-    // music.setVolume(50);
-    // music.setLoop(true);
-    // music.play();
-
     if (!backgroundTexture.loadFromFile(backgroundPath)) {
         std::cerr << "Erreur lors du chargement de l'image de fond" << std::endl;
         std::exit(-1);
@@ -37,6 +28,19 @@ Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std:
 
     view.reset(sf::FloatRect(0, 0, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height));
 
+    initialize_finish();
+
+    initialize_lose();
+
+    playerHealthBar.setFillColor(sf::Color::Green);
+    playerHealthBar.setPosition(backgroundSprite.getGlobalBounds().width - 110, backgroundSprite.getGlobalBounds().height - 10); 
+
+    ennemiHealthBar.setFillColor(sf::Color::Red);
+    ennemiHealthBar.setPosition(10 , 10); 
+}
+
+void Bagarre::initialize_finish(){
+    
     Finish.setFont(font);
     Finish.setStyle(sf::Text::Bold);
     if (id_bagarre == 0) Finish.setString("Let's go, maintenant tu peux\ndormir chez lui tranquille!\n\nAppuie sur entrer \npour continuer");
@@ -45,6 +49,14 @@ Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std:
     Finish.setCharacterSize(30);
     Finish.setPosition(sf::Vector2f(backgroundSprite.getGlobalBounds().width / 5, backgroundSprite.getGlobalBounds().height/4));
 
+    rectFinish.setSize(sf::Vector2f(Finish.getGlobalBounds().width + 20, Finish.getGlobalBounds().height + 20));
+    rectFinish.setPosition(Finish.getPosition().x - 10, Finish.getPosition().y - 10);
+    rectFinish.setFillColor(sf::Color(0, 56, 168, 250));
+    rectFinish.setOutlineColor(sf::Color::White);
+    rectFinish.setOutlineThickness(2);
+}
+
+void Bagarre::initialize_lose(){
     Lose.setFont(font);
     Lose.setStyle(sf::Text::Bold);
     if (id_bagarre == 0) Lose.setString("HAHAHA t'as perdu la bagarre\nDebrouille toi maintenant!\n\nAppuie sur entrer pour repartir\n ou sur R pour recommencer");
@@ -54,11 +66,11 @@ Bagarre::Bagarre(sf::RenderWindow& window, Save save, Inventory inventaire, std:
     Lose.setCharacterSize(30);
     Lose.setPosition(sf::Vector2f(backgroundSprite.getGlobalBounds().width / 5, backgroundSprite.getGlobalBounds().height/4));
 
-    playerHealthBar.setFillColor(sf::Color::Green);   // Couleur verte
-    playerHealthBar.setPosition(backgroundSprite.getGlobalBounds().width - 110, backgroundSprite.getGlobalBounds().height - 10);  // Position de la barre de vie du joueur
-
-    ennemiHealthBar.setFillColor(sf::Color::Red);   // Couleur verte
-    ennemiHealthBar.setPosition(10 , 10);  // Position de la barre de vie de l'ennemi
+    rectLose.setSize(sf::Vector2f(Lose.getGlobalBounds().width + 20, Finish.getGlobalBounds().height + 20));
+    rectLose.setPosition(Lose.getPosition().x - 10, Finish.getPosition().y - 10);
+    rectLose.setFillColor(sf::Color(0, 56, 168, 250));
+    rectLose.setOutlineColor(sf::Color::White);
+    rectLose.setOutlineThickness(2);
 }
 
 void Bagarre::handleEvent(sf::Event& event, sf::RenderWindow& window) {
@@ -88,42 +100,35 @@ void Bagarre::handleEvent(sf::Event& event, sf::RenderWindow& window) {
 
 void Bagarre::update(sf::Time deltaTime, sf::RenderWindow& window) {
     if (player.getHP() <= 0) combat_lose = true;
-    // std::cout << projs_player.size() << std::endl;
-    if (ennemi.getHP() <= 0) 
-    {
-        combat_win = true;
-    }
+    if (ennemi.getHP() <= 0) combat_win = true;
 
     playerHealthBar.setSize(sf::Vector2f(player.getHP() , 10));
     ennemiHealthBar.setSize(sf::Vector2f(ennemi.getHP() / 2, 10));
+
     if(!combat_win && !combat_lose){
-        player.update(deltaTime, font, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height ,view, obstacles);
-        ennemi.update(deltaTime, font, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height ,view, obstacles, player);
+        player.update(deltaTime, font, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height, view);
+        ennemi.update(deltaTime, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height, player);
+        
         for(Projectile& proj:projs_player){
             proj.update(deltaTime, backgroundSprite.getGlobalBounds().height);
             if (ennemi.collision(proj)) proj.setDeleteIt(true);
-            if (proj.getDeleteIt()) {
-                projs_player.erase(projs_player.begin());
-            }
+            if (proj.getDeleteIt()) projs_player.erase(projs_player.begin());
         }
         elapsed += deltaTime;
     }
-
 }
 
 void Bagarre::draw(sf::RenderWindow& window, sf::Event& event) {
     window.clear();
 
+    window.setView(view);
+
     window.draw(backgroundSprite);
 
-    // Définir la vue
-    window.setView(view);
 
     window.draw(playerHealthBar);
     window.draw(ennemiHealthBar);
 
-
-    // Dessiner le joueur
     window.draw(player);
     window.draw(ennemi);
 
@@ -137,14 +142,12 @@ void Bagarre::draw(sf::RenderWindow& window, sf::Event& event) {
     if (combat_win) window.draw(Finish);
     if (combat_lose) window.draw(Lose);
 
-    // Afficher la fenêtre
     window.display();
 }
 
 GameState* Bagarre::getNextState() {
     if(backmenu){
         backmenu = false;
-        music.stop( );
         if(!minijeu) return new MainMenu(window, save);
         else return new MiniJeu(window, save);
     }
@@ -152,13 +155,11 @@ GameState* Bagarre::getNextState() {
         if((sf::Keyboard::isKeyPressed(sf::Keyboard::Return) ||sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) && !minijeu)
         {
             combat_lose = false;
-            // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
             return new Indoors(window, save.getName(), save.getPlayerPosition().x, save.getPlayerPosition().y, save.getInventory(), "Prend ta revanche !", false);
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
         {
             combat_lose = false;
-            // return new Indoors(window, "AIRPORT", 40, 120, Inventory());
             return new Bagarre(window, save, player.getInventory(), "texture/texture_decor/2Qpng.png", ennemi.getAttackSpeed(), ennemi.getDegats(), ennemi.getAttackDelay(), ennemi.getHP(), id_bagarre, minijeu);
         }
     }

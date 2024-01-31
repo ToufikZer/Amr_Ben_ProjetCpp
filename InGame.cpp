@@ -41,13 +41,6 @@ InGame::InGame(sf::RenderWindow& window, sf::Vector2u currentmap, sf::Vector2f p
 }
 
 void InGame::initialize() {
-    // if (!music.openFromFile(MusicPath)) {
-    //     std::cerr << "Erreur lors du chargement du son" << std::endl;
-    //     std::exit(-1);
-    // }
-    // music.setVolume(5);
-    // music.setLoop(true);
-    // music.play();
 
     if (!font.loadFromFile("font/arial.ttf")) {
         std::cerr << "Erreur lors du chargement de la police" << std::endl;

@@ -18,8 +18,7 @@ public:
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-    void update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, sf::View& view, 
-                std::vector<Obstacle> obstacles);
+    void update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, sf::View& view);
 
     void update_texture(unsigned int u, unsigned int i);
 

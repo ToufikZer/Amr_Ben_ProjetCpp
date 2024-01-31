@@ -4,19 +4,13 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Audio.hpp>
-#include "TileMap.hpp"
-#include "PlayerBagarre.hpp"
-#include "Projectile.hpp"
-#include "EnnemiBagarre.hpp"
-#include "NPC.hpp"
-#include "Obstacle.hpp"
 #include "GameState.hpp"
+#include "PlayerBagarre.hpp"
+#include "EnnemiBagarre.hpp"
+#include "Projectile.hpp"
 #include "MainMenu.hpp"
-#include "MapManager.hpp"
-#include "Map.hpp"
 #include "MiniJeu.hpp"
 #include "Inventory.hpp"
-#include "Item.hpp"
 
 class Bagarre : public GameState {
 public:
@@ -28,6 +22,9 @@ public:
     GameState* getNextState() ;
 
 private:
+    void initialize_finish();
+    void initialize_lose();
+
     sf::RenderWindow& window;
     sf::Time elapsed; 
     sf::View view;
@@ -36,17 +33,17 @@ private:
     sf::Sprite backgroundSprite;
     PlayerBagarre player;
     EnnemiBagarre ennemi;
-    sf::Music music;
-    std::string MusicPath;
-    std::vector<Obstacle> obstacles;
     std::vector<Projectile> projs_player;
 
     sf::RectangleShape playerHealthBar;
     sf::RectangleShape ennemiHealthBar;
     sf::Text Finish;
+    sf::RectangleShape rectFinish;
     sf::Text Lose;
-    bool backmenu;
+    sf::RectangleShape rectLose;
+
     Save save;
+    bool backmenu;
     bool combat_lose;
     bool combat_win;
     int id_bagarre;

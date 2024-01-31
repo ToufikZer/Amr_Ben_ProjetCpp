@@ -2,12 +2,9 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Audio.hpp>
-#include "TileMap.hpp"
 #include "GameState.hpp"
 #include "MainMenu.hpp"
-#include "MiniJeu.hpp"
 #include "Inventory.hpp"
-#include "Item.hpp"
 #include "Save.hpp"
 
 

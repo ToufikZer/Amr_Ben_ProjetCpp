@@ -2,7 +2,6 @@
 #include "PlayerBagarre.hpp"
 
 #include "TileMap.hpp"
-#include "Obstacle.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
@@ -94,23 +93,19 @@ bool PlayerBagarre::has_boots(){
 
 
 void PlayerBagarre::update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, 
-                           sf::View& view, std::vector<Obstacle> obstacles){
+                           sf::View& view){
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
                 if(!out_map(map_width, map_height, sf::Vector2f(getPosition().x + speed* deltaTime.asSeconds(), getPosition().y))){
-                    //if(!collision_obstacles(sf::Vector2f(sf::Vector2f(getPosition().x + speed* deltaTime.asSeconds(), getPosition().y)),obstacles)){
                         move(speed * deltaTime.asSeconds(), 0.f);
                         update_texture(0, (int)getPosition().x / 10 % 4);
                         last_moveB = true;
-                    //}
                 }
             }
             else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
                 if(!out_map(map_width, map_height, sf::Vector2f(getPosition().x - speed* deltaTime.asSeconds(), getPosition().y))){
-                    //if(!collision_obstacles(sf::Vector2f(sf::Vector2f(getPosition().x - speed* deltaTime.asSeconds(), getPosition().y)),obstacles)){
                         move(-speed * deltaTime.asSeconds(), 0.f);
                         update_texture(1, (int)getPosition().x / 10 % 4);
                         last_moveB = false;
-                    //}
                 }
             }
             else {
@@ -138,8 +133,3 @@ bool PlayerBagarre::out_map(unsigned int map_width, unsigned int map_height, sf:
 void PlayerBagarre::drawInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view){
     inventaire.displayInventory(window, font, view);
 }
-
-// void PlayerBagarre::drawInteractText(sf::RenderWindow& window, sf::Font& font){
-//     InteractText.setFont(font);
-//     window.draw(InteractText);
-// }

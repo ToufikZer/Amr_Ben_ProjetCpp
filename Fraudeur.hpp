@@ -1,7 +1,6 @@
 // Fraudeur.hpp
 #pragma once
 
-#include "TileMap.hpp"
 #include "Obstacle.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
@@ -12,7 +11,7 @@ public:
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-    void update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, sf::View& view, std::vector<std::vector<int>> plan, std::vector<Obstacle> obstacles);
+    void update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, sf::View& view, std::vector<Obstacle> obstacles);
 
     void update_texture(unsigned int u);
 
@@ -35,11 +34,17 @@ public:
     }
 
     void drawInventory(sf::RenderWindow& window, sf::Font& font, const sf::View& view);
-protected:
-    bool collision_obstacles(sf::Vector2f position, std::vector<Obstacle> obstacles);
-    bool in_map(unsigned int map_width, unsigned int map_height, sf::Vector2f position);
 
 private:
+    void initialize_crash();
+    bool collision_obstacles(sf::Vector2f position, std::vector<Obstacle> obstacles);
+    bool in_map(unsigned int map_width, unsigned int map_height, sf::Vector2f position);
+    void sauter();
+    void sauter_anim();
+    void courir_anim();
+    void deplacer_vert();
+    void deplacer_horiz(unsigned int map_width, unsigned int map_height);
+
     sf::Time elapsed; 
     sf::Texture m_texture;
     sf::VertexArray m_vertices;

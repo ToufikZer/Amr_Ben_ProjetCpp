@@ -5,7 +5,6 @@
 #include "Indoors.hpp"
 #include "InGame.hpp"
 #include "Labyrinthe.hpp"
-#include "MiniJeu.hpp"
 #include "PseudoInterface.hpp"
 #include <SFML/Graphics.hpp>
 

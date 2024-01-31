@@ -8,13 +8,14 @@ Explication::Explication(sf::RenderWindow& window, std::string name, Save save, 
     name(name),
     save(save)
     {
-    if (!backgroundTexture.loadFromFile(backgroundPath)) {
-        std::cerr << "Erreur lors du chargement de l'image de fond" << std::endl;
-        std::exit(-1);
-    }
-    backgroundSprite.setTexture(backgroundTexture);
-    backgroundSprite.setPosition(0,0);
-    view.reset(sf::FloatRect(0, 0, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height));
+        view.reset(sf::FloatRect(0, 0, backgroundSprite.getGlobalBounds().width, backgroundSprite.getGlobalBounds().height));
+        
+        if (!backgroundTexture.loadFromFile(backgroundPath)) {
+            std::cerr << "Erreur lors du chargement de l'image de fond" << std::endl;
+            std::exit(-1);
+        }
+        backgroundSprite.setTexture(backgroundTexture);
+        backgroundSprite.setPosition(0,0);
     }
 
 void Explication::handleEvent(sf::Event& event, sf::RenderWindow& window){
@@ -42,7 +43,6 @@ GameState* Explication::getNextState(){
         expl = true;
         if(name == "lab") return new Labyrinthe(window, 0, sf::Vector2f(15,10), sf::Vector2u(31,21), save.getInventory(), 3);      
         else if(name == "bagarre") return new Bagarre(window, save, save.getInventory(), "texture/texture_decor/2Qpng.png", 8, 20, 800, 400, 0, false);
-        // POUR ANNIE D'ALGOAT 
         else if(name == "bagarre_2") return new Bagarre(window, save, save.getInventory(), "texture/texture_decor/2Qpng.png", 8, 40, 500, 800, 1, false);
         else if(name == "car") return new InGame_CarGameplay(window, save, save.getInventory(), false);
         else if(name == "fraude") return new FraudeGameplay(window, save, save.getInventory(), false);

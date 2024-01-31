@@ -4,17 +4,13 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Audio.hpp>
+#include "GameState.hpp"
 #include "TileMap.hpp"
 #include "Fraudeur.hpp"
-#include "NPC.hpp"
 #include "Obstacle.hpp"
-#include "GameState.hpp"
 #include "MainMenu.hpp"
-#include "MapManager.hpp"
-#include "Map.hpp"
 #include "MiniJeu.hpp"
 #include "Inventory.hpp"
-#include "Item.hpp"
 
 class FraudeGameplay : public GameState {
 public:
@@ -26,13 +22,14 @@ public:
     GameState* getNextState() ;
 
 private:
+    void initialize_obstacles();
+    void initialize_finish();
+
     sf::RenderWindow& window;
     sf::View view;
     sf::Font font;
     sf::Texture backgroundTexture;
     sf::Sprite backgroundSprite;
-    sf::Music music;
-    std::string MusicPath;
     TileMap map;
     std::vector<std::vector<int>> level;     
     Fraudeur player;

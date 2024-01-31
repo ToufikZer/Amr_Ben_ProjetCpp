@@ -1,9 +1,5 @@
 // Player.cpp
 #include "EnnemiBagarre.hpp"
-
-#include "TileMap.hpp"
-#include "Obstacle.hpp"
-#include "Projectile.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
@@ -37,11 +33,6 @@ EnnemiBagarre::EnnemiBagarre(const std::string& texturePath, float pos_x, float 
     m_vertices[1].texCoords = sf::Vector2f(m_texture.getSize().x/4, 0.f);
     m_vertices[2].texCoords = sf::Vector2f(m_texture.getSize().x/4, m_texture.getSize().y/2);
     m_vertices[3].texCoords = sf::Vector2f(0.f, m_texture.getSize().y/2);
-
-    m_vertices[0].color = sf::Color::White;
-    m_vertices[1].color = sf::Color::White;
-    m_vertices[2].color = sf::Color::White;
-    m_vertices[3].color = sf::Color::White;
 
     setPosition(pos_x, pos_y);
 }
@@ -78,46 +69,17 @@ bool EnnemiBagarre::collision(Projectile& proj){
                 m_vertices[3].color = sf::Color::White;
             }
     }
-    
     return false;
 }
 
 
-void EnnemiBagarre::update(const sf::Time& deltaTime, sf::Font& font, unsigned int map_width, unsigned int map_height, 
-                           sf::View& view, std::vector<Obstacle> obstacles, PlayerBagarre& player){
-            if (player.getPosition().x > getPosition().x + 10.f) { //droite
-                if(!out_map(map_width, map_height, sf::Vector2f(getPosition().x + speed* deltaTime.asSeconds(), getPosition().y))){
-                    //if(!collision_obstacles(sf::Vector2f(sf::Vector2f(getPosition().x + speed* deltaTime.asSeconds(), getPosition().y)),obstacles)){
-                        move(speed * deltaTime.asSeconds(), 0.f);
-                        update_texture(0, (int)getPosition().x / 10 % 4);
-                        last_moveE = true;
-                    //}
-                }
-            }
-            else if (player.getPosition().x < getPosition().x - 10.f) {
-                if(!out_map(map_width, map_height, sf::Vector2f(getPosition().x - speed* deltaTime.asSeconds(), getPosition().y))){
-                    //if(!collision_obstacles(sf::Vector2f(sf::Vector2f(getPosition().x - speed* deltaTime.asSeconds(), getPosition().y)),obstacles)){
-                        move(-speed * deltaTime.asSeconds(), 0.f);
-                        update_texture(1, (int)getPosition().x / 10 % 4);
-                        last_moveE = false;
-                    //}
-                }
-            }
-            else {
-                if(last_moveE)
-                    update_texture(0, 0);
-                else{
-                    update_texture(1,0);
-                }
-            }
-
+void EnnemiBagarre::update(const sf::Time& deltaTime, unsigned int map_width, unsigned int map_height, PlayerBagarre& player){
+            deplacer(deltaTime, map_width, map_height, player);
+            
             for(Projectile& proj:projs_ennemi){
                 proj.update(deltaTime, map_height);
                 if (player.collision(proj)) {proj.setDeleteIt(true);}
-                if (proj.getDeleteIt()) {
-                    projs_ennemi.erase(projs_ennemi.begin());
-                    
-                }
+                if (proj.getDeleteIt()) projs_ennemi.erase(projs_ennemi.begin());
             }
 
             if (elapsed.asMilliseconds() > attack_delay){
@@ -127,6 +89,30 @@ void EnnemiBagarre::update(const sf::Time& deltaTime, sf::Font& font, unsigned i
             else{
                 elapsed += deltaTime;
             }
+}
+
+void EnnemiBagarre::deplacer(const sf::Time& deltaTime, unsigned int map_width, unsigned int map_height, PlayerBagarre& player){
+    if (player.getPosition().x > getPosition().x + 10.f) { 
+        if(!out_map(map_width, map_height, sf::Vector2f(getPosition().x + speed* deltaTime.asSeconds(), getPosition().y))){
+                move(speed * deltaTime.asSeconds(), 0.f);
+                update_texture(0, (int)getPosition().x / 10 % 4);
+                last_moveE = true;
+        }
+    }
+    else if (player.getPosition().x < getPosition().x - 10.f) {
+        if(!out_map(map_width, map_height, sf::Vector2f(getPosition().x - speed* deltaTime.asSeconds(), getPosition().y))){
+                move(-speed * deltaTime.asSeconds(), 0.f);
+                update_texture(1, (int)getPosition().x / 10 % 4);
+                last_moveE = false;
+        }
+    }
+    else {
+        if(last_moveE)
+            update_texture(0, 0);
+        else{
+            update_texture(1,0);
+        }
+    }
 }
 
 void EnnemiBagarre::update_texture(unsigned int u, unsigned int i) {
@@ -141,9 +127,3 @@ bool EnnemiBagarre::out_map(unsigned int map_width, unsigned int map_height, sf:
         return true;
     return false;
 }
-
-
-// void EnnemiBagarre::drawInteractText(sf::RenderWindow& window, sf::Font& font){
-//     InteractText.setFont(font);
-//     window.draw(InteractText);
-// }
