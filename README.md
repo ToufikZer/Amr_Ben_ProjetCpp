@@ -15,3 +15,6 @@ puis lancez l’exécutable du jeu avec
 
     ./game
 
+Pour effectuer les tests unitaires, toujours dans le répertoire contenant les fichiers du jeu, excétuez :
+
+    make test
