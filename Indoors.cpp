@@ -464,7 +464,7 @@ GameState* Indoors::getNextState() { // indique les différents cas de figure à
     }
     if (bagarreFou){
         bagarreFou = false;
-        return new Bagarre(window, Save("InDoors", player.getPosition(), MapName, player.getInventory(), true, combat_win), player.getInventory(), "texture/texture_decor/2Qpng.png","texture/texture_char/new_player2.png", 15, 50, 400, 3000, 2, false);
+        return new Bagarre(window, Save("InDoors", player.getPosition(), MapName, player.getInventory(), true, combat_win), player.getInventory(), "texture/texture_decor/2Qpng.png","texture/texture_char/etudiant.png", 15, 50, 400, 3000, 2, false);
     }
     if (exit_gare){
         exit_gare = false;

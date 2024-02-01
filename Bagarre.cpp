@@ -178,7 +178,8 @@ GameState* Bagarre::getNextState() { // indique les différents cas de figure à
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
         {
             combat_lose = false;
-            return new Bagarre(window, save, player.getInventory(), "texture/texture_decor/2Qpng.png","texture/texture_char/etudiant.png", ennemi.getAttackSpeed(), ennemi.getDegats(), ennemi.getAttackDelay(), ennemi.getHP(), id_bagarre, minijeu);
+            if(id_bagarre != 1) return new Bagarre(window, save, player.getInventory(), "texture/texture_decor/2Qpng.png","texture/texture_char/etudiant.png", ennemi.getAttackSpeed(), ennemi.getDegats(), ennemi.getAttackDelay(), ennemi.getHP(), id_bagarre, minijeu);
+            else return new Bagarre(window, save, player.getInventory(), "texture/texture_decor/2Qpng.png","texture/texture_char/annie.png", ennemi.getAttackSpeed(), ennemi.getDegats(), ennemi.getAttackDelay(), ennemi.getHP(), id_bagarre, minijeu);
         }
     }
     
